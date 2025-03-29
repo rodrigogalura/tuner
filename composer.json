@@ -1,6 +1,6 @@
 {
     "name": "rgalura/api-igniter",
-    "version": "1.0.0",
+    "minimum-stability": "dev",
     "description": "A Laravel package to enable your API's more powerful",
     "type": "library",
     "require": {
