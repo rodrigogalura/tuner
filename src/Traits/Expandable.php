@@ -2,8 +2,8 @@
 
 namespace RGalura\ApiIgniter\Traits;
 
-use RGalura\ApiIgniter\Services\ComponentResolver as Core;
 use Illuminate\Support\Arr;
+use RGalura\ApiIgniter\Services\ComponentResolver as Core;
 
 // use Schema;
 

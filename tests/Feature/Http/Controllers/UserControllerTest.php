@@ -1,6 +1,7 @@
 <?php
 
 use Workbench\App\Models\User;
+
 use function Pest\Laravel\get;
 
 beforeEach(function () {
