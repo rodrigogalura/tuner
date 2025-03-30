@@ -41,6 +41,12 @@
         }
     },
     "scripts": {
+        "post-install-cmd": [
+            "@php setup-workbench.php"
+        ],
+        "post-update-cmd": [
+            "@php setup-workbench.php"
+        ],
         "post-autoload-dump": [
             "@clear",
             "@prepare"
