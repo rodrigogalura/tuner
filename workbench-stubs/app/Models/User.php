@@ -51,9 +51,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    protected static function newFactory()
-    {
-        return UserFactory::new();
-    }
 }
