@@ -1,6 +1,7 @@
 <?php
 
 use Workbench\App\Models\User;
+
 use function Pest\Laravel\get;
 
 beforeEach(function () {
@@ -13,7 +14,7 @@ test('index no params', function () {
     get('/api/users')
         ->assertOk()
         ->assertJsonStructure([
-            '*' => ['id', 'name', 'email', 'age', 'email_verified_at', 'created_at', 'updated_at'],
+            '*' => ['id', 'name', 'email', 'email_verified_at', 'created_at', 'updated_at'],
         ]);
 });
 
@@ -43,7 +44,7 @@ test('index fields! param', function () {
 test('index filter param', function (string $operator, string $bool, int $expectCount) {
     $user = User::factory()->create();
 
-    $_GET['filter'] = ["{$bool}age" => "{$operator}{$user->age}"];
+    $_GET['filter'] = ["{$bool}name" => "{$operator}{$user->name}"];
 
     get('/api/users')
         ->assertOk()
@@ -73,8 +74,8 @@ test('index filter param with AND/OR operator', function (string $operator1, str
     $user = User::factory()->create();
 
     $_GET['filter'] = [
-        'age' => "{$operator1}{$user->age}",
-        "{$bool}age" => "{$operator2}".($user->age + 100),
+        'id' => "{$operator1}{$user->id}",
+        "{$bool}id" => "{$operator2}".($user->id + 100),
     ];
 
     get('/api/users')
@@ -112,10 +113,10 @@ test('index search param', function (string $keyword, int $expectCount) {
     ]);
 
 test('index in param', function (string $keyword, int $expectCount) {
-    User::factory()->create(['age' => 18]);
-    User::factory()->create(['age' => 21]);
-    User::factory()->create(['age' => 60]);
-    $_GET['in'] = ['age' => $keyword];
+    User::factory()->create(['id' => 18]);
+    User::factory()->create(['id' => 21]);
+    User::factory()->create(['id' => 60]);
+    $_GET['in'] = ['id' => $keyword];
 
     get('/api/users')
         ->assertOk()
@@ -128,10 +129,10 @@ test('index in param', function (string $keyword, int $expectCount) {
     ]);
 
 test('index between param', function (string $keyword, int $expectCount) {
-    User::factory()->create(['age' => 18]);
-    User::factory()->create(['age' => 21]);
-    User::factory()->create(['age' => 60]);
-    $_GET['between'] = ['age' => $keyword];
+    User::factory()->create(['id' => 18]);
+    User::factory()->create(['id' => 21]);
+    User::factory()->create(['id' => 60]);
+    $_GET['between'] = ['id' => $keyword];
 
     get('/api/users')
         ->assertOk()

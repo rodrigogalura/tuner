@@ -1,30 +1,19 @@
 <?php
 
-$workbenchPath = __DIR__ . '/workbench';
-$stubsPath = __DIR__ . '/workbench-stubs';
-$testbenchConfig = $workbenchPath . '/testbench.yaml';
+$workbenchPath = __DIR__.'/workbench';
+$stubsPath = __DIR__.'/workbench-stubs';
+$testbenchConfig = __DIR__.'/testbench.yaml';
 
 // Step 1: Ensure workbench directory exists
-if (!is_dir($workbenchPath)) {
+if (! is_dir($workbenchPath)) {
     mkdir($workbenchPath, 0755, true);
     echo "✅ Created workbench directory.\n";
 } else {
     echo "⚡ Workbench directory already exists.\n";
 }
 
-// Step 2: Run Testbench workbench installation (Non-Interactive)
-// echo "⚡ Running Testbench Workbench Install...\n";
-// $output = shell_exec(__DIR__ . "/vendor/bin/testbench workbench:install --no-interaction 2>&1");
-
-// if (strpos($output, 'Workbench installed successfully') !== false) {
-//     echo "✅ Testbench Workbench installed successfully.\n";
-// } else {
-//     echo "⚠️ Warning: Workbench installation may have encountered issues.\n";
-// }
-// echo $output;
-
-// Step 3: Create testbench.yaml file
-if (!file_exists($testbenchConfig)) {
+// Step 2: Create testbench.yaml file
+if (! file_exists($testbenchConfig)) {
     $yamlContent = <<<YAML
 laravel: '@testbench'
 
@@ -58,18 +47,19 @@ YAML;
     echo "⚡ testbench.yaml already exists. Skipping creation.\n";
 }
 
-// Step 4: Recursively Copy Stubs into Workbench
-function copyRecursive($src, $dst) {
+// Step 3: Recursively Copy Stubs into Workbench
+function copyRecursive($src, $dst)
+{
     $dir = opendir($src);
-    if (!is_dir($dst)) {
+    if (! is_dir($dst)) {
         mkdir($dst, 0755, true);
     }
     while (($file = readdir($dir)) !== false) {
         if ($file == '.' || $file == '..') {
             continue;
         }
-        $srcFile = $src . '/' . $file;
-        $dstFile = $dst . '/' . $file;
+        $srcFile = $src.'/'.$file;
+        $dstFile = $dst.'/'.$file;
         if (is_dir($srcFile)) {
             copyRecursive($srcFile, $dstFile); // Recursively copy subdirectories
         } else {

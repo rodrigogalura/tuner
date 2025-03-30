@@ -2,10 +2,10 @@
 
 namespace RGalura\ApiIgniter\Traits\Core;
 
-use RGalura\ApiIgniter\Services\ComponentResolver as Core;
-use RGalura\ApiIgniter\Services\QueryBuilder as Query;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\QueryException;
+use RGalura\ApiIgniter\Services\ComponentResolver as Core;
+use RGalura\ApiIgniter\Services\QueryBuilder as Query;
 use Schema;
 
 trait ApiIgniter

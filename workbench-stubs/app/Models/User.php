@@ -14,7 +14,6 @@ use RGalura\ApiIgniter\Traits\InFilterable;
 use RGalura\ApiIgniter\Traits\Projectable;
 use RGalura\ApiIgniter\Traits\Searchable;
 use RGalura\ApiIgniter\Traits\Sortable;
-use Workbench\Database\Factories\UserFactory;
 
 class User extends Authenticatable
 {
