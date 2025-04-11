@@ -4,7 +4,7 @@
     "description": "A Laravel package to enable your API's more powerful",
     "type": "library",
     "require": {
-        "php": "^8.3"
+        "php": "8.3.*"
     },
     "require-dev": {
         "laravel/pint": "^1.21",
