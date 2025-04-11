@@ -1,7 +1,7 @@
 <?php
 
 $workbenchPath = __DIR__.'/workbench';
-$stubsPath = __DIR__.'/workbench-stubs';
+$stubsPath = __DIR__.'/stubs/workbench';
 $testbenchConfig = __DIR__.'/testbench.yaml';
 
 // Step 1: Ensure workbench directory exists
@@ -70,12 +70,12 @@ function copyRecursive($src, $dst)
     closedir($dir);
 }
 
-// Copy everything from `workbench-stubs/` to `workbench/`
+// Copy everything from `stubs/workbench/` to `workbench/`
 if (is_dir($stubsPath)) {
     copyRecursive($stubsPath, $workbenchPath);
     echo "✅ All stubs copied successfully.\n";
 } else {
-    echo "⚠️ No workbench-stubs directory found. Skipping stub copy.\n";
+    echo "⚠️ No stubs/workbench directory found. Skipping stub copy.\n";
 }
 
 echo "✅ Workbench setup complete!\n";
