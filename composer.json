@@ -59,8 +59,8 @@
             "@build",
             "@php vendor/bin/testbench serve --ansi"
         ],
-        "lint": [
-            "@php vendor/bin/pint --ansi"
+        "pint": [
+            "@php vendor/bin/pint --ansi --dirty"
         ],
         "test": [
             "@clear",
