@@ -1,2 +1,24 @@
+* text=auto
+
+*.md diff=markdown
+*.php diff=php
+
+/.editorconfig export-ignore
+/.gitattributes export-ignore
+/.github export-ignore
+/.gitignore export-ignore
+/CHANGELOG.md export-ignore
+/README.md export-ignore
+/CONTRIBUTING.md export-ignore
+/ROADMAP.md export-ignore
+/Gemfile export-ignore
+/Gemfile.lock export-ignore
+/composer.lock export-ignore
+/art export-ignore
+/_config.yml export-ignore
 /tests export-ignore
+/docs export-ignore
+/favicon.png export-ignore
 /phpunit.xml export-ignore
+/setup-workbench.php export-ignore
+/stubs export-ignore

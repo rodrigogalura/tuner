@@ -1,5 +1,5 @@
 /vendor
 /workbench
+/_site
 testbench.yaml
 .DS_Store
-README-vendor.html
