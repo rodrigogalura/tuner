@@ -1,3 +1,4 @@
 /vendor
 /workbench
 testbench.yaml
+.DS_Store

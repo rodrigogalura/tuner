@@ -24,7 +24,7 @@ composer install
 We use [Pest](https://pestphp.com) for testing
 
 ```
-composer test
+php vendor/bin/pest
 ```
 
 ---
