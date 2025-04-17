@@ -1,0 +1,15 @@
+meta {
+  name: sort asc
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/users?sort[name]
+  body: none
+  auth: none
+}
+
+params:query {
+  sort[name]: 
+}
