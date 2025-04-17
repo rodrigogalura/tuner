@@ -1,0 +1,17 @@
+meta {
+  name: between and not
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/users?between[id]=1, 5&between[and!%20id]=3, 6
+  body: none
+  auth: none
+}
+
+params:query {
+  between[id]: 1, 5
+  between[and!%20id]: 3, 6
+  ~between[AND!%20id]: 3, 6
+}

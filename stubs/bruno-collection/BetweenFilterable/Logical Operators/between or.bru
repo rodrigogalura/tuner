@@ -1,0 +1,17 @@
+meta {
+  name: between or
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/api/users?between[id]=1, 5&between[or%20id]=3, 6
+  body: none
+  auth: none
+}
+
+params:query {
+  between[id]: 1, 5
+  between[or%20id]: 3, 6
+  ~between[OR%20id]: 3, 6
+}
