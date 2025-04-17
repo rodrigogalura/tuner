@@ -1,0 +1,15 @@
+meta {
+  name: search *_
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/users?search[email]=*org
+  body: none
+  auth: none
+}
+
+params:query {
+  search[email]: *org
+}
