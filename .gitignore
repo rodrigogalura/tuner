@@ -1,5 +1,12 @@
 /vendor
 /workbench
-/_site
 testbench.yaml
 .DS_Store
+
+
+# Ignore gh-pages files
+/_site/
+/_includes/
+/_layouts/
+_config.yml
+Gemfile*
