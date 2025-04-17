@@ -1,0 +1,17 @@
+meta {
+  name: in or not
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{host}}/api/users?in[id]=1,2,3&in[or!%20email]=quinton42@example.net, damian83@example.org, tmayert@example.org
+  body: none
+  auth: none
+}
+
+params:query {
+  in[id]: 1,2,3
+  in[or!%20email]: quinton42@example.net, damian83@example.org, tmayert@example.org
+  ~in[OR!%20email]: quinton42@example.net, damian83@example.org, tmayert@example.org
+}
