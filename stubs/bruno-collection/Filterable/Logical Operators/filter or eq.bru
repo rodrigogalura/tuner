@@ -1,0 +1,17 @@
+meta {
+  name: filter or eq
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{host}}/api/users?filter[id]=1&filter[or%20email]=cremin.victoria@example.net
+  body: none
+  auth: none
+}
+
+params:query {
+  filter[id]: 1
+  filter[or%20email]: cremin.victoria@example.net
+  ~filter[OR%20email]: cremin.victoria@example.net
+}

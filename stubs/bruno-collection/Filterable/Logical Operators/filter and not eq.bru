@@ -1,0 +1,17 @@
+meta {
+  name: filter and not eq
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{host}}/api/users?filter[name]=Jairo Armstrong&filter[and!%20id]=3
+  body: none
+  auth: none
+}
+
+params:query {
+  filter[name]: Jairo Armstrong
+  filter[and!%20id]: 3
+  ~filter[AND!%20id]: 3
+}

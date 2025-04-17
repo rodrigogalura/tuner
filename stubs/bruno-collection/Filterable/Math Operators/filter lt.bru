@@ -1,0 +1,16 @@
+meta {
+  name: filter lt
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{host}}/api/users?filter[id]=<3
+  body: none
+  auth: none
+}
+
+params:query {
+  filter[id]: <3
+  ~filter[id]: < 3
+}

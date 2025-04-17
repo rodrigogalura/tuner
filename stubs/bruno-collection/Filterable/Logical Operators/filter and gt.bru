@@ -1,0 +1,17 @@
+meta {
+  name: filter and gt
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/users?filter[name]=Lauretta Crooks V&filter[and%20id]=> 3
+  body: none
+  auth: none
+}
+
+params:query {
+  filter[name]: Lauretta Crooks V
+  filter[and%20id]: > 3
+  ~filter[AND%20id]: > 3
+}

@@ -1,0 +1,16 @@
+meta {
+  name: filter gt
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/users?filter[id]=>1
+  body: none
+  auth: none
+}
+
+params:query {
+  filter[id]: >1
+  ~filter[id]: > 1
+}

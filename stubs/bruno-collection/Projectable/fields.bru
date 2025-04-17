@@ -1,0 +1,16 @@
+meta {
+  name: fields
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/users?fields=id,name,email
+  body: none
+  auth: none
+}
+
+params:query {
+  fields: id,name,email
+  ~fields: id
+}
