@@ -14,7 +14,11 @@ trait BetweenFilterable
             $filterableFields = filter_explode($filterableFields);
         }
 
-        $clientBetween = array_filter($_GET[$client_key] ?? [], function ($val, $key) {
+        if (is_string($clientParams = $_GET[$client_key] ?? [])) {
+            $clientParams = [];
+        }
+
+        $clientBetween = array_filter($clientParams ?? [], function ($val, $key) {
             return ! empty($key) && str_word_count($key) <= 2
                     && preg_match('/^\w+(,|\s+|,\s+|\s+,\s+)\w+$/', $val);
         }, ARRAY_FILTER_USE_BOTH);

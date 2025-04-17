@@ -12,7 +12,11 @@ trait Searchable
             $searchableFields = filter_explode($searchableFields);
         }
 
-        $clientSearch = array_filter($_GET[$client_key] ?? []);
+        if (is_string($clientParams = $_GET[$client_key] ?? [])) {
+            $clientParams = [];
+        }
+
+        $clientSearch = array_filter($clientParams ?? []);
 
         if (empty($searchableFields) || empty($clientSearch)) {
             return [];

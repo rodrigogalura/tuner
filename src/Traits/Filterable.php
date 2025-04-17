@@ -14,7 +14,11 @@ trait Filterable
             $filterableFields = filter_explode($filterableFields);
         }
 
-        $clientFilter = array_filter($_GET[$client_key] ?? [], fn ($key) => ! empty($key) && str_word_count($key) <= 2, ARRAY_FILTER_USE_KEY);
+        if (is_string($clientParams = $_GET[$client_key] ?? [])) {
+            $clientParams = [];
+        }
+
+        $clientFilter = array_filter($clientParams, fn ($key) => ! empty($key) && str_word_count($key) <= 2, ARRAY_FILTER_USE_KEY);
 
         if (empty($filterableFields) || empty($clientFilter)) {
             return [];
