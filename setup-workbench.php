@@ -17,9 +17,6 @@ if (! file_exists($testbenchConfig)) {
     $yamlContent = <<<YAML
 laravel: '@testbench'
 
-providers:
-  - Workbench\App\Providers\ApiIgniterServiceProvider
-
 migrations:
   - workbench/database/migrations
 

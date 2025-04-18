@@ -1,6 +1,11 @@
 <?php
 
+use Workbench\App\Models\User;
 use Illuminate\Support\Facades\Route;
-use Workbench\App\Http\Controllers\UserController;
 
-Route::get('/api/users', [UserController::class, 'index'])->name('api.users.index');
+Route::get('/api/users', function () {
+    return User::send(
+        debuggable: true,
+        paginatable: true,
+    );
+});
