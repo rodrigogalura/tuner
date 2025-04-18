@@ -1,6 +1,6 @@
 <?php
 
-namespace RGalura\ApiIgniter\Traits;
+namespace RGalura\ApiIgniter;
 
 use Illuminate\Support\Arr;
 use RGalura\ApiIgniter\Services\ComponentResolver as Core;

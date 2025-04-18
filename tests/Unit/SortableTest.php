@@ -1,6 +1,6 @@
 <?php
 
-use RGalura\ApiIgniter\Traits\Sortable;
+use RGalura\ApiIgniter\Sortable;
 
 test('sort', function (array|string $sortableFields, array $clientSort, array $expect) {
     // Prepare

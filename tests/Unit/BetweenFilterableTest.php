@@ -1,6 +1,6 @@
 <?php
 
-use RGalura\ApiIgniter\Traits\BetweenFilterable;
+use RGalura\ApiIgniter\BetweenFilterable;
 
 test('betweenFilter', function (array|string $filterableFields, array $clientFilter, array $expect) {
     // Prepare

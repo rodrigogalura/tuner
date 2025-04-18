@@ -1,6 +1,6 @@
 <?php
 
-namespace RGalura\ApiIgniter\Traits\Core;
+namespace RGalura\ApiIgniter;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\QueryException;

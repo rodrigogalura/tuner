@@ -1,6 +1,6 @@
 <?php
 
-use RGalura\ApiIgniter\Traits\Expandable;
+use RGalura\ApiIgniter\Expandable;
 
 dataset('expandable', [
     'allow all fields' => [

@@ -1,6 +1,6 @@
 <?php
 
-namespace RGalura\ApiIgniter\Traits;
+namespace RGalura\ApiIgniter;
 
 use function RGalura\ApiIgniter\filter_explode;
 

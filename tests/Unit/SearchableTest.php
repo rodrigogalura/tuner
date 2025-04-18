@@ -1,6 +1,6 @@
 <?php
 
-use RGalura\ApiIgniter\Traits\Searchable;
+use RGalura\ApiIgniter\Searchable;
 
 test('searchFilter', function (array|string $searchableFields, array $clientFilter, array $expect) {
     // Prepare

@@ -1,6 +1,6 @@
 <?php
 
-namespace RGalura\ApiIgniter\Traits;
+namespace RGalura\ApiIgniter;
 
 use RGalura\ApiIgniter\Services\QueryBuilder as Query;
 

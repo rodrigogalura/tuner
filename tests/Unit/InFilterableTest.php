@@ -1,6 +1,6 @@
 <?php
 
-use RGalura\ApiIgniter\Traits\InFilterable;
+use RGalura\ApiIgniter\InFilterable;
 
 test('inFilter', function (array|string $filterableFields, array $clientIn, array $expect) {
     // Prepare

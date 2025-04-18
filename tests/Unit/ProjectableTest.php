@@ -1,6 +1,6 @@
 <?php
 
-use RGalura\ApiIgniter\Traits\Projectable;
+use RGalura\ApiIgniter\Projectable;
 
 beforeEach(function () {
     $_GET = [];
