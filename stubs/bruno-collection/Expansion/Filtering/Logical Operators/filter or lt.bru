@@ -5,13 +5,14 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?filter[name]=Dr. Cooper Blanda III&filter[or%20id]=< 3
+  url: {{host}}/api/users?expand[posts]=p&p_filter[title]=et&p_filter[or%20id]=<40
   body: none
   auth: none
 }
 
 params:query {
-  filter[name]: Dr. Cooper Blanda III
-  filter[or%20id]: < 3
-  ~filter[OR%20id]: < 3
+  expand[posts]: p
+  p_filter[title]: et
+  p_filter[or%20id]: <40
+  ~p_filter[OR%20id]: < 40
 }

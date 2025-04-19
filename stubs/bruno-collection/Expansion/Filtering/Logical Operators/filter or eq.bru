@@ -5,13 +5,14 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?filter[id]=1&filter[or%20email]=cremin.victoria@example.net
+  url: {{host}}/api/users?expand[posts]=p&p_filter[id]=1&p_filter[or%20title]=itaque
   body: none
   auth: none
 }
 
 params:query {
-  filter[id]: 1
-  filter[or%20email]: cremin.victoria@example.net
-  ~filter[OR%20email]: cremin.victoria@example.net
+  expand[posts]: p
+  p_filter[id]: 1
+  p_filter[or%20title]: itaque
+  ~p_filter[OR%20title]: itaque
 }
