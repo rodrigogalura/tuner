@@ -14,10 +14,10 @@
     <img src="./art/logo.png" alt="Logo" width="200">
   </a>
 
-<!-- <h3 align="center">Api Igniter</h3> -->
+<!-- <h3 align="center">API Igniter</h3> -->
 
   <p align="center">
-    Api Igniter is a Laravel package that streamlines building clean, consistent, and flexible JSON APIs with minimal effort.
+    API Igniter is a Laravel package that streamlines building clean, consistent, and flexible JSON APIs with minimal effort.
     <br />
     <a href="https://rodrigogalura.github.io/api-igniter"><strong>Explore the docs »</strong></a>
     <br />
@@ -65,7 +65,7 @@
 
 <!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
-<!-- Here's a blank template to get started. To avoid retyping too much info, do a search and replace with your text editor for the following: `rodrigogalura`, `api-igniter`, `rodrigogalura`, `rodrigogalura`, `gmail`, `rodrigogalura3rd`, `Api Igniter`, `project_description`, `MIT` -->
+<!-- Here's a blank template to get started. To avoid retyping too much info, do a search and replace with your text editor for the following: `rodrigogalura`, `api-igniter`, `rodrigogalura`, `rodrigogalura`, `gmail`, `rodrigogalura3rd`, `API Igniter`, `project_description`, `MIT` -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

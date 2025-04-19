@@ -2,9 +2,9 @@
 
 ---
 
-## Why use Api Igniter instead of writing responses manually?
+## Why use API Igniter instead of writing responses manually?
 
-Api Igniter removes repetition and ensures consistent, clean API responses across your application.
+API Igniter removes repetition and ensures consistent, clean API responses across your application.
 
 ---
 
@@ -32,6 +32,6 @@ return Api::success([
 
 ## What happens on validation errors?
 
-Api Igniter auto-formats them into a clean JSON structure. You don’t need to handle it manually.
+API Igniter auto-formats them into a clean JSON structure. You don’t need to handle it manually.
 
 ---

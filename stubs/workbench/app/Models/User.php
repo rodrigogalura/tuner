@@ -3,17 +3,17 @@
 namespace Workbench\App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use RGalura\ApiIgniter\Sortable;
+use RGalura\ApiIgniter\ApiIgniter;
+use RGalura\ApiIgniter\Expandable;
+use RGalura\ApiIgniter\Filterable;
+use RGalura\ApiIgniter\Searchable;
+use RGalura\ApiIgniter\Projectable;
+use RGalura\ApiIgniter\InFilterable;
+use Illuminate\Notifications\Notifiable;
+use RGalura\ApiIgniter\BetweenFilterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use RGalura\ApiIgniter\Traits\BetweenFilterable;
-use RGalura\ApiIgniter\Traits\Core\ApiIgniter;
-use RGalura\ApiIgniter\Traits\Expandable;
-use RGalura\ApiIgniter\Traits\Filterable;
-use RGalura\ApiIgniter\Traits\InFilterable;
-use RGalura\ApiIgniter\Traits\Projectable;
-use RGalura\ApiIgniter\Traits\Searchable;
-use RGalura\ApiIgniter\Traits\Sortable;
 
 class User extends Authenticatable
 {

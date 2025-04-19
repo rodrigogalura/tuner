@@ -1,6 +1,6 @@
-# 🛣️ Api Igniter Roadmap
+# 🛣️ API Igniter Roadmap
 
-This document outlines planned features and improvements for upcoming versions of Api Igniter.
+This document outlines planned features and improvements for upcoming versions of API Igniter.
 
 ---
 

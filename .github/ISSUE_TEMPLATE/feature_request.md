@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Suggest an idea for Api Igniter
+about: Suggest an idea for API Igniter
 title: "[FEATURE] Feature name"
 labels: enhancement
 assignees: ''

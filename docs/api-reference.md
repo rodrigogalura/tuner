@@ -1,6 +1,6 @@
 # 📘 API Reference
 
-This section covers all public-facing methods provided by **Api Igniter**.
+This section covers all public-facing methods provided by **API Igniter**.
 
 ---
 

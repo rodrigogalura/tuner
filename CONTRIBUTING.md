@@ -1,6 +1,6 @@
-# 🤝 Contributing to Api Igniter
+# 🤝 Contributing to API Igniter
 
-First off, thanks for taking the time to contribute to **Api Igniter**! 🎉  
+First off, thanks for taking the time to contribute to **API Igniter**! 🎉
 Whether it’s fixing a bug, improving docs, or suggesting a new feature—you’re helping make API development easier for everyone.
 
 ---

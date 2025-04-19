@@ -30,7 +30,7 @@ return Api::customUnauthorized();
 
 ## 3. Structured Validation Errors
 
-If you throw a Laravel validation error, Api Igniter formats it automatically:
+If you throw a Laravel validation error, API Igniter formats it automatically:
 
 ```php
 $request->validate([
