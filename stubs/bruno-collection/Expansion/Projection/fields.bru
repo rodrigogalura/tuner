@@ -1,0 +1,17 @@
+meta {
+  name: fields
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/users?expand[posts]=p&p_fields=title, content&fields=id,name
+  body: none
+  auth: none
+}
+
+params:query {
+  expand[posts]: p
+  p_fields: title, content
+  fields: id,name
+}
