@@ -1,0 +1,18 @@
+meta {
+  name: between or not
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{host}}/api/users?expand[posts]=p&p_between[id]=1, 5&p_between[or!%20id]=3, 6
+  body: none
+  auth: none
+}
+
+params:query {
+  expand[posts]: p
+  p_between[id]: 1, 5
+  p_between[or!%20id]: 3, 6
+  ~p_between[OR!%20id]: 3, 6
+}
