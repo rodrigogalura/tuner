@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?filter[name]=Benjamin Heidenreich&filter[or%20id]=>= 3
+  url: {{host}}/api/users?filter[name]=Benjamin Heidenreich&filter[or%20id]=>=3
   body: none
   auth: none
 }
 
 params:query {
   filter[name]: Benjamin Heidenreich
-  filter[or%20id]: >= 3
+  filter[or%20id]: >=3
   ~filter[OR%20id]: >= 3
 }
