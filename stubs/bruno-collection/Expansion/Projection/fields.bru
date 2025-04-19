@@ -5,13 +5,12 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?expand[posts]=p&p_fields=title, content&fields=id,name
+  url: {{host}}/api/users?expand[posts]=p&p_fields=id, title, content
   body: none
   auth: none
 }
 
 params:query {
   expand[posts]: p
-  p_fields: title, content
-  fields: id,name
+  p_fields: id, title, content
 }

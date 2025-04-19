@@ -1,16 +1,16 @@
 meta {
-  name: fields!
+  name: search *_
   type: http
   seq: 2
 }
 
 get {
-  url: {{host}}/api/users?expand[posts]=p&p_fields!=created_at
+  url: {{host}}/api/users?expand[posts]=p&p_search[title]=*ui
   body: none
   auth: none
 }
 
 params:query {
   expand[posts]: p
-  p_fields!: created_at
+  p_search[title]: *ui
 }
