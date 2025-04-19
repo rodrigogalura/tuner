@@ -1,0 +1,17 @@
+meta {
+  name: filter or lte
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{host}}/api/users?filter[name]=Dr. Cooper Blanda III&filter[or%20id]=<= 3
+  body: none
+  auth: none
+}
+
+params:query {
+  filter[name]: Dr. Cooper Blanda III
+  filter[or%20id]: <= 3
+  ~filter[OR%20id]: <= 3
+}
