@@ -5,11 +5,11 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?expand[posts]=p
+  url: {{host}}/api/users?expand[phone]=p
   body: none
   auth: inherit
 }
 
 params:query {
-  expand[posts]: p
+  expand[phone]: p
 }
