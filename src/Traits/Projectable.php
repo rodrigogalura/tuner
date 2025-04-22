@@ -2,8 +2,6 @@
 
 namespace RGalura\ApiIgniter;
 
-use function RGalura\ApiIgniter\filter_explode;
-
 trait Projectable
 {
     private static function fields(array|string $projectable, $client_fields_key = 'fields', $client_excepts_key = 'fields!')

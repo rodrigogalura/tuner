@@ -1,6 +1,12 @@
 <?php
 
+use RGalura\ApiIgniter\BetweenFilterable;
 use RGalura\ApiIgniter\Expandable;
+use RGalura\ApiIgniter\Filterable;
+use RGalura\ApiIgniter\InFilterable;
+use RGalura\ApiIgniter\Projectable;
+use RGalura\ApiIgniter\Searchable;
+use RGalura\ApiIgniter\Sortable;
 
 dataset('expandable', [
     'allow all fields' => [
@@ -36,6 +42,7 @@ test('expand fields', function (array $expandable, array $expand, string $fields
     // Prepare
     $class = new class
     {
+        use BetweenFilterable, Filterable, InFilterable, Projectable, Searchable, Sortable;
         use Expandable;
     };
 
@@ -58,7 +65,7 @@ test('expand fields', function (array $expandable, array $expand, string $fields
 
             'expect' => [
                 [
-                    'table' => 'posts',
+                    'relationship' => 'posts',
                     'fields' => ['*'],
                     'filter' => [],
                     'inFilter' => [],
@@ -74,7 +81,7 @@ test('expand fields', function (array $expandable, array $expand, string $fields
 
             'expect' => [
                 [
-                    'table' => 'posts',
+                    'relationship' => 'posts',
                     'fields' => ['id', 'title', 'user_id'],
                     'filter' => [],
                     'inFilter' => [],
@@ -90,6 +97,7 @@ test('expand fields!', function (array $expandable, array $expand, string $excep
     // Prepare
     $class = new class
     {
+        use BetweenFilterable, Filterable, InFilterable, Projectable, Searchable, Sortable;
         use Expandable;
     };
 
@@ -111,7 +119,7 @@ test('expand fields!', function (array $expandable, array $expand, string $excep
 
             'expect' => [
                 [
-                    'table' => 'posts',
+                    'relationship' => 'posts',
                     'fields' => ['id', 'name', 'user_id'],
                     'filter' => [],
                     'inFilter' => [],
@@ -127,6 +135,7 @@ test('expand fields! fields', function (array $expandable, array $expand, string
     // Prepare
     $class = new class
     {
+        use BetweenFilterable, Filterable, InFilterable, Projectable, Searchable, Sortable;
         use Expandable;
     };
 
@@ -149,7 +158,7 @@ test('expand fields! fields', function (array $expandable, array $expand, string
 
             'expect' => [
                 [
-                    'table' => 'posts',
+                    'relationship' => 'posts',
                     'fields' => ['id', 'name', 'user_id'],
                     'filter' => [],
                     'inFilter' => [],
@@ -165,6 +174,7 @@ test('expand filter', function (array $expandable, array $expand, string $fields
     // Prepare
     $class = new class
     {
+        use BetweenFilterable, Filterable, InFilterable, Projectable, Searchable, Sortable;
         use Expandable;
     };
 
@@ -189,7 +199,7 @@ test('expand filter', function (array $expandable, array $expand, string $fields
 
             'expect' => [
                 [
-                    'table' => 'posts',
+                    'relationship' => 'posts',
                     'fields' => ['*'],
                     'filter' => [
                         ['AND', 'name', false, '=', 'bar'],
@@ -209,7 +219,7 @@ test('expand filter', function (array $expandable, array $expand, string $fields
 
             'expect' => [
                 [
-                    'table' => 'posts',
+                    'relationship' => 'posts',
                     'fields' => ['id', 'title', 'user_id'],
                     'filter' => [
                         ['AND', 'title', true, '=', 'bar'],
@@ -227,6 +237,7 @@ test('expand in filter', function (array $expandable, array $expand, string $fie
     // Prepare
     $class = new class
     {
+        use BetweenFilterable, Filterable, InFilterable, Projectable, Searchable, Sortable;
         use Expandable;
     };
 
@@ -251,7 +262,7 @@ test('expand in filter', function (array $expandable, array $expand, string $fie
 
             'expect' => [
                 [
-                    'table' => 'posts',
+                    'relationship' => 'posts',
                     'fields' => ['*'],
                     'filter' => [],
                     'inFilter' => [
@@ -271,7 +282,7 @@ test('expand in filter', function (array $expandable, array $expand, string $fie
 
             'expect' => [
                 [
-                    'table' => 'posts',
+                    'relationship' => 'posts',
                     'fields' => ['id', 'title', 'user_id'],
                     'filter' => [],
                     'inFilter' => [
@@ -289,6 +300,7 @@ test('expand between filter', function (array $expandable, array $expand, string
     // Prepare
     $class = new class
     {
+        use BetweenFilterable, Filterable, InFilterable, Projectable, Searchable, Sortable;
         use Expandable;
     };
 
@@ -313,7 +325,7 @@ test('expand between filter', function (array $expandable, array $expand, string
 
             'expect' => [
                 [
-                    'table' => 'posts',
+                    'relationship' => 'posts',
                     'fields' => ['*'],
                     'filter' => [],
                     'inFilter' => [],
@@ -333,7 +345,7 @@ test('expand between filter', function (array $expandable, array $expand, string
 
             'expect' => [
                 [
-                    'table' => 'posts',
+                    'relationship' => 'posts',
                     'fields' => ['id', 'title', 'user_id'],
                     'filter' => [],
                     'inFilter' => [],
@@ -351,6 +363,7 @@ test('expand search filter', function (array $expandable, array $expand, string 
     // Prepare
     $class = new class
     {
+        use BetweenFilterable, Filterable, InFilterable, Projectable, Searchable, Sortable;
         use Expandable;
     };
 
@@ -375,7 +388,7 @@ test('expand search filter', function (array $expandable, array $expand, string 
 
             'expect' => [
                 [
-                    'table' => 'posts',
+                    'relationship' => 'posts',
                     'fields' => ['*'],
                     'filter' => [],
                     'inFilter' => [],
@@ -393,7 +406,7 @@ test('expand search filter', function (array $expandable, array $expand, string 
 
             'expect' => [
                 [
-                    'table' => 'posts',
+                    'relationship' => 'posts',
                     'fields' => ['id', 'title', 'name', 'user_id'],
                     'filter' => [],
                     'inFilter' => [],
@@ -409,6 +422,7 @@ test('expand sort filter', function (array $expandable, array $expand, string $f
     // Prepare
     $class = new class
     {
+        use BetweenFilterable, Filterable, InFilterable, Projectable, Searchable, Sortable;
         use Expandable;
     };
 
@@ -433,7 +447,7 @@ test('expand sort filter', function (array $expandable, array $expand, string $f
 
             'expect' => [
                 [
-                    'table' => 'posts',
+                    'relationship' => 'posts',
                     'fields' => ['*'],
                     'filter' => [],
                     'inFilter' => [],
@@ -451,7 +465,7 @@ test('expand sort filter', function (array $expandable, array $expand, string $f
 
             'expect' => [
                 [
-                    'table' => 'posts',
+                    'relationship' => 'posts',
                     'fields' => ['id', 'name', 'user_id'],
                     'filter' => [],
                     'inFilter' => [],

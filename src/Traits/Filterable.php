@@ -4,8 +4,6 @@ namespace RGalura\ApiIgniter;
 
 use RGalura\ApiIgniter\Services\QueryBuilder as Query;
 
-use function RGalura\ApiIgniter\filter_explode;
-
 trait Filterable
 {
     private static function filter(array|string $filterableFields, string $client_key = 'filter')

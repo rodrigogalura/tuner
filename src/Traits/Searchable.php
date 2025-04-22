@@ -2,8 +2,6 @@
 
 namespace RGalura\ApiIgniter;
 
-use function RGalura\ApiIgniter\filter_explode;
-
 trait Searchable
 {
     private static function searchFilter(array|string $searchableFields, string $client_key = 'search')

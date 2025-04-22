@@ -2,8 +2,6 @@
 
 namespace RGalura\ApiIgniter;
 
-use function RGalura\ApiIgniter\filter_explode;
-
 trait Sortable
 {
     private static function sort(array|string $sortableFields, string $client_key = 'sort')

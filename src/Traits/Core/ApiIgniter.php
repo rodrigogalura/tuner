@@ -31,9 +31,9 @@ trait ApiIgniter
             $this->getHidden()
         );
 
-        foreach ($expandable as $table => $e) {
+        foreach ($expandable as $relationship => $e) {
             if (is_array($e)) {
-                $expandable[$table]['projectable']['columnListing'] = Schema::getColumnListing($table);
+                $expandable[$relationship]['projectable']['columnListing'] = Schema::getColumnListing($e['table'] ?? $relationship);
             }
         }
 
@@ -101,7 +101,7 @@ trait ApiIgniter
             Query::sort($q, self::$sort);
 
             foreach (self::$expand as $expand) {
-                $q->with($expand['table'], function ($q) use ($expand) {
+                $q->with($expand['relationship'], function ($q) use ($expand) {
                     $q->select($expand['fields']);
 
                     if (! empty($expand['filter'])) {
@@ -144,7 +144,10 @@ trait ApiIgniter
 
             return $q->get();
         } catch (QueryException|\Exception $e) {
-            return collect([]);
+            return collect($debuggable ? [
+                'code' => $e->getCode(),
+                'message' => $e->getMessage(),
+            ] : []);
         }
     }
 }

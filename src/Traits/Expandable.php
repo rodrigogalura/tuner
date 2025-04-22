@@ -5,19 +5,8 @@ namespace RGalura\ApiIgniter;
 use Illuminate\Support\Arr;
 use RGalura\ApiIgniter\Services\ComponentResolver as Core;
 
-// use Schema;
-
 trait Expandable
 {
-    use BetweenFilterable;
-    use Filterable;
-    use InFilterable;
-    use Projectable;
-    use Searchable;
-    use Sortable;
-
-    private static array $e_fields = [];
-
     private static function expand(array $expandable)
     {
         $fk = Arr::pull($expandable, 'fk');
@@ -27,17 +16,13 @@ trait Expandable
             return [];
         }
 
-        $expand = [];
-
-        foreach ($clientExpand as $table => $alias) {
-            // $expandable[$table]['projectable']['columnListing'] = Schema::getColumnListing($table);
-
-            Core::bind("{$alias}_fields", fn () => static::fields($expandable[$table]['projectable'], "{$alias}_fields", "{$alias}_fields!"));
-            Core::bind("{$alias}_filter", fn () => static::filter($expandable[$table]['filterable_fields'], "{$alias}_filter"));
-            Core::bind("{$alias}_inFilter", fn () => static::inFilter($expandable[$table]['filterable_fields'], "{$alias}_in"));
-            Core::bind("{$alias}_betweenFilter", fn () => static::betweenFilter($expandable[$table]['filterable_fields'], "{$alias}_between"));
-            Core::bind("{$alias}_searchFilter", fn () => static::searchFilter($expandable[$table]['searchable_fields'], "{$alias}_search"));
-            Core::bind("{$alias}_sort", fn () => static::sort($expandable[$table]['sortable_fields'], "{$alias}_sort"));
+        foreach ($clientExpand as $relationship => $alias) {
+            Core::bind("{$alias}_fields", fn () => static::fields($expandable[$relationship]['projectable'], "{$alias}_fields", "{$alias}_fields!"));
+            Core::bind("{$alias}_filter", fn () => static::filter($expandable[$relationship]['filterable_fields'], "{$alias}_filter"));
+            Core::bind("{$alias}_inFilter", fn () => static::inFilter($expandable[$relationship]['filterable_fields'], "{$alias}_in"));
+            Core::bind("{$alias}_betweenFilter", fn () => static::betweenFilter($expandable[$relationship]['filterable_fields'], "{$alias}_between"));
+            Core::bind("{$alias}_searchFilter", fn () => static::searchFilter($expandable[$relationship]['searchable_fields'], "{$alias}_search"));
+            Core::bind("{$alias}_sort", fn () => static::sort($expandable[$relationship]['sortable_fields'], "{$alias}_sort"));
 
             foreach (array_keys(Core::$components) as $key) {
                 try {
@@ -46,14 +31,14 @@ trait Expandable
                 }
             }
 
-            if ($fields = (${"{$alias}_fields"} ?? null)) {
+            if ($fields = (${"{$alias}_fields"} ?? ['*'])) {
                 if ($fields !== ['*']) {
                     array_push($fields, $fk);
                 }
             }
 
             $expand[] = [
-                'table' => $table,
+                'relationship' => $relationship,
                 'fields' => $fields,
                 'filter' => ${"{$alias}_filter"} ?? [],
                 'inFilter' => ${"{$alias}_inFilter"} ?? [],
@@ -63,6 +48,6 @@ trait Expandable
             ];
         }
 
-        return $expand;
+        return $expand ?? [];
     }
 }

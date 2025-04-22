@@ -1,7 +1,7 @@
 <?php
 
-use Workbench\App\Models\User;
 use Illuminate\Support\Facades\Route;
+use Workbench\App\Models\User;
 
 Route::get('/api/users', function () {
     return User::send(
