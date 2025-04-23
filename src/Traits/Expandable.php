@@ -2,14 +2,12 @@
 
 namespace RGalura\ApiIgniter;
 
-use Illuminate\Support\Arr;
 use RGalura\ApiIgniter\Services\ComponentResolver as Core;
 
 trait Expandable
 {
     private static function expand(array $expandable)
     {
-        $fk = Arr::pull($expandable, 'fk');
         $clientExpand = $_GET['expand'] ?? [];
 
         if (empty($expandable) || empty($clientExpand)) {
@@ -32,7 +30,15 @@ trait Expandable
             }
 
             if ($fields = (${"{$alias}_fields"} ?? ['*'])) {
-                if ($fields !== ['*']) {
+                $fk = $expandable[$relationship]['fk'];
+
+                /**
+                 * Ensure the foreign key is added to the selected fields if:
+                 * - A foreign key is defined,
+                 * - Not all fields are being selected (`['*']` not used),
+                 * - The foreign key is not already in the list of selected fields.
+                 */
+                if ($fk !== false && $fields !== ['*'] && ! in_array($fk, $fields)) {
                     array_push($fields, $fk);
                 }
             }

@@ -32,12 +32,9 @@ trait ApiIgniter
         );
 
         foreach ($expandable as $relationship => $e) {
-            if (is_array($e)) {
-                $expandable[$relationship]['projectable']['columnListing'] = Schema::getColumnListing($e['table'] ?? $relationship);
-            }
+            $expandable[$relationship]['projectable']['columnListing'] = Schema::getColumnListing($e['table'] ?? $relationship);
+            $expandable[$relationship]['fk'] ??= $this->getForeignKey();
         }
-
-        $expandable['fk'] ??= $this->getForeignKey();
     }
 
     private static function init(

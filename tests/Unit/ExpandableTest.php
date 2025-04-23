@@ -19,6 +19,7 @@ dataset('expandable', [
                 'filterable_fields' => ['*'],
                 'searchable_fields' => ['*'],
                 'sortable_fields' => ['*'],
+                'fk' => 'user_id'
             ],
             'siblings' => [
                 'projectable' => [
@@ -28,8 +29,8 @@ dataset('expandable', [
                 'filterable_fields' => ['*'],
                 'searchable_fields' => ['*'],
                 'sortable_fields' => ['*'],
+                'fk' => 'user_id'
             ],
-            'fk' => 'user_id',
         ],
     ],
 ]);
