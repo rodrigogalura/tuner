@@ -1,16 +1,16 @@
 meta {
-  name: sort asc
+  name: in
   type: http
   seq: 1
 }
 
 get {
-  url: {{host}}/api/users?expand[posts]=p&p_sort[id]
+  url: {{host}}/api/users?expand[posts]=p&p_in[id]=1,2,3
   body: none
   auth: none
 }
 
 params:query {
   expand[posts]: p
-  p_sort[id]: 
+  p_in[id]: 1,2,3
 }

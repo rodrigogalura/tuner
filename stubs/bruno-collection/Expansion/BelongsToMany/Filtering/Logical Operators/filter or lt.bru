@@ -1,0 +1,18 @@
+meta {
+  name: filter or lt
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{host}}/api/users?expand[posts]=p&p_filter[title]=et&p_filter[or%20id]=<40
+  body: none
+  auth: none
+}
+
+params:query {
+  expand[posts]: p
+  p_filter[title]: et
+  p_filter[or%20id]: <40
+  ~p_filter[OR%20id]: < 40
+}

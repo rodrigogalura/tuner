@@ -1,0 +1,15 @@
+meta {
+  name: expand
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/users?expand[roles]=r
+  body: none
+  auth: inherit
+}
+
+params:query {
+  expand[roles]: r
+}

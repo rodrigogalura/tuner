@@ -99,7 +99,7 @@ trait ApiIgniter
 
             foreach (self::$expand as $expand) {
                 $q->with($expand['relationship'], function ($q) use ($expand) {
-                    $q->select($expand['fields']);
+                    $q->select(array_map(fn ($field) => $expand['relationship'] . '.' . $field, $expand['fields']));
 
                     if (! empty($expand['filter'])) {
                         Query::filter($q, $expand['filter']);
@@ -117,7 +117,7 @@ trait ApiIgniter
                         Query::searchFilter($q, $expand['searchFilter']);
                     }
 
-                    Query::sort($q, $expand['sort']);
+                    Query::sort($q, $expand['sort'], $expand['relationship']);
                 });
             }
 

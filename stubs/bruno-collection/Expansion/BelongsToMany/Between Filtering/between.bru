@@ -1,16 +1,16 @@
 meta {
-  name: sort asc
+  name: between
   type: http
   seq: 1
 }
 
 get {
-  url: {{host}}/api/users?expand[posts]=p&p_sort[id]
+  url: {{host}}/api/users?expand[posts]=p&p_between[id]=3, 7
   body: none
   auth: none
 }
 
 params:query {
   expand[posts]: p
-  p_sort[id]: 
+  p_between[id]: 3, 7
 }
