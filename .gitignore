@@ -1,5 +1,6 @@
 /vendor
 /workbench
+/bruno-collection
 testbench.yaml
 .DS_Store
 

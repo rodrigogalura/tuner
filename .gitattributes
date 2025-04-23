@@ -20,5 +20,5 @@
 /docs export-ignore
 /favicon.png export-ignore
 /phpunit.xml export-ignore
-/setup-workbench.php export-ignore
+/setup-development.php export-ignore
 /stubs export-ignore

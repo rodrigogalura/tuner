@@ -46,10 +46,10 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "@php setup-workbench.php"
+            "@php setup-development.php"
         ],
         "post-update-cmd": [
-            "@php setup-workbench.php"
+            "@php setup-development.php"
         ],
         "post-autoload-dump": [
             "@clear",
