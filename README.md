@@ -17,7 +17,7 @@
 <!-- <h3 align="center">API Igniter</h3> -->
 
   <p align="center">
-    API Igniter is a Laravel package that streamlines building clean, consistent, and flexible JSON APIs with minimal effort.
+    A Laravel package to build smart APIs once — and let clients do the rest.
     <br />
     <a href="https://rodrigogalura.github.io/api-igniter/docs/installation-guide.html"><strong>Explore the docs »</strong></a>
     <br />
