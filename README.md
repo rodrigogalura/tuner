@@ -65,11 +65,11 @@
 
 <!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
+This package was born out of real-world needs in my own projects. I created it to cut down on boilerplate and give frontend consumers more control and flexibility. I’m simply sharing the tools that helped me build faster — and I hope they’ll do the same for you.
+
 <!-- Here's a blank template to get started. To avoid retyping too much info, do a search and replace with your text editor for the following: `rodrigogalura`, `api-igniter`, `rodrigogalura`, `rodrigogalura`, `gmail`, `rodrigogalura3rd`, `API Igniter`, `project_description`, `MIT` -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- ### Built With
 
