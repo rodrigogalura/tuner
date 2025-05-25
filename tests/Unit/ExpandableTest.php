@@ -66,7 +66,7 @@ test('expand fields', function (array $expandable, array $expand, string $fields
 
             'expect' => [
                 [
-                    'relationship' => 'posts',
+                    'relation' => 'posts',
                     'fields' => ['*'],
                     'filter' => [],
                     'inFilter' => [],
@@ -82,7 +82,7 @@ test('expand fields', function (array $expandable, array $expand, string $fields
 
             'expect' => [
                 [
-                    'relationship' => 'posts',
+                    'relation' => 'posts',
                     'fields' => ['id', 'title', 'user_id'],
                     'filter' => [],
                     'inFilter' => [],
@@ -120,7 +120,7 @@ test('expand fields!', function (array $expandable, array $expand, string $excep
 
             'expect' => [
                 [
-                    'relationship' => 'posts',
+                    'relation' => 'posts',
                     'fields' => ['id', 'name', 'user_id'],
                     'filter' => [],
                     'inFilter' => [],
@@ -159,7 +159,7 @@ test('expand fields! fields', function (array $expandable, array $expand, string
 
             'expect' => [
                 [
-                    'relationship' => 'posts',
+                    'relation' => 'posts',
                     'fields' => ['id', 'name', 'user_id'],
                     'filter' => [],
                     'inFilter' => [],
@@ -200,7 +200,7 @@ test('expand filter', function (array $expandable, array $expand, string $fields
 
             'expect' => [
                 [
-                    'relationship' => 'posts',
+                    'relation' => 'posts',
                     'fields' => ['*'],
                     'filter' => [
                         ['AND', 'name', false, '=', 'bar'],
@@ -220,7 +220,7 @@ test('expand filter', function (array $expandable, array $expand, string $fields
 
             'expect' => [
                 [
-                    'relationship' => 'posts',
+                    'relation' => 'posts',
                     'fields' => ['id', 'title', 'user_id'],
                     'filter' => [
                         ['AND', 'title', true, '=', 'bar'],
@@ -263,7 +263,7 @@ test('expand in filter', function (array $expandable, array $expand, string $fie
 
             'expect' => [
                 [
-                    'relationship' => 'posts',
+                    'relation' => 'posts',
                     'fields' => ['*'],
                     'filter' => [],
                     'inFilter' => [
@@ -283,7 +283,7 @@ test('expand in filter', function (array $expandable, array $expand, string $fie
 
             'expect' => [
                 [
-                    'relationship' => 'posts',
+                    'relation' => 'posts',
                     'fields' => ['id', 'title', 'user_id'],
                     'filter' => [],
                     'inFilter' => [
@@ -326,7 +326,7 @@ test('expand between filter', function (array $expandable, array $expand, string
 
             'expect' => [
                 [
-                    'relationship' => 'posts',
+                    'relation' => 'posts',
                     'fields' => ['*'],
                     'filter' => [],
                     'inFilter' => [],
@@ -346,7 +346,7 @@ test('expand between filter', function (array $expandable, array $expand, string
 
             'expect' => [
                 [
-                    'relationship' => 'posts',
+                    'relation' => 'posts',
                     'fields' => ['id', 'title', 'user_id'],
                     'filter' => [],
                     'inFilter' => [],
@@ -389,7 +389,7 @@ test('expand search filter', function (array $expandable, array $expand, string 
 
             'expect' => [
                 [
-                    'relationship' => 'posts',
+                    'relation' => 'posts',
                     'fields' => ['*'],
                     'filter' => [],
                     'inFilter' => [],
@@ -407,7 +407,7 @@ test('expand search filter', function (array $expandable, array $expand, string 
 
             'expect' => [
                 [
-                    'relationship' => 'posts',
+                    'relation' => 'posts',
                     'fields' => ['id', 'title', 'name', 'user_id'],
                     'filter' => [],
                     'inFilter' => [],
@@ -448,7 +448,7 @@ test('expand sort filter', function (array $expandable, array $expand, string $f
 
             'expect' => [
                 [
-                    'relationship' => 'posts',
+                    'relation' => 'posts',
                     'fields' => ['*'],
                     'filter' => [],
                     'inFilter' => [],
@@ -466,7 +466,7 @@ test('expand sort filter', function (array $expandable, array $expand, string $f
 
             'expect' => [
                 [
-                    'relationship' => 'posts',
+                    'relation' => 'posts',
                     'fields' => ['id', 'name', 'user_id'],
                     'filter' => [],
                     'inFilter' => [],

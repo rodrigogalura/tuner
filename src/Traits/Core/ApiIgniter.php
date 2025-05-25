@@ -31,9 +31,9 @@ trait ApiIgniter
             $this->getHidden()
         );
 
-        foreach ($expandable as $relationship => $e) {
-            $expandable[$relationship]['projectable']['columnListing'] = Schema::getColumnListing($e['table'] ?? $relationship);
-            $expandable[$relationship]['fk'] ??= $this->getForeignKey();
+        foreach ($expandable as $relation => $e) {
+            $expandable[$relation]['projectable']['columnListing'] = Schema::getColumnListing($e['table'] ?? $relation);
+            $expandable[$relation]['fk'] ??= $this->getForeignKey();
         }
     }
 
@@ -98,8 +98,8 @@ trait ApiIgniter
             Query::sort($q, self::$sort);
 
             foreach (self::$expand as $expand) {
-                $q->with($expand['relationship'], function ($q) use ($expand) {
-                    $q->select(array_map(fn ($field) => $expand['relationship'] . '.' . $field, $expand['fields']));
+                $q->with($expand['relation'], function ($q) use ($expand) {
+                    $q->select(array_map(fn ($field) => $expand['table'] . '.' . $field, $expand['fields']));
 
                     if (! empty($expand['filter'])) {
                         Query::filter($q, $expand['filter']);
@@ -117,7 +117,7 @@ trait ApiIgniter
                         Query::searchFilter($q, $expand['searchFilter']);
                     }
 
-                    Query::sort($q, $expand['sort'], $expand['relationship']);
+                    Query::sort($q, $expand['sort'], $expand['table']);
                 });
             }
 

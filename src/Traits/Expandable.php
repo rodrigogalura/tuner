@@ -14,13 +14,13 @@ trait Expandable
             return [];
         }
 
-        foreach ($clientExpand as $relationship => $alias) {
-            Core::bind("{$alias}_fields", fn () => static::fields($expandable[$relationship]['projectable'], "{$alias}_fields", "{$alias}_fields!"));
-            Core::bind("{$alias}_filter", fn () => static::filter($expandable[$relationship]['filterable_fields'], "{$alias}_filter"));
-            Core::bind("{$alias}_inFilter", fn () => static::inFilter($expandable[$relationship]['filterable_fields'], "{$alias}_in"));
-            Core::bind("{$alias}_betweenFilter", fn () => static::betweenFilter($expandable[$relationship]['filterable_fields'], "{$alias}_between"));
-            Core::bind("{$alias}_searchFilter", fn () => static::searchFilter($expandable[$relationship]['searchable_fields'], "{$alias}_search"));
-            Core::bind("{$alias}_sort", fn () => static::sort($expandable[$relationship]['sortable_fields'], "{$alias}_sort"));
+        foreach ($clientExpand as $relation => $alias) {
+            Core::bind("{$alias}_fields", fn () => static::fields($expandable[$relation]['projectable'], "{$alias}_fields", "{$alias}_fields!"));
+            Core::bind("{$alias}_filter", fn () => static::filter($expandable[$relation]['filterable_fields'], "{$alias}_filter"));
+            Core::bind("{$alias}_inFilter", fn () => static::inFilter($expandable[$relation]['filterable_fields'], "{$alias}_in"));
+            Core::bind("{$alias}_betweenFilter", fn () => static::betweenFilter($expandable[$relation]['filterable_fields'], "{$alias}_between"));
+            Core::bind("{$alias}_searchFilter", fn () => static::searchFilter($expandable[$relation]['searchable_fields'], "{$alias}_search"));
+            Core::bind("{$alias}_sort", fn () => static::sort($expandable[$relation]['sortable_fields'], "{$alias}_sort"));
 
             foreach (array_keys(Core::$components) as $key) {
                 try {
@@ -30,7 +30,7 @@ trait Expandable
             }
 
             if ($fields = (${"{$alias}_fields"} ?? ['*'])) {
-                $fk = $expandable[$relationship]['fk'];
+                $fk = $expandable[$relation]['fk'];
 
                 /**
                  * Ensure the foreign key is added to the selected fields if:
@@ -44,7 +44,8 @@ trait Expandable
             }
 
             $expand[] = [
-                'relationship' => $relationship,
+                'relation' => $relation,
+                'table' => $expandable[$relation]['table'] ?? $relation,
                 'fields' => $fields,
                 'filter' => ${"{$alias}_filter"} ?? [],
                 'inFilter' => ${"{$alias}_inFilter"} ?? [],

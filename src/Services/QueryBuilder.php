@@ -78,14 +78,14 @@ class QueryBuilder
         $q->whereAny(filter_explode(key($searchFilter)), 'LIKE', current($searchFilter));
     }
 
-    public static function sort(Builder|HasOne|HasMany|BelongsTo|BelongsToMany $q, array $sort, string $relationship='')
+    public static function sort(Builder|HasOne|HasMany|BelongsTo|BelongsToMany $q, array $sort, string $table='')
     {
-        if (!empty($relationship)) {
-            $relationship .= '.';
+        if (!empty($table)) {
+            $table .= '.';
         }
 
         foreach ($sort as $field => $direction) {
-            $q->orderBy("{$relationship}{$field}", $direction);
+            $q->orderBy("{$table}{$field}", $direction);
         }
     }
 }
