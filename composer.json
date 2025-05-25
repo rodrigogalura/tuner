@@ -1,7 +1,7 @@
 {
     "name": "rgalura/api-igniter",
     "minimum-stability": "dev",
-    "description": "A Laravel package to enable your API's more powerful",
+    "description": "A Laravel package to build smart APIs once — and let clients do the rest.",
     "type": "library",
     "require": {
         "php": "8.3.*"
