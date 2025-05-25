@@ -45,7 +45,7 @@ trait Expandable
 
             $expand[] = [
                 'relation' => $relation,
-                'table' => $expandable[$relation]['table'] ?? $relation,
+                'table' => $expandable[$relation]['table'],
                 'fields' => $fields,
                 'filter' => ${"{$alias}_filter"} ?? [],
                 'inFilter' => ${"{$alias}_inFilter"} ?? [],

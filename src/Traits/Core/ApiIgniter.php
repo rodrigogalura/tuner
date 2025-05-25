@@ -2,11 +2,12 @@
 
 namespace RGalura\ApiIgniter;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\QueryException;
-use RGalura\ApiIgniter\Services\ComponentResolver as Core;
-use RGalura\ApiIgniter\Services\QueryBuilder as Query;
 use Schema;
+use Illuminate\Support\Str;
+use Illuminate\Database\QueryException;
+use Illuminate\Database\Eloquent\Builder;
+use RGalura\ApiIgniter\Services\QueryBuilder as Query;
+use RGalura\ApiIgniter\Services\ComponentResolver as Core;
 
 trait ApiIgniter
 {
@@ -32,7 +33,9 @@ trait ApiIgniter
         );
 
         foreach ($expandable as $relation => $e) {
-            $expandable[$relation]['projectable']['columnListing'] = Schema::getColumnListing($e['table'] ?? $relation);
+            $e['table'] ??= ($expandable[$relation]['table'] = Str::of($relation)->plural()->value);
+
+            $expandable[$relation]['projectable']['columnListing'] = Schema::getColumnListing($e['table']);
             $expandable[$relation]['fk'] ??= $this->getForeignKey();
         }
     }
@@ -135,7 +138,7 @@ trait ApiIgniter
                     $q->toSql();
             }
 
-            if ($paginatable && ($perPage = $_GET['perPage'] ?? false)) {
+            if ($paginatable && ($perPage = $_GET['per-page'] ?? false)) {
                 return $q->paginate($perPage);
             }
 

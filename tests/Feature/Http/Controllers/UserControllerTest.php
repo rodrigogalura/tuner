@@ -216,10 +216,10 @@ test('index offset param', function (int $offset, int $expectCount) {
         [9, 1],
     ]);
 
-test('index perPage param', function () {
+test('index per-page param', function () {
     User::factory(10)->create();
 
-    $_GET['perPage'] = 5;
+    $_GET['per-page'] = 5;
 
     get('/api/users')
         ->assertOk()

@@ -12,6 +12,7 @@ dataset('expandable', [
     'allow all fields' => [
         [
             'posts' => [
+                'table' => 'posts',
                 'projectable' => [
                     'fields' => ['*'],
                     'columnListing' => ['id', 'name', 'foo', 'bar'],
@@ -22,6 +23,7 @@ dataset('expandable', [
                 'fk' => 'user_id'
             ],
             'siblings' => [
+                'table' => 'siblings',
                 'projectable' => [
                     'fields' => ['*'],
                     'columnListing' => ['id', 'name', 'foo', 'bar'],
