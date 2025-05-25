@@ -22,8 +22,8 @@
     <a href="https://rodrigogalura.github.io/api-igniter/docs/installation-guide.html"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/rodrigogalura/api-igniter">View Demo</a>
-    &middot;
+    <!-- <a href="https://github.com/rodrigogalura/api-igniter">View Demo</a>
+    &middot; -->
     <a href="https://github.com/rodrigogalura/api-igniter/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     &middot;
     <a href="https://github.com/rodrigogalura/api-igniter/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
@@ -38,26 +38,14 @@
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
     </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#buy-me-a-coffee">Buy Me a Coffee</a></li>
   </ol>
 </details>
-
 
 
 <!-- ABOUT THE PROJECT -->
@@ -76,13 +64,12 @@ This package was born out of real-world needs in my own projects. I created it t
 
 - [ ] Support HasOne/HasMany Through relationship in Expanding feature
 - [ ] Support polymorphic relationship in Expanding feature
-- [ ] Auto generate docs for client in Api Igniter
+- [ ] Auto generate docs for client
 - [ ] Cheat Sheet: https://github.com/RestCheatSheet/api-cheat-sheet
 
 See the [open issues](https://github.com/rodrigogalura/api-igniter/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- CONTRIBUTING -->
@@ -108,11 +95,10 @@ Don't forget to give the project a star! Thanks again!
 </a>
 
 
-
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT. See `LICENSE.txt` for more information.
+Distributed under the MIT. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -121,24 +107,31 @@ Distributed under the MIT. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@rodrigogalura](https://x.com/rodrigogalura) - rodrigogalura3rd@gmail.com
+If you discover any security vulnerabilities, please contact me. This allows me to address the issue promptly and responsibly.
+
+Rodrigo Galura - [@rodrigogalura](https://linkedin.com/in/rodrigogalura) - rodrigogalura3rd@gmail.com
 
 Project Link: [https://github.com/rodrigogalura/api-igniter](https://github.com/rodrigogalura/api-igniter)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
 <!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
+<!-- ## Acknowledgments
 
 * []()
 * []()
 * []()
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
+
+## ☕️ Buy Me a Coffee
+
+If this project helped you or saved you time, consider buying me a coffee. Your support means a lot and helps keep this project active and maintained!
+
+[![Buy Me a Coffee at Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/rodrigogalura)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
