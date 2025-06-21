@@ -11,6 +11,12 @@ use RGalura\ApiIgniter\Services\ComponentResolver as Core;
 
 trait ApiIgniter
 {
+    protected array $projectableFields = ['*'];
+    protected array $projectedFields = ['*'];
+
+
+
+
     private static array $fields = ['*'];
 
     private static array $filter = [];
@@ -25,42 +31,58 @@ trait ApiIgniter
 
     private static array $expand = [];
 
-    private function preInit(&$projectable, &$expandable)
+    private function preInit(&$expandable)
     {
-        $projectable['columnListing'] = array_diff(
-            $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable()),
-            $this->getHidden()
-        );
+        // $projectable['columnListing'] = array_diff(
+        //     $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable()),
+        //     $this->getHidden()
+        // );
 
-        foreach ($expandable as $relation => $e) {
-            $e['table'] ??= ($expandable[$relation]['table'] = Str::of($relation)->plural()->value);
+        // foreach ($expandable as $relation => $e) {
+        //     $e['table'] ??= ($expandable[$relation]['table'] = Str::of($relation)->plural()->value);
 
-            $expandable[$relation]['projectable']['columnListing'] = Schema::getColumnListing($e['table']);
-            $expandable[$relation]['fk'] ??= $this->getForeignKey();
-        }
+        //     $expandable[$relation]['projectable']['columnListing'] = Schema::getColumnListing($e['table']);
+        //     $expandable[$relation]['fk'] ??= $this->getForeignKey();
+        // }
     }
 
-    private static function init(
-        array $projectable,
+    private function init(
         array|string $filterableFields,
         array|string $searchableFields,
         array|string $sortableFields,
         array $expandable): void
     {
-        Core::bind('fields', fn () => static::fields($projectable));
-        Core::bind('filter', fn () => static::filter($filterableFields));
-        Core::bind('inFilter', fn () => static::inFilter($filterableFields));
-        Core::bind('betweenFilter', fn () => static::betweenFilter($filterableFields));
-        Core::bind('searchFilter', fn () => static::searchFilter($searchableFields));
-        Core::bind('sort', fn () => static::sort($sortableFields));
-        Core::bind('expand', fn () => static::expand($expandable));
+        Core::bind('projectedFields', fn () => $this->projectedFields($this->projectableFields));
 
         foreach (array_keys(Core::$components) as $key) {
             try {
-                self::$$key = Core::resolve($key);
+                $this->{$key} = Core::resolve($key);
             } catch (\BadMethodCallException $e) {
+                // noop
+            } catch (\Throwable $e) {
+                $STRICT = 1;
+                if ($STRICT) {
+                    throw $e;
+                }
+
+                $this->{$key} = [];
             }
         }
+
+        // Core::bind('fields', fn () => static::fields($projectable));
+        // Core::bind('filter', fn () => static::filter($filterableFields));
+        // Core::bind('inFilter', fn () => static::inFilter($filterableFields));
+        // Core::bind('betweenFilter', fn () => static::betweenFilter($filterableFields));
+        // Core::bind('searchFilter', fn () => static::searchFilter($searchableFields));
+        // Core::bind('sort', fn () => static::sort($sortableFields));
+        // Core::bind('expand', fn () => static::expand($expandable));
+
+        // foreach (array_keys(Core::$components) as $key) {
+        //     try {
+        //         self::$$key = Core::resolve($key);
+        //     } catch (\BadMethodCallException $e) {
+        //     }
+        // }
     }
 
     /**
@@ -68,7 +90,7 @@ trait ApiIgniter
      */
     public function scopeSend(
         Builder $q,
-        array $projectable = ['fields' => '*'],
+        // array|string $projectable = '*',
         array|string $filterableFields = '*',
         array|string $searchableFields = '*',
         array|string $sortableFields = '*',
@@ -76,11 +98,16 @@ trait ApiIgniter
         bool $paginatable = false,
         bool $debuggable = false,
     ): mixed {
-        $this->preInit($projectable, $expandable);
-        self::init($projectable, $filterableFields, $searchableFields, $sortableFields, $expandable);
+        $this->preInit($expandable);
+        $this->init($filterableFields, $searchableFields, $sortableFields, $expandable);
+
+        dd($this->projectedFields);
 
         try {
-            $q->select(self::$fields);
+            $q->select($this->projectedFields);
+
+
+            // $q->select(self::$fields);
 
             if (! empty(self::$filter)) {
                 $q->where(fn ($q) => Query::filter($q, self::$filter));
