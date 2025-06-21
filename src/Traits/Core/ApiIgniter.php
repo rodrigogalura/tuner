@@ -11,8 +11,6 @@ use Schema;
 
 trait ApiIgniter
 {
-    protected array $projectableFields = ['*'];
-
     protected array $projectedFields = ['*'];
 
     private static array $fields = ['*'];
@@ -28,6 +26,11 @@ trait ApiIgniter
     private static array $sort = [];
 
     private static array $expand = [];
+
+    private function getProjectableFields()
+    {
+        return ['*'];
+    }
 
     private function preInit(&$expandable)
     {
@@ -50,7 +53,7 @@ trait ApiIgniter
         array|string $sortableFields,
         array $expandable): void
     {
-        Core::bind('projectedFields', fn () => $this->projectedFields($this->projectableFields));
+        Core::bind('projectedFields', fn () => $this->projectedFields($this->getProjectableFields()));
 
         foreach (array_keys(Core::$components) as $key) {
             try {

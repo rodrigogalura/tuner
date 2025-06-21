@@ -2,7 +2,7 @@
 
 namespace RGalura\ApiIgniter\Exceptions;
 
-class ProjectionExcludeFieldsException extends \Exception
+class ExcludeFieldsException extends \Exception
 {
     /**
      * Create a new exception for invalid provided parameter.
