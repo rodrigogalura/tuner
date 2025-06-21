@@ -87,7 +87,7 @@ trait ApiIgniter
      * Execute the query with filter
      */
     public function scopeSend(
-        Builder $q,
+        Builder $builder,
         // array|string $projectable = '*',
         array|string $filterableFields = '*',
         array|string $searchableFields = '*',
@@ -99,74 +99,72 @@ trait ApiIgniter
         $this->preInit($expandable);
         $this->init($filterableFields, $searchableFields, $sortableFields, $expandable);
 
-        dd($this->projectedFields);
-
         try {
-            $q->select($this->projectedFields);
+            $builder->select($this->projectedFields);
 
-            // $q->select(self::$fields);
+            // $builder->select(self::$fields);
 
             if (! empty(self::$filter)) {
-                $q->where(fn ($q) => Query::filter($q, self::$filter));
+                $builder->where(fn ($builder) => Query::filter($builder, self::$filter));
             }
 
             if (! empty(self::$inFilter)) {
-                $q->where(fn ($q) => Query::inFilter($q, self::$inFilter));
+                $builder->where(fn ($builder) => Query::inFilter($builder, self::$inFilter));
             }
 
             if (! empty(self::$betweenFilter)) {
-                $q->where(fn ($q) => Query::betweenFilter($q, self::$betweenFilter));
+                $builder->where(fn ($builder) => Query::betweenFilter($builder, self::$betweenFilter));
             }
 
             if (! empty(self::$searchFilter)) {
-                $q->where(fn ($q) => Query::searchFilter($q, self::$searchFilter));
+                $builder->where(fn ($builder) => Query::searchFilter($builder, self::$searchFilter));
             }
 
-            Query::sort($q, self::$sort);
+            Query::sort($builder, self::$sort);
 
             foreach (self::$expand as $expand) {
-                $q->with($expand['relation'], function ($q) use ($expand) {
-                    $q->select(array_map(fn ($field) => $expand['table'].'.'.$field, $expand['fields']));
+                $builder->with($expand['relation'], function ($builder) use ($expand) {
+                    $builder->select(array_map(fn ($field) => $expand['table'].'.'.$field, $expand['fields']));
 
                     if (! empty($expand['filter'])) {
-                        Query::filter($q, $expand['filter']);
+                        Query::filter($builder, $expand['filter']);
                     }
 
                     if (! empty($expand['inFilter'])) {
-                        Query::inFilter($q, $expand['inFilter']);
+                        Query::inFilter($builder, $expand['inFilter']);
                     }
 
                     if (! empty($expand['betweenFilter'])) {
-                        Query::betweenFilter($q, $expand['betweenFilter']);
+                        Query::betweenFilter($builder, $expand['betweenFilter']);
                     }
 
                     if (! empty($expand['searchFilter'])) {
-                        Query::searchFilter($q, $expand['searchFilter']);
+                        Query::searchFilter($builder, $expand['searchFilter']);
                     }
 
-                    Query::sort($q, $expand['sort'], $expand['table']);
+                    Query::sort($builder, $expand['sort'], $expand['table']);
                 });
             }
 
             if ($limit = $_GET['limit'] ?? false) {
-                $q->limit($limit);
+                $builder->limit($limit);
             }
 
             if ($offset = $_GET['offset'] ?? false) {
-                $q->offset($offset);
+                $builder->offset($offset);
             }
 
             if ($debuggable && ($_GET['debug'] ?? false)) {
                 return
                     print_r(['with' => self::$expand], true).PHP_EOL.
-                    $q->toSql();
+                    $builder->toSql();
             }
 
             if ($paginatable && ($perPage = $_GET['per-page'] ?? false)) {
-                return $q->paginate($perPage);
+                return $builder->paginate($perPage);
             }
 
-            return $q->get();
+            return $builder->get();
         } catch (QueryException|\Exception $e) {
             return collect($debuggable ? [
                 'code' => $e->getCode(),

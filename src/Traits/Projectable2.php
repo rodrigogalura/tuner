@@ -22,28 +22,33 @@ trait Projectable2
             $this->getHidden()
         );
 
-        switch (true) {
-            case isset($fields, $exclude):
-                throw new ImproperUsedProjectionException($clientFieldsKey, $clientExcludeFieldsKey);
-            case ! isset($fields) && ! isset($exclude):
-                return $projectableFields;
-
-            case isset($fields):
-                return $this->includeFields($columnListing, $projectableFields, filter_explode($fields ?? ''));
-
-            case isset($exclude):
-                return $this->excludeFields($columnListing, $projectableFields, filter_explode($exclude ?? ''));
-        }
+        return match (true) {
+            isset($fields, $exclude) => throw new ImproperUsedProjectionException($clientFieldsKey, $clientExcludeFieldsKey),
+            ! isset($fields) && ! isset($exclude) => $projectableFields,
+            isset($fields) => $this->includeFields($columnListing, $projectableFields, filter_explode($fields ?? '')),
+            isset($exclude) => $this->excludeFields($columnListing, $projectableFields, filter_explode($exclude ?? '')),
+        };
     }
 
     private function includeFields(array $columnListing, array $projectableFields, array $fields)
     {
-        return match (true) {
-            $projectableFields === ['*'] => $fields,
-            $fields === ['*'] => $projectableFields,
-            ! empty(array_diff($fields, $projectableFields)) => throw new InvalidFieldsException(array_values($diff)),
-            default => array_intersect($projectableFields, $fields)
-        };
+        switch (true) {
+            case $projectableFields === ['*']:
+                if (! empty($diff = array_diff($fields, $columnListing))) {
+                    throw new InvalidFieldsException(array_values($diff));
+                }
+
+                return $fields;
+
+            case $fields === ['*']:
+                return $projectableFields;
+
+            case ! empty($diff = array_diff($fields, $projectableFields)):
+                throw new InvalidFieldsException(array_values($diff));
+
+            default:
+                return array_intersect($projectableFields, $fields);
+        }
     }
 
     private function excludeFields(array $columnListing, array $projectableFields, array $exclude)
