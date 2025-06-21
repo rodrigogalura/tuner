@@ -20,7 +20,7 @@ dataset('expandable', [
                 'filterable_fields' => ['*'],
                 'searchable_fields' => ['*'],
                 'sortable_fields' => ['*'],
-                'fk' => 'user_id'
+                'fk' => 'user_id',
             ],
             'siblings' => [
                 'table' => 'siblings',
@@ -31,7 +31,7 @@ dataset('expandable', [
                 'filterable_fields' => ['*'],
                 'searchable_fields' => ['*'],
                 'sortable_fields' => ['*'],
-                'fk' => 'user_id'
+                'fk' => 'user_id',
             ],
         ],
     ],

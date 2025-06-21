@@ -2,20 +2,18 @@
 
 namespace RGalura\ApiIgniter;
 
-use Schema;
-use Illuminate\Support\Str;
-use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
-use RGalura\ApiIgniter\Services\QueryBuilder as Query;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Str;
 use RGalura\ApiIgniter\Services\ComponentResolver as Core;
+use RGalura\ApiIgniter\Services\QueryBuilder as Query;
+use Schema;
 
 trait ApiIgniter
 {
     protected array $projectableFields = ['*'];
+
     protected array $projectedFields = ['*'];
-
-
-
 
     private static array $fields = ['*'];
 
@@ -106,7 +104,6 @@ trait ApiIgniter
         try {
             $q->select($this->projectedFields);
 
-
             // $q->select(self::$fields);
 
             if (! empty(self::$filter)) {
@@ -129,7 +126,7 @@ trait ApiIgniter
 
             foreach (self::$expand as $expand) {
                 $q->with($expand['relation'], function ($q) use ($expand) {
-                    $q->select(array_map(fn ($field) => $expand['table'] . '.' . $field, $expand['fields']));
+                    $q->select(array_map(fn ($field) => $expand['table'].'.'.$field, $expand['fields']));
 
                     if (! empty($expand['filter'])) {
                         Query::filter($q, $expand['filter']);

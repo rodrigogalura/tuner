@@ -2,9 +2,8 @@
 
 namespace RGalura\ApiIgniter;
 
-use function RGalura\ApiIgniter\filter_explode;
-use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 use RGalura\ApiIgniter\Exceptions\ImproperUsedProjectionException;
+use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 use RGalura\ApiIgniter\Exceptions\ProjectionExcludeFieldsException;
 
 trait Projectable2
@@ -26,8 +25,7 @@ trait Projectable2
         switch (true) {
             case isset($fields, $exclude):
                 throw new ImproperUsedProjectionException($clientFieldsKey, $clientExcludeFieldsKey);
-
-            case !isset($fields) && !isset($exclude):
+            case ! isset($fields) && ! isset($exclude):
                 return $projectableFields;
 
             case isset($fields):

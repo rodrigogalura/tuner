@@ -78,9 +78,9 @@ class QueryBuilder
         $q->whereAny(filter_explode(key($searchFilter)), 'LIKE', current($searchFilter));
     }
 
-    public static function sort(Builder|HasOne|HasMany|BelongsTo|BelongsToMany $q, array $sort, string $table='')
+    public static function sort(Builder|HasOne|HasMany|BelongsTo|BelongsToMany $q, array $sort, string $table = '')
     {
-        if (!empty($table)) {
+        if (! empty($table)) {
             $table .= '.';
         }
 
