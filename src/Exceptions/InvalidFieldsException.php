@@ -5,7 +5,7 @@ namespace RGalura\ApiIgniter\Exceptions;
 class InvalidFieldsException extends \Exception
 {
     /**
-     * Create a new exception for invalid projected fields.
+     * Create a new exception for invalid fields.
      *
      * @param  array|string  $fields
      */
@@ -25,11 +25,11 @@ class InvalidFieldsException extends \Exception
         $invalidFields = (array) $fields;
 
         if (count($invalidFields) === 1) {
-            return "The field '{$invalidFields[0]}' is not a valid projectable field.";
+            return "The field '{$invalidFields[0]}' is not a valid field.";
         }
 
         $list = implode("', '", $invalidFields);
 
-        return "The fields '{$list}' are not valid projectable fields.";
+        return "The fields '{$list}' are not valid fields.";
     }
 }

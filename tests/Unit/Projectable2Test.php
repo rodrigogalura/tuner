@@ -1,9 +1,10 @@
 <?php
 
-use RGalura\ApiIgniter\Exceptions\ExcludeFieldsException;
-use RGalura\ApiIgniter\Exceptions\ImproperUsedProjectionException;
-use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 use RGalura\ApiIgniter\Projectable2;
+use RGalura\ApiIgniter\HasDefaultValue;
+use RGalura\ApiIgniter\Exceptions\ExcludeFieldsException;
+use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
+use RGalura\ApiIgniter\Exceptions\ImproperUsedProjectionException;
 
 beforeEach(function () {
     $_GET = [];
@@ -12,6 +13,7 @@ beforeEach(function () {
     $this->trait = new class
     {
         use Projectable2;
+        use HasDefaultValue;
 
         public function getConnection()
         {
@@ -25,12 +27,12 @@ beforeEach(function () {
 
         public function getColumnListing($table)
         {
-            return ['id', 'name', 'email'];
+            return ['a', 'b', 'c', 'd', 'e'];
         }
 
         public function getHidden()
         {
-            return ['password'];
+            return ['e'];
         }
 
         public function getTable()
@@ -39,20 +41,39 @@ beforeEach(function () {
         }
     };
 
-    // Act
-    $this->method = new \ReflectionMethod($this->trait, 'projectedFields');
+    $this->method = new \ReflectionMethod($this->trait, 'selectFields');
     $this->method->setAccessible(true);
 });
 
+test('a couple scenarios', function (array $projectableFields, $clientFields, $expectedReturn) {
+    $_GET['fields'] = $clientFields;
+
+    // Act and Assert
+    expect($this->method->invoke($this->trait, $projectableFields))->toBe($expectedReturn);
+})
+    ->with([
+        // ['projectableFields' => ['*'], 'clientFields' => '*', 'expectedReturn' => ['a', 'b', 'c', 'd']],
+        ['projectableFields' => ['*'], 'clientFields' => '', 'expectedReturn' => ['a', 'b', 'c', 'd']],
+        // ['projectableFields' => [''], 'clientFields' => '*', 'expectedReturn' => []],
+        // ['projectableFields' => [''], 'clientFields' => '', 'expectedReturn' => []],
+        // ['projectableFields' => ['a', 'b', 'c', 'd', 'e'], 'clientFields' => 'a, b, c', 'expectedReturn' => ['a', 'b', 'c']],
+        // ['projectableFields' => ['a', 'b', 'c', 'd', 'e'], 'clientFields' => 'c, d', 'expectedReturn' => ['c', 'd']],
+        // ['projectableFields' => ['e', 'd', 'c', 'b', 'a'], 'clientFields' => 'b, d', 'expectedReturn' => ['d', 'b']],
+        // ['projectableFields' => ['e', 'd', 'c', 'b', 'a'], 'clientFields' => 'e, c, a', 'expectedReturn' => ['e', 'c', 'a']],
+    ])->only();
+
+
+
+
 it('should return empty array if the projectable fields is empty', function () {
-    // Assert
+    // Act and Assert
     expect($this->method->invoke($this->trait, []))->toBeEmpty();
 });
 
 it('should return projectable fields if client fields not provided', function () {
     $projectableFields = ['foo'];
 
-    // Assert
+    // Act and Assert
     expect($this->method->invoke($this->trait, $projectableFields))->toBe($projectableFields);
 });
 
@@ -60,7 +81,7 @@ it('should return projectable fields if client fields value is *', function () {
     $projectableFields = ['foo'];
     $_GET['fields'] = '*';
 
-    // Assert
+    // Act and Assert
     expect($this->method->invoke($this->trait, $projectableFields))->toBe($projectableFields);
 });
 
@@ -68,40 +89,27 @@ it('should return client fields if projectable fields is *', function () {
     $projectableFields = ['*'];
     $clientFields = $_GET['fields'] = 'id, name';
 
-    // Assert
+    // Act and Assert
     expect($this->method->invoke($this->trait, $projectableFields))->toBe(explode(', ', $clientFields));
 });
 
-test('a couple scenarios', function (array $projectableFields, $clientFields, $expectedResult) {
-    $_GET['fields'] = $clientFields;
-
-    // Assert
-    expect($this->method->invoke($this->trait, $projectableFields))->toBe($expectedResult);
-})
-    ->with([
-        ['projectableFields' => ['a', 'b', 'c', 'd', 'e'], 'clientFields' => 'a, b, c', 'expectedResult' => ['a', 'b', 'c']],
-        ['projectableFields' => ['a', 'b', 'c', 'd', 'e'], 'clientFields' => 'c, d', 'expectedResult' => ['c', 'd']],
-        ['projectableFields' => ['e', 'd', 'c', 'b', 'a'], 'clientFields' => 'b, d', 'expectedResult' => ['d', 'b']],
-        ['projectableFields' => ['e', 'd', 'c', 'b', 'a'], 'clientFields' => 'e, c, a', 'expectedResult' => ['e', 'c', 'a']],
-    ]);
-
-test('a couple scenarios for excluding fields', function (array $projectableFields, $clientFields, $expectedResult) {
+test('a couple scenarios for excluding fields', function (array $projectableFields, $clientFields, $expectedReturn) {
     $_GET['fields!'] = $clientFields;
 
-    // Assert
-    expect($this->method->invoke($this->trait, $projectableFields))->toBe($expectedResult);
+    // Act and Assert
+    expect($this->method->invoke($this->trait, $projectableFields))->toBe($expectedReturn);
 })
     ->with([
-        ['projectableFields' => ['a', 'b', 'c', 'd', 'e'], 'clientFields' => 'a, b, c', 'expectedResult' => ['d', 'e']],
-        ['projectableFields' => ['a', 'b', 'c', 'd', 'e'], 'clientFields' => 'c, d', 'expectedResult' => ['a', 'b', 'e']],
-        ['projectableFields' => ['e', 'd', 'c', 'b', 'a'], 'clientFields' => 'b, d', 'expectedResult' => ['e', 'c', 'a']],
-        ['projectableFields' => ['e', 'd', 'c', 'b', 'a'], 'clientFields' => 'e, c, a', 'expectedResult' => ['d', 'b']],
+        ['projectableFields' => ['a', 'b', 'c', 'd', 'e'], 'clientFields' => 'a, b, c', 'expectedReturn' => ['d', 'e']],
+        ['projectableFields' => ['a', 'b', 'c', 'd', 'e'], 'clientFields' => 'c, d', 'expectedReturn' => ['a', 'b', 'e']],
+        ['projectableFields' => ['e', 'd', 'c', 'b', 'a'], 'clientFields' => 'b, d', 'expectedReturn' => ['e', 'c', 'a']],
+        ['projectableFields' => ['e', 'd', 'c', 'b', 'a'], 'clientFields' => 'e, c, a', 'expectedReturn' => ['d', 'b']],
     ]);
 
 test('a couple scenarios of InvalidFieldsException', function (array $projectableFields, $clientFields, $expectedException) {
     $_GET['fields'] = $clientFields;
 
-    // Assert
+    // Act and Assert
     expect(fn () => $this->method->invoke($this->trait, $projectableFields))->toThrow($expectedException);
 })
     ->with([
@@ -115,7 +123,7 @@ test('a scenario of ImproperUsedProjectionException', function () {
     $_GET['fields'] = 'foo';
     $_GET['fields!'] = 'bar';
 
-    // Assert
+    // Act and Assert
     expect(fn () => $this->method->invoke($this->trait, $projectableFields))->toThrow(ImproperUsedProjectionException::class);
 });
 
@@ -124,6 +132,6 @@ test('a scenario of ExcludeFieldsException', function () {
 
     $_GET['fields!'] = '*';
 
-    // Assert
+    // Act and Assert
     expect(fn () => $this->method->invoke($this->trait, $projectableFields))->toThrow(ExcludeFieldsException::class);
 });

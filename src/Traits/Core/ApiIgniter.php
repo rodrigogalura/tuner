@@ -2,16 +2,21 @@
 
 namespace RGalura\ApiIgniter;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Str;
-use RGalura\ApiIgniter\Services\ComponentResolver as Core;
-use RGalura\ApiIgniter\Services\QueryBuilder as Query;
 use Schema;
+use Illuminate\Support\Str;
+use Illuminate\Database\QueryException;
+use Illuminate\Database\Eloquent\Builder;
+use function RGalura\ApiIgniter\array_insert_multiple;
+use RGalura\ApiIgniter\Services\QueryBuilder as Query;
+use RGalura\ApiIgniter\Services\ComponentResolver as Core;
 
 trait ApiIgniter
 {
-    protected array $projectedFields = ['*'];
+    use HasDefaultValue;
+
+    protected ?array $projectedFields = null;
+
+    protected array $searchFilter = [];
 
     private static array $fields = ['*'];
 
@@ -21,24 +26,17 @@ trait ApiIgniter
 
     private static array $betweenFilter = [];
 
-    private static array $searchFilter = [];
+    // private static array $searchFilter = [];
 
     private static array $sort = [];
 
     private static array $expand = [];
 
-    private function getProjectableFields()
-    {
-        return ['*'];
-    }
+    private readonly array $givenFields;
+    private readonly array $projectableFields;
 
     private function preInit(&$expandable)
     {
-        // $projectable['columnListing'] = array_diff(
-        //     $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable()),
-        //     $this->getHidden()
-        // );
-
         // foreach ($expandable as $relation => $e) {
         //     $e['table'] ??= ($expandable[$relation]['table'] = Str::of($relation)->plural()->value);
 
@@ -48,12 +46,28 @@ trait ApiIgniter
     }
 
     private function init(
+        Builder $builder,
         array|string $filterableFields,
         array|string $searchableFields,
         array|string $sortableFields,
         array $expandable): void
     {
-        Core::bind('projectedFields', fn () => $this->projectedFields($this->getProjectableFields()));
+        // Represent as "*"
+        $this->givenFields = array_diff(
+            $builder->getQuery()->columns ?? $this->columnListing(),
+            $this->getHidden()
+        );
+
+        Core::bind('projectedFields', function () {
+            $pf = $this->getProjectableFields();
+            $this->projectableFields = $pf === ['*']
+                ? $this->givenFields
+                : array_intersect($this->givenFields, $pf);
+
+            return $this->projectedFields($this->projectableFields);
+        });
+        // Core::bind('projectedFields', fn () => $this->projectedFields($this->projectableFields));
+        // Core::bind('searchFilter', fn () => $this->searchFilter($this->getSearchableFields()));
 
         foreach (array_keys(Core::$components) as $key) {
             try {
@@ -61,16 +75,13 @@ trait ApiIgniter
             } catch (\BadMethodCallException $e) {
                 // noop
             } catch (\Throwable $e) {
-                $STRICT = 1;
-                if ($STRICT) {
+                $STRICT_CODE = 1;
+                if ($e->getCode() === $STRICT_CODE || $this->canInspect()) {
                     throw $e;
                 }
-
-                $this->{$key} = [];
             }
         }
 
-        // Core::bind('fields', fn () => static::fields($projectable));
         // Core::bind('filter', fn () => static::filter($filterableFields));
         // Core::bind('inFilter', fn () => static::inFilter($filterableFields));
         // Core::bind('betweenFilter', fn () => static::betweenFilter($filterableFields));
@@ -100,52 +111,60 @@ trait ApiIgniter
         bool $debuggable = false,
     ): mixed {
         $this->preInit($expandable);
-        $this->init($filterableFields, $searchableFields, $sortableFields, $expandable);
+        $this->init($builder, $filterableFields, $searchableFields, $sortableFields, $expandable);
 
         try {
-            $builder->select($this->projectedFields);
+            if (!is_null($this->projectedFields)) {
+                $combinedFieldsResult = array_diff($this->givenFields, $this->projectableFields) + $this->projectedFields;
 
-            // $builder->select(self::$fields);
+                ksort($combinedFieldsResult, SORT_NUMERIC);
+
+                $builder->select($combinedFieldsResult);
+            }
 
             if (! empty(self::$filter)) {
-                $builder->where(fn ($builder) => Query::filter($builder, self::$filter));
+                $builder->where(fn ($builderInner) => Query::filter($builderInner, self::$filter));
             }
 
             if (! empty(self::$inFilter)) {
-                $builder->where(fn ($builder) => Query::inFilter($builder, self::$inFilter));
+                $builder->where(fn ($builderInner) => Query::inFilter($builderInner, self::$inFilter));
             }
 
             if (! empty(self::$betweenFilter)) {
-                $builder->where(fn ($builder) => Query::betweenFilter($builder, self::$betweenFilter));
+                $builder->where(fn ($builderInner) => Query::betweenFilter($builderInner, self::$betweenFilter));
             }
 
-            if (! empty(self::$searchFilter)) {
-                $builder->where(fn ($builder) => Query::searchFilter($builder, self::$searchFilter));
+            // if (! empty(self::$searchFilter)) {
+            //     $builder->where(fn ($builderInner) => Query::searchFilter($builderInner, self::$searchFilter));
+            // }
+
+            if (! empty($this->searchFilter)) {
+                $builder->where(fn ($builderInner) => Query::searchFilter($builderInner, $this->searchFilter));
             }
 
             Query::sort($builder, self::$sort);
 
             foreach (self::$expand as $expand) {
-                $builder->with($expand['relation'], function ($builder) use ($expand) {
-                    $builder->select(array_map(fn ($field) => $expand['table'].'.'.$field, $expand['fields']));
+                $builder->with($expand['relation'], function ($builderInner) use ($expand) {
+                    $builderInner->select(array_map(fn ($field) => $expand['table'].'.'.$field, $expand['fields']));
 
                     if (! empty($expand['filter'])) {
-                        Query::filter($builder, $expand['filter']);
+                        Query::filter($builderInner, $expand['filter']);
                     }
 
                     if (! empty($expand['inFilter'])) {
-                        Query::inFilter($builder, $expand['inFilter']);
+                        Query::inFilter($builderInner, $expand['inFilter']);
                     }
 
                     if (! empty($expand['betweenFilter'])) {
-                        Query::betweenFilter($builder, $expand['betweenFilter']);
+                        Query::betweenFilter($builderInner, $expand['betweenFilter']);
                     }
 
                     if (! empty($expand['searchFilter'])) {
-                        Query::searchFilter($builder, $expand['searchFilter']);
+                        Query::searchFilter($builderInner, $expand['searchFilter']);
                     }
 
-                    Query::sort($builder, $expand['sort'], $expand['table']);
+                    Query::sort($builderInner, $expand['sort'], $expand['table']);
                 });
             }
 
