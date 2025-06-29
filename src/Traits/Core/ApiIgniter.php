@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 use RGalura\ApiIgniter\Exceptions\InvalidProjectableFieldsException;
+use RGalura\ApiIgniter\Exceptions\InvalidSearchableFieldsException;
 use RGalura\ApiIgniter\Services\ComponentResolver as Core;
 use RGalura\ApiIgniter\Services\QueryBuilder as Query;
 use Schema;
@@ -15,6 +16,8 @@ trait ApiIgniter
     use HasDefaultValue;
 
     protected ?array $projectedFields = null;
+
+    protected ?array $searchedFields = null;
 
     protected array $searchFilter = [];
 
@@ -36,6 +39,8 @@ trait ApiIgniter
 
     private array $projectableFields;
 
+    private array $searchableFields;
+
     private function preInit(&$expandable)
     {
         // foreach ($expandable as $relation => $e) {
@@ -49,7 +54,6 @@ trait ApiIgniter
     private function init(
         Builder $builder,
         array|string $filterableFields,
-        array|string $searchableFields,
         array|string $sortableFields,
         array $expandable): void
     {
@@ -59,9 +63,11 @@ trait ApiIgniter
             $this->getHidden()
         );
 
-        Core::bind('projectedFields', function () {
-            $this->projectableFields = $this->givenFields;
+        $this->projectableFields
+            = $this->searchableFields
+            = $this->givenFields;
 
+        Core::bind('projectedFields', function () {
             if (($projectableFields = $this->getProjectableFields()) !== ['*']) {
                 // Config Validation
                 (function () use ($projectableFields) {
@@ -75,8 +81,21 @@ trait ApiIgniter
 
             return $this->projectedFields($this->projectableFields);
         });
-        // Core::bind('projectedFields', fn () => $this->projectedFields($this->projectableFields));
-        // Core::bind('searchFilter', fn () => $this->searchFilter($this->getSearchableFields()));
+
+        Core::bind('searchedFields', function () {
+            if (($searchableFields = $this->getSearchableFields()) !== ['*']) {
+                // Config Validation
+                (function () use ($searchableFields) {
+                    if (! empty($diff = array_diff($searchableFields, $this->givenFields))) {
+                        throw new InvalidSearchableFieldsException($diff);
+                    }
+                })();
+
+                $this->searchableFields = array_intersect($this->givenFields, $searchableFields);
+            }
+
+            return $this->searchedFields($this->searchableFields, $this->getMinimumKeywordCharForSearch());
+        });
 
         foreach (array_keys(Core::$components) as $key) {
             try {
@@ -113,14 +132,14 @@ trait ApiIgniter
         Builder $builder,
         // array|string $projectable = '*',
         array|string $filterableFields = '*',
-        array|string $searchableFields = '*',
+        // array|string $searchableFields = '*',
         array|string $sortableFields = '*',
         array $expandable = [],
         bool $paginatable = false,
         bool $debuggable = false,
     ): mixed {
         $this->preInit($expandable);
-        $this->init($builder, $filterableFields, $searchableFields, $sortableFields, $expandable);
+        $this->init($builder, $filterableFields, $sortableFields, $expandable);
 
         try {
             if (! is_null($this->projectedFields)) {
@@ -147,8 +166,8 @@ trait ApiIgniter
             //     $builder->where(fn ($builderInner) => Query::searchFilter($builderInner, self::$searchFilter));
             // }
 
-            if (! empty($this->searchFilter)) {
-                $builder->where(fn ($builderInner) => Query::searchFilter($builderInner, $this->searchFilter));
+            if (! empty($this->searchedFields)) {
+                $builder->where(fn ($builderInner) => Query::searchFilter($builderInner, $this->searchedFields));
             }
 
             Query::sort($builder, self::$sort);

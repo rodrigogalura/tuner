@@ -45,9 +45,14 @@ beforeEach(function () {
     $this->method->setAccessible(true);
 });
 
-it('should return null if the projectable fields is empty', function () {
+it('should return null if the projectable fields are empty', function () {
     // Act and Assert
     expect($this->method->invoke($this->trait, []))->toBeNull();
+});
+
+it('should return null if neither "fields" nor "fields!" is used', function () {
+    // Act and Assert
+    expect($this->method->invoke($this->trait, ['a']))->toBeNull();
 });
 
 it('should throw and exception ImproperUsedProjectionException if the options "fields" and "fields!" are used at the same time', function () {
@@ -60,15 +65,15 @@ it('should throw and exception ImproperUsedProjectionException if the options "f
     expect(fn () => $this->method->invoke($this->trait, $projectableFields))->toThrow(ImproperUsedProjectionException::class);
 });
 
-test('a couple scenarios of InvalidFieldsException', function (array $projectableFields, $clientFields, $expectedException) {
+it('should throw an exception InvalidFieldsException if the client fields are not exist', function (array $projectableFields, $clientFields, $expectedException) {
     $_GET['fields'] = $clientFields;
 
     // Act and Assert
     expect(fn () => $this->method->invoke($this->trait, $projectableFields))->toThrow($expectedException);
 })
     ->with([
-        ['projectableFields' => ['id', 'name'], 'clientFields' => 'email', 'expectedException' => InvalidFieldsException::class],
-        ['projectableFields' => ['name', 'email'], 'clientFields' => 'email, password', 'expectedException' => InvalidFieldsException::class],
+        ['projectableFields' => ['a', 'b'], 'clientFields' => 'c', 'expectedException' => InvalidFieldsException::class],
+        ['projectableFields' => ['a', 'b'], 'clientFields' => 'b, c', 'expectedException' => InvalidFieldsException::class],
     ]);
 
 it('should throw an exception ExcludeFieldsException if client fields! is *', function () {

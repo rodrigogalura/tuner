@@ -2,7 +2,7 @@
 
 namespace RGalura\ApiIgniter\Exceptions;
 
-class InvalidProjectableFieldsException extends \Exception
+class InvalidSearchableFieldsException extends \Exception
 {
     public function __construct(private array $invalidFields, int $strict = 1)
     {

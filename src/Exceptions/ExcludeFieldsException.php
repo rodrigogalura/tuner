@@ -9,10 +9,10 @@ class ExcludeFieldsException extends \Exception
      *
      * @param  array  $excludeFields
      */
-    public function __construct($excludeFields)
+    public function __construct($excludeFields, $strict = 0)
     {
         $message = $this->buildMessage($excludeFields);
-        parent::__construct($message);
+        parent::__construct($message, $strict);
     }
 
     /**

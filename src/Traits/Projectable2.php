@@ -34,7 +34,7 @@ trait Projectable2
         $exclude = $_GET[$clientExcludeFieldsKey] ?? null;
 
         return match (true) {
-            ! is_null($include) && ! is_null($exclude) => throw new ImproperUsedProjectionException($clientFieldsKey, $clientExcludeFieldsKey),
+            isset($include) && isset($exclude) => throw new ImproperUsedProjectionException($clientFieldsKey, $clientExcludeFieldsKey),
             isset($include) => $includeFn($projectableFields, filter_explode($include ?? '')),
             isset($exclude) => $excludeFn($projectableFields, filter_explode($exclude ?? '')),
             default => null

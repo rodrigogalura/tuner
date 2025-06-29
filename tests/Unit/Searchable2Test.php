@@ -1,10 +1,9 @@
 <?php
 
-use RGalura\ApiIgniter\Searchable2;
-use RGalura\ApiIgniter\HasDefaultValue;
-use RGalura\ApiIgniter\Exceptions\ExcludeFieldsException;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
-use RGalura\ApiIgniter\Exceptions\ImproperUsedProjectionException;
+use RGalura\ApiIgniter\Exceptions\MinimumKeywordException;
+use RGalura\ApiIgniter\HasDefaultValue;
+use RGalura\ApiIgniter\Searchable2;
 
 beforeEach(function () {
     $_GET = [];
@@ -12,8 +11,8 @@ beforeEach(function () {
     // Prepare
     $this->trait = new class
     {
-        use Searchable2;
         use HasDefaultValue;
+        use Searchable2;
 
         public function getConnection()
         {
@@ -41,29 +40,48 @@ beforeEach(function () {
         }
     };
 
-    $this->method = new \ReflectionMethod($this->trait, 'searchFilter');
+    $this->method = new \ReflectionMethod($this->trait, 'searchedFields');
     $this->method->setAccessible(true);
 
+    $this->minimum = 2;
+});
+
+it('should return null if the searchable fields are empty', function () {
+    // Act and Assert
+    expect($this->method->invoke($this->trait, [], $this->minimum))->toBeNull();
+});
+
+it('should return null if the search option is not used', function () {
+    // Act and Assert
+    expect($this->method->invoke($this->trait, ['a'], $this->minimum))->toBeNull();
+});
+
+test('should throw an exception InvalidFieldsException if the client fields are not exist', function (array $searchableFields, $clientFields, $expectedException) {
+    $_GET['search'] = $clientFields;
+
+    // Act and Assert
+    expect(fn () => $this->method->invoke($this->trait, $searchableFields, $this->minimum))->toThrow($expectedException);
+})
+    ->with([
+        ['searchableFields' => ['a', 'b'], 'clientFields' => ['c' => 'search me'], 'expectedException' => InvalidFieldsException::class],
+        ['searchableFields' => ['a', 'b'], 'clientFields' => ['b, c' => 'search me'], 'expectedException' => InvalidFieldsException::class],
+    ]);
+
+it('should throw an exception MinimumKeywordException if the search keyword length not hit the minimum', function () {
+    $_GET['search'] = ['a' => str_repeat('b', $this->minimum - 1)];
+
+    // Act and Assert
+    expect(fn () => $this->method->invoke($this->trait, ['a'], $this->minimum))->toThrow(MinimumKeywordException::class);
 });
 
 test('a couple scenarios', function ($searchableFields, $clientFields, $expectedReturn) {
     $_GET['search'] = $clientFields;
 
     // Act and Assert
-    expect($this->method->invoke($this->trait, $searchableFields))->toBe($expectedReturn);
+    expect($this->method->invoke($this->trait, $searchableFields, $this->minimum))->toBe($expectedReturn);
 })->with([
-    ['searchableFields' => ['*'], 'clientFields' => ['a, b, c' => 'foo'], 'expectedReturn' => ['a, b, c' => '%foo%']],
-    ['searchableFields' => ['*'], 'clientFields' => ['a, b, c' => '*foo*'], 'expectedReturn' => ['a, b, c' => '%foo%']],
-    ['searchableFields' => ['*'], 'clientFields' => ['a, b, c' => '*foo'], 'expectedReturn' => ['a, b, c' => '%foo']],
-    ['searchableFields' => ['*'], 'clientFields' => ['a, b, c' => 'foo*'], 'expectedReturn' => ['a, b, c' => 'foo%']],
-
     ['searchableFields' => ['a', 'b', 'c'], 'clientFields' => ['b, c' => 'foo'], 'expectedReturn' => ['b, c' => '%foo%']],
     ['searchableFields' => ['a', 'b', 'c'], 'clientFields' => ['b, c' => '*foo*'], 'expectedReturn' => ['b, c' => '%foo%']],
     ['searchableFields' => ['a', 'b', 'c'], 'clientFields' => ['b, c' => '*foo'], 'expectedReturn' => ['b, c' => '%foo']],
     ['searchableFields' => ['a', 'b', 'c'], 'clientFields' => ['b, c' => 'foo*'], 'expectedReturn' => ['b, c' => 'foo%']],
-
-    // ['searchableFields' => ['b', 'c'], 'clientFields' => ['a, b, c' => 'foo'], 'expectedReturn' => ['b, c' => '%foo%']],
-    // ['searchableFields' => ['b', 'c'], 'clientFields' => ['a, b, c' => '*foo*'], 'expectedReturn' => ['b, c' => '%foo%']],
-    // ['searchableFields' => ['b', 'c'], 'clientFields' => ['a, b, c' => '*foo'], 'expectedReturn' => ['b, c' => '%foo']],
-    // ['searchableFields' => ['b', 'c'], 'clientFields' => ['a, b, c' => 'foo*'], 'expectedReturn' => ['b, c' => 'foo%']],
-]);
+])->only();
