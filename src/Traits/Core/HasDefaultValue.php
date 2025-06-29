@@ -22,7 +22,6 @@ trait HasDefaultValue
     private function canInspect()
     {
         return true;
-        // return false;
     }
 
     private function columnListing()

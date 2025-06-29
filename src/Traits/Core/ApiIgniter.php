@@ -2,14 +2,13 @@
 
 namespace RGalura\ApiIgniter;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Str;
-use RGalura\ApiIgniter\Exceptions\InvalidProjectableFieldsException;
-use RGalura\ApiIgniter\Exceptions\InvalidSearchableFieldsException;
-use RGalura\ApiIgniter\Services\ComponentResolver as Core;
-use RGalura\ApiIgniter\Services\QueryBuilder as Query;
 use Schema;
+use Illuminate\Support\Str;
+use Illuminate\Database\QueryException;
+use Illuminate\Database\Eloquent\Builder;
+use RGalura\ApiIgniter\Services\QueryBuilder as Query;
+use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
+use RGalura\ApiIgniter\Services\ComponentResolver as Core;
 
 trait ApiIgniter
 {
@@ -58,23 +57,22 @@ trait ApiIgniter
         array $expandable): void
     {
         // Represent as "*"
+        $this->projectableFields =
+        $this->searchableFields =
         $this->givenFields = array_diff(
             $builder->getQuery()->columns ?? $this->columnListing(),
             $this->getHidden()
         );
 
-        $this->projectableFields
-            = $this->searchableFields
-            = $this->givenFields;
+        $validateConfigFields = function ($fields) {
+            if (! empty($diff = array_diff($fields, $this->givenFields))) {
+                throw new InvalidFieldsException($diff, 1);
+            }
+        };
 
-        Core::bind('projectedFields', function () {
+        Core::bind('projectedFields', function () use($validateConfigFields) {
             if (($projectableFields = $this->getProjectableFields()) !== ['*']) {
-                // Config Validation
-                (function () use ($projectableFields) {
-                    if (! empty($diff = array_diff($projectableFields, $this->givenFields))) {
-                        throw new InvalidProjectableFieldsException($diff);
-                    }
-                })();
+                $validateConfigFields($projectableFields);
 
                 $this->projectableFields = array_intersect($this->givenFields, $projectableFields);
             }
@@ -82,14 +80,9 @@ trait ApiIgniter
             return $this->projectedFields($this->projectableFields);
         });
 
-        Core::bind('searchedFields', function () {
+        Core::bind('searchedFields', function () use($validateConfigFields) {
             if (($searchableFields = $this->getSearchableFields()) !== ['*']) {
-                // Config Validation
-                (function () use ($searchableFields) {
-                    if (! empty($diff = array_diff($searchableFields, $this->givenFields))) {
-                        throw new InvalidSearchableFieldsException($diff);
-                    }
-                })();
+                $validateConfigFields($searchableFields);
 
                 $this->searchableFields = array_intersect($this->givenFields, $searchableFields);
             }

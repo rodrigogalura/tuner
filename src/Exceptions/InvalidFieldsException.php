@@ -9,7 +9,7 @@ class InvalidFieldsException extends \Exception
      *
      * @param  array|string  $fields
      */
-    public function __construct($fields, $strict = 0)
+    public function __construct(array $fields, int $strict = 0)
     {
         $message = $this->buildMessage($fields);
         parent::__construct($message, $strict);
@@ -20,9 +20,9 @@ class InvalidFieldsException extends \Exception
      *
      * @param  array|string  $fields
      */
-    protected function buildMessage($fields): string
+    protected function buildMessage(array $fields): string
     {
-        $invalidFields = (array) $fields;
+        $invalidFields = array_values($fields);
 
         if (count($invalidFields) === 1) {
             return "The field '{$invalidFields[0]}' is not a valid field.";
