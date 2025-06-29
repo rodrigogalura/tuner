@@ -2,13 +2,13 @@
 
 namespace RGalura\ApiIgniter;
 
-use Schema;
-use Illuminate\Support\Str;
-use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
-use function RGalura\ApiIgniter\array_insert_multiple;
-use RGalura\ApiIgniter\Services\QueryBuilder as Query;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Str;
+use RGalura\ApiIgniter\Exceptions\InvalidProjectableFieldsException;
 use RGalura\ApiIgniter\Services\ComponentResolver as Core;
+use RGalura\ApiIgniter\Services\QueryBuilder as Query;
+use Schema;
 
 trait ApiIgniter
 {
@@ -33,7 +33,8 @@ trait ApiIgniter
     private static array $expand = [];
 
     private readonly array $givenFields;
-    private readonly array $projectableFields;
+
+    private array $projectableFields;
 
     private function preInit(&$expandable)
     {
@@ -59,10 +60,18 @@ trait ApiIgniter
         );
 
         Core::bind('projectedFields', function () {
-            $pf = $this->getProjectableFields();
-            $this->projectableFields = $pf === ['*']
-                ? $this->givenFields
-                : array_intersect($this->givenFields, $pf);
+            $this->projectableFields = $this->givenFields;
+
+            if (($projectableFields = $this->getProjectableFields()) !== ['*']) {
+                // Config Validation
+                (function () use ($projectableFields) {
+                    if (! empty($diff = array_diff($projectableFields, $this->givenFields))) {
+                        throw new InvalidProjectableFieldsException($diff);
+                    }
+                })();
+
+                $this->projectableFields = array_intersect($this->givenFields, $projectableFields);
+            }
 
             return $this->projectedFields($this->projectableFields);
         });
@@ -114,7 +123,7 @@ trait ApiIgniter
         $this->init($builder, $filterableFields, $searchableFields, $sortableFields, $expandable);
 
         try {
-            if (!is_null($this->projectedFields)) {
+            if (! is_null($this->projectedFields)) {
                 $combinedFieldsResult = array_diff($this->givenFields, $this->projectableFields) + $this->projectedFields;
 
                 ksort($combinedFieldsResult, SORT_NUMERIC);
