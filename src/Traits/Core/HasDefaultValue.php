@@ -14,6 +14,11 @@ trait HasDefaultValue
         return ['*'];
     }
 
+    private function getSortableFields()
+    {
+        return ['id', 'name'];
+    }
+
     private function getMinimumKeywordCharForSearch()
     {
         return 2;

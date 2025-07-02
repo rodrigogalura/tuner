@@ -40,7 +40,7 @@ beforeEach(function () {
         }
     };
 
-    $this->method = new \ReflectionMethod($this->trait, 'searchedFields');
+    $this->method = new \ReflectionMethod($this->trait, 'searchInput');
     $this->method->setAccessible(true);
 
     $this->minimum = 2;

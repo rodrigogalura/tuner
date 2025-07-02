@@ -14,9 +14,11 @@ trait ApiIgniter
 {
     use HasDefaultValue;
 
-    protected ?array $projectedFields = null;
+    protected ?array $fieldsInput = null;
 
-    protected ?array $searchedFields = null;
+    protected ?array $searchInput = null;
+
+    protected ?array $sortInput = null;
 
     protected array $searchFilter = [];
 
@@ -40,6 +42,8 @@ trait ApiIgniter
 
     private array $searchableFields;
 
+    private array $sortableFields;
+
     private function preInit(&$expandable)
     {
         // foreach ($expandable as $relation => $e) {
@@ -53,12 +57,12 @@ trait ApiIgniter
     private function init(
         Builder $builder,
         array|string $filterableFields,
-        array|string $sortableFields,
         array $expandable): void
     {
         // Represent as "*"
         $this->projectableFields =
         $this->searchableFields =
+        $this->sortableFields =
         $this->givenFields = array_diff(
             $builder->getQuery()->columns ?? $this->columnListing(),
             $this->getHidden()
@@ -70,25 +74,38 @@ trait ApiIgniter
             }
         };
 
-        Core::bind('projectedFields', function () use($validateConfigFields) {
+        Core::bind('fieldsInput', function () use($validateConfigFields) {
             if (($projectableFields = $this->getProjectableFields()) !== ['*']) {
                 $validateConfigFields($projectableFields);
 
                 $this->projectableFields = array_intersect($this->givenFields, $projectableFields);
             }
 
-            return $this->projectedFields($this->projectableFields);
+            return $this->fieldsInput($this->projectableFields);
         });
 
-        Core::bind('searchedFields', function () use($validateConfigFields) {
+        Core::bind('searchInput', function () use($validateConfigFields) {
             if (($searchableFields = $this->getSearchableFields()) !== ['*']) {
                 $validateConfigFields($searchableFields);
 
                 $this->searchableFields = array_intersect($this->givenFields, $searchableFields);
             }
 
-            return $this->searchedFields($this->searchableFields, $this->getMinimumKeywordCharForSearch());
+            return $this->searchInput($this->searchableFields, $this->getMinimumKeywordCharForSearch());
         });
+
+        Core::bind('sortInput', function () use($validateConfigFields) {
+            if (($sortableFields = $this->getSortableFields()) !== ['*']) {
+                $validateConfigFields($sortableFields);
+
+                $this->sortableFields = array_intersect($this->givenFields, $sortableFields);
+            }
+
+            return $this->sortInput($this->sortableFields);
+        });
+
+        // Core::bind('sort', fn () => static::sort($sortableFields));
+
 
         foreach (array_keys(Core::$components) as $key) {
             try {
@@ -106,8 +123,6 @@ trait ApiIgniter
         // Core::bind('filter', fn () => static::filter($filterableFields));
         // Core::bind('inFilter', fn () => static::inFilter($filterableFields));
         // Core::bind('betweenFilter', fn () => static::betweenFilter($filterableFields));
-        // Core::bind('searchFilter', fn () => static::searchFilter($searchableFields));
-        // Core::bind('sort', fn () => static::sort($sortableFields));
         // Core::bind('expand', fn () => static::expand($expandable));
 
         // foreach (array_keys(Core::$components) as $key) {
@@ -126,44 +141,44 @@ trait ApiIgniter
         // array|string $projectable = '*',
         array|string $filterableFields = '*',
         // array|string $searchableFields = '*',
-        array|string $sortableFields = '*',
+        // array|string $sortableFields = '*',
         array $expandable = [],
         bool $paginatable = false,
         bool $debuggable = false,
     ): mixed {
+        $builder->select(['id', 'email']);
+
         $this->preInit($expandable);
-        $this->init($builder, $filterableFields, $sortableFields, $expandable);
+        $this->init($builder, $filterableFields, $expandable);
 
         try {
-            if (! is_null($this->projectedFields)) {
-                $combinedFieldsResult = array_diff($this->givenFields, $this->projectableFields) + $this->projectedFields;
+            if (! is_null($this->fieldsInput)) {
+                $combinedFieldsResult = array_diff($this->givenFields, $this->projectableFields) + $this->fieldsInput;
 
                 ksort($combinedFieldsResult, SORT_NUMERIC);
 
                 $builder->select($combinedFieldsResult);
             }
 
-            if (! empty(self::$filter)) {
-                $builder->where(fn ($builderInner) => Query::filter($builderInner, self::$filter));
-            }
-
-            if (! empty(self::$inFilter)) {
-                $builder->where(fn ($builderInner) => Query::inFilter($builderInner, self::$inFilter));
-            }
-
-            if (! empty(self::$betweenFilter)) {
-                $builder->where(fn ($builderInner) => Query::betweenFilter($builderInner, self::$betweenFilter));
-            }
-
-            // if (! empty(self::$searchFilter)) {
-            //     $builder->where(fn ($builderInner) => Query::searchFilter($builderInner, self::$searchFilter));
+            // if (! empty(self::$filter)) {
+            //     $builder->where(fn ($builderInner) => Query::filter($builderInner, self::$filter));
             // }
 
-            if (! empty($this->searchedFields)) {
-                $builder->where(fn ($builderInner) => Query::searchFilter($builderInner, $this->searchedFields));
+            // if (! empty(self::$inFilter)) {
+            //     $builder->where(fn ($builderInner) => Query::inFilter($builderInner, self::$inFilter));
+            // }
+
+            // if (! empty(self::$betweenFilter)) {
+            //     $builder->where(fn ($builderInner) => Query::betweenFilter($builderInner, self::$betweenFilter));
+            // }
+
+            if (! is_null($this->searchInput)) {
+                $builder->where(fn ($builderInner) => Query::searchFilter($builderInner, $this->searchInput));
             }
 
-            Query::sort($builder, self::$sort);
+            if (! is_null($this->sortInput)) {
+                Query::sort($builder, $this->sortInput);
+            }
 
             foreach (self::$expand as $expand) {
                 $builder->with($expand['relation'], function ($builderInner) use ($expand) {

@@ -41,7 +41,7 @@ beforeEach(function () {
         }
     };
 
-    $this->method = new \ReflectionMethod($this->trait, 'projectedFields');
+    $this->method = new \ReflectionMethod($this->trait, 'fieldsInput');
     $this->method->setAccessible(true);
 });
 

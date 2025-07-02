@@ -8,7 +8,7 @@ use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 
 trait Projectable2
 {
-    private function projectedFields(array $projectableFields, $clientFieldsKey = 'fields', $clientExcludeFieldsKey = 'fields!')
+    private function fieldsInput(array $projectableFields, $clientFieldsKey = 'fields', $clientExcludeFieldsKey = 'fields!')
     {
         if (empty($projectableFields)) {
             return null;
@@ -35,8 +35,8 @@ trait Projectable2
 
         return match (true) {
             isset($include) && isset($exclude) => throw new ImproperUsedProjectionException($clientFieldsKey, $clientExcludeFieldsKey),
-            isset($include) => $includeFn($projectableFields, filter_explode($include ?? '')),
-            isset($exclude) => $excludeFn($projectableFields, filter_explode($exclude ?? '')),
+            isset($include) => $includeFn($projectableFields, filter_explode($include)),
+            isset($exclude) => $excludeFn($projectableFields, filter_explode($exclude)),
             default => null
         };
     }

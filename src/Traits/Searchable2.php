@@ -8,7 +8,7 @@ use RGalura\ApiIgniter\Exceptions\MinimumKeywordException;
 
 trait Searchable2
 {
-    private function searchedFields(array $searchableFields, int $minimum, string $clientKey = 'search')
+    private function searchInput(array $searchableFields, int $minimum, string $clientKey = 'search')
     {
         if (empty($searchableFields) || ! isset($_GET[$clientKey])) {
             return null;
