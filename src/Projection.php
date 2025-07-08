@@ -4,6 +4,7 @@ namespace Laradigs\Tweaker;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use function RGalura\ApiIgniter\assign_if;
 use function RGalura\ApiIgniter\filter_explode;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 use RGalura\ApiIgniter\Exceptions\ImproperUsedProjectionException;
@@ -22,7 +23,7 @@ class Projection
 
     private function throwIfInvalidFields(array $fields)
     {
-        if (! empty($diff = array_diff($fields, $this->model->columnListing()))) {
+        if (! empty($diff = array_diff($fields, $this->allFields()))) {
             throw new InvalidFieldsException($diff, 1);
         }
     }
@@ -58,6 +59,10 @@ class Projection
         $this->throwIfInvalidFields($projectableFields);
 
         if ($definedFields = ($this->model->getQuery()->columns ?? null)) {
+            if ($definedFields === ['*']) {
+                $definedFields = $this->allVisibleFields();
+            }
+
             $this->throwIfInvalidFields($definedFields);
         }
 
@@ -66,7 +71,7 @@ class Projection
         $includeFn = function (array $projectableFields, array $include) {
             return match (true) {
                 $include === ['*'] => $projectableFields,
-                ! empty($diff = array_diff($include, $projectableFields)) => throw new InvalidFieldsException(array_values($diff)),
+                // ! empty($diff = array_diff($include, $projectableFields)) => throw new InvalidFieldsException(array_values($diff)),
                 default => array_intersect($projectableFields, $include)
             };
         };
