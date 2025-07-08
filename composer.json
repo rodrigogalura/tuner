@@ -19,6 +19,9 @@
                 "src/",
                 "src/Traits/",
                 "src/Traits/Core/"
+            ],
+            "Laradigs\\Tweaker\\": [
+                "src/"
             ]
         },
         "files": [
@@ -68,7 +71,7 @@
         ],
         "test": [
             "@clear",
-            "@php vendor/bin/pest tests/Unit/Projectable2Test.php"
+            "@php vendor/bin/pest tests/Unit/ProjectionTest.php"
         ]
     }
 }
