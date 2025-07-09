@@ -71,7 +71,7 @@
         ],
         "test": [
             "@clear",
-            "@php vendor/bin/pest tests/Unit/ProjectionTest.php"
+            "@php vendor/bin/pest tests/Unit/Projection/ProjectionTest.php --profile"
         ]
     }
 }
