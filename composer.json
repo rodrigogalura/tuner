@@ -1,5 +1,5 @@
 {
-    "name": "rgalura/api-igniter",
+    "name": "laradigs/tweaker",
     "minimum-stability": "dev",
     "description": "A Laravel package to build smart APIs once — and let clients do the rest.",
     "type": "library",
@@ -71,7 +71,7 @@
         ],
         "test": [
             "@clear",
-            "@php vendor/bin/pest tests/Unit/Projection/ProjectionTest.php --profile"
+            "@php vendor/bin/pest tests/Feature/ProjectionTest.php --profile"
         ]
     }
 }

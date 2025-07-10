@@ -21,9 +21,19 @@ trait CanTweak
         Builder $builder,
     )
     {
-        $projection = new Projection($this, $_GET);
-        $projection->setSelectFields($this->getProjectableFields());
+        $projection = new Projection(
+            model: $this,
+            projectableFields: $this->getProjectableFields(),
+            definedFields: $builder->getQuery()->columns ?? ['*'],
+            clientInput: $_GET,
+        );
 
-        dd($projection->getSelectFields());
+        if (!empty($projectedFields = $projection->handle()?->getProjectedFields())) {
+            $builder->select($projectedFields);
+        }
+
+        return $builder->get();
+
+        // dd('not perform');
     }
 }

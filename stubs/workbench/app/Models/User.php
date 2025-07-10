@@ -3,21 +3,23 @@
 namespace Workbench\App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laradigs\Tweaker\CanTweak;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use RGalura\ApiIgniter\ApiIgniter;
-use RGalura\ApiIgniter\BetweenFilterable;
-use RGalura\ApiIgniter\Expandable;
-use RGalura\ApiIgniter\Filterable;
-use RGalura\ApiIgniter\InFilterable;
-use RGalura\ApiIgniter\Projectable;
-use RGalura\ApiIgniter\Searchable;
-use RGalura\ApiIgniter\Sortable;
+// use RGalura\ApiIgniter\ApiIgniter;
+// use RGalura\ApiIgniter\BetweenFilterable;
+// use RGalura\ApiIgniter\Expandable;
+// use RGalura\ApiIgniter\Filterable;
+// use RGalura\ApiIgniter\InFilterable;
+// use RGalura\ApiIgniter\Projectable;
+// use RGalura\ApiIgniter\Searchable;
+// use RGalura\ApiIgniter\Sortable;
 
 class User extends Authenticatable
 {
-    use ApiIgniter, BetweenFilterable, Expandable, Filterable, InFilterable, Projectable, Searchable, Sortable;
+    // use ApiIgniter, BetweenFilterable, Expandable, Filterable, InFilterable, Projectable, Searchable, Sortable;
+    use CanTweak;
     use HasFactory, Notifiable;
 
     /**

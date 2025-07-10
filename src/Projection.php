@@ -3,111 +3,107 @@
 namespace Laradigs\Tweaker;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use function RGalura\ApiIgniter\assign_if;
 use function RGalura\ApiIgniter\filter_explode;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
-use RGalura\ApiIgniter\Exceptions\ImproperUsedProjectionException;
 
 class Projection
 {
-    private readonly array $selectFields;
+    private readonly array $projectedFields;
+
+    private string $clientInputKey = 'fields';
+    private string $clientInputNotKey = 'fields!';
 
     public function __construct(
         private Model $model,
-        private readonly array $projectableFields,
-        private readonly array $definedFields,
-        private readonly array $clientInput
+        private array $projectableFields,
+        private array $definedFields,
+        private array $clientInput,
     )
     {
         //
     }
 
-    private function columnListing()
+    public function setClientInputFieldsKey($key)
     {
-        return $this->model->getConnection()->getSchemaBuilder()->getColumnListing($this->model->getTable());
+        $this->clientInputKey = $key;
     }
 
-    private function allVisibleFields()
+    public function setClientInputFieldsNotKey($key)
     {
-        return array_diff(
-            $this->columnListing(),
-            $this->model->getHidden()
-        );
+        $this->clientInputNotKey = $key;
     }
 
     private function convertToValuesIfAsterisk(&$var)
     {
         if ($var === ['*']) {
-            $var = $this->allVisibleFields();
+            $var = $this->visibleFields();
         }
+    }
+
+    public function visibleFields()
+    {
+        return $this->model->getConnection()->getSchemaBuilder()->getColumnListing($this->model->getTable());
     }
 
     private function throwIfInvalidFields(array $fields)
     {
-        dd($this->columnListing());
-        if (! empty($diff = array_diff($fields, $this->columnListing()))) {
+        if (! empty($diff = array_diff($fields, $this->visibleFields()))) {
             throw new InvalidFieldsException($diff, 1);
         }
     }
 
     /**
+     * Execute the projection logic
+     *
      * @throws \RGalura\ApiIgniter\Exceptions\InvalidFieldsException
-     * @return $this|null
+     * @return void
      */
-    public function setSelectFields($includeFieldsKey = 'fields', $excludeFieldsKey = 'fields!')
+    public function handle()
     {
         if (empty($this->projectableFields)) {
             return;
         }
 
-        $projectable = $this->projectableFields;
-        $definedFields = $this->definedFields;
+        $include = $this->clientInput[$this->clientInputKey] ?? null;
+        $exclude = $this->clientInput[$this->clientInputNotKey] ?? null;
 
-        // $builder->getQuery()->columns
+        if (isset($include, $exclude)) {
+            return;
+        }
 
-        $this->convertToValuesIfAsterisk($projectable);
-        $this->throwIfInvalidFields($projectable);
-        die;
+        $this->convertToValuesIfAsterisk($this->projectableFields);
+        $this->throwIfInvalidFields($this->projectableFields);
 
-        // if ($definedFields = ($this->model->getQuery()->columns ?? null)) {
-            $this->convertToValuesIfAsterisk($definedFields);
-            $this->throwIfInvalidFields($definedFields);
-        // }
+        $this->convertToValuesIfAsterisk($this->definedFields);
+        $this->throwIfInvalidFields($this->definedFields);
 
-        $projectable = array_intersect($projectable, $definedFields);
+        if (empty($this->projectableFields = array_values(array_intersect($this->projectableFields, $this->definedFields)))) {
+            return;
+        }
 
-        $includeFn = function (array $include) use ($projectable) {
-            return match (true) {
-                $include === ['*'] => $projectable,
-                // ! empty($diff = array_diff($include, $projectable)) => throw new InvalidFieldsException(array_values($diff)),
-                default => array_intersect($projectable, $include)
-            };
+        $includeFn = function (array $include) {
+            return $include === ['*']
+                ? $this->projectableFields
+                : array_values(array_intersect($this->projectableFields, $include));
         };
 
-        // $excludeFn = function (array $projectable, array $exclude) {
-        //     return match (true) {
-        //         $exclude === ['*'] => throw new ExcludeFieldsException($exclude),
-        //         ! empty($diff = array_diff($exclude, $projectable)) => throw new InvalidFieldsException(array_values($diff)),
-        //         default => array_diff($projectable, $exclude)
-        //     };
-        // };
+        $excludeFn = function (array $exclude) {
+            return $exclude === ['*']
+                ? []
+                : array_values(array_diff($this->projectableFields, $exclude));
+        };
 
-        $include = $this->clientInput[$includeFieldsKey] ?? null;
-        $exclude = $this->clientInput[$excludeFieldsKey] ?? null;
-
-        $this->selectFields = match (true) {
-            isset($include) && isset($exclude) => throw new ImproperUsedProjectionException($includeFieldsKey, $excludeFieldsKey),
+        $this->projectedFields = match (true) {
             isset($include) => $includeFn(filter_explode($include)),
-            // isset($exclude) => $excludeFn($projectable, filter_explode($exclude)),
+            isset($exclude) => $excludeFn(filter_explode($exclude)),
             default => null
         };
 
         return $this;
     }
 
-    public function getSelectFields()
+    public function getProjectedFields()
     {
-        return $this->selectFields;
+        return $this->projectedFields;
     }
 }

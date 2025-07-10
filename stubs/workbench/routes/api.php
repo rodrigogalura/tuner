@@ -5,10 +5,7 @@ use Workbench\App\Models\Phone;
 use Workbench\App\Models\User;
 
 Route::get('/api/users', function () {
-    return User::send(
-        debuggable: true,
-        paginatable: true,
-    );
+    return User::send();
 });
 
 Route::get('/api/phones', function () {
