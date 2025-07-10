@@ -2,11 +2,12 @@
 
 namespace Laradigs\Tweaker;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use function RGalura\ApiIgniter\filter_explode;
-use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
+use Illuminate\Database\Eloquent\Model;
 use RGalura\ApiIgniter\Exceptions\ImproperUsedProjectionException;
+use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
+
+use function RGalura\ApiIgniter\filter_explode;
 
 class QueryBuilder
 {
@@ -16,8 +17,7 @@ class QueryBuilder
         // private Builder $builder,
         private Model $model,
         private array $clientInput
-    )
-    {
+    ) {
         //
     }
 
@@ -52,9 +52,9 @@ class QueryBuilder
     }
 
     /**
-     * @param  $projectableFields
-     * @throws \RGalura\ApiIgniter\Exceptions\InvalidFieldsException
      * @return $this
+     *
+     * @throws \RGalura\ApiIgniter\Exceptions\InvalidFieldsException
      */
     public function setSelectFields(?array $projectableFields, $includeFieldsKey = 'fields', $excludeFieldsKey = 'fields!')
     {
@@ -109,7 +109,7 @@ class QueryBuilder
 
         //     // $this->builder->select($this->selectFields);
         //     // die;
-            
+
         // }
 
         return $this;

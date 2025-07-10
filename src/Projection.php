@@ -3,19 +3,23 @@
 namespace Laradigs\Tweaker;
 
 use Exception;
-use Throwable;
 use Illuminate\Database\Eloquent\Model;
-use function RGalura\ApiIgniter\filter_explode;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 use RGalura\ApiIgniter\Exceptions\NoDefinedFieldException;
+use Throwable;
+
+use function RGalura\ApiIgniter\filter_explode;
 
 class Projection
 {
     private readonly array $projectedFields;
 
     private string $clientInputKey = 'fields';
+
     private string $clientInputNotKey = 'fields!';
+
     private ?string $include;
+
     private ?string $exclude;
 
     const NO_ACTION_WILL_PERFORM_CODE = -1;
@@ -25,8 +29,7 @@ class Projection
         private array $projectableFields,
         private array $definedFields,
         private array $clientInput,
-    )
-    {
+    ) {
         $this->include = $this->clientInput[$this->clientInputKey] ?? null;
         $this->exclude = $this->clientInput[$this->clientInputNotKey] ?? null;
     }
@@ -62,13 +65,19 @@ class Projection
 
     private function validate()
     {
-        if (!(isset($this->include) xor isset($this->exclude)) || $this->exclude === '*') {
-            // return;
+        if (! (isset($this->include) xor isset($this->exclude))) {
+            throw new Exception(code: static::NO_ACTION_WILL_PERFORM_CODE);
+        }
+
+        if ($this->include === '') {
+            throw new Exception(code: static::NO_ACTION_WILL_PERFORM_CODE);
+        }
+
+        if ($this->exclude === '*') {
             throw new Exception(code: static::NO_ACTION_WILL_PERFORM_CODE);
         }
 
         if (empty($this->projectableFields)) {
-            // return;
             throw new Exception(code: static::NO_ACTION_WILL_PERFORM_CODE);
         }
 
@@ -83,7 +92,6 @@ class Projection
         $this->throwIfInvalidFields($this->definedFields);
 
         if (empty($this->projectableFields = array_values(array_intersect($this->projectableFields, $this->definedFields)))) {
-            // return;
             throw new Exception(code: static::NO_ACTION_WILL_PERFORM_CODE);
         }
     }
@@ -91,9 +99,10 @@ class Projection
     /**
      * Execute the projection logic
      *
+     * @return $this|null
+     *
      * @throws \RGalura\ApiIgniter\Exceptions\InvalidFieldsException
      * @throws \RGalura\ApiIgniter\Exceptions\NoDefinedFieldException
-     * @return $this|null
      */
     public function handle()
     {
@@ -101,6 +110,7 @@ class Projection
             $this->validate();
         } catch (Throwable $e) {
             throw_if($e->getCode() !== static::NO_ACTION_WILL_PERFORM_CODE, $e);
+
             return;
         }
 

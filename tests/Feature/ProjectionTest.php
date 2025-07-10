@@ -21,21 +21,24 @@ test('client input fields', function ($clientInputFields, $expectedExactJsonStru
 })
     ->with([
         [
-            'clientInputFields' => '*',        'expectedExactJsonStructure' => ['*' => ['id', 'name']]
+            'clientInputFields' => '*',        'expectedExactJsonStructure' => ['*' => ['id', 'name']],
         ],
         [
-            'clientInputFields' => 'id',       'expectedExactJsonStructure' => ['*' => ['id']]
+            'clientInputFields' => 'id',       'expectedExactJsonStructure' => ['*' => ['id']],
         ],
         [
-            'clientInputFields' => 'name',     'expectedExactJsonStructure' => ['*' => ['name']]
+            'clientInputFields' => 'name',     'expectedExactJsonStructure' => ['*' => ['name']],
         ],
         [
-            'clientInputFields' => 'id,name',  'expectedExactJsonStructure' => ['*' => ['id', 'name']]
+            'clientInputFields' => 'id,name',  'expectedExactJsonStructure' => ['*' => ['id', 'name']],
         ],
         [
-            'clientInputFields' => 'id, name', 'expectedExactJsonStructure' => ['*' => ['id', 'name']]
+            'clientInputFields' => 'id, name', 'expectedExactJsonStructure' => ['*' => ['id', 'name']],
         ],
-    ]);
+        [
+            'clientInputFields' => '', 'expectedExactJsonStructure' => [],
+        ],
+    ])->only();
 
 test('client input fields!', function ($clientInputFieldsNot, $expectedExactJsonStructure) {
     // Prepare
@@ -48,7 +51,7 @@ test('client input fields!', function ($clientInputFieldsNot, $expectedExactJson
 })
     ->with([
         [
-            'clientInputFieldsNot' => '*',        'expectedExactJsonStructure' => []
+            'clientInputFieldsNot' => '*',        'expectedExactJsonStructure' => [],
         ],
         // [
         //     'clientInputFieldsNot' => 'id',       'expectedExactJsonStructure' => ['*' => ['id']]
@@ -62,4 +65,4 @@ test('client input fields!', function ($clientInputFieldsNot, $expectedExactJson
         // [
         //     'clientInputFieldsNot' => 'id, name', 'expectedExactJsonStructure' => ['*' => ['id', 'name']]
         // ],
-    ])->only();
+    ]);

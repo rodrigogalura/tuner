@@ -1,6 +1,5 @@
 <?php
 
-use function RGalura\ApiIgniter\assign_if;
 use function RGalura\ApiIgniter\filter_explode;
 
 test('filter_explode', function (string $input, string $delimiter, array $expect) {

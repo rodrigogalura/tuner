@@ -104,9 +104,7 @@ dataset('truth-table', [
     'clientInput' => '',
     'expectedResult' =>
     [
-      'fields' =>
-      [
-      ],
+      'fields' => NULL,
       'fields!' =>
       [
         0 => 'id',
@@ -213,9 +211,7 @@ dataset('truth-table', [
     'clientInput' => '',
     'expectedResult' =>
     [
-      'fields' =>
-      [
-      ],
+      'fields' => NULL,
       'fields!' =>
       [
         0 => 'id',
@@ -321,9 +317,7 @@ dataset('truth-table', [
     'clientInput' => '',
     'expectedResult' =>
     [
-      'fields' =>
-      [
-      ],
+      'fields' => NULL,
       'fields!' =>
       [
         0 => 'name',
@@ -438,9 +432,7 @@ dataset('truth-table', [
     'clientInput' => '',
     'expectedResult' =>
     [
-      'fields' =>
-      [
-      ],
+      'fields' => NULL,
       'fields!' =>
       [
         0 => 'id',
@@ -627,9 +619,7 @@ dataset('truth-table', [
     'clientInput' => '',
     'expectedResult' =>
     [
-      'fields' =>
-      [
-      ],
+      'fields' => NULL,
       'fields!' =>
       [
         0 => 'id',
@@ -735,9 +725,7 @@ dataset('truth-table', [
     'clientInput' => '',
     'expectedResult' =>
     [
-      'fields' =>
-      [
-      ],
+      'fields' => NULL,
       'fields!' =>
       [
         0 => 'id',
@@ -933,9 +921,7 @@ dataset('truth-table', [
     'clientInput' => '',
     'expectedResult' =>
     [
-      'fields' =>
-      [
-      ],
+      'fields' => NULL,
       'fields!' =>
       [
         0 => 'id',
@@ -1121,9 +1107,7 @@ dataset('truth-table', [
     'clientInput' => '',
     'expectedResult' =>
     [
-      'fields' =>
-      [
-      ],
+      'fields' => NULL,
       'fields!' =>
       [
         0 => 'name',
@@ -1314,9 +1298,7 @@ dataset('truth-table', [
     'clientInput' => '',
     'expectedResult' =>
     [
-      'fields' =>
-      [
-      ],
+      'fields' => NULL,
       'fields!' =>
       [
         0 => 'name',
@@ -1427,9 +1409,7 @@ dataset('truth-table', [
     'clientInput' => '',
     'expectedResult' =>
     [
-      'fields' =>
-      [
-      ],
+      'fields' => NULL,
       'fields!' =>
       [
         0 => 'name',
@@ -1624,9 +1604,7 @@ dataset('truth-table', [
     'clientInput' => '',
     'expectedResult' =>
     [
-      'fields' =>
-      [
-      ],
+      'fields' => NULL,
       'fields!' =>
       [
         0 => 'id',
@@ -1738,9 +1716,7 @@ dataset('truth-table', [
     'clientInput' => '',
     'expectedResult' =>
     [
-      'fields' =>
-      [
-      ],
+      'fields' => NULL,
       'fields!' =>
       [
         0 => 'id',
@@ -1851,9 +1827,7 @@ dataset('truth-table', [
     'clientInput' => '',
     'expectedResult' =>
     [
-      'fields' =>
-      [
-      ],
+      'fields' => NULL,
       'fields!' =>
       [
         0 => 'name',
@@ -1973,9 +1947,7 @@ dataset('truth-table', [
     'clientInput' => '',
     'expectedResult' =>
     [
-      'fields' =>
-      [
-      ],
+      'fields' => NULL,
       'fields!' =>
       [
         0 => 'id',

@@ -2,8 +2,8 @@
 
 namespace Workbench\App\Models;
 
-use Laradigs\Tweaker\CanTweak;
 use Illuminate\Database\Eloquent\Model;
+use Laradigs\Tweaker\CanTweak;
 
 class Post extends Model
 {

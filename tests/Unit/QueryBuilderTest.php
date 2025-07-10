@@ -1,34 +1,34 @@
 <?php
 
-use Laradigs\Tweaker\CanTweak;
+use Illuminate\Database\Eloquent\Builder;
 // use Laradigs\Tweaker\QueryBuilder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
+use Laradigs\Tweaker\CanTweak;
 
 // it('example', function () {
-    // Prepare
-    // $builder = Mockery::mock(Builder::class)->makePartial();
-    // $builder->shouldReceive('get')->andReturn(['id', 'name']);
-    // $builder->columns = ['id', 'name'];
+// Prepare
+// $builder = Mockery::mock(Builder::class)->makePartial();
+// $builder->shouldReceive('get')->andReturn(['id', 'name']);
+// $builder->columns = ['id', 'name'];
 
-    // $model = Mockery::mock(Model::class);
+// $model = Mockery::mock(Model::class);
 
-    // $model->shouldReceive('columnListing')
-    //     ->andReturn(['id', 'name', 'turon']);
+// $model->shouldReceive('columnListing')
+//     ->andReturn(['id', 'name', 'turon']);
 
-    // $columnObject = new \stdClass;
-    // $columnObject->columns = ['id', 'name', 'turon'];
+// $columnObject = new \stdClass;
+// $columnObject->columns = ['id', 'name', 'turon'];
 
-    // $model->shouldReceive('getQuery')
-    //     ->andReturn($columnObject);
+// $model->shouldReceive('getQuery')
+//     ->andReturn($columnObject);
 
-    // $queryBuilder = new QueryBuilder($model, ['fields' => '*']);
+// $queryBuilder = new QueryBuilder($model, ['fields' => '*']);
 
-    // // Act
-    // $queryBuilder->setSelectFields(['id', 'name']);
+// // Act
+// $queryBuilder->setSelectFields(['id', 'name']);
 
-    // // Assert
-    // expect($queryBuilder->getSelectFields())->toBe(['id', 'name']);
+// // Assert
+// expect($queryBuilder->getSelectFields())->toBe(['id', 'name']);
 // });
 
 /* Usage:
@@ -51,12 +51,13 @@ Route::get('/users', function() {
 
  */
 
-beforeEach(function() {
+beforeEach(function () {
     Mockery::globalHelpers();
 });
 
 it('should throw an exception if one of projectable fields is invalid', function () {
-    $model = new class {
+    $model = new class
+    {
         use CanTweak;
 
         public function getProjectableFields()

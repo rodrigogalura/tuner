@@ -9,7 +9,7 @@ class ImproperUsedProjectionException extends \Exception
      *
      * @param  array|string  $fields
      */
-    public function __construct($clientFieldsKey='fields', $clientFieldsNotKey='fields!', $strict=0)
+    public function __construct($clientFieldsKey = 'fields', $clientFieldsNotKey = 'fields!', $strict = 0)
     {
         parent::__construct("Improper used of projection. Cannot used both parameters '{$clientFieldsKey}' and '{$clientFieldsNotKey}' at the same time.", $strict);
     }

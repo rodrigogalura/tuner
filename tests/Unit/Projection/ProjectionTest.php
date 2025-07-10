@@ -1,11 +1,11 @@
 <?php
 
-use Laradigs\Tweaker\Projection;
 use Illuminate\Database\Eloquent\Model;
+use Laradigs\Tweaker\Projection;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 use RGalura\ApiIgniter\Exceptions\NoDefinedFieldException;
 
-beforeEach(function() {
+beforeEach(function () {
     Mockery::globalHelpers();
 
     $table = 'users';
@@ -17,11 +17,10 @@ beforeEach(function() {
         ->andReturn($table)
         ->shouldReceive('getConnection->getSchemaBuilder->getColumnListing')
         ->with(Mockery::type('string'))
-        ->andReturn($this->visibleFields)
-        ;
+        ->andReturn($this->visibleFields);
 });
 
-afterEach(function() {
+afterEach(function () {
     Mockery::close();
 });
 
@@ -156,5 +155,5 @@ describe('Valid scenarios', function () {
         expect($projection->handle()?->getProjectedFields())->toBe($expectedResult['fields']);
         expect($projection2->handle()?->getProjectedFields())->toBe($expectedResult['fields!']);
     })
-    ->with('truth-table');
+        ->with('truth-table');
 });

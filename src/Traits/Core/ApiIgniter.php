@@ -2,13 +2,13 @@
 
 namespace RGalura\ApiIgniter;
 
-use Schema;
-use Illuminate\Support\Str;
-use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
-use RGalura\ApiIgniter\Services\QueryBuilder as Query;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Str;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 use RGalura\ApiIgniter\Services\ComponentResolver as Core;
+use RGalura\ApiIgniter\Services\QueryBuilder as Query;
+use Schema;
 
 trait ApiIgniter
 {
@@ -74,7 +74,7 @@ trait ApiIgniter
             }
         };
 
-        Core::bind('fieldsInput', function () use($validateConfigFields) {
+        Core::bind('fieldsInput', function () use ($validateConfigFields) {
             if (($projectableFields = $this->getProjectableFields()) !== ['*']) {
                 $validateConfigFields($projectableFields);
 
@@ -84,7 +84,7 @@ trait ApiIgniter
             return $this->fieldsInput($this->projectableFields);
         });
 
-        Core::bind('searchInput', function () use($validateConfigFields) {
+        Core::bind('searchInput', function () use ($validateConfigFields) {
             if (($searchableFields = $this->getSearchableFields()) !== ['*']) {
                 $validateConfigFields($searchableFields);
 
@@ -94,7 +94,7 @@ trait ApiIgniter
             return $this->searchInput($this->searchableFields, $this->getMinimumKeywordCharForSearch());
         });
 
-        Core::bind('sortInput', function () use($validateConfigFields) {
+        Core::bind('sortInput', function () use ($validateConfigFields) {
             if (($sortableFields = $this->getSortableFields()) !== ['*']) {
                 $validateConfigFields($sortableFields);
 
@@ -105,7 +105,6 @@ trait ApiIgniter
         });
 
         // Core::bind('sort', fn () => static::sort($sortableFields));
-
 
         foreach (array_keys(Core::$components) as $key) {
             try {
