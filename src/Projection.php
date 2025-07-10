@@ -2,9 +2,12 @@
 
 namespace Laradigs\Tweaker;
 
+use Exception;
+use Throwable;
 use Illuminate\Database\Eloquent\Model;
 use function RGalura\ApiIgniter\filter_explode;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
+use RGalura\ApiIgniter\Exceptions\NoDefinedFieldException;
 
 class Projection
 {
@@ -12,6 +15,10 @@ class Projection
 
     private string $clientInputKey = 'fields';
     private string $clientInputNotKey = 'fields!';
+    private ?string $include;
+    private ?string $exclude;
+
+    const NO_ACTION_WILL_PERFORM_CODE = -1;
 
     public function __construct(
         private Model $model,
@@ -20,7 +27,8 @@ class Projection
         private array $clientInput,
     )
     {
-        //
+        $this->include = $this->clientInput[$this->clientInputKey] ?? null;
+        $this->exclude = $this->clientInput[$this->clientInputNotKey] ?? null;
     }
 
     public function setClientInputFieldsKey($key)
@@ -52,51 +60,63 @@ class Projection
         }
     }
 
-    /**
-     * Execute the projection logic
-     *
-     * @throws \RGalura\ApiIgniter\Exceptions\InvalidFieldsException
-     * @return void
-     */
-    public function handle()
+    private function validate()
     {
-        if (empty($this->projectableFields)) {
-            return;
+        if (!(isset($this->include) xor isset($this->exclude)) || $this->exclude === '*') {
+            // return;
+            throw new Exception(code: static::NO_ACTION_WILL_PERFORM_CODE);
         }
 
-        $include = $this->clientInput[$this->clientInputKey] ?? null;
-        $exclude = $this->clientInput[$this->clientInputNotKey] ?? null;
-
-        if (isset($include, $exclude)) {
-            return;
+        if (empty($this->projectableFields)) {
+            // return;
+            throw new Exception(code: static::NO_ACTION_WILL_PERFORM_CODE);
         }
 
         $this->convertToValuesIfAsterisk($this->projectableFields);
         $this->throwIfInvalidFields($this->projectableFields);
 
+        if (empty($this->definedFields)) {
+            throw new NoDefinedFieldException;
+        }
+
         $this->convertToValuesIfAsterisk($this->definedFields);
         $this->throwIfInvalidFields($this->definedFields);
 
         if (empty($this->projectableFields = array_values(array_intersect($this->projectableFields, $this->definedFields)))) {
+            // return;
+            throw new Exception(code: static::NO_ACTION_WILL_PERFORM_CODE);
+        }
+    }
+
+    /**
+     * Execute the projection logic
+     *
+     * @throws \RGalura\ApiIgniter\Exceptions\InvalidFieldsException
+     * @throws \RGalura\ApiIgniter\Exceptions\NoDefinedFieldException
+     * @return $this|null
+     */
+    public function handle()
+    {
+        try {
+            $this->validate();
+        } catch (Throwable $e) {
+            throw_if($e->getCode() !== static::NO_ACTION_WILL_PERFORM_CODE, $e);
             return;
         }
 
-        $includeFn = function (array $include) {
-            return $include === ['*']
+        $includeFn = function (array $includeArr) {
+            return $includeArr === ['*']
                 ? $this->projectableFields
-                : array_values(array_intersect($this->projectableFields, $include));
+                : array_values(array_intersect($this->projectableFields, $includeArr));
         };
 
-        $excludeFn = function (array $exclude) {
-            return $exclude === ['*']
-                ? []
-                : array_values(array_diff($this->projectableFields, $exclude));
+        $excludeFn = function (array $excludeArr) {
+            return array_values(array_diff($this->projectableFields, $excludeArr));
         };
 
         $this->projectedFields = match (true) {
-            isset($include) => $includeFn(filter_explode($include)),
-            isset($exclude) => $excludeFn(filter_explode($exclude)),
-            default => null
+            isset($this->include) => $includeFn(filter_explode($this->include)),
+            isset($this->exclude) => $excludeFn(filter_explode($this->exclude)),
         };
 
         return $this;

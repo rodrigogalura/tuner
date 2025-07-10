@@ -22,3 +22,5 @@
 /phpunit.xml export-ignore
 /setup-development.php export-ignore
 /stubs export-ignore
+/truth-table-export-script.php export-ignore
+/truth-table.csv export-ignore

@@ -72,6 +72,10 @@
         "test": [
             "@clear",
             "@php vendor/bin/pest tests/Feature/ProjectionTest.php --profile"
+        ],
+        "unitTest": [
+            "@clear",
+            "@php vendor/bin/pest tests/Unit/Projection/ProjectionTest.php --profile"
         ]
     }
 }

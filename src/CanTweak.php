@@ -2,8 +2,6 @@
 
 namespace Laradigs\Tweaker;
 
-use Laradigs\Tweaker\Projectable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 trait CanTweak
@@ -14,13 +12,11 @@ trait CanTweak
     }
 
     /**
-     * @param  \Illuminate\Database\Eloquent\Builder  $builder
      * @return void
      */
     public function scopeSend(
         Builder $builder,
-    )
-    {
+    ) {
         $projection = new Projection(
             model: $this,
             projectableFields: $this->getProjectableFields(),
@@ -28,12 +24,10 @@ trait CanTweak
             clientInput: $_GET,
         );
 
-        if (!empty($projectedFields = $projection->handle()?->getProjectedFields())) {
+        if (! is_null($projectedFields = $projection->handle()?->getProjectedFields())) {
             $builder->select($projectedFields);
         }
 
         return $builder->get();
-
-        // dd('not perform');
     }
 }
