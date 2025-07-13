@@ -35,7 +35,7 @@ class ProjectionFieldNot extends Projection
         } catch (Throwable $e) {
             throw_if($e->getCode() !== static::NO_ACTION_WILL_PERFORM_CODE, $e);
 
-            return;
+            return $this->definedFields; // default
         }
     }
 }

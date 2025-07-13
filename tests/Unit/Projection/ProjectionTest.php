@@ -29,43 +29,47 @@ afterEach(function () {
     Mockery::close();
 });
 
-describe('Not perform any action', function () {
+describe('Not perform any action. Just return defined value as default.', function () {
     it('should not perform any action if the client input "fields!" is "*"', function () {
+        // Prepare
+        $DEFINE_FIELDS = ['*'];
         $projection = new ProjectionFieldNot(
             $this->model,
             projectableFields: $this->visibleFields,
-            definedFields: ['*'],
+            definedFields: $DEFINE_FIELDS,
             clientInput: ['*'],
         );
 
         // Act & Assert
-        expect($projection->project())->toBeNull();
+        expect($projection->project())->toBe($DEFINE_FIELDS)->dump();
     });
 
     it('should not perform any action if the projectable field\'s value is empty', function () {
         // Prepare
+        $DEFINE_FIELDS = ['*'];
         $projection = new ProjectionField(
             $this->model,
             projectableFields: [],
-            definedFields: ['*'],
+            definedFields: $DEFINE_FIELDS,
             clientInput: [],
         );
 
         // Act & Assert
-        expect($projection->project())->toBeNull();
+        expect($projection->project())->toBe($DEFINE_FIELDS);
     });
 
     it('should not perform any action if the projectable fields and defined fields are not intersect', function () {
         // Prepare
+        $DEFINE_FIELDS = [$this->visibleFields[1]];
         $projection = new ProjectionField(
             $this->model,
             projectableFields: [$this->visibleFields[0]],
-            definedFields: [$this->visibleFields[1]],
+            definedFields: $DEFINE_FIELDS,
             clientInput: [],
         );
 
         // Act & Assert
-        expect($projection->project())->toBeNull();
+        expect($projection->project())->toBe($DEFINE_FIELDS);
     });
 });
 
