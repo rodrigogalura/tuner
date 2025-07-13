@@ -6,6 +6,8 @@ use Laradigs\Tweaker\Projection\ProjectionFieldNot;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 use RGalura\ApiIgniter\Exceptions\NoDefinedFieldException;
 
+use function RGalura\ApiIgniter\filter_explode;
+
 beforeEach(function () {
     Mockery::globalHelpers();
 
@@ -28,49 +30,7 @@ afterEach(function () {
 });
 
 describe('Not perform any action', function () {
-    // it('should not perform any action if neither "fields" nor "fields!" is used', function () {
-    //     // Prepare
-    //     $projection = new ProjectionField(
-    //         $this->model,
-    //         projectableFields: $this->visibleFields,
-    //         definedFields: ['*'],
-    //         clientInput: [],
-    //     );
-    //     $projection = new ProjectionFieldNot(
-    //         $this->model,
-    //         projectableFields: $this->visibleFields,
-    //         definedFields: ['*'],
-    //         clientInput: [],
-    //     );
-
-    //     // Act & Assert
-    //     expect($projection->project())->toBeNull();
-    // })->only();
-
-    // it('should not perform any action if both "fields" and "fields!" are used', function () {
-    //     // Prepare
-    //     $projection = new ProjectionField(
-    //         $this->model,
-    //         projectableFields: $this->visibleFields,
-    //         definedFields: ['*'],
-    //         clientInput: ['fields' => '*', 'fields!' => '*'],
-    //     );
-
-    //     // Act & Assert
-    //     expect($projection->project())->toBeNull();
-    // });
-
     it('should not perform any action if the client input "fields!" is "*"', function () {
-        // // Prepare
-        // $projection = new ProjectionField(
-        //     $this->model,
-        //     projectableFields: $this->visibleFields,
-        //     definedFields: ['*'],
-        //     clientInput: ['fields!' => '*'],
-        // );
-
-        // // Act & Assert
-        // expect($projection->project())->toBeNull();
         $projection = new ProjectionFieldNot(
             $this->model,
             projectableFields: $this->visibleFields,
@@ -107,7 +67,7 @@ describe('Not perform any action', function () {
         // Act & Assert
         expect($projection->project())->toBeNull();
     });
-})->only();
+});
 
 describe('Throw an exception', function () {
     it('should throw an exception if one of projectable fields is invalid', function () {
@@ -117,7 +77,7 @@ describe('Throw an exception', function () {
             $this->model,
             projectableFields: $notInVisibleFields,
             definedFields: [],
-            clientInput: ['fields' => implode(',', $this->visibleFields)],
+            clientInput: $this->visibleFields,
         );
 
         // Act & Assert
@@ -130,7 +90,7 @@ describe('Throw an exception', function () {
             $this->model,
             projectableFields: ['id'],
             definedFields: [],
-            clientInput: ['fields' => implode(',', $this->visibleFields)],
+            clientInput: $this->visibleFields,
         );
 
         // Act & Assert
@@ -144,7 +104,7 @@ describe('Throw an exception', function () {
             $this->model,
             projectableFields: ['id'],
             definedFields: $notInVisibleFields,
-            clientInput: ['fields' => implode(',', $this->visibleFields)],
+            clientInput: $this->visibleFields,
         );
 
         // Act & Assert
@@ -153,25 +113,31 @@ describe('Throw an exception', function () {
 });
 
 describe('Valid scenarios', function () {
-    it('should passed all valid scenarios', function ($projectableFields, $definedFields, $clientInput, $expectedResult) {
+    it('should passed all valid scenarios for client input "fields"', function ($projectableFields, $definedFields, $clientInput, $expectedResult) {
         // Prepare
         $projection = new ProjectionField(
             $this->model,
             $projectableFields,
             $definedFields,
-            ['fields' => $clientInput],
-        );
-
-        $projection2 = new ProjectionField(
-            $this->model,
-            $projectableFields,
-            $definedFields,
-            ['fields!' => $clientInput],
+            filter_explode($clientInput)
         );
 
         // Act & Assert
-        expect($projection->project()?->getProjectedFields())->toBe($expectedResult['fields']);
-        expect($projection2->handle()?->getProjectedFields())->toBe($expectedResult['fields!']);
+        expect($projection->project())->toBe($expectedResult);
     })
-        ->with('truth-table');
+        ->with('fields-truth-table');
+
+    it('should passed all valid scenarios for client input "fields!"', function ($projectableFields, $definedFields, $clientInput, $expectedResult) {
+        // Prepare
+        $projection = new ProjectionFieldNot(
+            $this->model,
+            $projectableFields,
+            $definedFields,
+            filter_explode($clientInput)
+        );
+
+        // Act & Assert
+        expect($projection->project())->toBe($expectedResult);
+    })
+        ->with('fields-not-truth-table');
 });

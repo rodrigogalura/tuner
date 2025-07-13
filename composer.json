@@ -71,11 +71,11 @@
         ],
         "test": [
             "@clear",
-            "@php vendor/bin/pest tests/Feature/ProjectionTest.php --profile"
+            "@php vendor/bin/pest tests/Feature/ProjectionTest.php --profile --bail"
         ],
         "unitTest": [
             "@clear",
-            "@php vendor/bin/pest tests/Unit/Projection/ProjectionTest.php --profile"
+            "@php vendor/bin/pest tests/Unit/Projection/ProjectionTest.php --profile --bail"
         ]
     }
 }

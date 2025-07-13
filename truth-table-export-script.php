@@ -23,15 +23,25 @@ function csv_to_array($csvPath, $delimiter = ',', $enclosure = '"', $escape = '\
                     }
                 }
 
-                $data[] = [
-                    'projectableFields' => explode_sanitized($row[0]),
-                    'definedFields' => explode_sanitized($row[1]),
-                    'clientInput' => $row[2],
-                    'expectedResult' => [
-                        'fields' => is_numeric($row[4]) ? null : explode_sanitized($row[4]),
-                        'fields!' => is_numeric($row[5]) ? null : explode_sanitized($row[5]),
-                    ],
-                ];
+                // fields
+                if (! is_numeric($row[4])) {
+                    $data[] = [
+                        'projectableFields' => explode_sanitized($row[0]),
+                        'definedFields' => explode_sanitized($row[1]),
+                        'clientInput' => $row[2],
+                        'expectedResult' => explode_sanitized($row[4]),
+                    ];
+                }
+
+                // fields!
+                // if (! is_numeric($row[5])) {
+                //     $data[] = [
+                //         'projectableFields' => explode_sanitized($row[0]),
+                //         'definedFields' => explode_sanitized($row[1]),
+                //         'clientInput' => $row[2],
+                //         'expectedResult' => explode_sanitized($row[5]),
+                //     ];
+                // }
             }
         }
         fclose($handle);

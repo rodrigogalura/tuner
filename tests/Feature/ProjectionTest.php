@@ -12,7 +12,7 @@ beforeEach(function () {
 });
 
 describe('Not perform any action', function () {
-    beforeEach(function() {
+    beforeEach(function () {
         $this->defaultResponseStructure = $_GET['defined_fields'] = ['name'];
     });
 

@@ -9,7 +9,7 @@ $tweakerConfig = [
     'projection' => [
         'include_key' => 'fields',
         'exclude_key' => 'fields!',
-    ]
+    ],
 ];
 
 trait CanTweak
@@ -38,7 +38,6 @@ trait CanTweak
                     );
 
                     $builder->select($projection->project());
-
 
                     // code...
                     break;
