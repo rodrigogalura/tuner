@@ -4,6 +4,7 @@ use Workbench\App\Models\User;
 use Workbench\App\Models\Phone;
 use Illuminate\Support\Facades\Route;
 use Workbench\App\Models\NoProjectableModel;
+use Workbench\App\Models\InvalidProjectableModel;
 use Workbench\App\Models\OnlyIdIsProjectableModel;
 use Workbench\App\Models\AllFieldsAreProjectableModel;
 
@@ -34,4 +35,10 @@ Route::any('/api/only-id-is-projectable', function() {
     $definedFields = $_GET['defined_fields'] ?? '*';
 
     return OnlyIdIsProjectableModel::select($definedFields)->send();
+});
+
+Route::any('/api/invalid-projectable', function() {
+    $definedFields = $_GET['defined_fields'] ?? '*';
+
+    return InvalidProjectableModel::select($definedFields)->send();
 });
