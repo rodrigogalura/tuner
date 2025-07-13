@@ -4,9 +4,10 @@ namespace Laradigs\Tweaker;
 
 use Illuminate\Database\Eloquent\Builder;
 use Laradigs\Tweaker\Projection\Projection;
-use function RGalura\ApiIgniter\filter_explode;
 use Laradigs\Tweaker\Projection\ProjectionField;
 use Laradigs\Tweaker\Projection\ProjectionFieldNot;
+
+use function RGalura\ApiIgniter\filter_explode;
 
 trait CanTweak
 {
@@ -35,14 +36,14 @@ trait CanTweak
             $clientInputField = $_GET[$pc['include_key']] ?? null xor
             $clientInputFieldNot = $_GET[$pc['exclude_key']] ?? null
         ) {
-            $projection = match(true) {
-                !is_null($clientInputField) => new ProjectionField(
+            $projection = match (true) {
+                ! is_null($clientInputField) => new ProjectionField(
                     model: $this,
                     projectableFields: $this->getProjectableFields(),
                     definedFields: $builder->getQuery()->columns ?? ['*'],
                     clientInput: filter_explode($clientInputField),
                 ),
-                !is_null($clientInputFieldNot) => new ProjectionFieldNot(
+                ! is_null($clientInputFieldNot) => new ProjectionFieldNot(
                     model: $this,
                     projectableFields: $this->getProjectableFields(),
                     definedFields: $builder->getQuery()->columns ?? ['*'],

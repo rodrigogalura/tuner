@@ -67,7 +67,7 @@
             "@php vendor/bin/testbench serve --ansi"
         ],
         "pint": [
-            "@php vendor/bin/pint --ansi --dirty"
+            "@php vendor/bin/pint --ansi"
         ],
         "test": [
             "@clear",

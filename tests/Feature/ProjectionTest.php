@@ -1,12 +1,12 @@
 <?php
 
-use function Pest\Laravel\get;
+use Workbench\App\Models\AllFieldsAreProjectableModel;
 use Workbench\App\Models\NoProjectableModel;
-use Workbench\App\Models\InvalidProjectableModel;
+use Workbench\App\Models\OnlyIdAndNameAreProjectableModel;
 use Workbench\App\Models\OnlyIdIsProjectableModel;
 use Workbench\App\Models\OnlyNameIsProjectableModel;
-use Workbench\App\Models\AllFieldsAreProjectableModel;
-use Workbench\App\Models\OnlyIdAndNameAreProjectableModel;
+
+use function Pest\Laravel\get;
 
 beforeEach(function () {
     $_GET = [];

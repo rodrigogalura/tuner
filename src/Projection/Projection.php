@@ -10,6 +10,7 @@ use RGalura\ApiIgniter\Exceptions\NoDefinedFieldException;
 abstract class Projection
 {
     const NO_ACTION_WILL_PERFORM_CODE = -1;
+
     const EMPTY_VALUE = [];
 
     public function __construct(

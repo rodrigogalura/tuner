@@ -2,15 +2,16 @@
 
 namespace Workbench\App\Models;
 
-use Laradigs\Tweaker\CanTweak;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Laradigs\Tweaker\CanTweak;
 
 class OnlyIdIsProjectableModel extends Model
 {
+    use CanTweak;
+
     /** @use HasFactory<\Database\Factories\OnlyIdIsProjectableModelFactory> */
     use HasFactory;
-    use CanTweak;
 
     protected $fillable = [
         'name',

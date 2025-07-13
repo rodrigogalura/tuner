@@ -8,9 +8,10 @@ use Laradigs\Tweaker\CanTweak;
 
 class AllFieldsAreProjectableModel extends Model
 {
+    use CanTweak;
+
     /** @use HasFactory<\Database\Factories\AllFieldsAreProjectableModelFactory> */
     use HasFactory;
-    use CanTweak;
 
     protected $fillable = [
         'name',
