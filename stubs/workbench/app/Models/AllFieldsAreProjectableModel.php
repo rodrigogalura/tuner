@@ -16,6 +16,11 @@ class AllFieldsAreProjectableModel extends Model
         'name',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     protected function getProjectableFields()
     {
         return ['id', 'name'];

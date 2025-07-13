@@ -75,7 +75,7 @@
         ],
         "unitTest": [
             "@clear",
-            "@php vendor/bin/pest tests/Unit/Projection/ProjectionTest.php --profile --bail"
+            "@php vendor/bin/pest tests/Unit/ProjectionTest.php --profile --bail"
         ]
     }
 }
