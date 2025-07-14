@@ -124,4 +124,40 @@ describe('Valid scenarios', function () {
             ->assertExactJsonStructure(['*' => $expectedResult]);
     })
         ->with('fields-truth-table');
-})->only();
+
+    it('should passed all valid scenarios for client input "fields!"', function ($projectableFields, $definedFields, $clientInput, $expectedResult) {
+        // Prepare
+        $equivalentRoutes = [
+            '*' => '/api/all-fields-are-projectable',
+            'id' => '/api/only-id-is-projectable',
+            'name' => '/api/only-name-is-projectable',
+            'id, name' => '/api/only-id-and-name-are-projectable',
+            'empty' => '/api/no-projectable',
+        ];
+
+        $models = [
+            '*' => AllFieldsAreProjectableModel::class,
+            'id' => OnlyIdIsProjectableModel::class,
+            'name' => OnlyNameIsProjectableModel::class,
+            'id, name' => OnlyIdAndNameAreProjectableModel::class,
+            'empty' => NoProjectableModel::class,
+        ];
+
+        $key = implode(', ', $projectableFields);
+
+        $_GET['fields!'] = $clientInput;
+        $_GET['defined_fields'] = $definedFields;
+
+        $model = $models[$key];
+        $data = $model::factory(rand(2, 5))->create();
+
+        $route = $equivalentRoutes[$key];
+
+        // Act & Assert
+        get($route)
+            ->assertOk()
+            ->assertJsonCount(empty($expectedResult) ? 0 : $data->count())
+            ->assertExactJsonStructure(['*' => $expectedResult]);
+    })
+        ->with('fields-not-truth-table');
+});

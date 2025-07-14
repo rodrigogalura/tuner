@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Eloquent\Model;
+use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 use Laradigs\Tweaker\Projection\ProjectionField;
 use Laradigs\Tweaker\Projection\ProjectionFieldNot;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
@@ -41,7 +42,7 @@ describe('Not perform any action. Just return defined value as default.', functi
         );
 
         // Act & Assert
-        expect($projection->project())->toBe($DEFINE_FIELDS)->dump();
+        expect(fn () => $projection->project())->toThrow(NoActionWillPerformException::class);
     });
 
     it('should not perform any action if the projectable field\'s value is empty', function () {
@@ -55,7 +56,7 @@ describe('Not perform any action. Just return defined value as default.', functi
         );
 
         // Act & Assert
-        expect($projection->project())->toBe($DEFINE_FIELDS);
+        expect(fn () => $projection->project())->toThrow(NoActionWillPerformException::class);
     });
 
     it('should not perform any action if the projectable fields and defined fields are not intersect', function () {
@@ -69,7 +70,7 @@ describe('Not perform any action. Just return defined value as default.', functi
         );
 
         // Act & Assert
-        expect($projection->project())->toBe($DEFINE_FIELDS);
+        expect(fn () => $projection->project())->toThrow(NoActionWillPerformException::class);
     });
 });
 

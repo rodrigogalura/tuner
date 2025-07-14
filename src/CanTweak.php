@@ -3,7 +3,7 @@
 namespace Laradigs\Tweaker;
 
 use Illuminate\Database\Eloquent\Builder;
-use Laradigs\Tweaker\Projection\Projection;
+use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 use Laradigs\Tweaker\Projection\ProjectionField;
 use Laradigs\Tweaker\Projection\ProjectionFieldNot;
 
@@ -30,12 +30,10 @@ trait CanTweak
             ],
         ];
 
-        $pc = $tweakerConfig['projection'];
+        $clientInputField = $_GET[$tweakerConfig['projection']['include_key']] ?? null;
+        $clientInputFieldNot = $_GET[$tweakerConfig['projection']['exclude_key']] ?? null;
 
-        if (
-            $clientInputField = $_GET[$pc['include_key']] ?? null xor
-            $clientInputFieldNot = $_GET[$pc['exclude_key']] ?? null
-        ) {
+        if (isset($clientInputField) xor isset($clientInputFieldNot)) {
             $projection = match (true) {
                 ! is_null($clientInputField) => new ProjectionField(
                     model: $this,
@@ -51,11 +49,15 @@ trait CanTweak
                 ),
             };
 
-            if (empty($projectedFields = $projection->project())) {
-                return Projection::EMPTY_VALUE;
-            }
+            try {
+                if (empty($projectedFields = $projection->project())) {
+                    return [];
+                }
 
-            $builder->select($projectedFields);
+                $builder->select($projectedFields);
+            } catch (NoActionWillPerformException $e) {
+                //
+            }
         }
 
         return $builder->get();

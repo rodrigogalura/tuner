@@ -2,9 +2,7 @@
 
 namespace Laradigs\Tweaker\Projection;
 
-use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Throwable;
 
 class ProjectionFieldNot extends Projection
 {
@@ -20,7 +18,7 @@ class ProjectionFieldNot extends Projection
     protected function validate()
     {
         if ($this->clientInput === ['*']) {
-            throw new Exception(code: Projection::NO_ACTION_WILL_PERFORM_CODE);
+            throw new NoActionWillPerformException;
         }
 
         parent::validate();
@@ -28,14 +26,8 @@ class ProjectionFieldNot extends Projection
 
     public function project()
     {
-        try {
-            $this->validate();
+        $this->validate();
 
-            return array_values(array_diff($this->projectableFields, $this->clientInput));
-        } catch (Throwable $e) {
-            throw_if($e->getCode() !== static::NO_ACTION_WILL_PERFORM_CODE, $e);
-
-            return $this->definedFields; // default
-        }
+        return array_values(array_diff($this->projectableFields, $this->clientInput));
     }
 }

@@ -2,17 +2,12 @@
 
 namespace Laradigs\Tweaker\Projection;
 
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 use RGalura\ApiIgniter\Exceptions\NoDefinedFieldException;
 
 abstract class Projection
 {
-    const NO_ACTION_WILL_PERFORM_CODE = -1;
-
-    const EMPTY_VALUE = [];
-
     public function __construct(
         private Model $model,
         protected array $projectableFields,
@@ -38,7 +33,7 @@ abstract class Projection
     protected function validate()
     {
         if (empty($this->projectableFields)) {
-            throw new Exception(code: static::NO_ACTION_WILL_PERFORM_CODE);
+            throw new NoActionWillPerformException;
         }
 
         $this->extractIfAsterisk($this->projectableFields);
@@ -52,7 +47,7 @@ abstract class Projection
         $this->throwIfNotInVisibleFields($this->definedFields);
 
         if (empty($this->projectableFields = array_values(array_intersect($this->projectableFields, $this->definedFields)))) {
-            throw new Exception(code: static::NO_ACTION_WILL_PERFORM_CODE);
+            throw new NoActionWillPerformException;
         }
     }
 
