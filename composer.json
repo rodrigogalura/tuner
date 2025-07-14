@@ -75,5 +75,12 @@
             "@clear",
             "@php vendor/bin/pest tests/Unit/ProjectionTest.php --profile --bail"
         ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Laradigs\\Tweaker\\TweakerServiceProvider"
+            ]
+        }
     }
 }

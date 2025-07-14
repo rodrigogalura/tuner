@@ -22,16 +22,10 @@ trait CanTweak
     public function scopeSend(
         Builder $builder,
     ) {
-        // publish to config files
-        $tweakerConfig = [
-            'projection' => [
-                'include_key' => 'fields',
-                'exclude_key' => 'fields!',
-            ],
-        ];
+        $projectionConfig = config('tweaker.projection');
 
-        $clientInputField = $_GET[$tweakerConfig['projection']['include_key']] ?? null;
-        $clientInputFieldNot = $_GET[$tweakerConfig['projection']['exclude_key']] ?? null;
+        $clientInputField = $_GET[$projectionConfig['include_key']] ?? null;
+        $clientInputFieldNot = $_GET[$projectionConfig['exclude_key']] ?? null;
 
         if (isset($clientInputField) xor isset($clientInputFieldNot)) {
             $projection = match (true) {

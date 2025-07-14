@@ -11,4 +11,12 @@ abstract class TestCase extends BaseTestCase
 {
     use RefreshDatabase;
     use WithWorkbench;
+
+    protected function getEnvironmentSetUp($app)
+    {
+        $app['config']->set('tweaker.projection', [
+            'include_key' => 'fields',
+            'exclude_key' => 'fields!',
+        ]);
+    }
 }
