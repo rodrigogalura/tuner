@@ -10,7 +10,8 @@
         "laravel/pint": "^1.21",
         "pestphp/pest": "^3.7",
         "orchestra/testbench": "^10.1",
-        "pestphp/pest-plugin-laravel": "^3.1"
+        "pestphp/pest-plugin-laravel": "^3.1",
+        "rector/rector": "dev-main"
     },
     "license": "MIT",
     "autoload": {
@@ -49,9 +50,6 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "@php setup-development.php"
-        ],
-        "post-update-cmd": [
             "@php setup-development.php"
         ],
         "post-autoload-dump": [

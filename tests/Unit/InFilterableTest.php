@@ -2,7 +2,7 @@
 
 use RGalura\ApiIgniter\InFilterable;
 
-test('inFilter', function (array|string $filterableFields, array $clientIn, array $expect) {
+test('inFilter', function (array|string $filterableFields, array $clientIn, array $expect): void {
     // Prepare
     $class = new class
     {

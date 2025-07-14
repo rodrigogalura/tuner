@@ -6,7 +6,7 @@ use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 use RGalura\ApiIgniter\HasDefaultValue;
 use RGalura\ApiIgniter\Projectable2;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $_GET = [];
 
     // Prepare
@@ -45,17 +45,17 @@ beforeEach(function () {
     $this->method->setAccessible(true);
 });
 
-it('should return null if the projectable fields are empty', function () {
+it('should return null if the projectable fields are empty', function (): void {
     // Act and Assert
     expect($this->method->invoke($this->trait, []))->toBeNull();
 });
 
-it('should return null if neither "fields" nor "fields!" is used', function () {
+it('should return null if neither "fields" nor "fields!" is used', function (): void {
     // Act and Assert
     expect($this->method->invoke($this->trait, ['a']))->toBeNull();
 });
 
-it('should throw and exception ImproperUsedProjectionException if the options "fields" and "fields!" are used at the same time', function () {
+it('should throw and exception ImproperUsedProjectionException if the options "fields" and "fields!" are used at the same time', function (): void {
     $projectableFields = ['*'];
 
     $_GET['fields'] = 'foo';
@@ -65,7 +65,7 @@ it('should throw and exception ImproperUsedProjectionException if the options "f
     expect(fn () => $this->method->invoke($this->trait, $projectableFields))->toThrow(ImproperUsedProjectionException::class);
 });
 
-it('should throw an exception InvalidFieldsException if the client fields are not exist', function (array $projectableFields, $clientFields, $expectedException) {
+it('should throw an exception InvalidFieldsException if the client fields are not exist', function (array $projectableFields, $clientFields, $expectedException): void {
     $_GET['fields'] = $clientFields;
 
     // Act and Assert
@@ -76,7 +76,7 @@ it('should throw an exception InvalidFieldsException if the client fields are no
         ['projectableFields' => ['a', 'b'], 'clientFields' => 'b, c', 'expectedException' => InvalidFieldsException::class],
     ]);
 
-it('should throw an exception ExcludeFieldsException if client fields! is *', function () {
+it('should throw an exception ExcludeFieldsException if client fields! is *', function (): void {
     $projectableFields = ['*'];
 
     $_GET['fields!'] = '*';
@@ -85,7 +85,7 @@ it('should throw an exception ExcludeFieldsException if client fields! is *', fu
     expect(fn () => $this->method->invoke($this->trait, $projectableFields))->toThrow(ExcludeFieldsException::class);
 });
 
-test('a couple scenarios', function (array $projectableFields, $clientFields, $expectedReturn) {
+test('a couple scenarios', function (array $projectableFields, $clientFields, $expectedReturn): void {
     $_GET['fields'] = $clientFields;
 
     // Act and Assert
@@ -99,7 +99,7 @@ test('a couple scenarios', function (array $projectableFields, $clientFields, $e
         ['projectableFields' => ['e', 'd', 'c', 'b', 'a'], 'clientFields' => 'e, c, a', 'expectedReturn' => ['e', 2 => 'c', 4 => 'a']],
     ]);
 
-test('a couple scenarios for excluding fields', function (array $projectableFields, $clientFields, $expectedReturn) {
+test('a couple scenarios for excluding fields', function (array $projectableFields, $clientFields, $expectedReturn): void {
     $_GET['fields!'] = $clientFields;
 
     // Act and Assert

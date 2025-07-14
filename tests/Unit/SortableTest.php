@@ -2,7 +2,7 @@
 
 use RGalura\ApiIgniter\Sortable;
 
-test('sort', function (array|string $sortableFields, array $clientSort, array $expect) {
+test('sort', function (array|string $sortableFields, array $clientSort, array $expect): void {
     // Prepare
     $class = new class
     {

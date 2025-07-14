@@ -2,7 +2,7 @@
 
 use RGalura\ApiIgniter\BetweenFilterable;
 
-test('betweenFilter', function (array|string $filterableFields, array $clientFilter, array $expect) {
+test('betweenFilter', function (array|string $filterableFields, array $clientFilter, array $expect): void {
     // Prepare
     $class = new class
     {

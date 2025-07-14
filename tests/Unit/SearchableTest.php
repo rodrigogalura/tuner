@@ -2,7 +2,7 @@
 
 use RGalura\ApiIgniter\Searchable;
 
-test('searchFilter', function (array|string $searchableFields, array $clientFilter, array $expect) {
+test('searchFilter', function (array|string $searchableFields, array $clientFilter, array $expect): void {
     // Prepare
     $class = new class
     {

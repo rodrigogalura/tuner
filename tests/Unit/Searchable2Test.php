@@ -5,7 +5,7 @@ use RGalura\ApiIgniter\Exceptions\MinimumKeywordException;
 use RGalura\ApiIgniter\HasDefaultValue;
 use RGalura\ApiIgniter\Searchable2;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $_GET = [];
 
     // Prepare
@@ -46,17 +46,17 @@ beforeEach(function () {
     $this->minimum = 2;
 });
 
-it('should return null if the searchable fields are empty', function () {
+it('should return null if the searchable fields are empty', function (): void {
     // Act and Assert
     expect($this->method->invoke($this->trait, [], $this->minimum))->toBeNull();
 });
 
-it('should return null if the search option is not used', function () {
+it('should return null if the search option is not used', function (): void {
     // Act and Assert
     expect($this->method->invoke($this->trait, ['a'], $this->minimum))->toBeNull();
 });
 
-test('should throw an exception InvalidFieldsException if the client fields are not exist', function (array $searchableFields, $clientFields, $expectedException) {
+test('should throw an exception InvalidFieldsException if the client fields are not exist', function (array $searchableFields, $clientFields, $expectedException): void {
     $_GET['search'] = $clientFields;
 
     // Act and Assert
@@ -67,14 +67,14 @@ test('should throw an exception InvalidFieldsException if the client fields are 
         ['searchableFields' => ['a', 'b'], 'clientFields' => ['b, c' => 'search me'], 'expectedException' => InvalidFieldsException::class],
     ]);
 
-it('should throw an exception MinimumKeywordException if the search keyword length not hit the minimum', function () {
+it('should throw an exception MinimumKeywordException if the search keyword length not hit the minimum', function (): void {
     $_GET['search'] = ['a' => str_repeat('b', $this->minimum - 1)];
 
     // Act and Assert
     expect(fn () => $this->method->invoke($this->trait, ['a'], $this->minimum))->toThrow(MinimumKeywordException::class);
 });
 
-test('a couple scenarios', function ($searchableFields, $clientFields, $expectedReturn) {
+test('a couple scenarios', function ($searchableFields, $clientFields, $expectedReturn): void {
     $_GET['search'] = $clientFields;
 
     // Act and Assert

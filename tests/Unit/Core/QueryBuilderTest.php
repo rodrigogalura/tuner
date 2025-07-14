@@ -2,7 +2,7 @@
 
 use RGalura\ApiIgniter\Services\QueryBuilder as Query;
 
-test('boolField', function (string $boolField, array $expect) {
+test('boolField', function (string $boolField, array $expect): void {
     // Act & Assert
     expect(Query::boolField($boolField))->toBe($expect);
 })
@@ -17,7 +17,7 @@ test('boolField', function (string $boolField, array $expect) {
         'or(lowercase), field' => ['or! name', ['OR', 'name', true]],
     ]);
 
-test('comparisonOperator', function (string $val, array $expect) {
+test('comparisonOperator', function (string $val, array $expect): void {
     // Act & Assert
     expect(Query::comparisonOperator($val))->toBe($expect);
 })

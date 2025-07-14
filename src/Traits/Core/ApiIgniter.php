@@ -68,7 +68,7 @@ trait ApiIgniter
             $this->getHidden()
         );
 
-        $validateConfigFields = function ($fields) {
+        $validateConfigFields = function ($fields): void {
             if (! empty($diff = array_diff($fields, $this->givenFields))) {
                 throw new InvalidFieldsException($diff, 1);
             }
@@ -180,7 +180,7 @@ trait ApiIgniter
             }
 
             foreach (self::$expand as $expand) {
-                $builder->with($expand['relation'], function ($builderInner) use ($expand) {
+                $builder->with($expand['relation'], function ($builderInner) use ($expand): void {
                     $builderInner->select(array_map(fn ($field) => $expand['table'].'.'.$field, $expand['fields']));
 
                     if (! empty($expand['filter'])) {

@@ -2,7 +2,7 @@
 
 use function RGalura\ApiIgniter\filter_explode;
 
-test('filter_explode', function (string $input, string $delimiter, array $expect) {
+test('filter_explode', function (string $input, string $delimiter, array $expect): void {
     // Act & Assert
     expect(filter_explode($input, $delimiter))->toBe($expect);
 })

@@ -4,11 +4,11 @@ use Workbench\App\Models\User;
 
 use function Pest\Laravel\get;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $_GET = [];
 });
 
-test('index no params', function () {
+test('index no params', function (): void {
     User::factory()->create();
 
     get('/api/users')
@@ -18,7 +18,7 @@ test('index no params', function () {
         ]);
 });
 
-test('index fields param', function () {
+test('index fields param', function (): void {
     User::factory()->create();
     $_GET['fields'] = 'id,name,email';
 
@@ -29,7 +29,7 @@ test('index fields param', function () {
         ]);
 });
 
-test('index fields! param', function () {
+test('index fields! param', function (): void {
     User::factory()->create();
     $_GET['fields'] = 'id,name,email';
     $_GET['fields!'] = 'id';
@@ -41,7 +41,7 @@ test('index fields! param', function () {
         ]);
 });
 
-test('index filter param', function (string $operator, string $bool, int $expectCount) {
+test('index filter param', function (string $operator, string $bool, int $expectCount): void {
     $user = User::factory()->create();
 
     $_GET['filter'] = ["{$bool}name" => "{$operator}{$user->name}"];
@@ -70,7 +70,7 @@ test('index filter param', function (string $operator, string $bool, int $expect
         ['<>', 'AND! ', 1], ['<> ', 'AND! ', 1],
     ]);
 
-test('index filter param with AND/OR operator', function (string $operator1, string $operator2, string $bool, int $expectCount) {
+test('index filter param with AND/OR operator', function (string $operator1, string $operator2, string $bool, int $expectCount): void {
     $user = User::factory()->create();
 
     $_GET['filter'] = [
@@ -96,7 +96,7 @@ test('index filter param with AND/OR operator', function (string $operator1, str
         ['<>', '<>', 'AND ', 0], ['<> ', '<> ', 'AND ', 0],
     ]);
 
-test('index search param', function (string $keyword, int $expectCount) {
+test('index search param', function (string $keyword, int $expectCount): void {
     User::factory()->create(['name' => 'foo']);
     User::factory()->create(['name' => 'bar']);
     User::factory()->create(['name' => 'baz']);
@@ -112,7 +112,7 @@ test('index search param', function (string $keyword, int $expectCount) {
         ['ba%', 2],
     ]);
 
-test('index in param', function (string $keyword, int $expectCount) {
+test('index in param', function (string $keyword, int $expectCount): void {
     User::factory()->create(['id' => 18]);
     User::factory()->create(['id' => 21]);
     User::factory()->create(['id' => 60]);
@@ -128,7 +128,7 @@ test('index in param', function (string $keyword, int $expectCount) {
         ['18, 21, 60', 3],
     ]);
 
-test('index between param', function (string $keyword, int $expectCount) {
+test('index between param', function (string $keyword, int $expectCount): void {
     User::factory()->create(['id' => 18]);
     User::factory()->create(['id' => 21]);
     User::factory()->create(['id' => 60]);
@@ -144,7 +144,7 @@ test('index between param', function (string $keyword, int $expectCount) {
         ['15, 90', 3],
     ]);
 
-test('index sort ascending param', function ($direction, array $expectJson) {
+test('index sort ascending param', function ($direction, array $expectJson): void {
     User::factory()->create(['name' => 'foo']);
     User::factory()->create(['name' => 'bar']);
     User::factory()->create(['name' => 'baz']);
@@ -166,7 +166,7 @@ test('index sort ascending param', function ($direction, array $expectJson) {
         ],
     ]);
 
-test('index sort descending param', function (string $direction, array $expectJson) {
+test('index sort descending param', function (string $direction, array $expectJson): void {
     User::factory()->create(['name' => 'foo']);
     User::factory()->create(['name' => 'bar']);
     User::factory()->create(['name' => 'baz']);
@@ -188,7 +188,7 @@ test('index sort descending param', function (string $direction, array $expectJs
         ],
     ]);
 
-test('index limit param', function (int $limit) {
+test('index limit param', function (int $limit): void {
     User::factory(10)->create();
 
     $_GET['limit'] = $expectCount = $limit;
@@ -199,7 +199,7 @@ test('index limit param', function (int $limit) {
 })
     ->with([3, 5, 7, 9]);
 
-test('index offset param', function (int $offset, int $expectCount) {
+test('index offset param', function (int $offset, int $expectCount): void {
     User::factory(10)->create();
 
     $_GET['limit'] = 5;
@@ -216,7 +216,7 @@ test('index offset param', function (int $offset, int $expectCount) {
         [9, 1],
     ]);
 
-test('index per-page param', function () {
+test('index per-page param', function (): void {
     User::factory(10)->create();
 
     $_GET['per-page'] = 5;
@@ -232,7 +232,7 @@ test('index per-page param', function () {
         ]);
 });
 
-test('index debug param', function () {
+test('index debug param', function (): void {
     $_GET['debug'] = 1;
 
     get('/api/users')

@@ -51,11 +51,11 @@ Route::get('/users', function() {
 
  */
 
-beforeEach(function () {
+beforeEach(function (): void {
     Mockery::globalHelpers();
 });
 
-it('should throw an exception if one of projectable fields is invalid', function () {
+it('should throw an exception if one of projectable fields is invalid', function (): void {
     $model = new class
     {
         use CanTweak;
@@ -78,6 +78,6 @@ it('should throw an exception if one of projectable fields is invalid', function
     // expect($method->invoke($canTweak))->dump();
 })->only();
 
-it('should throw an exception if one of defined fields is invalid', function () {})->todo();
+it('should throw an exception if one of defined fields is invalid', function (): void {})->todo();
 
-it('should not perform any action if the projectable field\'s value is falsy', function () {})->todo();
+it('should not perform any action if the projectable field\'s value is falsy', function (): void {})->todo();

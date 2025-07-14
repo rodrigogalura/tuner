@@ -2,11 +2,11 @@
 
 use RGalura\ApiIgniter\Projectable;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $_GET = [];
 });
 
-test('fields', function (array $projectable, string $clientFields, array $expect) {
+test('fields', function (array $projectable, string $clientFields, array $expect): void {
     // Prepare
     $class = new class
     {
@@ -26,7 +26,7 @@ test('fields', function (array $projectable, string $clientFields, array $expect
         'one' => [['fields' => 'bar'], '*', ['bar']],
     ]);
 
-test('fields!', function (array $projectable, string $clientExceptFields, array $expect) {
+test('fields!', function (array $projectable, string $clientExceptFields, array $expect): void {
     // Prepare
     $class = new class
     {
@@ -49,7 +49,7 @@ test('fields!', function (array $projectable, string $clientExceptFields, array 
         ],
     ]);
 
-test('fields! fields', function (array $projectable, string $clientFields, string $clientExceptFields, array $expect) {
+test('fields! fields', function (array $projectable, string $clientFields, string $clientExceptFields, array $expect): void {
     // Prepare
     $class = new class
     {
@@ -74,7 +74,7 @@ test('fields! fields', function (array $projectable, string $clientFields, strin
         ],
     ]);
 
-test('fields invalid', function () {
+test('fields invalid', function (): void {
     $class = new class
     {
         use Projectable;

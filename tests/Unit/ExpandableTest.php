@@ -37,11 +37,11 @@ dataset('expandable', [
     ],
 ]);
 
-beforeEach(function () {
+beforeEach(function (): void {
     $_GET = [];
 });
 
-test('expand fields', function (array $expandable, array $expand, string $fields, array $expect) {
+test('expand fields', function (array $expandable, array $expand, string $fields, array $expect): void {
     // Prepare
     $class = new class
     {
@@ -98,7 +98,7 @@ test('expand fields', function (array $expandable, array $expand, string $fields
         ],
     ]);
 
-test('expand fields!', function (array $expandable, array $expand, string $exceptFields, array $expect) {
+test('expand fields!', function (array $expandable, array $expand, string $exceptFields, array $expect): void {
     // Prepare
     $class = new class
     {
@@ -137,7 +137,7 @@ test('expand fields!', function (array $expandable, array $expand, string $excep
         ],
     ]);
 
-test('expand fields! fields', function (array $expandable, array $expand, string $exceptFields, array $expect) {
+test('expand fields! fields', function (array $expandable, array $expand, string $exceptFields, array $expect): void {
     // Prepare
     $class = new class
     {
@@ -177,7 +177,7 @@ test('expand fields! fields', function (array $expandable, array $expand, string
         ],
     ]);
 
-test('expand filter', function (array $expandable, array $expand, string $fields, array $filter, array $expect) {
+test('expand filter', function (array $expandable, array $expand, string $fields, array $filter, array $expect): void {
     // Prepare
     $class = new class
     {
@@ -242,7 +242,7 @@ test('expand filter', function (array $expandable, array $expand, string $fields
         ],
     ]);
 
-test('expand in filter', function (array $expandable, array $expand, string $fields, array $inFilter, array $expect) {
+test('expand in filter', function (array $expandable, array $expand, string $fields, array $inFilter, array $expect): void {
     // Prepare
     $class = new class
     {
@@ -307,7 +307,7 @@ test('expand in filter', function (array $expandable, array $expand, string $fie
         ],
     ]);
 
-test('expand between filter', function (array $expandable, array $expand, string $fields, array $betweenFilter, array $expect) {
+test('expand between filter', function (array $expandable, array $expand, string $fields, array $betweenFilter, array $expect): void {
     // Prepare
     $class = new class
     {
@@ -372,7 +372,7 @@ test('expand between filter', function (array $expandable, array $expand, string
         ],
     ]);
 
-test('expand search filter', function (array $expandable, array $expand, string $fields, array $searchFilter, array $expect) {
+test('expand search filter', function (array $expandable, array $expand, string $fields, array $searchFilter, array $expect): void {
     // Prepare
     $class = new class
     {
@@ -433,7 +433,7 @@ test('expand search filter', function (array $expandable, array $expand, string 
         ],
     ]);
 
-test('expand sort filter', function (array $expandable, array $expand, string $fields, array $sort, array $expect) {
+test('expand sort filter', function (array $expandable, array $expand, string $fields, array $sort, array $expect): void {
     // Prepare
     $class = new class
     {

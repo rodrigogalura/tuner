@@ -2,7 +2,7 @@
 
 use RGalura\ApiIgniter\Services\ComponentResolver as Core;
 
-test('bind_and_resolve', function (string $key, callable $component, mixed $expect) {
+test('bind_and_resolve', function (string $key, callable $component, mixed $expect): void {
     // Prepare
     Core::bind($key, $component);
 
