@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Database\Eloquent\Builder;
-// use Laradigs\Tweaker\QueryBuilder;
-use Illuminate\Database\Eloquent\Model;
 use Laradigs\Tweaker\CanTweak;
 
 // it('example', function () {

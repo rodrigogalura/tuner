@@ -2,7 +2,6 @@
 
 namespace Laradigs\Tweaker;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use RGalura\ApiIgniter\Exceptions\ImproperUsedProjectionException;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
@@ -54,7 +53,7 @@ class QueryBuilder
     /**
      * @return $this
      *
-     * @throws \RGalura\ApiIgniter\Exceptions\InvalidFieldsException
+     * @throws InvalidFieldsException
      */
     public function setSelectFields(?array $projectableFields, $includeFieldsKey = 'fields', $excludeFieldsKey = 'fields!')
     {

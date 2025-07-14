@@ -4,11 +4,9 @@ namespace RGalura\ApiIgniter;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Str;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 use RGalura\ApiIgniter\Services\ComponentResolver as Core;
 use RGalura\ApiIgniter\Services\QueryBuilder as Query;
-use Schema;
 
 trait ApiIgniter
 {

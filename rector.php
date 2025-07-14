@@ -14,4 +14,8 @@ return RectorConfig::configure()
     // ->withPhpSets()
     ->withTypeCoverageLevel(1)
     ->withDeadCodeLevel(1)
-    ->withCodeQualityLevel(1);
+    ->withCodeQualityLevel(1)
+    ->withImportNames(
+        importShortClasses: false,
+        removeUnusedImports: true
+    );
