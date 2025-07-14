@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 use Laradigs\Tweaker\Projection\ProjectionField;
 use Laradigs\Tweaker\Projection\ProjectionFieldNot;
+use Laradigs\Tweaker\Projection\Searching;
 
 use function RGalura\ApiIgniter\filter_explode;
 
@@ -16,16 +17,21 @@ trait CanTweak
         return ['*'];
     }
 
+    protected function getSearchableFields(): array
+    {
+        return ['*'];
+    }
+
     /**
      * @return void
      */
     public function scopeSend(
         Builder $builder,
     ) {
-        $projectionConfig = config('tweaker.projection');
+        $config = config('tweaker');
 
-        $clientInputField = $_GET[$projectionConfig['include_key']] ?? null;
-        $clientInputFieldNot = $_GET[$projectionConfig['exclude_key']] ?? null;
+        $clientInputField = $_GET[$config['projection']['include_key']] ?? null;
+        $clientInputFieldNot = $_GET[$config['projection']['exclude_key']] ?? null;
 
         if (isset($clientInputField) xor isset($clientInputFieldNot)) {
             $projection = match (true) {
@@ -52,6 +58,24 @@ trait CanTweak
             } catch (NoActionWillPerformException $e) {
                 //
             }
+        }
+
+        $searchConfig = $_GET[$config['searching']] ?? null;
+        $clientInputSearch = $_GET[$searchConfig['key']] ?? null;
+
+        if (isset($clientInputSearch)) {
+            $searching = new Searching(
+                model: $this,
+                searchableFields: $this->getSearchableFields(),
+                clientInput: filter_explode($clientInputField),
+            );
+
+            try {
+                $searching->search();
+            } catch (NoActionWillPerformException $e) {
+                //
+            }
+
         }
 
         return $builder->get();
