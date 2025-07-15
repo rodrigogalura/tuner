@@ -1,17 +1,19 @@
 <?php
 
-namespace Laradigs\Tweaker\Projection;
+namespace Laradigs\Tweaker\Searching;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 
-abstract class Searching
+class Searching
 {
     public function __construct(
         private Model $model,
         protected array $searchableFields,
         private array $clientInput,
+        private int $minimumLength = 2
     ) {
         //
     }
@@ -32,20 +34,17 @@ abstract class Searching
 
     protected function validate($fields, $keyword)
     {
-        $fields = key($this->clientInput);
-
         if (empty($fields)) {
             throw new NoActionWillPerformException;
         }
 
-        $keyword = current($this->clientInput);
         $sanitizeKeyword = trim(trim($keyword, '*'));
 
-        if (empty($sanitizeKeyword) || strlen($sanitizeKeyword) < config('tweaker.searching.minimum_length')) {
+        if (empty($sanitizeKeyword) || strlen($sanitizeKeyword) < $this->minimumLength) {
             throw new NoActionWillPerformException;
         }
 
-        if (empty($this->searchableFields())) {
+        if (empty($this->searchableFields)) {
             throw new NoActionWillPerformException;
         }
 
