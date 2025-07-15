@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 use Laradigs\Tweaker\Searching\Searching;
+use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 
 beforeEach(function (): void {
     Mockery::globalHelpers();
@@ -79,48 +80,19 @@ describe('Not perform any action. Just return defined value as default.', functi
     });
 });
 
-// describe('Throw an exception', function (): void {
-//     it('should throw an exception if one of projectable fields is invalid', function (): void {
-//         // Prepare
-//         $notInVisibleFields = ['email'];
-//         $projection = new Searching(
-//             $this->model,
-//             searchableFields: $notInVisibleFields,
-//             definedFields: [],
-//             clientInput: $this->visibleFields,
-//         );
+describe('Throw an exception', function (): void {
+    it('should throw an exception if one of searchable fields is invalid', function (): void {
+        // Prepare
+        $searching = new Searching(
+            $this->model,
+            searchableFields: ['email'], // not existing on visible fields
+            clientInput: ['name' => 'foo'],
+        );
 
-//         // Act & Assert
-//         expect(fn () => $projection->project())->toThrow(InvalidFieldsException::class);
-//     });
-
-//     it('should throw an exception if the defined fields is empty', function (): void {
-//         // Prepare
-//         $projection = new Searching(
-//             $this->model,
-//             searchableFields: ['id'],
-//             definedFields: [],
-//             clientInput: $this->visibleFields,
-//         );
-
-//         // Act & Assert
-//         expect(fn () => $projection->project())->toThrow(NoDefinedFieldException::class);
-//     });
-
-//     it('should throw an exception if one of defined fields is invalid', function (): void {
-//         // Prepare
-//         $notInVisibleFields = ['email'];
-//         $projection = new Searching(
-//             $this->model,
-//             searchableFields: ['id'],
-//             definedFields: $notInVisibleFields,
-//             clientInput: $this->visibleFields,
-//         );
-
-//         // Act & Assert
-//         expect(fn () => $projection->project())->toThrow(InvalidFieldsException::class);
-//     });
-// });
+        // Act & Assert
+        expect(fn () => $searching->search())->toThrow(InvalidFieldsException::class);
+    });
+});
 
 // describe('Valid scenarios', function (): void {
 //     it('should passed all valid scenarios for client input "fields"', function ($searchableFields, $definedFields, $clientInput, $expectedResult): void {
