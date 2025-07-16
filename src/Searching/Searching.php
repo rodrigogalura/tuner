@@ -2,13 +2,15 @@
 
 namespace Laradigs\Tweaker\Searching;
 
-use Illuminate\Support\Str;
-use function RGalura\ApiIgniter\filter_explode;
 use Illuminate\Database\Eloquent\Model;
-use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
+use Illuminate\Support\Str;
 use Laradigs\Tweaker\Projection\NoActionWillPerformException;
+use Laradigs\Tweaker\TruthTable;
+use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 
-class Searching
+use function RGalura\ApiIgniter\filter_explode;
+
+class Searching extends TruthTable
 {
     public function __construct(
         private Model $model,
@@ -16,26 +18,21 @@ class Searching
         private array $clientInput,
         private int $minimumLength = 2
     ) {
-        //
-    }
-
-    private function extractIfAsterisk(&$var)
-    {
-        if ($var === ['*']) {
-            $var = $this->visibleFields();
-        }
+        parent::__construct(
+            $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable())
+        );
     }
 
     private function throwIfNotInVisibleFields(array $fields)
     {
-        if ($this->checkIfNotInVisibleFields($fields)) {
+        if (! empty($diff = $this->diffFromAllItems($fields))) {
             throw new InvalidFieldsException($diff, 1);
         }
     }
 
     private function checkIfNotInVisibleFields(array $fields)
     {
-        return ! empty($diff = array_diff($fields, $this->visibleFields()));
+        return ! empty($this->diffFromAllItems($fields));
     }
 
     protected function validate(array $fields, string $keyword)
@@ -62,19 +59,12 @@ class Searching
         $this->throwIfNotInVisibleFields($this->searchableFields);
     }
 
-    public function visibleFields()
-    {
-        return $this->model->getConnection()->getSchemaBuilder()->getColumnListing($this->model->getTable());
-    }
-
     public function search()
     {
         $fields = filter_explode(key($this->clientInput));
         $this->extractIfAsterisk($fields);
 
-        $keyword = current($this->clientInput);
-
-        $this->validate($fields, $keyword);
+        $this->validate($fields, $keyword = current($this->clientInput));
 
         if (! str_starts_with($keyword, '*') && ! str_ends_with($keyword, '*')) {
             $keyword = "*{$keyword}*";
@@ -83,6 +73,6 @@ class Searching
         // convert asterisk to percentage of first and last position of keyword
         $keyword = Str::replaceMatches('/^\*|\*$/', '%', $keyword);
 
-        return [implode(', ', array_intersect($this->searchableFields, $fields)) => $keyword];
+        return [implode(', ', $this->intersect($this->searchableFields, $fields)) => $keyword];
     }
 }

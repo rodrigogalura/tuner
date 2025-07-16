@@ -107,53 +107,59 @@ describe('Throw an exception', function (): void {
 });
 
 describe('Valid scenarios', function (): void {
-    beforeEach(function() {
-        $this->datatable = [
-            ['id' => 1, 'name' => 'Mr. Anderson'],
-            ['id' => 2, 'name' => 'John Wick'],
-            ['id' => 3, 'name' => 'Peter Parker SR.'],
-            ['id' => 4, 'name' => 'John Doe JR.'],
-            ['id' => 5, 'name' => 'Foo Bar III'],
-        ];
-    });
+    // beforeEach(function() {
+    //     $this->datatable = [
+    //         ['id' => 1, 'name' => 'Mr. Anderson'],
+    //         ['id' => 2, 'name' => 'John Wick'],
+    //         ['id' => 3, 'name' => 'Peter Parker SR.'],
+    //         ['id' => 4, 'name' => 'John Doe JR.'],
+    //         ['id' => 5, 'name' => 'Foo Bar III'],
+    //     ];
+    // });
 
-    it('should passed all valid scenarios', function ($searchableFields, $fields, $value, $expectedResult): void {
+    it('should passed all valid scenarios', function (
+        $searchableFields,
+        $search_fields,
+        $search_value_no_wildcard,
+        $search_value_both_wildcard,
+        $search_value_left_wildcard,
+        $search_value_right_wildcard,
+        $result_fields,
+        $result_value_no_wildcard,
+        $result_value_both_wildcard,
+        $result_value_left_wildcard,
+        $result_value_right_wildcard,
+    ): void {
         // Prepare
-        $noAsterisk = new Searching(
+        $noWildcard = new Searching(
             $this->model,
             searchableFields: $searchableFields,
-            clientInput: [$fields => $value],
+            clientInput: [$search_fields => $search_value_no_wildcard],
+        );
+
+        $bothWildcard = new Searching(
+            $this->model,
+            searchableFields: $searchableFields,
+            clientInput: [$search_fields => $search_value_both_wildcard],
+        );
+
+        $leftWildcard = new Searching(
+            $this->model,
+            searchableFields: $searchableFields,
+            clientInput: [$search_fields => $search_value_left_wildcard],
+        );
+
+        $rightWildcard = new Searching(
+            $this->model,
+            searchableFields: $searchableFields,
+            clientInput: [$search_fields => $search_value_right_wildcard],
         );
 
         // Act & Assert
-        expect($noAsterisk->search())->toBe($expectedResult);
+        expect($noWildcard->search())->toBe([$result_fields => $result_value_no_wildcard]);
+        expect($bothWildcard->search())->toBe([$result_fields => $result_value_both_wildcard]);
+        expect($leftWildcard->search())->toBe([$result_fields => $result_value_left_wildcard]);
+        expect($rightWildcard->search())->toBe([$result_fields => $result_value_right_wildcard]);
     })
-        ->with([
-            [
-                'searchableFields' => ['*'],
-                'fields' => '*',
-                'value' => 'Mr',
-                'expectedResult' => ['id, name' => '%Mr%']
-            ]
-        ]);
-
-    // it('should passed all valid scenarios', function ($searchableFields, $fields, $values, $resultIds): void {
-    //     // Prepare
-    //     $noAsterisk = new Searching(
-    //         $this->model,
-    //         searchableFields: $searchableFields,
-    //         clientInput: [$fields => $values],
-    //     );
-
-    //     // Act & Assert
-    //     expect($noAsterisk->search())->toBe($resultIds);
-    // })
-    //     ->with([
-    //         [
-    //             'searchableFields' => ['*'],
-    //             'fields' => '*',
-    //             'values' => ['Mr', '*Mr*', '*Mr', 'Mr*'],
-    //             'resultIds' => [1, 1, 0, 1]
-    //         ]
-    //     ]);
-})->only();
+        ->with('searching-truth-table');
+});

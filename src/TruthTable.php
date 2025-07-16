@@ -2,14 +2,11 @@
 
 namespace Laradigs\Tweaker;
 
-use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
-
 class TruthTable
 {
     public function __construct(
-        private array $allItems
-    )
-    {
+        private readonly array $allItems
+    ) {
         //
     }
 

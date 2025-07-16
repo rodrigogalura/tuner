@@ -2,8 +2,8 @@
 
 namespace Laradigs\Tweaker\Projection;
 
-use Laradigs\Tweaker\TruthTable;
 use Illuminate\Database\Eloquent\Model;
+use Laradigs\Tweaker\TruthTable;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 use RGalura\ApiIgniter\Exceptions\NoDefinedFieldException;
 
