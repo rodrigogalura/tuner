@@ -69,7 +69,7 @@
         ],
         "test": [
             "@clear",
-            "@php vendor/bin/pest tests/Feature/ProjectionTest.php --profile --bail"
+            "@php vendor/bin/pest tests/Feature/SearchingTest.php --profile --bail"
         ],
         "unitTest": [
             "@clear",

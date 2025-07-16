@@ -21,4 +21,9 @@ class NoProjectableModel extends Model
     {
         return [];
     }
+
+    protected function getSearchableFields()
+    {
+        return [];
+    }
 }

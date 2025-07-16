@@ -26,4 +26,9 @@ class AllFieldsAreProjectableModel extends Model
     {
         return ['id', 'name'];
     }
+
+    protected function getSearchableFields()
+    {
+        return ['id', 'name'];
+    }
 }

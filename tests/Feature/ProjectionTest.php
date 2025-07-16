@@ -20,7 +20,7 @@ beforeEach(function (): void {
     // ];
 });
 
-describe('Not perform any action. Just return defined value as default.', function (): void {
+describe('Not perform any action.', function (): void {
     it('should not perform any action if the client input "fields!" is "*"', function (): void {
         // Prepare
         $_GET['fields!'] = '*';

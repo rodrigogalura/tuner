@@ -14,9 +14,16 @@ abstract class TestCase extends BaseTestCase
 
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('tweaker.projection', [
-            'include_key' => 'fields',
-            'exclude_key' => 'fields!',
+        $app['config']->set('tweaker', [
+            'projection' => [
+                'include_key' => 'fields',
+                'exclude_key' => 'fields!',
+            ],
+
+            'searching' => [
+                'key' => 'search',
+                'minimum_length' => 2,
+            ],
         ]);
     }
 }

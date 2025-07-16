@@ -107,16 +107,6 @@ describe('Throw an exception', function (): void {
 });
 
 describe('Valid scenarios', function (): void {
-    // beforeEach(function() {
-    //     $this->datatable = [
-    //         ['id' => 1, 'name' => 'Mr. Anderson'],
-    //         ['id' => 2, 'name' => 'John Wick'],
-    //         ['id' => 3, 'name' => 'Peter Parker SR.'],
-    //         ['id' => 4, 'name' => 'John Doe JR.'],
-    //         ['id' => 5, 'name' => 'Foo Bar III'],
-    //     ];
-    // });
-
     it('should passed all valid scenarios', function (
         $searchableFields,
         $search_fields,

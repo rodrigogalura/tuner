@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 use Laradigs\Tweaker\Projection\ProjectionField;
 use Laradigs\Tweaker\Projection\ProjectionFieldNot;
-use Laradigs\Tweaker\Projection\Searching;
+use Laradigs\Tweaker\Searching\Searching;
 
 use function RGalura\ApiIgniter\filter_explode;
 
@@ -60,18 +60,22 @@ trait CanTweak
             }
         }
 
-        $searchConfig = $_GET[$config['searching']] ?? null;
+        $searchConfig = $config['searching'];
         $clientInputSearch = $_GET[$searchConfig['key']] ?? null;
 
         if (isset($clientInputSearch)) {
             $searching = new Searching(
                 model: $this,
                 searchableFields: $this->getSearchableFields(),
-                clientInput: filter_explode($clientInputField),
+                clientInput: $clientInputSearch,
             );
 
             try {
-                $searching->search();
+                if (empty($searchResult = $searching->search())) {
+                    return [];
+                }
+
+                $builder->whereAny(filter_explode(key($searchResult)), 'LIKE', current($searchResult));
             } catch (NoActionWillPerformException $e) {
                 //
             }
