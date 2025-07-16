@@ -9,6 +9,8 @@ class CSVToArray
 
     private readonly array $data;
 
+    const EMPTY_VALUE = 'empty';
+
     public function __construct(
         private $csvPath,
         private $delimiter = ',',
@@ -57,7 +59,7 @@ class CSVToArray
         return $this->readFileAndReturnData(function (&$data, $row) {
             // convert 'empty' string to ''
             for ($i = 0; $i <= 5; $i++) {
-                if ($row[$i] === 'empty') {
+                if (static::isEmpty($row[$i])) {
                     $row[$i] = '';
                 }
             }
@@ -117,13 +119,13 @@ class CSVToArray
         return $this->readFileAndReturnData(function (&$data, $row) {
             // convert 'empty' string to ''
             for ($i = 0; $i <= 5; $i++) {
-                if ($row[$i] === 'empty') {
-                    $row[$i] = '';
+                if (static::isEmpty($row[$i])) {
+                    $row[$i] = [];
                 }
             }
 
             // fields
-            if (! is_numeric($result_fields = $row[7])) {
+            if (! is_numeric($result_fields = $row[7]) || $result_fields > 3) {
                 $data[] = [
                     'searchableFields' => explode_sanitized($row[0]),
 
@@ -134,13 +136,23 @@ class CSVToArray
                     'search_value_right_wildcard' => $row[5],
 
                     'result_fields' => $result_fields,
-                    'result_value_no_wildcard' => $row[8],
-                    'result_value_both_wildcard' => $row[9],
-                    'result_value_left_wildcard' => $row[10],
-                    'result_value_right_wildcard' => $row[11],
+                    'result_value_unit_no_wildcard' => $row[8],
+                    'result_value_unit_both_wildcard' => $row[9],
+                    'result_value_unit_left_wildcard' => $row[10],
+                    'result_value_unit_right_wildcard' => $row[11],
+
+                    'result_value_feature_no_wildcard' => static::isEmpty($row[12]) ? [] : explode_sanitized($row[12]),
+                    'result_value_feature_both_wildcard' => static::isEmpty($row[13]) ? [] : explode_sanitized($row[13]),
+                    'result_value_feature_left_wildcard' => static::isEmpty($row[14]) ? [] : explode_sanitized($row[14]),
+                    'result_value_feature_right_wildcard' => static::isEmpty($row[15]) ? [] : explode_sanitized($row[15]),
                 ];
             }
         });
+    }
+
+    private static function isEmpty(string $str)
+    {
+        return $str === static::EMPTY_VALUE;
     }
 }
 

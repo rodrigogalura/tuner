@@ -110,15 +110,23 @@ describe('Valid scenarios', function (): void {
     it('should passed all valid scenarios', function (
         $searchableFields,
         $search_fields,
+
         $search_value_no_wildcard,
         $search_value_both_wildcard,
         $search_value_left_wildcard,
         $search_value_right_wildcard,
+
         $result_fields,
-        $result_value_no_wildcard,
-        $result_value_both_wildcard,
-        $result_value_left_wildcard,
-        $result_value_right_wildcard,
+
+        $result_value_unit_no_wildcard,
+        $result_value_unit_both_wildcard,
+        $result_value_unit_left_wildcard,
+        $result_value_unit_right_wildcard,
+
+        $result_value_feature_no_wildcard,
+        $result_value_feature_both_wildcard,
+        $result_value_feature_left_wildcard,
+        $result_value_feature_right_wildcard,
     ): void {
         // Prepare
         $noWildcard = new Searching(
@@ -146,10 +154,10 @@ describe('Valid scenarios', function (): void {
         );
 
         // Act & Assert
-        expect($noWildcard->search())->toBe([$result_fields => $result_value_no_wildcard]);
-        expect($bothWildcard->search())->toBe([$result_fields => $result_value_both_wildcard]);
-        expect($leftWildcard->search())->toBe([$result_fields => $result_value_left_wildcard]);
-        expect($rightWildcard->search())->toBe([$result_fields => $result_value_right_wildcard]);
+        expect($noWildcard->search())->toBe([$result_fields => $result_value_unit_no_wildcard]);
+        expect($bothWildcard->search())->toBe([$result_fields => $result_value_unit_both_wildcard]);
+        expect($leftWildcard->search())->toBe([$result_fields => $result_value_unit_left_wildcard]);
+        expect($rightWildcard->search())->toBe([$result_fields => $result_value_unit_right_wildcard]);
     })
         ->with('searching-truth-table');
 });

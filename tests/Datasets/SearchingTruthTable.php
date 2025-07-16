@@ -11,10 +11,22 @@ dataset('searching-truth-table', [
         'search_value_left_wildcard' => '*Doe',
         'search_value_right_wildcard' => 'Doe*',
         'result_fields' => 'id, name',
-        'result_value_no_wildcard' => '%Doe%',
-        'result_value_both_wildcard' => '%Doe%',
-        'result_value_left_wildcard' => '%Doe',
-        'result_value_right_wildcard' => 'Doe%',
+        'result_value_unit_no_wildcard' => '%Doe%',
+        'result_value_unit_both_wildcard' => '%Doe%',
+        'result_value_unit_left_wildcard' => '%Doe',
+        'result_value_unit_right_wildcard' => 'Doe%',
+        'result_value_feature_no_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_both_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_left_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_right_wildcard' => [
+            0 => '4',
+        ],
     ],
     1 => [
         'searchableFields' => [
@@ -26,10 +38,18 @@ dataset('searching-truth-table', [
         'search_value_left_wildcard' => '*Doe',
         'search_value_right_wildcard' => 'Doe*',
         'result_fields' => 'id',
-        'result_value_no_wildcard' => '%Doe%',
-        'result_value_both_wildcard' => '%Doe%',
-        'result_value_left_wildcard' => '%Doe',
-        'result_value_right_wildcard' => 'Doe%',
+        'result_value_unit_no_wildcard' => '%Doe%',
+        'result_value_unit_both_wildcard' => '%Doe%',
+        'result_value_unit_left_wildcard' => '%Doe',
+        'result_value_unit_right_wildcard' => 'Doe%',
+        'result_value_feature_no_wildcard' => [
+        ],
+        'result_value_feature_both_wildcard' => [
+        ],
+        'result_value_feature_left_wildcard' => [
+        ],
+        'result_value_feature_right_wildcard' => [
+        ],
     ],
     2 => [
         'searchableFields' => [
@@ -41,10 +61,22 @@ dataset('searching-truth-table', [
         'search_value_left_wildcard' => '*Doe',
         'search_value_right_wildcard' => 'Doe*',
         'result_fields' => 'name',
-        'result_value_no_wildcard' => '%Doe%',
-        'result_value_both_wildcard' => '%Doe%',
-        'result_value_left_wildcard' => '%Doe',
-        'result_value_right_wildcard' => 'Doe%',
+        'result_value_unit_no_wildcard' => '%Doe%',
+        'result_value_unit_both_wildcard' => '%Doe%',
+        'result_value_unit_left_wildcard' => '%Doe',
+        'result_value_unit_right_wildcard' => 'Doe%',
+        'result_value_feature_no_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_both_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_left_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_right_wildcard' => [
+            0 => '4',
+        ],
     ],
     3 => [
         'searchableFields' => [
@@ -56,10 +88,22 @@ dataset('searching-truth-table', [
         'search_value_left_wildcard' => '*Doe',
         'search_value_right_wildcard' => 'Doe*',
         'result_fields' => 'id, name',
-        'result_value_no_wildcard' => '%Doe%',
-        'result_value_both_wildcard' => '%Doe%',
-        'result_value_left_wildcard' => '%Doe',
-        'result_value_right_wildcard' => 'Doe%',
+        'result_value_unit_no_wildcard' => '%Doe%',
+        'result_value_unit_both_wildcard' => '%Doe%',
+        'result_value_unit_left_wildcard' => '%Doe',
+        'result_value_unit_right_wildcard' => 'Doe%',
+        'result_value_feature_no_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_both_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_left_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_right_wildcard' => [
+            0 => '4',
+        ],
     ],
     4 => [
         'searchableFields' => [
@@ -71,10 +115,18 @@ dataset('searching-truth-table', [
         'search_value_left_wildcard' => '*Doe',
         'search_value_right_wildcard' => 'Doe*',
         'result_fields' => 'id',
-        'result_value_no_wildcard' => '%Doe%',
-        'result_value_both_wildcard' => '%Doe%',
-        'result_value_left_wildcard' => '%Doe',
-        'result_value_right_wildcard' => 'Doe%',
+        'result_value_unit_no_wildcard' => '%Doe%',
+        'result_value_unit_both_wildcard' => '%Doe%',
+        'result_value_unit_left_wildcard' => '%Doe',
+        'result_value_unit_right_wildcard' => 'Doe%',
+        'result_value_feature_no_wildcard' => [
+        ],
+        'result_value_feature_both_wildcard' => [
+        ],
+        'result_value_feature_left_wildcard' => [
+        ],
+        'result_value_feature_right_wildcard' => [
+        ],
     ],
     5 => [
         'searchableFields' => [
@@ -86,10 +138,18 @@ dataset('searching-truth-table', [
         'search_value_left_wildcard' => '*Doe',
         'search_value_right_wildcard' => 'Doe*',
         'result_fields' => 'id',
-        'result_value_no_wildcard' => '%Doe%',
-        'result_value_both_wildcard' => '%Doe%',
-        'result_value_left_wildcard' => '%Doe',
-        'result_value_right_wildcard' => 'Doe%',
+        'result_value_unit_no_wildcard' => '%Doe%',
+        'result_value_unit_both_wildcard' => '%Doe%',
+        'result_value_unit_left_wildcard' => '%Doe',
+        'result_value_unit_right_wildcard' => 'Doe%',
+        'result_value_feature_no_wildcard' => [
+        ],
+        'result_value_feature_both_wildcard' => [
+        ],
+        'result_value_feature_left_wildcard' => [
+        ],
+        'result_value_feature_right_wildcard' => [
+        ],
     ],
     6 => [
         'searchableFields' => [
@@ -101,10 +161,18 @@ dataset('searching-truth-table', [
         'search_value_left_wildcard' => '*Doe',
         'search_value_right_wildcard' => 'Doe*',
         'result_fields' => 'id',
-        'result_value_no_wildcard' => '%Doe%',
-        'result_value_both_wildcard' => '%Doe%',
-        'result_value_left_wildcard' => '%Doe',
-        'result_value_right_wildcard' => 'Doe%',
+        'result_value_unit_no_wildcard' => '%Doe%',
+        'result_value_unit_both_wildcard' => '%Doe%',
+        'result_value_unit_left_wildcard' => '%Doe',
+        'result_value_unit_right_wildcard' => 'Doe%',
+        'result_value_feature_no_wildcard' => [
+        ],
+        'result_value_feature_both_wildcard' => [
+        ],
+        'result_value_feature_left_wildcard' => [
+        ],
+        'result_value_feature_right_wildcard' => [
+        ],
     ],
     7 => [
         'searchableFields' => [
@@ -116,10 +184,22 @@ dataset('searching-truth-table', [
         'search_value_left_wildcard' => '*Doe',
         'search_value_right_wildcard' => 'Doe*',
         'result_fields' => 'name',
-        'result_value_no_wildcard' => '%Doe%',
-        'result_value_both_wildcard' => '%Doe%',
-        'result_value_left_wildcard' => '%Doe',
-        'result_value_right_wildcard' => 'Doe%',
+        'result_value_unit_no_wildcard' => '%Doe%',
+        'result_value_unit_both_wildcard' => '%Doe%',
+        'result_value_unit_left_wildcard' => '%Doe',
+        'result_value_unit_right_wildcard' => 'Doe%',
+        'result_value_feature_no_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_both_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_left_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_right_wildcard' => [
+            0 => '4',
+        ],
     ],
     8 => [
         'searchableFields' => [
@@ -131,10 +211,22 @@ dataset('searching-truth-table', [
         'search_value_left_wildcard' => '*Doe',
         'search_value_right_wildcard' => 'Doe*',
         'result_fields' => 'name',
-        'result_value_no_wildcard' => '%Doe%',
-        'result_value_both_wildcard' => '%Doe%',
-        'result_value_left_wildcard' => '%Doe',
-        'result_value_right_wildcard' => 'Doe%',
+        'result_value_unit_no_wildcard' => '%Doe%',
+        'result_value_unit_both_wildcard' => '%Doe%',
+        'result_value_unit_left_wildcard' => '%Doe',
+        'result_value_unit_right_wildcard' => 'Doe%',
+        'result_value_feature_no_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_both_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_left_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_right_wildcard' => [
+            0 => '4',
+        ],
     ],
     9 => [
         'searchableFields' => [
@@ -146,10 +238,22 @@ dataset('searching-truth-table', [
         'search_value_left_wildcard' => '*Doe',
         'search_value_right_wildcard' => 'Doe*',
         'result_fields' => 'name',
-        'result_value_no_wildcard' => '%Doe%',
-        'result_value_both_wildcard' => '%Doe%',
-        'result_value_left_wildcard' => '%Doe',
-        'result_value_right_wildcard' => 'Doe%',
+        'result_value_unit_no_wildcard' => '%Doe%',
+        'result_value_unit_both_wildcard' => '%Doe%',
+        'result_value_unit_left_wildcard' => '%Doe',
+        'result_value_unit_right_wildcard' => 'Doe%',
+        'result_value_feature_no_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_both_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_left_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_right_wildcard' => [
+            0 => '4',
+        ],
     ],
     10 => [
         'searchableFields' => [
@@ -162,10 +266,22 @@ dataset('searching-truth-table', [
         'search_value_left_wildcard' => '*Doe',
         'search_value_right_wildcard' => 'Doe*',
         'result_fields' => 'id, name',
-        'result_value_no_wildcard' => '%Doe%',
-        'result_value_both_wildcard' => '%Doe%',
-        'result_value_left_wildcard' => '%Doe',
-        'result_value_right_wildcard' => 'Doe%',
+        'result_value_unit_no_wildcard' => '%Doe%',
+        'result_value_unit_both_wildcard' => '%Doe%',
+        'result_value_unit_left_wildcard' => '%Doe',
+        'result_value_unit_right_wildcard' => 'Doe%',
+        'result_value_feature_no_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_both_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_left_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_right_wildcard' => [
+            0 => '4',
+        ],
     ],
     11 => [
         'searchableFields' => [
@@ -178,10 +294,18 @@ dataset('searching-truth-table', [
         'search_value_left_wildcard' => '*Doe',
         'search_value_right_wildcard' => 'Doe*',
         'result_fields' => 'id',
-        'result_value_no_wildcard' => '%Doe%',
-        'result_value_both_wildcard' => '%Doe%',
-        'result_value_left_wildcard' => '%Doe',
-        'result_value_right_wildcard' => 'Doe%',
+        'result_value_unit_no_wildcard' => '%Doe%',
+        'result_value_unit_both_wildcard' => '%Doe%',
+        'result_value_unit_left_wildcard' => '%Doe',
+        'result_value_unit_right_wildcard' => 'Doe%',
+        'result_value_feature_no_wildcard' => [
+        ],
+        'result_value_feature_both_wildcard' => [
+        ],
+        'result_value_feature_left_wildcard' => [
+        ],
+        'result_value_feature_right_wildcard' => [
+        ],
     ],
     12 => [
         'searchableFields' => [
@@ -194,10 +318,22 @@ dataset('searching-truth-table', [
         'search_value_left_wildcard' => '*Doe',
         'search_value_right_wildcard' => 'Doe*',
         'result_fields' => 'name',
-        'result_value_no_wildcard' => '%Doe%',
-        'result_value_both_wildcard' => '%Doe%',
-        'result_value_left_wildcard' => '%Doe',
-        'result_value_right_wildcard' => 'Doe%',
+        'result_value_unit_no_wildcard' => '%Doe%',
+        'result_value_unit_both_wildcard' => '%Doe%',
+        'result_value_unit_left_wildcard' => '%Doe',
+        'result_value_unit_right_wildcard' => 'Doe%',
+        'result_value_feature_no_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_both_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_left_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_right_wildcard' => [
+            0 => '4',
+        ],
     ],
     13 => [
         'searchableFields' => [
@@ -210,9 +346,21 @@ dataset('searching-truth-table', [
         'search_value_left_wildcard' => '*Doe',
         'search_value_right_wildcard' => 'Doe*',
         'result_fields' => 'id, name',
-        'result_value_no_wildcard' => '%Doe%',
-        'result_value_both_wildcard' => '%Doe%',
-        'result_value_left_wildcard' => '%Doe',
-        'result_value_right_wildcard' => 'Doe%',
+        'result_value_unit_no_wildcard' => '%Doe%',
+        'result_value_unit_both_wildcard' => '%Doe%',
+        'result_value_unit_left_wildcard' => '%Doe',
+        'result_value_unit_right_wildcard' => 'Doe%',
+        'result_value_feature_no_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_both_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_left_wildcard' => [
+            0 => '4',
+        ],
+        'result_value_feature_right_wildcard' => [
+            0 => '4',
+        ],
     ],
 ]);

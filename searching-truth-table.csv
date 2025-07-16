@@ -1,19 +1,19 @@
-*,*,Doe,*Doe*,*Doe,Doe*,,"id, name",%Doe%,%Doe%,%Doe,Doe%
-*,id,Doe,*Doe*,*Doe,Doe*,,id,%Doe%,%Doe%,%Doe,Doe%
-*,name,Doe,*Doe*,*Doe,Doe*,,name,%Doe%,%Doe%,%Doe,Doe%
-*,"id, name",Doe,*Doe*,*Doe,Doe*,,"id, name",%Doe%,%Doe%,%Doe,Doe%
-,,,,,,,,,,,
-id,*,Doe,*Doe*,*Doe,Doe*,,id,%Doe%,%Doe%,%Doe,Doe%
-id,id,Doe,*Doe*,*Doe,Doe*,,id,%Doe%,%Doe%,%Doe,Doe%
-id,name,Doe,*Doe*,*Doe,Doe*,,3,%Doe%,%Doe%,%Doe,Doe%
-id,"id, name",Doe,*Doe*,*Doe,Doe*,,id,%Doe%,%Doe%,%Doe,Doe%
-,,,,,,,,,,,
-name,*,Doe,*Doe*,*Doe,Doe*,,name,%Doe%,%Doe%,%Doe,Doe%
-name,id,Doe,*Doe*,*Doe,Doe*,,3,%Doe%,%Doe%,%Doe,Doe%
-name,name,Doe,*Doe*,*Doe,Doe*,,name,%Doe%,%Doe%,%Doe,Doe%
-name,"id, name",Doe,*Doe*,*Doe,Doe*,,name,%Doe%,%Doe%,%Doe,Doe%
-,,,,,,,,,,,
-"id, name",*,Doe,*Doe*,*Doe,Doe*,,"id, name",%Doe%,%Doe%,%Doe,Doe%
-"id, name",id,Doe,*Doe*,*Doe,Doe*,,id,%Doe%,%Doe%,%Doe,Doe%
-"id, name",name,Doe,*Doe*,*Doe,Doe*,,name,%Doe%,%Doe%,%Doe,Doe%
-"id, name","id, name",Doe,*Doe*,*Doe,Doe*,,"id, name",%Doe%,%Doe%,%Doe,Doe%
+*,*,Doe,*Doe*,*Doe,Doe*,,"id, name",%Doe%,%Doe%,%Doe,Doe%,4,4,4,4
+*,id,Doe,*Doe*,*Doe,Doe*,,id,%Doe%,%Doe%,%Doe,Doe%,empty,empty,empty,empty
+*,name,Doe,*Doe*,*Doe,Doe*,,name,%Doe%,%Doe%,%Doe,Doe%,4,4,4,4
+*,"id, name",Doe,*Doe*,*Doe,Doe*,,"id, name",%Doe%,%Doe%,%Doe,Doe%,4,4,4,4
+,,,,,,,,,,,,,,,
+id,*,Doe,*Doe*,*Doe,Doe*,,id,%Doe%,%Doe%,%Doe,Doe%,empty,empty,empty,empty
+id,id,Doe,*Doe*,*Doe,Doe*,,id,%Doe%,%Doe%,%Doe,Doe%,empty,empty,empty,empty
+id,name,Doe,*Doe*,*Doe,Doe*,,3,%Doe%,%Doe%,%Doe,Doe%,empty,empty,empty,empty
+id,"id, name",Doe,*Doe*,*Doe,Doe*,,id,%Doe%,%Doe%,%Doe,Doe%,empty,empty,empty,empty
+,,,,,,,,,,,,,,,
+name,*,Doe,*Doe*,*Doe,Doe*,,name,%Doe%,%Doe%,%Doe,Doe%,4,4,4,4
+name,id,Doe,*Doe*,*Doe,Doe*,,3,%Doe%,%Doe%,%Doe,Doe%,empty,empty,empty,empty
+name,name,Doe,*Doe*,*Doe,Doe*,,name,%Doe%,%Doe%,%Doe,Doe%,4,4,4,4
+name,"id, name",Doe,*Doe*,*Doe,Doe*,,name,%Doe%,%Doe%,%Doe,Doe%,4,4,4,4
+,,,,,,,,,,,,,,,
+"id, name",*,Doe,*Doe*,*Doe,Doe*,,"id, name",%Doe%,%Doe%,%Doe,Doe%,4,4,4,4
+"id, name",id,Doe,*Doe*,*Doe,Doe*,,id,%Doe%,%Doe%,%Doe,Doe%,empty,empty,empty,empty
+"id, name",name,Doe,*Doe*,*Doe,Doe*,,name,%Doe%,%Doe%,%Doe,Doe%,4,4,4,4
+"id, name","id, name",Doe,*Doe*,*Doe,Doe*,,"id, name",%Doe%,%Doe%,%Doe,Doe%,4,4,4,4
