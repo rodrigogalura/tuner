@@ -2,10 +2,11 @@
 
 namespace Laradigs\Tweaker\Searching;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Laradigs\Tweaker\Projection\NoActionWillPerformException;
+use function RGalura\ApiIgniter\filter_explode;
+use Illuminate\Database\Eloquent\Model;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
+use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 
 class Searching
 {
@@ -27,14 +28,23 @@ class Searching
 
     private function throwIfNotInVisibleFields(array $fields)
     {
-        if (! empty($diff = array_diff($fields, $this->visibleFields()))) {
+        if ($this->checkIfNotInVisibleFields($fields)) {
             throw new InvalidFieldsException($diff, 1);
         }
     }
 
-    protected function validate($fields, $keyword)
+    private function checkIfNotInVisibleFields(array $fields)
+    {
+        return ! empty($diff = array_diff($fields, $this->visibleFields()));
+    }
+
+    protected function validate(array $fields, string $keyword)
     {
         if (empty($fields)) {
+            throw new NoActionWillPerformException;
+        }
+
+        if ($this->checkIfNotInVisibleFields($fields)) {
             throw new NoActionWillPerformException;
         }
 
@@ -59,10 +69,16 @@ class Searching
 
     public function search()
     {
-        $fields = key($this->clientInput);
+        $fields = filter_explode(key($this->clientInput));
+        $this->extractIfAsterisk($fields);
+
         $keyword = current($this->clientInput);
 
         $this->validate($fields, $keyword);
+
+        if (! str_starts_with($keyword, '*') && ! str_ends_with($keyword, '*')) {
+            $keyword = "*{$keyword}*";
+        }
 
         // convert asterisk to percentage of first and last position of keyword
         $keyword = Str::replaceMatches('/^\*|\*$/', '%', $keyword);

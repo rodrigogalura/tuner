@@ -39,6 +39,18 @@ describe('Not perform any action. Just return defined value as default.', functi
         expect(fn () => $searching->search())->toThrow(NoActionWillPerformException::class);
     });
 
+    it('should not perform any action if one of search "fields" is invalid', function (): void {
+        // Prepare
+        $searching = new Searching(
+            $this->model,
+            searchableFields: $this->visibleFields,
+            clientInput: ['email' => 'foo'], // 'email' is not existing on visible fields
+        );
+
+        // Act & Assert
+        expect(fn () => $searching->search())->toThrow(NoActionWillPerformException::class);
+    });
+
     it('should not perform any action if the search "value" is empty', function (): void {
         // Prepare
         $searching = new Searching(
@@ -94,32 +106,54 @@ describe('Throw an exception', function (): void {
     });
 });
 
-// describe('Valid scenarios', function (): void {
-//     it('should passed all valid scenarios for client input "fields"', function ($searchableFields, $definedFields, $clientInput, $expectedResult): void {
-//         // Prepare
-//         $projection = new Searching(
-//             $this->model,
-//             $searchableFields,
-//             $definedFields,
-//             filter_explode($clientInput)
-//         );
+describe('Valid scenarios', function (): void {
+    beforeEach(function() {
+        $this->datatable = [
+            ['id' => 1, 'name' => 'Mr. Anderson'],
+            ['id' => 2, 'name' => 'John Wick'],
+            ['id' => 3, 'name' => 'Peter Parker SR.'],
+            ['id' => 4, 'name' => 'John Doe JR.'],
+            ['id' => 5, 'name' => 'Foo Bar III'],
+        ];
+    });
 
-//         // Act & Assert
-//         expect($projection->project())->toBe($expectedResult);
-//     })
-//         ->with('fields-truth-table');
+    it('should passed all valid scenarios', function ($searchableFields, $fields, $value, $expectedResult): void {
+        // Prepare
+        $noAsterisk = new Searching(
+            $this->model,
+            searchableFields: $searchableFields,
+            clientInput: [$fields => $value],
+        );
 
-//     it('should passed all valid scenarios for client input "fields!"', function ($searchableFields, $definedFields, $clientInput, $expectedResult): void {
-//         // Prepare
-//         $projection = new Searching(
-//             $this->model,
-//             $searchableFields,
-//             $definedFields,
-//             filter_explode($clientInput)
-//         );
+        // Act & Assert
+        expect($noAsterisk->search())->toBe($expectedResult);
+    })
+        ->with([
+            [
+                'searchableFields' => ['*'],
+                'fields' => '*',
+                'value' => 'Mr',
+                'expectedResult' => ['id, name' => '%Mr%']
+            ]
+        ]);
 
-//         // Act & Assert
-//         expect($projection->project())->toBe($expectedResult);
-//     })
-//         ->with('fields-not-truth-table');
-// });
+    // it('should passed all valid scenarios', function ($searchableFields, $fields, $values, $resultIds): void {
+    //     // Prepare
+    //     $noAsterisk = new Searching(
+    //         $this->model,
+    //         searchableFields: $searchableFields,
+    //         clientInput: [$fields => $values],
+    //     );
+
+    //     // Act & Assert
+    //     expect($noAsterisk->search())->toBe($resultIds);
+    // })
+    //     ->with([
+    //         [
+    //             'searchableFields' => ['*'],
+    //             'fields' => '*',
+    //             'values' => ['Mr', '*Mr*', '*Mr', 'Mr*'],
+    //             'resultIds' => [1, 1, 0, 1]
+    //         ]
+    //     ]);
+})->only();

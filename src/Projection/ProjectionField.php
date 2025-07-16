@@ -30,6 +30,6 @@ class ProjectionField extends Projection
 
         return $this->clientInput === ['*']
             ? $this->projectableFields
-            : array_values(array_intersect($this->projectableFields, $this->clientInput));
+            : $this->intersect($this->projectableFields, $this->clientInput);
     }
 }

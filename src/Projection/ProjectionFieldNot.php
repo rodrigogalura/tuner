@@ -28,6 +28,6 @@ class ProjectionFieldNot extends Projection
     {
         $this->validate();
 
-        return array_values(array_diff($this->projectableFields, $this->clientInput));
+        return $this->diff($this->projectableFields, $this->clientInput);
     }
 }

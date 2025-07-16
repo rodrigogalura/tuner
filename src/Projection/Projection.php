@@ -2,30 +2,26 @@
 
 namespace Laradigs\Tweaker\Projection;
 
+use Laradigs\Tweaker\TruthTable;
 use Illuminate\Database\Eloquent\Model;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 use RGalura\ApiIgniter\Exceptions\NoDefinedFieldException;
 
-abstract class Projection
+abstract class Projection extends TruthTable
 {
     public function __construct(
         private Model $model,
         protected array $projectableFields,
         protected array $definedFields,
     ) {
-        //
-    }
-
-    private function extractIfAsterisk(&$var)
-    {
-        if ($var === ['*']) {
-            $var = $this->visibleFields();
-        }
+        parent::__construct(
+            $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable())
+        );
     }
 
     private function throwIfNotInVisibleFields(array $fields)
     {
-        if (! empty($diff = array_diff($fields, $this->visibleFields()))) {
+        if (! empty($diff = $this->diffFromAllItems($fields))) {
             throw new InvalidFieldsException($diff, 1);
         }
     }
@@ -46,14 +42,9 @@ abstract class Projection
         $this->extractIfAsterisk($this->definedFields);
         $this->throwIfNotInVisibleFields($this->definedFields);
 
-        if (empty($this->projectableFields = array_values(array_intersect($this->projectableFields, $this->definedFields)))) {
+        if (empty($this->projectableFields = $this->intersect($this->projectableFields, $this->definedFields))) {
             throw new NoActionWillPerformException;
         }
-    }
-
-    public function visibleFields()
-    {
-        return $this->model->getConnection()->getSchemaBuilder()->getColumnListing($this->model->getTable());
     }
 
     abstract public function project();
