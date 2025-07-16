@@ -1,6 +1,7 @@
 <?php
 
 use Workbench\App\Models\AllFieldsAreProjectableModel;
+use Workbench\App\Models\InvalidProjectableModel;
 use Workbench\App\Models\NoProjectableModel;
 use Workbench\App\Models\OnlyIdIsProjectableModel;
 
@@ -88,33 +89,16 @@ describe('Not perform any action.', function (): void {
     });
 });
 
-// describe('Throw an exception', function (): void {
-//     it('should throw an exception if one of projectable fields is invalid', function (): void {
-//         $_GET['fields'] = '*';
+describe('Throw an exception', function (): void {
+    it('should throw an exception if one of searchable fields is invalid', function (): void {
+        $_GET['search'] = ['name' => 'Mr%'];
+        InvalidProjectableModel::factory()->createMany($this->data);
 
-//         // Act & Assert
-//         get('/api/invalid-projectable')
-//             ->assertServerError();
-//     });
-
-//     it('should throw an exception if the defined fields is empty', function (): void {
-//         $_GET['fields'] = '*';
-//         $_GET['defined_fields'] = [];
-
-//         // Act & Assert
-//         get('/api/all-fields-are-projectable')
-//             ->assertServerError();
-//     });
-
-//     it('should throw an exception if one of defined fields is invalid', function (): void {
-//         $_GET['fields'] = '*';
-//         $_GET['defined_fields'] = ['email'];
-
-//         // Act & Assert
-//         get('/api/all-fields-are-projectable')
-//             ->assertServerError();
-//     });
-// });
+        // Act & Assert
+        get('/api/invalid-projectable')
+            ->assertServerError();
+    })->only();
+});
 
 // describe('Valid scenarios', function (): void {
 //     it('should passed all valid scenarios for client input "fields"', function ($projectableFields, $definedFields, $clientInput, $expectedResult): void {

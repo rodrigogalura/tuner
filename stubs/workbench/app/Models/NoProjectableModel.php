@@ -17,6 +17,11 @@ class NoProjectableModel extends Model
         'name',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     protected function getProjectableFields()
     {
         return [];

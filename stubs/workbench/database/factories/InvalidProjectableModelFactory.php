@@ -8,7 +8,7 @@ use Workbench\App\Models\InvalidProjectableModel;
 /**
  * @template TModel of \Workbench\App\Models\InvalidProjectableModel
  *
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<TModel>
+ * @extends Factory<TModel>
  */
 class InvalidProjectableModelFactory extends Factory
 {

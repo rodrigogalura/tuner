@@ -17,7 +17,17 @@ class OnlyIdIsProjectableModel extends Model
         'name',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     protected function getProjectableFields()
+    {
+        return ['id'];
+    }
+
+    protected function getSearchableFields()
     {
         return ['id'];
     }

@@ -8,7 +8,7 @@ use Workbench\App\Models\OnlyIdIsProjectableModel;
 /**
  * @template TModel of \Workbench\App\Models\OnlyIdIsProjectableModel
  *
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<TModel>
+ * @extends Factory<TModel>
  */
 class OnlyIdIsProjectableModelFactory extends Factory
 {

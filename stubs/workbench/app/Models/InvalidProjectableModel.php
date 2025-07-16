@@ -17,7 +17,17 @@ class InvalidProjectableModel extends Model
         'name',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     protected function getProjectableFields()
+    {
+        return ['email'];
+    }
+
+    protected function getSearchableFields()
     {
         return ['email'];
     }

@@ -8,7 +8,7 @@ use Workbench\App\Models\NoProjectableModel;
 /**
  * @template TModel of \Workbench\App\Models\NoProjectableModel
  *
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<TModel>
+ * @extends Factory<TModel>
  */
 class NoProjectableModelFactory extends Factory
 {
