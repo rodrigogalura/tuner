@@ -4,7 +4,7 @@ class CSVToArray
 {
     private array $fileMethod = [
         'truth-table.csv' => 'projectionField',
-        'searching-truth-table.csv' => 'searching',
+        'search-truth-table.csv' => 'search',
     ];
 
     private readonly array $data;
@@ -114,7 +114,7 @@ class CSVToArray
         // return $data;
     }
 
-    public function searching()
+    public function search()
     {
         return $this->readFileAndReturnData(function (&$data, $row) {
             // convert 'empty' string to ''
@@ -164,7 +164,7 @@ function explode_sanitized(string $str, string $delimiter = ',')
 // $csvToArray = new CSVToArray('truth-table.csv');
 // echo $csvToArray->shortArrayExport();
 
-$csvToArray = new CSVToArray('searching-truth-table.csv');
+$csvToArray = new CSVToArray('search-truth-table.csv');
 echo $csvToArray->shortArrayExport();
 
 /*

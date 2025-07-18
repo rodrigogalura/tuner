@@ -1,6 +1,6 @@
 <?php
 
-namespace Laradigs\Tweaker\Searching;
+namespace Laradigs\Tweaker\Search;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -10,7 +10,7 @@ use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 
 use function RGalura\ApiIgniter\filter_explode;
 
-class Searching extends TruthTable
+class Search extends TruthTable
 {
     public function __construct(
         private Model $model,

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Laradigs\Tweaker\Projection\NoActionWillPerformException;
-use Laradigs\Tweaker\Searching\Searching;
+use Laradigs\Tweaker\Search\Search;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 
 beforeEach(function (): void {
@@ -29,38 +29,38 @@ afterEach(function (): void {
 describe('Not perform any action. Just return defined value as default.', function (): void {
     it('should not perform any action if the search "fields" are empty', function (): void {
         // Prepare
-        $searching = new Searching(
+        $search = new Search(
             $this->model,
             searchableFields: $this->visibleFields,
             clientInput: ['' => 'foo bar'],
         );
 
         // Act & Assert
-        expect(fn () => $searching->search())->toThrow(NoActionWillPerformException::class);
+        expect(fn () => $search->search())->toThrow(NoActionWillPerformException::class);
     });
 
     it('should not perform any action if one of search "fields" is invalid', function (): void {
         // Prepare
-        $searching = new Searching(
+        $search = new Search(
             $this->model,
             searchableFields: $this->visibleFields,
             clientInput: ['email' => 'foo'], // 'email' is not existing on visible fields
         );
 
         // Act & Assert
-        expect(fn () => $searching->search())->toThrow(NoActionWillPerformException::class);
+        expect(fn () => $search->search())->toThrow(NoActionWillPerformException::class);
     });
 
     it('should not perform any action if the search "value" is empty', function (): void {
         // Prepare
-        $searching = new Searching(
+        $search = new Search(
             $this->model,
             searchableFields: $this->visibleFields,
             clientInput: ['name' => ''],
         );
 
         // Act & Assert
-        expect(fn () => $searching->search())->toThrow(NoActionWillPerformException::class);
+        expect(fn () => $search->search())->toThrow(NoActionWillPerformException::class);
     });
 
     it('should not perform any action if the search "value" length not hit the minimum', function (): void {
@@ -68,7 +68,7 @@ describe('Not perform any action. Just return defined value as default.', functi
         $searchKeyword = str_repeat('A', $MINIMUM_LENGTH - 1);
 
         // Prepare
-        $searching = new Searching(
+        $search = new Search(
             $this->model,
             searchableFields: $this->visibleFields,
             clientInput: ['name' => $searchKeyword],
@@ -76,33 +76,33 @@ describe('Not perform any action. Just return defined value as default.', functi
         );
 
         // Act & Assert
-        expect(fn () => $searching->search())->toThrow(NoActionWillPerformException::class);
+        expect(fn () => $search->search())->toThrow(NoActionWillPerformException::class);
     });
 
     it('should not perform any action if the searchable fields are empty', function (): void {
         // Prepare
-        $searching = new Searching(
+        $search = new Search(
             $this->model,
             searchableFields: [],
             clientInput: ['name' => 'foo'],
         );
 
         // Act & Assert
-        expect(fn () => $searching->search())->toThrow(NoActionWillPerformException::class);
+        expect(fn () => $search->search())->toThrow(NoActionWillPerformException::class);
     });
 });
 
 describe('Throw an exception', function (): void {
     it('should throw an exception if one of searchable fields is invalid', function (): void {
         // Prepare
-        $searching = new Searching(
+        $search = new Search(
             $this->model,
             searchableFields: ['email'], // not existing on visible fields
             clientInput: ['name' => 'foo'],
         );
 
         // Act & Assert
-        expect(fn () => $searching->search())->toThrow(InvalidFieldsException::class);
+        expect(fn () => $search->search())->toThrow(InvalidFieldsException::class);
     });
 });
 
@@ -129,25 +129,25 @@ describe('Valid scenarios', function (): void {
         $result_value_feature_right_wildcard,
     ): void {
         // Prepare
-        $noWildcard = new Searching(
+        $noWildcard = new Search(
             $this->model,
             searchableFields: $searchableFields,
             clientInput: [$search_fields => $search_value_no_wildcard],
         );
 
-        $bothWildcard = new Searching(
+        $bothWildcard = new Search(
             $this->model,
             searchableFields: $searchableFields,
             clientInput: [$search_fields => $search_value_both_wildcard],
         );
 
-        $leftWildcard = new Searching(
+        $leftWildcard = new Search(
             $this->model,
             searchableFields: $searchableFields,
             clientInput: [$search_fields => $search_value_left_wildcard],
         );
 
-        $rightWildcard = new Searching(
+        $rightWildcard = new Search(
             $this->model,
             searchableFields: $searchableFields,
             clientInput: [$search_fields => $search_value_right_wildcard],
@@ -159,5 +159,5 @@ describe('Valid scenarios', function (): void {
         expect($leftWildcard->search())->toBe([$result_fields => $result_value_unit_left_wildcard]);
         expect($rightWildcard->search())->toBe([$result_fields => $result_value_unit_right_wildcard]);
     })
-        ->with('searching-truth-table');
+        ->with('search-truth-table');
 });

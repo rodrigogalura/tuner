@@ -6,7 +6,7 @@ return [
         'exclude_key' => 'fields!',
     ],
 
-    'searching' => [
+    'search' => [
         'minimum_length' => 2,
         'key' => 'search',
     ],

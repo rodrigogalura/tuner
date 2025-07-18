@@ -1,6 +1,6 @@
 <?php
 
-dataset('searching-truth-table', [
+dataset('search-truth-table', [
     0 => [
         'searchableFields' => [
             0 => '*',

@@ -5,7 +5,7 @@ namespace Laradigs\Tweaker;
 use RGalura\ApiIgniter\filter_explode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Laradigs\Tweaker\Searching\Searching;
+use Laradigs\Tweaker\Search\Search;
 use function RGalura\ApiIgniter\filter_explode;
 use Laradigs\Tweaker\Projection\ProjectionField;
 use Laradigs\Tweaker\Projection\ProjectionFieldNot;
@@ -51,7 +51,7 @@ final class TweakerBuilder
         return !is_null($this->projectedFields);
     }
 
-    private function searchingWasExecute()
+    private function searchWasExecute()
     {
         return !is_null($this->searchedResult);
     }
@@ -71,7 +71,7 @@ final class TweakerBuilder
         );
     }
 
-    public function projection($projectableFields)
+    public function projection(array $projectableFields)
     {
         $clientInputField = $this->clientInput[$this->config['projection']['include_key']] ?? null;
         $clientInputFieldNot = $this->clientInput[$this->config['projection']['exclude_key']] ?? null;
@@ -102,19 +102,19 @@ final class TweakerBuilder
         return $this;
     }
 
-    public function searchFilter($searchableFields)
+    public function searchFilter(array $searchableFields)
     {
-        $clientInputSearch = $_GET[$this->config['searching']['key']] ?? null;
+        $clientInputSearch = $_GET[$this->config['search']['key']] ?? null;
 
         if (isset($clientInputSearch)) {
-            $searching = new Searching(
+            $search = new Search(
                 model: $this->model,
                 searchableFields: $searchableFields,
                 clientInput: $clientInputSearch,
             );
 
             try {
-                $this->searchedResult = $searching->search();
+                $this->searchedResult = $search->search();
 
                 // $builder->whereAny(filter_explode(key($searchResult)), 'LIKE', current($searchResult));
             } catch (NoActionWillPerformException $e) {
@@ -123,6 +123,27 @@ final class TweakerBuilder
         }
 
         return $this;
+    }
+
+    public function sort(array $sortable)
+    {
+        $clientInputSearch = $_GET[$this->config['']['key']] ?? null;
+
+        if (isset($clientInputSearch)) {
+            $search = new Search(
+                model: $this->model,
+                searchableFields: $searchableFields,
+                clientInput: $clientInputSearch,
+            );
+
+            try {
+                $this->searchedResult = $search->search();
+
+                // $builder->whereAny(filter_explode(key($searchResult)), 'LIKE', current($searchResult));
+            } catch (NoActionWillPerformException $e) {
+                //
+            }
+        }
     }
 
     public function execute()
@@ -135,11 +156,7 @@ final class TweakerBuilder
             $this->builder->select($this->projectedFields);
         }
 
-        if ($this->searchingWasExecute()) {
-            if (empty($this->searchedResult)) {
-                return [];
-            }
-
+        if ($this->searchWasExecute()) {
             $searchFromFields = filter_explode(key($this->searchedResult));
             $searchKeyword = current($this->searchedResult);
 
