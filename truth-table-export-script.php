@@ -3,7 +3,8 @@
 class CSVToArray
 {
     private array $fileMethod = [
-        'truth-table.csv' => 'projectionField',
+        'truth-table.csv' => 'truthTable',
+        'projection-truth-table.csv' => 'projection',
         'search-truth-table.csv' => 'search',
     ];
 
@@ -45,7 +46,12 @@ class CSVToArray
         return $data;
     }
 
-    public function shortArrayExport()
+    private static function isEmpty(string $str)
+    {
+        return $str === static::EMPTY_VALUE;
+    }
+
+    public function export()
     {
         $export = var_export($this->data, true);
         $export = preg_replace("/^(\s*)array\s*\(/m", '$1[', $export);
@@ -54,7 +60,33 @@ class CSVToArray
         return $export;
     }
 
-    public function projectionField()
+    public function truthTable()
+    {
+        $rowIndex = 1;
+
+        return $this->readFileAndReturnData(function (&$data, $row) use(&$rowIndex) {
+            if ($rowIndex++ <= 2) { // skip 2 rows (headers)
+                return;
+            }
+
+            // convert 'empty' string to []
+            for ($i = 0; $i <= 3; $i++) {
+                if (static::isEmpty($row[$i])) {
+                    $row[$i] = '';
+                }
+            }
+
+            // intersect
+            $data[] = [
+                'p' => explode_sanitized($row[0]),
+                'q' => explode_sanitized($row[1]),
+                'p_INTERSECT_q' => $row[2] == '0' ? false : explode_sanitized($row[2]),
+                'p_EXCEPT_q' => $row[3] == '0' ? false : explode_sanitized($row[3]),
+            ];
+        });
+    }
+
+    public function projection()
     {
         return $this->readFileAndReturnData(function (&$data, $row) {
             // convert 'empty' string to ''
@@ -149,11 +181,6 @@ class CSVToArray
             }
         });
     }
-
-    private static function isEmpty(string $str)
-    {
-        return $str === static::EMPTY_VALUE;
-    }
 }
 
 function explode_sanitized(string $str, string $delimiter = ',')
@@ -162,10 +189,10 @@ function explode_sanitized(string $str, string $delimiter = ',')
 }
 
 // $csvToArray = new CSVToArray('truth-table.csv');
-// echo $csvToArray->shortArrayExport();
+// echo $csvToArray->export();
 
-$csvToArray = new CSVToArray('search-truth-table.csv');
-echo $csvToArray->shortArrayExport();
+$csvToArray = new CSVToArray('truth-table.csv');
+echo $csvToArray->export();
 
 /*
     Run this script using the command:

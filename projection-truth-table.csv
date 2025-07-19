@@ -1,31 +1,31 @@
 Truth Table:,,,
 p,q,p in q,p ex q
-*,*,"id, name",empty
+*,*,"id, name",0
 *,id,id,name
 *,name,name,id
 *,"id, name","id, name",empty
-*,empty,empty,"id, name"
+*,empty,0,"id, name"
 ,,,
-id,*,id,empty
+id,*,id,0
 id,id,id,empty
 id,name,empty,id
 id,"id, name",id,empty
-id,empty,empty,id
+id,empty,0,id
 ,,,
-name,*,name,empty
+name,*,name,0
 name,id,empty,name
 name,name,name,empty
 name,"id, name",name,empty
-name,empty,empty,name
+name,empty,0,name
 ,,,
-"id, name",*,"id, name",empty
+"id, name",*,"id, name",0
 "id, name",id,id,name
 "id, name",name,name,id
 "id, name","id, name","id, name",empty
-"id, name",empty,empty,"id, name"
+"id, name",empty,0,"id, name"
 ,,,
-empty,*,empty,empty
-empty,id,empty,empty
-empty,name,empty,empty
-empty,"id, name",empty,empty
-empty,empty,empty,empty
+empty,*,0,0
+empty,id,0,0
+empty,name,0,0
+empty,"id, name",0,0
+empty,empty,0,0

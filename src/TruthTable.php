@@ -2,6 +2,8 @@
 
 namespace Laradigs\Tweaker;
 
+use function RGalura\ApiIgniter\filter_explode;
+
 class TruthTable
 {
     public function __construct(
@@ -10,25 +12,40 @@ class TruthTable
         //
     }
 
-    protected function extractIfAsterisk(&$var)
+    private function extractAndValidate(string|array &$value)
     {
-        if ($var === ['*']) {
-            $var = $this->allItems;
+        if ($value === '*' || $value === ['*']) {
+            $value = $this->allItems;
         }
+
+        if (is_string($value)) {
+            $value = filter_explode($value);
+        }
+
+        return empty($this->diffFromAllItems($value));
     }
 
-    protected function diffFromAllItems(array $fields)
+    private function diffFromAllItems(array $fields)
     {
         return $this->diff($fields, $this->allItems);
     }
 
-    public function intersect(array $arr1, array $arr2)
+    private function diff(array $p, array $q)
     {
-        return array_values(array_intersect($arr1, $arr2));
+        return array_values(array_diff($p, $q));
     }
 
-    public function diff(array $arr1, array $arr2)
+    public function intersect(array|string $p, array|string $q)
     {
-        return array_values(array_diff($arr1, $arr2));
+        return $this->extractAndValidate($p) && $this->extractAndValidate($q)
+            ? array_values(array_intersect($p, $q))
+            : false;
+    }
+
+    public function except(array|string $p, array|string $q)
+    {
+        return $this->extractAndValidate($p) && $this->extractAndValidate($q)
+            ? array_values(array_diff($p, $q))
+            : false;
     }
 }

@@ -20,9 +20,13 @@ abstract class TestCase extends BaseTestCase
                 'exclude_key' => 'fields!',
             ],
 
-            'searching' => [
-                'key' => 'search',
+            'search' => [
                 'minimum_length' => 2,
+                'key' => 'search',
+            ],
+
+            'sort' => [
+                'key' => 'sort',
             ],
         ]);
     }

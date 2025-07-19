@@ -7,7 +7,12 @@ return [
     ],
 
     'search' => [
-        'minimum_length' => 2,
         'key' => 'search',
+        'minimum_length' => 2,
+    ],
+
+    'sort' => [
+        'key' => 'search',
+        'minimum_length' => 2,
     ],
 ];

@@ -127,13 +127,13 @@ final class TweakerBuilder
 
     public function sort(array $sortable)
     {
-        $clientInputSearch = $_GET[$this->config['']['key']] ?? null;
+        $clientInputSort = $_GET[$this->config['sort']['key']] ?? null;
 
-        if (isset($clientInputSearch)) {
+        if (isset($clientInputSort)) {
             $search = new Search(
                 model: $this->model,
                 searchableFields: $searchableFields,
-                clientInput: $clientInputSearch,
+                clientInput: $clientInputSort,
             );
 
             try {
