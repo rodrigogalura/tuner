@@ -30,6 +30,6 @@ class ProjectionField extends Projection
 
         return $this->clientInput === ['*']
             ? $this->projectableFields
-            : $this->intersect($this->projectableFields, $this->clientInput);
+            : $this->truthTable->intersect($this->projectableFields, $this->clientInput);
     }
 }

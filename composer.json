@@ -73,7 +73,7 @@
         ],
         "unitTest": [
             "@clear",
-            "@php vendor/bin/pest tests/Unit/TruthTableTest.php --profile --bail"
+            "@php vendor/bin/pest tests/Unit/ProjectionTest.php --profile --bail"
         ]
     },
     "extra": {

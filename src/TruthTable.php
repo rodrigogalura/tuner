@@ -12,40 +12,68 @@ class TruthTable
         //
     }
 
-    private function extractAndValidate(string|array &$value)
+    public function diffFromAllItems(string|array &$value)
     {
-        if ($value === '*' || $value === ['*']) {
-            $value = $this->allItems;
-        }
-
         if (is_string($value)) {
             $value = filter_explode($value);
         }
 
-        return empty($this->diffFromAllItems($value));
+        return array_values(array_diff($value, $this->allItems));
     }
 
-    private function diffFromAllItems(array $fields)
+    public function extractIfAsterisk(string|array &$value)
     {
-        return $this->diff($fields, $this->allItems);
+        if ($value === '*' || $value === ['*']) {
+            $value = $this->allItems;
+        }
     }
 
-    private function diff(array $p, array $q)
-    {
-        return array_values(array_diff($p, $q));
-    }
+    // private function extractAndValidate(string|array &$value)
+    // {
+    //     $this->extractIfAsterisk($value);
+    //     return $this->validate($value);
+    // }
+
+    // private function diff(array $p, array $q)
+    // {
+    //     return array_values(array_diff($p, $q));
+    // }
+
+    // public function validateAndIntersect(array|string $p, array|string $q)
+    // {
+    //     $this->extractAndValidate($p) && $this->extractAndValidate($q)
+    //         ? $this->intersect($p, $q)
+    //         : false;
+    // }
+
+    // public function validateAndExcept(array|string $p, array|string $q)
+    // {
+    //     $this->extractAndValidate($p) && $this->extractAndValidate($q)
+    //         ? $this->except($p, $q)
+    //         : false;
+    // }
 
     public function intersect(array|string $p, array|string $q)
     {
-        return $this->extractAndValidate($p) && $this->extractAndValidate($q)
-            ? array_values(array_intersect($p, $q))
-            : false;
+        $this->extractIfAsterisk($p);
+        $this->extractIfAsterisk($q);
+
+        return array_values(array_intersect($p, $q));
+
+        // return $this->containsAll($p) && $this->containsAll($q)
+        //     ? array_values(array_intersect($p, $q))
+        //     : false;
     }
 
     public function except(array|string $p, array|string $q)
     {
-        return $this->extractAndValidate($p) && $this->extractAndValidate($q)
-            ? array_values(array_diff($p, $q))
-            : false;
+        $this->extractIfAsterisk($p);
+        $this->extractIfAsterisk($q);
+
+        return array_values(array_diff($p, $q));
+
+        // return $this->containsAll($p) && $this->containsAll($q)
+        //     ? array_values(array_diff($p, $q))
+        //     : false;
     }
 }

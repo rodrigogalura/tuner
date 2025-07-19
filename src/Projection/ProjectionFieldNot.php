@@ -28,6 +28,6 @@ class ProjectionFieldNot extends Projection
     {
         $this->validate();
 
-        return $this->diff($this->projectableFields, $this->clientInput);
+        return $this->truthTable->except($this->projectableFields, $this->clientInput);
     }
 }
