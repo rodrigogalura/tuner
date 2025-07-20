@@ -83,13 +83,13 @@ final class TweakerBuilder
                     model: $this->model,
                     projectableFields: $projectableFields,
                     definedFields: $this->builder->getQuery()->columns ?? ['*'],
-                    clientInput: filter_explode($clientInputField),
+                    clientInput: $clientInputField,
                 ),
                 ! is_null($clientInputFieldNot) => new ProjectionFieldNot(
                     model: $this->model,
                     projectableFields: $projectableFields,
                     definedFields: $this->builder->getQuery()->columns ?? ['*'],
-                    clientInput: filter_explode($clientInputFieldNot),
+                    clientInput: $clientInputFieldNot,
                 ),
             };
 

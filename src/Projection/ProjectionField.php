@@ -2,6 +2,7 @@
 
 namespace Laradigs\Tweaker\Projection;
 
+use function RGalura\ApiIgniter\filter_explode;
 use Illuminate\Database\Eloquent\Model;
 
 class ProjectionField extends Projection
@@ -12,14 +13,24 @@ class ProjectionField extends Projection
         Model $model,
         array $projectableFields,
         array $definedFields,
-        private array $clientInput,
+        private mixed $clientInput,
     ) {
         parent::__construct($model, $projectableFields, $definedFields);
     }
 
+    private function convertClientInputToArray()
+    {
+        $this->clientInput = filter_explode($this->clientInput);
+    }
+
     protected function validate()
     {
-        if (static::$ignoreIfFieldsAreEmpty && empty($this->clientInput)) {
+        // Make sure client input is valid
+        if (!is_string($this->clientInput)) {
+            throw new NoActionWillPerformException;
+        }
+
+        if (static::$ignoreIfFieldsAreEmpty && empty($clientInput)) {
             throw new NoActionWillPerformException;
         }
 
@@ -34,6 +45,7 @@ class ProjectionField extends Projection
     public function project()
     {
         $this->validate();
+        $this->convertClientInputToArray();
 
         return $this->clientInput === ['*']
             ? $this->projectableFields

@@ -15,18 +15,14 @@ class Sort
 
     public function __construct(
         private Model $model,
-        protected array $searchableFields,
+        protected array $sortableFields,
         private array $clientInput,
-        private int $minimumLength = 2
     ) {
         $this->truthTable = new TruthTable(
             $model->getConnection()
                 ->getSchemaBuilder()
                 ->getColumnListing($model->getTable())
         );
-        // parent::__construct(
-        //     $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable())
-        // );
     }
 
     private function throwIfNotInVisibleFields(array $fields)
@@ -47,13 +43,13 @@ class Sort
             empty($fields) ||
             $this->checkIfNotInVisibleFields($fields) ||
             empty($value) ||
-            empty($this->searchableFields)
+            empty($this->sortableFields)
         ) {
             throw new NoActionWillPerformException;
         }
 
-        $this->truthTable->extractIfAsterisk($this->searchableFields);
-        $this->throwIfNotInVisibleFields($this->searchableFields);
+        $this->truthTable->extractIfAsterisk($this->sortableFields);
+        $this->throwIfNotInVisibleFields($this->sortableFields);
     }
 
     public function search()
@@ -70,6 +66,6 @@ class Sort
         // // convert asterisk to percentage of first and last position of keyword
         // $keyword = Str::replaceMatches('/^\*|\*$/', '%', $keyword);
 
-        // return [implode(', ', $this->truthTable->intersect($this->searchableFields, $fields)) => $keyword];
+        // return [implode(', ', $this->truthTable->intersect($this->sortableFields, $fields)) => $keyword];
     }
 }
