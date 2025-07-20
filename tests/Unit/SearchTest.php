@@ -107,57 +107,18 @@ describe('Throw an exception', function (): void {
 });
 
 describe('Valid scenarios', function (): void {
-    it('should passed all valid scenarios', function (
-        $searchableFields,
-        $search_fields,
-
-        $search_value_no_wildcard,
-        $search_value_both_wildcard,
-        $search_value_left_wildcard,
-        $search_value_right_wildcard,
-
-        $result_fields,
-
-        $result_value_unit_no_wildcard,
-        $result_value_unit_both_wildcard,
-        $result_value_unit_left_wildcard,
-        $result_value_unit_right_wildcard,
-
-        $result_value_feature_no_wildcard,
-        $result_value_feature_both_wildcard,
-        $result_value_feature_left_wildcard,
-        $result_value_feature_right_wildcard,
-    ): void {
+    it('should passed all valid scenarios', function ($searchableFields, $clientFields, $resultFields, $clientKeyword, $resultKeyword): void {
+        dump($searchableFields, $clientFields, $resultFields, $clientKeyword, $resultKeyword);
         // Prepare
-        $noWildcard = new Search(
+        $search = new Search(
             $this->model,
             searchableFields: $searchableFields,
-            clientInput: [$search_fields => $search_value_no_wildcard],
-        );
-
-        $bothWildcard = new Search(
-            $this->model,
-            searchableFields: $searchableFields,
-            clientInput: [$search_fields => $search_value_both_wildcard],
-        );
-
-        $leftWildcard = new Search(
-            $this->model,
-            searchableFields: $searchableFields,
-            clientInput: [$search_fields => $search_value_left_wildcard],
-        );
-
-        $rightWildcard = new Search(
-            $this->model,
-            searchableFields: $searchableFields,
-            clientInput: [$search_fields => $search_value_right_wildcard],
+            clientInput: [$clientFields => $clientKeyword],
         );
 
         // Act & Assert
-        expect($noWildcard->search())->toBe([$result_fields => $result_value_unit_no_wildcard]);
-        expect($bothWildcard->search())->toBe([$result_fields => $result_value_unit_both_wildcard]);
-        expect($leftWildcard->search())->toBe([$result_fields => $result_value_unit_left_wildcard]);
-        expect($rightWildcard->search())->toBe([$result_fields => $result_value_unit_right_wildcard]);
+        expect($search->search())->toBe([$resultFields => $resultKeyword]);
     })
-        ->with('search-truth-table');
+        ->with('search-fields-truth-table')
+        ->with('search-keyword-truth-table');
 });

@@ -110,7 +110,7 @@ class CSVToArray
                 return; // skip
             }
 
-            if ($row[0] === '') { // skip no value row
+            if ($row[0] == '') { // skip no value row
                 return; //
             }
 
@@ -142,37 +142,83 @@ class CSVToArray
 
     public function search()
     {
-        return $this->readFileAndReturnData(function (&$data, $row) {
-            // convert 'empty' string to ''
-            for ($i = 0; $i <= 5; $i++) {
-                if (static::isEmpty($row[$i])) {
-                    $row[$i] = [];
-                }
+        $rowCounter = 1;
+
+        $CELL_ROW_STARTS_AT = 4;
+        $CELL_ROW_CLIENT_KEYWORD_STARTS_AT = 37;
+        $CELL_COLS_LENGTH = 3;
+
+        $PREREQUISITES_CODES = [1, 2];
+
+        return $this->readFileAndReturnData(function (&$data, $row) use (
+            &$rowCounter,
+            $CELL_ROW_STARTS_AT,
+            $CELL_ROW_CLIENT_KEYWORD_STARTS_AT,
+            $CELL_COLS_LENGTH,
+            $PREREQUISITES_CODES
+        ) {
+            if ($rowCounter++ < $CELL_ROW_STARTS_AT) {
+                return; // skip
             }
 
-            // fields
-            if (! is_numeric($result_fields = $row[7])) {
+            if ($row[1] == '') { // skip no value row
+                return; //
+            }
+
+            // convert 'empty' string to ''
+            for ($i = 0; $i < $CELL_COLS_LENGTH; $i++) {
+                static::convertToEmptyStringIfEmptyValue($row[$i]);
+            }
+
+            $searchableFields = $row[0];
+
+            if ($rowCounter < $CELL_ROW_CLIENT_KEYWORD_STARTS_AT) {
+                $clientFields = $row[1];
+                $resultFields = $row[2];
+
+                if (in_array($resultFields, $PREREQUISITES_CODES)) {
+                    return; // skip;
+                }
+
+                // fields
                 $data[] = [
-                    'searchableFields' => explode_sanitized($row[0]),
+                    'searchableFields' => explode_sanitized($searchableFields),
+                    'clientFields' => $clientFields,
+                    'resultFields' => $resultFields,
+                ];
+            } else {
+                $clientKeyword = $row[1];
+                $resultKeyword = $row[2];
 
-                    'search_fields' => $row[1],
-                    'search_value_no_wildcard' => $row[2],
-                    'search_value_both_wildcard' => $row[3],
-                    'search_value_left_wildcard' => $row[4],
-                    'search_value_right_wildcard' => $row[5],
-
-                    'result_fields' => $result_fields,
-                    'result_value_unit_no_wildcard' => $row[8],
-                    'result_value_unit_both_wildcard' => $row[9],
-                    'result_value_unit_left_wildcard' => $row[10],
-                    'result_value_unit_right_wildcard' => $row[11],
-
-                    'result_value_feature_no_wildcard' => static::isEmpty($row[12]) ? [] : explode_sanitized($row[12]),
-                    'result_value_feature_both_wildcard' => static::isEmpty($row[13]) ? [] : explode_sanitized($row[13]),
-                    'result_value_feature_left_wildcard' => static::isEmpty($row[14]) ? [] : explode_sanitized($row[14]),
-                    'result_value_feature_right_wildcard' => static::isEmpty($row[15]) ? [] : explode_sanitized($row[15]),
+                // keyword
+                $data[] = [
+                    'clientKeyword' => $clientKeyword,
+                    'resultKeyword' => $resultKeyword,
                 ];
             }
+
+            // if (! is_numeric($result_fields = $row[7])) {
+            //     $data[] = [
+            //         'searchableFields' => explode_sanitized($row[0]),
+
+            //         'search_fields' => $row[1],
+            //         'search_value_no_wildcard' => $row[2],
+            //         'search_value_both_wildcard' => $row[3],
+            //         'search_value_left_wildcard' => $row[4],
+            //         'search_value_right_wildcard' => $row[5],
+
+            //         'result_fields' => $result_fields,
+            //         'result_value_unit_no_wildcard' => $row[8],
+            //         'result_value_unit_both_wildcard' => $row[9],
+            //         'result_value_unit_left_wildcard' => $row[10],
+            //         'result_value_unit_right_wildcard' => $row[11],
+
+            //         'result_value_feature_no_wildcard' => static::isEmpty($row[12]) ? [] : explode_sanitized($row[12]),
+            //         'result_value_feature_both_wildcard' => static::isEmpty($row[13]) ? [] : explode_sanitized($row[13]),
+            //         'result_value_feature_left_wildcard' => static::isEmpty($row[14]) ? [] : explode_sanitized($row[14]),
+            //         'result_value_feature_right_wildcard' => static::isEmpty($row[15]) ? [] : explode_sanitized($row[15]),
+            //     ];
+            // }
         });
     }
 }
@@ -185,7 +231,7 @@ function explode_sanitized(string $str, string $delimiter = ',')
 // $csvToArray = new CSVToArray('truth-table.csv');
 // echo $csvToArray->export();
 
-$csvToArray = new CSVToArray('projection-truth-table.csv');
+$csvToArray = new CSVToArray('search-truth-table.csv');
 echo $csvToArray->export();
 
 /*
