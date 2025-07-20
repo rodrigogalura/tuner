@@ -116,8 +116,6 @@ final class TweakerBuilder
 
             try {
                 $this->searchedResult = $search->search();
-
-                // $builder->whereAny(filter_explode(key($searchResult)), 'LIKE', current($searchResult));
             } catch (NoActionWillPerformException $e) {
                 //
             }

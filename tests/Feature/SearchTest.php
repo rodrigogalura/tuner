@@ -9,15 +9,30 @@ use Workbench\App\Models\OnlyNameIsProjectableModel;
 
 use function Pest\Laravel\get;
 
+dataset('keyword-and-count', [
+    ['clientKeyword' => 'Mr*', 'expectedCount' => 2],
+    ['clientKeyword' => '*JR.', 'expectedCount' => 3],
+    ['clientKeyword' => 'Bar', 'expectedCount' => 4],
+    ['clientKeyword' => '*Bar*', 'expectedCount' => 4],
+]);
+
 beforeEach(function (): void {
     $_GET = [];
 
+    // 2 Mr*
+    // 3 *JR.
+    // 4 *Bar*
+    // 4 Bar
     $this->data = [
         ['id' => 1, 'name' => 'Mr. Anderson'],
-        ['id' => 2, 'name' => 'John Wick'],
-        ['id' => 3, 'name' => 'Peter Parker SR.'],
-        ['id' => 4, 'name' => 'John Doe JR.'],
-        ['id' => 5, 'name' => 'Foo Bar III'],
+        ['id' => 2, 'name' => 'Mr. Anna'],
+        ['id' => 3, 'name' => 'John Wick JR.'],
+        ['id' => 4, 'name' => 'Foo Greenfelder JR.'],
+        ['id' => 5, 'name' => 'Alan Doe JR.'],
+        ['id' => 6, 'name' => 'Angel Bar Abshire'],
+        ['id' => 7, 'name' => 'Peter Bar Pan'],
+        ['id' => 8, 'name' => 'Camille Bar McClure'],
+        ['id' => 9, 'name' => 'Alanis Bar III'],
     ];
 });
 
@@ -56,7 +71,7 @@ describe('Not perform any action.', function (): void {
     });
 
     it('should not perform any action if the search value is not hit the minimum', function (): void {
-        $minimumLength = config('tweaker.searching.minimum_length');
+        $minimumLength = config('tweaker.search.minimum_length');
 
         // Prepare
         $_GET['search'] = ['name' => str_repeat('a', $minimumLength - 1)];
@@ -78,17 +93,6 @@ describe('Not perform any action.', function (): void {
             ->assertOk()
             ->assertExactJson($this->data);
     });
-
-    it('should not perform any action if the result key is empty', function (): void {
-        // Prepare
-        $_GET['search'] = ['name' => 'Mr%'];
-        OnlyIdIsProjectableModel::factory()->createMany($this->data);
-
-        // Act & Assert
-        get('/api/only-id-is-projectable')
-            ->assertOk()
-            ->assertExactJson($this->data);
-    });
 });
 
 describe('Throw an exception', function (): void {
@@ -103,55 +107,42 @@ describe('Throw an exception', function (): void {
 });
 
 describe('Valid scenarios', function (): void {
-    it('should passed all valid scenarios for client input "fields"', function (
-        $searchableFields,
-        $search_fields,
-
-        $search_value_no_wildcard,
-        $search_value_both_wildcard,
-        $search_value_left_wildcard,
-        $search_value_right_wildcard,
-
-        $result_fields,
-
-        $result_value_unit_no_wildcard,
-        $result_value_unit_both_wildcard,
-        $result_value_unit_left_wildcard,
-        $result_value_unit_right_wildcard,
-
-        $result_value_feature_no_wildcard,
-        $result_value_feature_both_wildcard,
-        $result_value_feature_left_wildcard,
-        $result_value_feature_right_wildcard,
-    ): void {
+    it('should passed all valid scenarios for all searchable fields', function ($clientKeyword, $expectedCount): void {
         // Prepare
-        $equivalentRoutes = [
-            '*' => '/api/all-fields-are-projectable',
-            'id' => '/api/only-id-is-projectable',
-            'name' => '/api/only-name-is-projectable',
-            'id, name' => '/api/only-id-and-name-are-projectable',
-        ];
+        AllFieldsAreProjectableModel::factory()->createMany($this->data);
 
-        $models = [
-            '*' => AllFieldsAreProjectableModel::class,
-            'id' => OnlyIdIsProjectableModel::class,
-            'name' => OnlyNameIsProjectableModel::class,
-            'id, name' => OnlyIdAndNameAreProjectableModel::class,
-        ];
-
-        $key = implode(', ', $searchableFields);
-
-        $route = $equivalentRoutes[$key];
-
-        $model = $models[$key];
-        $model::factory()->createMany($this->data);
-
-        $_GET['search'] = [$search_fields => $search_value_no_wildcard];
+        $_GET['search'] = ['name' => $clientKeyword];
 
         // Act & Assert
-        get($route)
+        get('/api/all-fields-are-projectable')
             ->assertOk()
-            ->assertJsonCount(empty($result_value_feature_no_wildcard) ? 0 : 1);
+            ->assertJsonCount($expectedCount);
     })
-        ->with('searching-truth-table')->only();
+    ->with('keyword-and-count');
+
+    it('should passed all valid scenarios for searchable field name', function ($clientKeyword, $expectedCount): void {
+        // Prepare
+        OnlyNameIsProjectableModel::factory()->createMany($this->data);
+
+        $_GET['search'] = ['name' => $clientKeyword];
+
+        // Act & Assert
+        get('/api/only-name-is-projectable')
+            ->assertOk()
+            ->assertJsonCount($expectedCount);
+    })
+    ->with('keyword-and-count');
+
+    it('should passed all valid scenarios for searchable fields id and name', function ($clientKeyword, $expectedCount): void {
+        // Prepare
+        OnlyIdAndNameAreProjectableModel::factory()->createMany($this->data);
+
+        $_GET['search'] = ['name' => $clientKeyword];
+
+        // Act & Assert
+        get('/api/only-id-and-name-are-projectable')
+            ->assertOk()
+            ->assertJsonCount($expectedCount);
+    })
+    ->with('keyword-and-count');
 });

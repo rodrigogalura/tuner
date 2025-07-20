@@ -12,7 +12,6 @@ return [
     ],
 
     'sort' => [
-        'key' => 'search',
-        'minimum_length' => 2,
+        'key' => 'search'
     ],
 ];

@@ -21,8 +21,8 @@ abstract class TestCase extends BaseTestCase
             ],
 
             'search' => [
-                'minimum_length' => 2,
                 'key' => 'search',
+                'minimum_length' => 2,
             ],
 
             'sort' => [
