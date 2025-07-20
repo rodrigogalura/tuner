@@ -1,6 +1,6 @@
 <?php
 
-namespace Laradigs\Tweaker\Search;
+namespace Laradigs\Tweaker\Sort;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -10,7 +10,7 @@ use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 
 use function RGalura\ApiIgniter\filter_explode;
 
-class Search
+class Sort
 {
     protected TruthTable $truthTable;
 
@@ -42,23 +42,14 @@ class Search
         return ! empty($this->truthTable->diffFromAllItems($fields));
     }
 
-    protected function validate(array $fields, string $keyword)
+    protected function validate(array $fields, string $value)
     {
-        if (empty($fields)) {
-            throw new NoActionWillPerformException;
-        }
-
-        if ($this->checkIfNotInVisibleFields($fields)) {
-            throw new NoActionWillPerformException;
-        }
-
-        $sanitizeKeyword = trim(trim($keyword, '*'));
-
-        if (empty($sanitizeKeyword) || strlen($sanitizeKeyword) < $this->minimumLength) {
-            throw new NoActionWillPerformException;
-        }
-
-        if (empty($this->searchableFields)) {
+        if (
+            empty($fields) ||
+            $this->checkIfNotInVisibleFields($fields) ||
+            empty($value) ||
+            empty($this->searchableFields)
+        ) {
             throw new NoActionWillPerformException;
         }
 
@@ -71,15 +62,15 @@ class Search
         $fields = filter_explode(key($this->clientInput));
         $this->truthTable->extractIfAsterisk($fields);
 
-        $this->validate($fields, $keyword = current($this->clientInput));
+        $this->validate($fields, $value = current($this->clientInput));
 
-        if (! str_starts_with($keyword, '*') && ! str_ends_with($keyword, '*')) {
-            $keyword = "*{$keyword}*";
-        }
+        // if (! str_starts_with($keyword, '*') && ! str_ends_with($keyword, '*')) {
+        //     $keyword = "*{$keyword}*";
+        // }
 
-        // convert asterisk to percentage of first and last position of keyword
-        $keyword = Str::replaceMatches('/^\*|\*$/', '%', $keyword);
+        // // convert asterisk to percentage of first and last position of keyword
+        // $keyword = Str::replaceMatches('/^\*|\*$/', '%', $keyword);
 
-        return [implode(', ', $this->truthTable->intersect($this->searchableFields, $fields)) => $keyword];
+        // return [implode(', ', $this->truthTable->intersect($this->searchableFields, $fields)) => $keyword];
     }
 }

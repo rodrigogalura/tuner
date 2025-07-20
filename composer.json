@@ -69,11 +69,15 @@
         ],
         "test": [
             "@clear",
-            "@php vendor/bin/pest tests/Feature/SearchingTest.php --profile --bail"
+            "@php vendor/bin/pest tests/Feature/SearchTest.php --profile --bail"
         ],
         "unitTest": [
             "@clear",
-            "@php vendor/bin/pest tests/Unit/ProjectionTest.php --profile --bail"
+            "@php vendor/bin/pest tests/Unit/SearchTest.php --profile --bail"
+        ],
+        "testSort": [
+            "@clear",
+            "@php vendor/bin/pest tests/Unit/SortTest.php --profile --bail"
         ]
     },
     "extra": {

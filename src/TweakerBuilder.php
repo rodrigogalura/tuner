@@ -129,21 +129,21 @@ final class TweakerBuilder
     {
         $clientInputSort = $_GET[$this->config['sort']['key']] ?? null;
 
-        if (isset($clientInputSort)) {
-            $search = new Search(
-                model: $this->model,
-                searchableFields: $searchableFields,
-                clientInput: $clientInputSort,
-            );
+        // if (isset($clientInputSort)) {
+        //     $search = new Search(
+        //         model: $this->model,
+        //         searchableFields: $searchableFields,
+        //         clientInput: $clientInputSort,
+        //     );
 
-            try {
-                $this->searchedResult = $search->search();
+        //     try {
+        //         $this->searchedResult = $search->search();
 
-                // $builder->whereAny(filter_explode(key($searchResult)), 'LIKE', current($searchResult));
-            } catch (NoActionWillPerformException $e) {
-                //
-            }
-        }
+        //         // $builder->whereAny(filter_explode(key($searchResult)), 'LIKE', current($searchResult));
+        //     } catch (NoActionWillPerformException $e) {
+        //         //
+        //     }
+        // }
     }
 
     public function execute()
