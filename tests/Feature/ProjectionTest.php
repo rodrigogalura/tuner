@@ -21,32 +21,6 @@ beforeEach(function (): void {
 });
 
 describe('Not perform any action.', function (): void {
-    it('should not perform any action if the client input "fields!" is "*"', function (): void {
-        // Prepare
-        $_GET['fields!'] = '*';
-        $_GET['defined_fields'] = ['id', 'name'];
-        $data = AllFieldsAreProjectableModel::factory()->create();
-
-        // Act & Assert
-        get('/api/all-fields-are-projectable')
-            ->assertOk()
-            ->assertJsonCount($data->count())
-            ->assertExactJsonStructure(['*' => $_GET['defined_fields']]);
-    });
-
-    it('should not perform any action if the projectable field\'s value is empty', function (): void {
-        // Prepare
-        $_GET['fields!'] = '*';
-        $_GET['defined_fields'] = ['id', 'name'];
-        $data = NoProjectableModel::factory()->create();
-
-        // Act & Assert
-        get('/api/no-projectable')
-            ->assertOk()
-            ->assertJsonCount($data->count())
-            ->assertExactJsonStructure(['*' => $_GET['defined_fields']]);
-    });
-
     it('should not perform any action if the projectable fields and defined fields are not intersect', function (): void {
         // Prepare
         $_GET['defined_fields'] = ['name'];
@@ -89,7 +63,7 @@ describe('Throw an exception', function (): void {
 });
 
 describe('Valid scenarios', function (): void {
-    it('should passed all valid scenarios for client input "fields"', function ($projectableFields, $definedFields, $clientInput, $expectedResult): void {
+    it('should passed all valid scenarios', function ($projectableFields, $definedFields, $clientInput, $resultFields, $resultFieldsNot): void {
         // Prepare
         $equivalentRoutes = [
             '*' => '/api/all-fields-are-projectable',
@@ -108,56 +82,30 @@ describe('Valid scenarios', function (): void {
         ];
 
         $key = implode(', ', $projectableFields);
+
+        $_GET['defined_fields'] = $definedFields;
+
+        $model = $models[$key];
+        $data = $model::factory(rand(2, 5))->create();
+
+        $route = $equivalentRoutes[$key];
 
         $_GET['fields'] = $clientInput;
-        $_GET['defined_fields'] = $definedFields;
-
-        $model = $models[$key];
-        $data = $model::factory(rand(2, 5))->create();
-
-        $route = $equivalentRoutes[$key];
 
         // Act & Assert
         get($route)
             ->assertOk()
-            ->assertJsonCount(empty($expectedResult) ? 0 : $data->count())
-            ->assertExactJsonStructure(['*' => $expectedResult]);
-    })
-        ->with('fields-truth-table');
+            ->assertJsonCount(empty($resultFields) ? 0 : $data->count())
+            ->assertExactJsonStructure(['*' => $resultFields]);
 
-    it('should passed all valid scenarios for client input "fields!"', function ($projectableFields, $definedFields, $clientInput, $expectedResult): void {
-        // Prepare
-        $equivalentRoutes = [
-            '*' => '/api/all-fields-are-projectable',
-            'id' => '/api/only-id-is-projectable',
-            'name' => '/api/only-name-is-projectable',
-            'id, name' => '/api/only-id-and-name-are-projectable',
-            'empty' => '/api/no-projectable',
-        ];
-
-        $models = [
-            '*' => AllFieldsAreProjectableModel::class,
-            'id' => OnlyIdIsProjectableModel::class,
-            'name' => OnlyNameIsProjectableModel::class,
-            'id, name' => OnlyIdAndNameAreProjectableModel::class,
-            'empty' => NoProjectableModel::class,
-        ];
-
-        $key = implode(', ', $projectableFields);
-
+        unset($_GET['fields']);
         $_GET['fields!'] = $clientInput;
-        $_GET['defined_fields'] = $definedFields;
-
-        $model = $models[$key];
-        $data = $model::factory(rand(2, 5))->create();
-
-        $route = $equivalentRoutes[$key];
 
         // Act & Assert
         get($route)
             ->assertOk()
-            ->assertJsonCount(empty($expectedResult) ? 0 : $data->count())
-            ->assertExactJsonStructure(['*' => $expectedResult]);
+            ->assertJsonCount(empty($resultFieldsNot) ? 0 : $data->count())
+            ->assertExactJsonStructure(['*' => $resultFieldsNot]);
     })
-        ->with('fields-not-truth-table');
+        ->with('projection-truth-table');
 });

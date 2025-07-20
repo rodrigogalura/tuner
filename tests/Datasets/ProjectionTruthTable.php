@@ -1401,11 +1401,11 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => '*',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
             1 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     1 => [
@@ -1416,10 +1416,10 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'id',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'name',
         ],
     ],
@@ -1431,10 +1431,10 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'id',
         ],
     ],
@@ -1446,11 +1446,11 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'id, name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
             1 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     4 => [
@@ -1461,9 +1461,9 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => '',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'id',
             1 => 'name',
         ],
@@ -1476,10 +1476,10 @@ dataset('projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => '*',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     6 => [
@@ -1490,10 +1490,10 @@ dataset('projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => 'id',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     7 => [
@@ -1504,9 +1504,9 @@ dataset('projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => 'name',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'id',
         ],
     ],
@@ -1518,10 +1518,10 @@ dataset('projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => 'id, name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     9 => [
@@ -1532,9 +1532,9 @@ dataset('projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => '',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'id',
         ],
     ],
@@ -1546,10 +1546,10 @@ dataset('projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => '*',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     11 => [
@@ -1560,9 +1560,9 @@ dataset('projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => 'id',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'name',
         ],
     ],
@@ -1574,10 +1574,10 @@ dataset('projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => 'name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     13 => [
@@ -1588,10 +1588,10 @@ dataset('projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => 'id, name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     14 => [
@@ -1602,9 +1602,9 @@ dataset('projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => '',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'name',
         ],
     ],
@@ -1617,11 +1617,11 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => '*',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
             1 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     16 => [
@@ -1633,10 +1633,10 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'id',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'name',
         ],
     ],
@@ -1649,10 +1649,10 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'id',
         ],
     ],
@@ -1665,11 +1665,11 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'id, name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
             1 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     19 => [
@@ -1681,9 +1681,9 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => '',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'id',
             1 => 'name',
         ],
@@ -1696,10 +1696,10 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => '*',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     21 => [
@@ -1710,10 +1710,10 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'id',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     22 => [
@@ -1724,9 +1724,9 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'name',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'id',
         ],
     ],
@@ -1738,10 +1738,10 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'id, name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     24 => [
@@ -1752,9 +1752,9 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => '',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'id',
         ],
     ],
@@ -1766,10 +1766,10 @@ dataset('projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => '*',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     26 => [
@@ -1780,10 +1780,10 @@ dataset('projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => 'id',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     27 => [
@@ -1794,9 +1794,9 @@ dataset('projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => 'name',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'id',
         ],
     ],
@@ -1808,10 +1808,10 @@ dataset('projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => 'id, name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     29 => [
@@ -1822,9 +1822,9 @@ dataset('projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => '',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'id',
         ],
     ],
@@ -1837,10 +1837,10 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => '*',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     31 => [
@@ -1852,10 +1852,10 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'id',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     32 => [
@@ -1867,9 +1867,9 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'name',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'id',
         ],
     ],
@@ -1882,10 +1882,10 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'id, name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     34 => [
@@ -1897,9 +1897,9 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => '',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'id',
         ],
     ],
@@ -1911,10 +1911,10 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => '*',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     36 => [
@@ -1925,9 +1925,9 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'id',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'name',
         ],
     ],
@@ -1939,10 +1939,10 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     38 => [
@@ -1953,10 +1953,10 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'id, name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     39 => [
@@ -1967,9 +1967,9 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => '',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'name',
         ],
     ],
@@ -1981,10 +1981,10 @@ dataset('projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => '*',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     41 => [
@@ -1995,9 +1995,9 @@ dataset('projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => 'id',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'name',
         ],
     ],
@@ -2009,10 +2009,10 @@ dataset('projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => 'name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     43 => [
@@ -2023,10 +2023,10 @@ dataset('projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => 'id, name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     44 => [
@@ -2037,9 +2037,9 @@ dataset('projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => '',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'name',
         ],
     ],
@@ -2052,10 +2052,10 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => '*',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     46 => [
@@ -2067,9 +2067,9 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'id',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'name',
         ],
     ],
@@ -2082,10 +2082,10 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     48 => [
@@ -2097,10 +2097,10 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'id, name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     49 => [
@@ -2112,9 +2112,9 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => '',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'name',
         ],
     ],
@@ -2127,11 +2127,11 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => '*',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
             1 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     51 => [
@@ -2143,10 +2143,10 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'id',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'name',
         ],
     ],
@@ -2159,10 +2159,10 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'id',
         ],
     ],
@@ -2175,11 +2175,11 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'id, name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
             1 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     54 => [
@@ -2191,9 +2191,9 @@ dataset('projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => '',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'id',
             1 => 'name',
         ],
@@ -2207,10 +2207,10 @@ dataset('projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => '*',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     56 => [
@@ -2222,10 +2222,10 @@ dataset('projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => 'id',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     57 => [
@@ -2237,9 +2237,9 @@ dataset('projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => 'name',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'id',
         ],
     ],
@@ -2252,10 +2252,10 @@ dataset('projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => 'id, name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     59 => [
@@ -2267,9 +2267,9 @@ dataset('projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => '',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'id',
         ],
     ],
@@ -2282,10 +2282,10 @@ dataset('projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => '*',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     61 => [
@@ -2297,9 +2297,9 @@ dataset('projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => 'id',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'name',
         ],
     ],
@@ -2312,10 +2312,10 @@ dataset('projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => 'name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     63 => [
@@ -2327,10 +2327,10 @@ dataset('projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => 'id, name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     64 => [
@@ -2342,9 +2342,9 @@ dataset('projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => '',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'name',
         ],
     ],
@@ -2358,11 +2358,11 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => '*',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
             1 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     66 => [
@@ -2375,10 +2375,10 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'id',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'name',
         ],
     ],
@@ -2392,10 +2392,10 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'id',
         ],
     ],
@@ -2409,11 +2409,11 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'id, name',
-        'result_fields' => [
+        'resultFields' => [
             0 => 'id',
             1 => 'name',
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
         ],
     ],
     69 => [
@@ -2426,9 +2426,9 @@ dataset('projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => '',
-        'result_fields' => [
+        'resultFields' => [
         ],
-        'result_fields_not' => [
+        'resultFieldsNot' => [
             0 => 'id',
             1 => 'name',
         ],

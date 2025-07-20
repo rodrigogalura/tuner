@@ -104,7 +104,7 @@ describe('Throw an exception', function (): void {
 });
 
 describe('Valid scenarios', function (): void {
-    it('should passed all valid scenarios for client input "fields"', function ($projectableFields, $definedFields, $clientInput, $result_fields, $result_fields_not): void {
+    it('should passed all valid scenarios for client input "fields"', function ($projectableFields, $definedFields, $clientInput, $resultFields, $resultFieldsNot): void {
         // Prepare
         $projection = new ProjectionField(
             $this->model,
@@ -121,8 +121,8 @@ describe('Valid scenarios', function (): void {
         );
 
         // Act & Assert
-        expect($projection->project())->toBe($result_fields);
-        expect($projectionNot->project())->toBe($result_fields_not);
+        expect($projection->project())->toBe($resultFields);
+        expect($projectionNot->project())->toBe($resultFieldsNot);
     })
         ->with('projection-truth-table');
 });

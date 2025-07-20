@@ -134,8 +134,8 @@ class CSVToArray
                 'projectableFields' => explode_sanitized($projectableFields),
                 'definedFields' => explode_sanitized($definedFields),
                 'clientInput' => $clientInput,
-                'result_fields' => explode_sanitized($result_fields),
-                'result_fields_not' => explode_sanitized($result_fields_not),
+                'resultFields' => explode_sanitized($result_fields),
+                'resultFieldsNot' => explode_sanitized($result_fields_not),
             ];
         });
     }
