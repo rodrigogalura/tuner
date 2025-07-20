@@ -67,17 +67,21 @@
         "pint": [
             "@php vendor/bin/pint --ansi"
         ],
-        "test": [
+        "projectionFeatureTest": [
+            "@clear",
+            "@php vendor/bin/pest tests/Feature/ProjectionTest.php --profile --bail"
+        ],
+        "projectionUnitTest": [
+            "@clear",
+            "@php vendor/bin/pest tests/Unit/ProjectionTest.php --profile --bail"
+        ],
+        "searchFeatureTest": [
             "@clear",
             "@php vendor/bin/pest tests/Feature/SearchTest.php --profile --bail"
         ],
-        "unitTest": [
+        "searchUnitTest": [
             "@clear",
             "@php vendor/bin/pest tests/Unit/SearchTest.php --profile --bail"
-        ],
-        "testSort": [
-            "@clear",
-            "@php vendor/bin/pest tests/Unit/SortTest.php --profile --bail"
         ]
     },
     "extra": {

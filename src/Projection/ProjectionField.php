@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProjectionField extends Projection
 {
+    private static $ignoreIfFieldsAreEmpty = false;
+
     public function __construct(
         Model $model,
         array $projectableFields,
@@ -17,11 +19,16 @@ class ProjectionField extends Projection
 
     protected function validate()
     {
-        if (empty($this->clientInput)) {
+        if (static::$ignoreIfFieldsAreEmpty && empty($this->clientInput)) {
             throw new NoActionWillPerformException;
         }
 
         parent::validate();
+    }
+
+    public static function ignoreIfFieldsAreEmpty()
+    {
+        static::$ignoreIfFieldsAreEmpty = true;
     }
 
     public function project()

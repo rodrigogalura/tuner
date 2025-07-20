@@ -155,6 +155,29 @@ dataset('search-truth-table', [
         'searchableFields' => [
             0 => 'id',
         ],
+        'search_fields' => 'name',
+        'search_value_no_wildcard' => 'Doe',
+        'search_value_both_wildcard' => '*Doe*',
+        'search_value_left_wildcard' => '*Doe',
+        'search_value_right_wildcard' => 'Doe*',
+        'result_fields' => 'empty',
+        'result_value_unit_no_wildcard' => '%Doe%',
+        'result_value_unit_both_wildcard' => '%Doe%',
+        'result_value_unit_left_wildcard' => '%Doe',
+        'result_value_unit_right_wildcard' => 'Doe%',
+        'result_value_feature_no_wildcard' => [
+        ],
+        'result_value_feature_both_wildcard' => [
+        ],
+        'result_value_feature_left_wildcard' => [
+        ],
+        'result_value_feature_right_wildcard' => [
+        ],
+    ],
+    7 => [
+        'searchableFields' => [
+            0 => 'id',
+        ],
         'search_fields' => 'id, name',
         'search_value_no_wildcard' => 'Doe',
         'search_value_both_wildcard' => '*Doe*',
@@ -174,7 +197,7 @@ dataset('search-truth-table', [
         'result_value_feature_right_wildcard' => [
         ],
     ],
-    7 => [
+    8 => [
         'searchableFields' => [
             0 => 'name',
         ],
@@ -201,7 +224,30 @@ dataset('search-truth-table', [
             0 => '4',
         ],
     ],
-    8 => [
+    9 => [
+        'searchableFields' => [
+            0 => 'name',
+        ],
+        'search_fields' => 'id',
+        'search_value_no_wildcard' => 'Doe',
+        'search_value_both_wildcard' => '*Doe*',
+        'search_value_left_wildcard' => '*Doe',
+        'search_value_right_wildcard' => 'Doe*',
+        'result_fields' => 'empty',
+        'result_value_unit_no_wildcard' => '%Doe%',
+        'result_value_unit_both_wildcard' => '%Doe%',
+        'result_value_unit_left_wildcard' => '%Doe',
+        'result_value_unit_right_wildcard' => 'Doe%',
+        'result_value_feature_no_wildcard' => [
+        ],
+        'result_value_feature_both_wildcard' => [
+        ],
+        'result_value_feature_left_wildcard' => [
+        ],
+        'result_value_feature_right_wildcard' => [
+        ],
+    ],
+    10 => [
         'searchableFields' => [
             0 => 'name',
         ],
@@ -228,7 +274,7 @@ dataset('search-truth-table', [
             0 => '4',
         ],
     ],
-    9 => [
+    11 => [
         'searchableFields' => [
             0 => 'name',
         ],
@@ -255,7 +301,7 @@ dataset('search-truth-table', [
             0 => '4',
         ],
     ],
-    10 => [
+    12 => [
         'searchableFields' => [
             0 => 'id',
             1 => 'name',
@@ -283,7 +329,7 @@ dataset('search-truth-table', [
             0 => '4',
         ],
     ],
-    11 => [
+    13 => [
         'searchableFields' => [
             0 => 'id',
             1 => 'name',
@@ -307,7 +353,7 @@ dataset('search-truth-table', [
         'result_value_feature_right_wildcard' => [
         ],
     ],
-    12 => [
+    14 => [
         'searchableFields' => [
             0 => 'id',
             1 => 'name',
@@ -335,7 +381,7 @@ dataset('search-truth-table', [
             0 => '4',
         ],
     ],
-    13 => [
+    15 => [
         'searchableFields' => [
             0 => 'id',
             1 => 'name',

@@ -2,14 +2,15 @@
 
 namespace Laradigs\Tweaker;
 
-use RGalura\ApiIgniter\filter_explode;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Laradigs\Tweaker\Search\Search;
-use function RGalura\ApiIgniter\filter_explode;
+use Illuminate\Database\Eloquent\Model;
+use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 use Laradigs\Tweaker\Projection\ProjectionField;
 use Laradigs\Tweaker\Projection\ProjectionFieldNot;
-use Laradigs\Tweaker\Projection\NoActionWillPerformException;
+use Laradigs\Tweaker\Search\Search;
+use RGalura\ApiIgniter\filter_explode;
+
+use function RGalura\ApiIgniter\filter_explode;
 
 /**
  * Singleton
@@ -17,6 +18,7 @@ use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 final class TweakerBuilder
 {
     private ?array $projectedFields = null;
+
     private ?array $searchedResult = null;
 
     /**
@@ -28,32 +30,31 @@ final class TweakerBuilder
         private Model $model,
         private array $config,
         private array $clientInput
-    )
-    {
+    ) {
         //
     }
 
     /**
      * Singletons should not be cloneable.
      */
-    protected function __clone() { }
+    protected function __clone() {}
 
     /**
      * Singletons should not be restorable from strings.
      */
     public function __wakeup()
     {
-        throw new \Exception("Cannot unserialize a singleton.");
+        throw new \Exception('Cannot unserialize a singleton.');
     }
 
     private function projectionWasExecute()
     {
-        return !is_null($this->projectedFields);
+        return ! is_null($this->projectedFields);
     }
 
     private function searchWasExecute()
     {
-        return !is_null($this->searchedResult);
+        return ! is_null($this->searchedResult);
     }
 
     public static function getInstance(
@@ -61,8 +62,8 @@ final class TweakerBuilder
         Model $model,
         array $config,
         array $clientInput
-    )
-    {
+    ) {
+        // return new static(
         return new TweakerBuilder(
             builder: $builder,
             model: $model,
@@ -104,7 +105,7 @@ final class TweakerBuilder
 
     public function searchFilter(array $searchableFields)
     {
-        $clientInputSearch = $_GET[$this->config['search']['key']] ?? null;
+        $clientInputSearch = $this->clientInput[$this->config['search']['key']] ?? null;
 
         if (isset($clientInputSearch)) {
             $search = new Search(
@@ -127,7 +128,7 @@ final class TweakerBuilder
 
     public function sort(array $sortable)
     {
-        $clientInputSort = $_GET[$this->config['sort']['key']] ?? null;
+        $clientInputSort = $this->clientInput[$this->config['sort']['key']] ?? null;
 
         // if (isset($clientInputSort)) {
         //     $search = new Search(

@@ -3,7 +3,6 @@
 namespace Laradigs\Tweaker\Sort;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 use Laradigs\Tweaker\TruthTable;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;

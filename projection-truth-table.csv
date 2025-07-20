@@ -1,31 +1,133 @@
-Truth Table:,,,
-p,q,p in q,p ex q
-*,*,"id, name",0
-*,id,id,name
-*,name,name,id
-*,"id, name","id, name",empty
-*,empty,0,"id, name"
-,,,
-id,*,id,0
-id,id,id,empty
-id,name,empty,id
-id,"id, name",id,empty
-id,empty,0,id
-,,,
-name,*,name,0
-name,id,empty,name
-name,name,name,empty
-name,"id, name",name,empty
-name,empty,0,name
-,,,
-"id, name",*,"id, name",0
-"id, name",id,id,name
-"id, name",name,name,id
-"id, name","id, name","id, name",empty
-"id, name",empty,0,"id, name"
-,,,
-empty,*,0,0
-empty,id,0,0
-empty,name,0,0
-empty,"id, name",0,0
-empty,empty,0,0
+Truth Table:,,,,
+Projectable (p),Defined (d),Client (c),Result,fields!
+,,,fields,fields!
+*,*,*,,
+id,id,id,,
+name,name,name,,
+"id, name","id, name","id, name",,
+empty,,empty,,
+,,,,
+,,,,
+*,*,*,"id, name",empty
+*,*,id,id,name
+*,*,name,name,id
+*,*,"id, name","id, name",empty
+*,*,empty,empty,"id, name"
+,,,,
+*,id,*,id,empty
+*,id,id,id,empty
+*,id,name,empty,id
+*,id,"id, name",id,empty
+*,id,empty,empty,id
+,,,,
+*,name,*,name,empty
+*,name,id,empty,name
+*,name,name,name,empty
+*,name,"id, name",name,empty
+*,name,empty,empty,name
+,,,,
+*,"id, name",*,"id, name",empty
+*,"id, name",id,id,name
+*,"id, name",name,name,id
+*,"id, name","id, name","id, name",empty
+*,"id, name",empty,empty,"id, name"
+,,,,
+,,,,
+id,*,*,id,empty
+id,*,id,id,empty
+id,*,name,empty,id
+id,*,"id, name",id,empty
+id,*,empty,empty,id
+,,,,
+id,id,*,id,empty
+id,id,id,id,empty
+id,id,name,empty,id
+id,id,"id, name",id,empty
+id,id,empty,empty,id
+,,,,
+id,name,*,2,2
+id,name,id,2,2
+id,name,name,2,2
+id,name,"id, name",2,2
+id,name,empty,2,2
+,,,,
+id,"id, name",*,id,empty
+id,"id, name",id,id,empty
+id,"id, name",name,empty,id
+id,"id, name","id, name",id,empty
+id,"id, name",empty,empty,id
+,,,,
+,,,,
+name,*,*,name,empty
+name,*,id,empty,name
+name,*,name,name,empty
+name,*,"id, name",name,empty
+name,*,empty,empty,name
+,,,,
+name,id,*,2,2
+name,id,id,2,2
+name,id,name,2,2
+name,id,"id, name",2,2
+name,id,empty,2,2
+,,,,
+name,name,*,name,empty
+name,name,id,empty,name
+name,name,name,name,empty
+name,name,"id, name",name,empty
+name,name,empty,empty,name
+,,,,
+name,"id, name",*,name,empty
+name,"id, name",id,empty,name
+name,"id, name",name,name,empty
+name,"id, name","id, name",name,empty
+name,"id, name",empty,empty,name
+,,,,
+,,,,
+"id, name",*,*,"id, name",empty
+"id, name",*,id,id,name
+"id, name",*,name,name,id
+"id, name",*,"id, name","id, name",empty
+"id, name",*,empty,empty,"id, name"
+,,,,
+"id, name",id,*,id,empty
+"id, name",id,id,id,empty
+"id, name",id,name,empty,id
+"id, name",id,"id, name",id,empty
+"id, name",id,empty,empty,id
+,,,,
+"id, name",name,*,name,empty
+"id, name",name,id,empty,name
+"id, name",name,name,name,empty
+"id, name",name,"id, name",name,empty
+"id, name",name,empty,empty,name
+,,,,
+"id, name","id, name",*,"id, name",empty
+"id, name","id, name",id,id,name
+"id, name","id, name",name,name,id
+"id, name","id, name","id, name","id, name",empty
+"id, name","id, name",empty,empty,"id, name"
+,,,,
+,,,,
+empty,*,*,1,1
+empty,*,id,1,1
+empty,*,name,1,1
+empty,*,"id, name",1,1
+empty,*,empty,1,1
+,,,,
+empty,id,*,1,1
+empty,id,id,1,1
+empty,id,name,1,1
+empty,id,"id, name",1,1
+empty,id,empty,1,1
+,,,,
+empty,name,*,1,1
+empty,name,id,1,1
+empty,name,name,1,1
+empty,name,"id, name",1,1
+empty,name,empty,1,1
+,,,,
+empty,"id, name",*,1,1
+empty,"id, name",id,1,1
+empty,"id, name",name,1,1
+empty,"id, name","id, name",1,1
+empty,"id, name",empty,1,1

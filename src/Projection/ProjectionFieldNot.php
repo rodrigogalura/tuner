@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProjectionFieldNot extends Projection
 {
+    private static $ignoreIfFieldNotIsAsterisk = false;
+
     public function __construct(
         Model $model,
         array $projectableFields,
@@ -17,11 +19,16 @@ class ProjectionFieldNot extends Projection
 
     protected function validate()
     {
-        if ($this->clientInput === ['*']) {
+        if (static::$ignoreIfFieldNotIsAsterisk && empty($this->clientInput)) {
             throw new NoActionWillPerformException;
         }
 
         parent::validate();
+    }
+
+    public static function ignoreIfFieldNotIsAsterisk()
+    {
+        static::$ignoreIfFieldNotIsAsterisk = true;
     }
 
     public function project()

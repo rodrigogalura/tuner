@@ -1391,3 +1391,1046 @@ dataset('fields-not-truth-table', [
         ],
     ],
 ]);
+
+dataset('projection-truth-table', [
+    0 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => '*',
+        'result_fields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    1 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'id',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+            0 => 'name',
+        ],
+    ],
+    2 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'name',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+            0 => 'id',
+        ],
+    ],
+    3 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'id, name',
+        'result_fields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    4 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => '',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+    ],
+    5 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => '*',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    6 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => 'id',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    7 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => 'name',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'id',
+        ],
+    ],
+    8 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => 'id, name',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    9 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => '',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'id',
+        ],
+    ],
+    10 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => '*',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    11 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => 'id',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'name',
+        ],
+    ],
+    12 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => 'name',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    13 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => 'id, name',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    14 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => '',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'name',
+        ],
+    ],
+    15 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => '*',
+        'result_fields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    16 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'id',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+            0 => 'name',
+        ],
+    ],
+    17 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'name',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+            0 => 'id',
+        ],
+    ],
+    18 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'id, name',
+        'result_fields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    19 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => '',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+    ],
+    20 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => '*',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    21 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'id',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    22 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'name',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'id',
+        ],
+    ],
+    23 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'id, name',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    24 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => '',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'id',
+        ],
+    ],
+    25 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => '*',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    26 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => 'id',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    27 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => 'name',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'id',
+        ],
+    ],
+    28 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => 'id, name',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    29 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => '',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'id',
+        ],
+    ],
+    30 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => '*',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    31 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'id',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    32 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'name',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'id',
+        ],
+    ],
+    33 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'id, name',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    34 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => '',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'id',
+        ],
+    ],
+    35 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => '*',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    36 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'id',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'name',
+        ],
+    ],
+    37 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'name',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    38 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'id, name',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    39 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => '',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'name',
+        ],
+    ],
+    40 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => '*',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    41 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => 'id',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'name',
+        ],
+    ],
+    42 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => 'name',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    43 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => 'id, name',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    44 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => '',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'name',
+        ],
+    ],
+    45 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => '*',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    46 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'id',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'name',
+        ],
+    ],
+    47 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'name',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    48 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'id, name',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    49 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => '',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'name',
+        ],
+    ],
+    50 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => '*',
+        'result_fields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    51 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'id',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+            0 => 'name',
+        ],
+    ],
+    52 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'name',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+            0 => 'id',
+        ],
+    ],
+    53 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'id, name',
+        'result_fields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    54 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => '',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+    ],
+    55 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => '*',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    56 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => 'id',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    57 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => 'name',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'id',
+        ],
+    ],
+    58 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => 'id, name',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    59 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => '',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'id',
+        ],
+    ],
+    60 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => '*',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    61 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => 'id',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'name',
+        ],
+    ],
+    62 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => 'name',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    63 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => 'id, name',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    64 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => '',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'name',
+        ],
+    ],
+    65 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => '*',
+        'result_fields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    66 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'id',
+        'result_fields' => [
+            0 => 'id',
+        ],
+        'result_fields_not' => [
+            0 => 'name',
+        ],
+    ],
+    67 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'name',
+        'result_fields' => [
+            0 => 'name',
+        ],
+        'result_fields_not' => [
+            0 => 'id',
+        ],
+    ],
+    68 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'id, name',
+        'result_fields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'result_fields_not' => [
+        ],
+    ],
+    69 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => '',
+        'result_fields' => [
+        ],
+        'result_fields_not' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+    ],
+]);

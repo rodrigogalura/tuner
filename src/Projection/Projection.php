@@ -22,9 +22,6 @@ abstract class Projection
                 ->getSchemaBuilder()
                 ->getColumnListing($model->getTable())
         );
-        // parent::__construct(
-        //     $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable())
-        // );
     }
 
     private function throwIfNotInVisibleFields(array $fields)

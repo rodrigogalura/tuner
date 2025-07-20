@@ -2,7 +2,7 @@
 
 use Laradigs\Tweaker\TruthTable;
 
-test('intersect', function ($p, $q, $p_INTERSECT_q, $p_EXCEPT_q) {
+test('intersect', function ($p, $q, $p_INTERSECT_q, $p_EXCEPT_q): void {
     // Prepare
     $truthTable = new TruthTable(['id', 'name']);
 
@@ -10,7 +10,7 @@ test('intersect', function ($p, $q, $p_INTERSECT_q, $p_EXCEPT_q) {
     expect($truthTable->intersect($p, $q))->toBe($p_INTERSECT_q);
 })->with('truth-table');
 
-test('except', function ($p, $q, $p_INTERSECT_q, $p_EXCEPT_q) {
+test('except', function ($p, $q, $p_INTERSECT_q, $p_EXCEPT_q): void {
     // Prepare
     $truthTable = new TruthTable(['id', 'name']);
 

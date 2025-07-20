@@ -30,21 +30,7 @@ afterEach(function (): void {
     Mockery::close();
 });
 
-describe('Not perform any action. Just return defined value as default.', function (): void {
-    it('should not perform any action if the client input "fields!" is "*"', function (): void {
-        // Prepare
-        $DEFINE_FIELDS = ['*'];
-        $projection = new ProjectionFieldNot(
-            $this->model,
-            projectableFields: $this->visibleFields,
-            definedFields: $DEFINE_FIELDS,
-            clientInput: ['*'],
-        );
-
-        // Act & Assert
-        expect(fn () => $projection->project())->toThrow(NoActionWillPerformException::class);
-    });
-
+describe('No action will perform', function (): void {
     it('should not perform any action if the projectable field\'s value is empty', function (): void {
         // Prepare
         $DEFINE_FIELDS = ['*'];
@@ -118,7 +104,7 @@ describe('Throw an exception', function (): void {
 });
 
 describe('Valid scenarios', function (): void {
-    it('should passed all valid scenarios for client input "fields"', function ($projectableFields, $definedFields, $clientInput, $expectedResult): void {
+    it('should passed all valid scenarios for client input "fields"', function ($projectableFields, $definedFields, $clientInput, $result_fields, $result_fields_not): void {
         // Prepare
         $projection = new ProjectionField(
             $this->model,
@@ -127,14 +113,7 @@ describe('Valid scenarios', function (): void {
             filter_explode($clientInput)
         );
 
-        // Act & Assert
-        expect($projection->project())->toBe($expectedResult);
-    })
-        ->with('fields-truth-table');
-
-    it('should passed all valid scenarios for client input "fields!"', function ($projectableFields, $definedFields, $clientInput, $expectedResult): void {
-        // Prepare
-        $projection = new ProjectionFieldNot(
+        $projectionNot = new ProjectionFieldNot(
             $this->model,
             $projectableFields,
             $definedFields,
@@ -142,7 +121,8 @@ describe('Valid scenarios', function (): void {
         );
 
         // Act & Assert
-        expect($projection->project())->toBe($expectedResult);
+        expect($projection->project())->toBe($result_fields);
+        expect($projectionNot->project())->toBe($result_fields_not);
     })
-        ->with('fields-not-truth-table');
+        ->with('projection-truth-table');
 });

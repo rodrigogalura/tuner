@@ -36,9 +36,7 @@ class CSVToArray
         $data = [];
         if (($handle = fopen($this->csvPath, 'r')) !== false) {
             while (($row = fgetcsv($handle, 0, $this->delimiter, $this->enclosure, $this->escape)) !== false) {
-                if ($row[0] !== '') { // skip no value row
-                    $callback($data, $row);
-                }
+                $callback($data, $row);
             }
             fclose($handle);
         }
@@ -49,6 +47,13 @@ class CSVToArray
     private static function isEmpty(string $str)
     {
         return $str === static::EMPTY_VALUE;
+    }
+
+    private static function convertToEmptyStringIfEmptyValue(string &$str)
+    {
+        if ($str === static::EMPTY_VALUE) {
+            $str = '';
+        }
     }
 
     public function export()
@@ -64,7 +69,7 @@ class CSVToArray
     {
         $rowIndex = 1;
 
-        return $this->readFileAndReturnData(function (&$data, $row) use(&$rowIndex) {
+        return $this->readFileAndReturnData(function (&$data, $row) use (&$rowIndex) {
             if ($rowIndex++ <= 2) { // skip 2 rows (headers)
                 return;
             }
@@ -88,62 +93,51 @@ class CSVToArray
 
     public function projection()
     {
-        return $this->readFileAndReturnData(function (&$data, $row) {
+        $rowCounter = 1;
+
+        $CELL_ROW_STARTS_AT = 11;
+        $CELL_COLS_LENGTH = 5;
+
+        $PREREQUISITES_CODES = [1, 2];
+
+        return $this->readFileAndReturnData(function (&$data, $row) use (
+            &$rowCounter,
+            $CELL_ROW_STARTS_AT,
+            $CELL_COLS_LENGTH,
+            $PREREQUISITES_CODES
+        ) {
+            if ($rowCounter++ < $CELL_ROW_STARTS_AT) {
+                return; // skip
+            }
+
+            if ($row[0] === '') { // skip no value row
+                return; //
+            }
+
             // convert 'empty' string to ''
-            for ($i = 0; $i <= 5; $i++) {
-                if (static::isEmpty($row[$i])) {
-                    $row[$i] = '';
-                }
+            for ($i = 0; $i < $CELL_COLS_LENGTH; $i++) {
+                static::convertToEmptyStringIfEmptyValue($row[$i]);
             }
 
-            // fields
-            if (! is_numeric($row[4])) {
-                $data[] = [
-                    'projectableFields' => explode_sanitized($row[0]),
-                    'definedFields' => explode_sanitized($row[1]),
-                    'clientInput' => $row[2],
-                    'expectedResult' => explode_sanitized($row[4]),
-                ];
+            $result_fields = $row[3];
+            $result_fields_not = $row[4];
+
+            if (in_array($result_fields, $PREREQUISITES_CODES) || in_array($result_fields_not, $PREREQUISITES_CODES)) {
+                return; // skip;
             }
+
+            $projectableFields = $row[0];
+            $definedFields = $row[1];
+            $clientInput = $row[2];
+
+            $data[] = [
+                'projectableFields' => explode_sanitized($projectableFields),
+                'definedFields' => explode_sanitized($definedFields),
+                'clientInput' => $clientInput,
+                'result_fields' => explode_sanitized($result_fields),
+                'result_fields_not' => explode_sanitized($result_fields_not),
+            ];
         });
-
-        // $data = [];
-        // if (($handle = fopen($this->csvPath, 'r')) !== false) {
-        //     while (($row = fgetcsv($handle, 0, $this->delimiter, $this->enclosure, $this->escape)) !== false) {
-        //         if ($row[0] !== '') { // skip no value row
-
-        //             // convert 'empty' string to ''
-        //             for ($i = 0; $i <= 5; $i++) {
-        //                 if ($row[$i] === 'empty') {
-        //                     $row[$i] = '';
-        //                 }
-        //             }
-
-        //             // fields
-        //             if (! is_numeric($row[4])) {
-        //                 $data[] = [
-        //                     'projectableFields' => explode_sanitized($row[0]),
-        //                     'definedFields' => explode_sanitized($row[1]),
-        //                     'clientInput' => $row[2],
-        //                     'expectedResult' => explode_sanitized($row[4]),
-        //                 ];
-        //             }
-
-        //             // fields!
-        //             // if (! is_numeric($row[5])) {
-        //             //     $data[] = [
-        //             //         'projectableFields' => explode_sanitized($row[0]),
-        //             //         'definedFields' => explode_sanitized($row[1]),
-        //             //         'clientInput' => $row[2],
-        //             //         'expectedResult' => explode_sanitized($row[5]),
-        //             //     ];
-        //             // }
-        //         }
-        //     }
-        //     fclose($handle);
-        // }
-
-        // return $data;
     }
 
     public function search()
@@ -157,7 +151,7 @@ class CSVToArray
             }
 
             // fields
-            if (! is_numeric($result_fields = $row[7]) || $result_fields > 3) {
+            if (! is_numeric($result_fields = $row[7])) {
                 $data[] = [
                     'searchableFields' => explode_sanitized($row[0]),
 
@@ -191,7 +185,7 @@ function explode_sanitized(string $str, string $delimiter = ',')
 // $csvToArray = new CSVToArray('truth-table.csv');
 // echo $csvToArray->export();
 
-$csvToArray = new CSVToArray('truth-table.csv');
+$csvToArray = new CSVToArray('projection-truth-table.csv');
 echo $csvToArray->export();
 
 /*

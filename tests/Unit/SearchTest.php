@@ -26,7 +26,7 @@ afterEach(function (): void {
     Mockery::close();
 });
 
-describe('Not perform any action. Just return defined value as default.', function (): void {
+describe('Not perform any action.', function (): void {
     it('should not perform any action if the search "fields" are empty', function (): void {
         // Prepare
         $search = new Search(

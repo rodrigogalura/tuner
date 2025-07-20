@@ -2,13 +2,7 @@
 
 namespace Laradigs\Tweaker;
 
-use Laradigs\Tweaker\TweakerBuilder;
 use Illuminate\Database\Eloquent\Builder;
-use Laradigs\Tweaker\Searching\Searching;
-use function RGalura\ApiIgniter\filter_explode;
-use Laradigs\Tweaker\Projection\ProjectionField;
-use Laradigs\Tweaker\Projection\ProjectionFieldNot;
-use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 
 trait CanTweak
 {
@@ -34,16 +28,16 @@ trait CanTweak
             config: config('tweaker'),
             clientInput: $_GET
         )
-        ->projection($this->getProjectableFields())
+            ->projection($this->getProjectableFields())
         // ->filter()
         // ->inFiter()
         // ->betweenFilter()
-        ->searchFilter($this->getSearchableFields())
+            ->searchFilter($this->getSearchableFields())
         // ->sort()
         // ->limit()
         // ->offset()
         // ->debug()
         // ->paginate()
-        ->execute();
+            ->execute();
     }
 }
