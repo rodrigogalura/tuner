@@ -2,8 +2,9 @@
 
 namespace Laradigs\Tweaker\Projection;
 
-use function RGalura\ApiIgniter\filter_explode;
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
+use function RGalura\ApiIgniter\filter_explode;
 
 class ProjectionField extends Projection
 {
@@ -14,8 +15,11 @@ class ProjectionField extends Projection
         array $projectableFields,
         array $definedFields,
         private mixed $clientInput,
+        private array $projectionConfig = ['intersect_key' => 'fields'],
     ) {
         parent::__construct($model, $projectableFields, $definedFields);
+
+        $this->clientInput = Arr::get($this->clientInput, $this->projectionConfig['intersect_key']);
     }
 
     private function convertClientInputToArray()
@@ -37,9 +41,9 @@ class ProjectionField extends Projection
         parent::validate();
     }
 
-    public static function ignoreIfFieldsAreEmpty()
+    public function isUsed()
     {
-        static::$ignoreIfFieldsAreEmpty = true;
+        return !is_null($this->clientInput);
     }
 
     public function project()
@@ -50,5 +54,10 @@ class ProjectionField extends Projection
         return $this->clientInput === ['*']
             ? $this->projectableFields
             : $this->truthTable->intersect($this->projectableFields, $this->clientInput);
+    }
+
+    public static function ignoreIfFieldsAreEmpty()
+    {
+        static::$ignoreIfFieldsAreEmpty = true;
     }
 }

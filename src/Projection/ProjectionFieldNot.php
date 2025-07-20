@@ -2,8 +2,9 @@
 
 namespace Laradigs\Tweaker\Projection;
 
-use function RGalura\ApiIgniter\filter_explode;
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
+use function RGalura\ApiIgniter\filter_explode;
 
 class ProjectionFieldNot extends Projection
 {
@@ -14,8 +15,11 @@ class ProjectionFieldNot extends Projection
         array $projectableFields,
         array $definedFields,
         private mixed $clientInput,
+        private array $projectionConfig = ['except_key' => 'fields!'],
     ) {
         parent::__construct($model, $projectableFields, $definedFields);
+
+        $this->clientInput = Arr::get($this->clientInput, $this->projectionConfig['except_key']);
     }
 
     private function convertClientInputToArray()
@@ -37,9 +41,9 @@ class ProjectionFieldNot extends Projection
         parent::validate();
     }
 
-    public static function ignoreIfFieldNotIsAsterisk()
+    public function isUsed()
     {
-        static::$ignoreIfFieldNotIsAsterisk = true;
+        return !is_null($this->clientInput);
     }
 
     public function project()
@@ -48,5 +52,10 @@ class ProjectionFieldNot extends Projection
         $this->convertClientInputToArray();
 
         return $this->truthTable->except($this->projectableFields, $this->clientInput);
+    }
+
+    public static function ignoreIfFieldNotIsAsterisk()
+    {
+        static::$ignoreIfFieldNotIsAsterisk = true;
     }
 }

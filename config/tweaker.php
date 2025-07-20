@@ -2,8 +2,8 @@
 
 return [
     'projection' => [
-        'include_key' => 'fields',
-        'exclude_key' => 'fields!',
+        'intersect_key' => 'fields',
+        'except_key' => 'fields!',
     ],
 
     'search' => [
@@ -12,6 +12,6 @@ return [
     ],
 
     'sort' => [
-        'key' => 'search'
+        'key' => 'sort'
     ],
 ];

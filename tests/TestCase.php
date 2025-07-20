@@ -16,8 +16,8 @@ abstract class TestCase extends BaseTestCase
     {
         $app['config']->set('tweaker', [
             'projection' => [
-                'include_key' => 'fields',
-                'exclude_key' => 'fields!',
+                'intersect_key' => 'fields',
+                'except_key' => 'fields!',
             ],
 
             'search' => [

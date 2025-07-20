@@ -74,24 +74,26 @@ final class TweakerBuilder
 
     public function projection(array $projectableFields)
     {
-        $clientInputField = $this->clientInput[$this->config['projection']['include_key']] ?? null;
-        $clientInputFieldNot = $this->clientInput[$this->config['projection']['exclude_key']] ?? null;
+        $projectionField = new ProjectionField(
+            model: $this->model,
+            projectableFields: $projectableFields,
+            definedFields: $this->builder->getQuery()->columns ?? ['*'],
+            clientInput: $this->clientInput,
+            projectionConfig: $this->config['projection']
+        );
 
-        if (isset($clientInputField) xor isset($clientInputFieldNot)) {
-            $projection = match (true) {
-                ! is_null($clientInputField) => new ProjectionField(
-                    model: $this->model,
-                    projectableFields: $projectableFields,
-                    definedFields: $this->builder->getQuery()->columns ?? ['*'],
-                    clientInput: $clientInputField,
-                ),
-                ! is_null($clientInputFieldNot) => new ProjectionFieldNot(
-                    model: $this->model,
-                    projectableFields: $projectableFields,
-                    definedFields: $this->builder->getQuery()->columns ?? ['*'],
-                    clientInput: $clientInputFieldNot,
-                ),
-            };
+        $projectionFieldNot = new ProjectionFieldNot(
+            model: $this->model,
+            projectableFields: $projectableFields,
+            definedFields: $this->builder->getQuery()->columns ?? ['*'],
+            clientInput: $this->clientInput,
+            projectionConfig: $this->config['projection']
+        );
+
+        if (($intersectIsUsed = $projectionField->isUsed()) xor $projectionFieldNot->isUsed()) {
+            $projection = $intersectIsUsed
+                ? $projectionField
+                : $projectionFieldNot;
 
             try {
                 $this->projectedFields = $projection->project();
@@ -105,15 +107,14 @@ final class TweakerBuilder
 
     public function searchFilter(array $searchableFields)
     {
-        $clientInputSearch = $this->clientInput[$this->config['search']['key']] ?? null;
+        $search = new Search(
+            model: $this->model,
+            searchableFields: $searchableFields,
+            clientInput: $this->clientInput,
+            searchConfig: $this->config['search']
+        );
 
-        if (isset($clientInputSearch)) {
-            $search = new Search(
-                model: $this->model,
-                searchableFields: $searchableFields,
-                clientInput: $clientInputSearch,
-            );
-
+        if ($search->isUsed()) {
             try {
                 $this->searchedResult = $search->search();
             } catch (NoActionWillPerformException $e) {

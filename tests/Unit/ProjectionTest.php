@@ -14,6 +14,7 @@ beforeEach(function (): void {
 
     $table = 'users';
     $this->visibleFields = ['id', 'name'];
+    $this->visibleFieldsString = implode(', ', $this->visibleFields);
 
     $this->model = mock(Model::class);
     $this->model
@@ -68,7 +69,7 @@ describe('Throw an exception', function (): void {
             $this->model,
             projectableFields: $notInVisibleFields,
             definedFields: [],
-            clientInput: $this->visibleFields,
+            clientInput: ['fields' => $this->visibleFieldsString],
         );
 
         // Act & Assert
@@ -81,7 +82,7 @@ describe('Throw an exception', function (): void {
             $this->model,
             projectableFields: ['id'],
             definedFields: [],
-            clientInput: $this->visibleFields,
+            clientInput: ['fields' => $this->visibleFieldsString],
         );
 
         // Act & Assert
@@ -95,7 +96,7 @@ describe('Throw an exception', function (): void {
             $this->model,
             projectableFields: ['id'],
             definedFields: $notInVisibleFields,
-            clientInput: $this->visibleFields,
+            clientInput: ['fields' => $this->visibleFieldsString],
         );
 
         // Act & Assert
@@ -110,14 +111,14 @@ describe('Valid scenarios', function (): void {
             $this->model,
             $projectableFields,
             $definedFields,
-            filter_explode($clientInput)
+            ['fields' => $clientInput]
         );
 
         $projectionNot = new ProjectionFieldNot(
             $this->model,
             $projectableFields,
             $definedFields,
-            filter_explode($clientInput)
+            ['fields!' => $clientInput]
         );
 
         // Act & Assert

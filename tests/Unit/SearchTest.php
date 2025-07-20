@@ -32,7 +32,7 @@ describe('Not perform any action.', function (): void {
         $search = new Search(
             $this->model,
             searchableFields: $this->visibleFields,
-            clientInput: ['' => 'foo bar'],
+            clientInput: ['search' => ['' => 'foo bar']],
         );
 
         // Act & Assert
@@ -44,7 +44,7 @@ describe('Not perform any action.', function (): void {
         $search = new Search(
             $this->model,
             searchableFields: $this->visibleFields,
-            clientInput: ['email' => 'foo'], // 'email' is not existing on visible fields
+            clientInput: ['search' => ['email' => 'foo']], // 'email' is not existing on visible field]s
         );
 
         // Act & Assert
@@ -56,7 +56,7 @@ describe('Not perform any action.', function (): void {
         $search = new Search(
             $this->model,
             searchableFields: $this->visibleFields,
-            clientInput: ['name' => ''],
+            clientInput: ['search' => ['name' => '']],
         );
 
         // Act & Assert
@@ -71,7 +71,7 @@ describe('Not perform any action.', function (): void {
         $search = new Search(
             $this->model,
             searchableFields: $this->visibleFields,
-            clientInput: ['name' => $searchKeyword],
+            clientInput: ['search' => ['name' => $searchKeyword]],
             minimumLength: $MINIMUM_LENGTH
         );
 
@@ -84,7 +84,7 @@ describe('Not perform any action.', function (): void {
         $search = new Search(
             $this->model,
             searchableFields: [],
-            clientInput: ['name' => 'foo'],
+            clientInput: ['search' => ['name' => 'foo']],
         );
 
         // Act & Assert
@@ -98,7 +98,7 @@ describe('Throw an exception', function (): void {
         $search = new Search(
             $this->model,
             searchableFields: ['email'], // not existing on visible fields
-            clientInput: ['name' => 'foo'],
+            clientInput: ['search' => ['name' => 'foo']],
         );
 
         // Act & Assert
@@ -108,12 +108,11 @@ describe('Throw an exception', function (): void {
 
 describe('Valid scenarios', function (): void {
     it('should passed all valid scenarios', function ($searchableFields, $clientFields, $resultFields, $clientKeyword, $resultKeyword): void {
-        dump($searchableFields, $clientFields, $resultFields, $clientKeyword, $resultKeyword);
         // Prepare
         $search = new Search(
             $this->model,
             searchableFields: $searchableFields,
-            clientInput: [$clientFields => $clientKeyword],
+            clientInput: ['search' => [$clientFields => $clientKeyword]],
         );
 
         // Act & Assert

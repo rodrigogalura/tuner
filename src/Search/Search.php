@@ -2,6 +2,7 @@
 
 namespace Laradigs\Tweaker\Search;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Laradigs\Tweaker\TruthTable;
 use Illuminate\Database\Eloquent\Model;
@@ -21,13 +22,16 @@ class Search
         private Model $model,
         protected array $searchableFields,
         private mixed $clientInput,
-        private int $minimumLength = 2
+        private int $minimumLength = 2,
+        private array $searchConfig = ['key' => 'search'],
     ) {
         $this->truthTable = new TruthTable(
             $model->getConnection()
                 ->getSchemaBuilder()
                 ->getColumnListing($model->getTable())
         );
+
+        $this->clientInput = Arr::get($this->clientInput, $this->searchConfig['key']);
     }
 
     private function throwIfNotInVisibleFields(array $fields)
@@ -59,7 +63,6 @@ class Search
 
         $this->truthTable->extractIfAsterisk($this->fields);
 
-
         if ($this->checkIfNotInVisibleFields($this->fields)) {
             throw new NoActionWillPerformException;
         }
@@ -77,6 +80,11 @@ class Search
 
         $this->truthTable->extractIfAsterisk($this->searchableFields);
         $this->throwIfNotInVisibleFields($this->searchableFields);
+    }
+
+    public function isUsed()
+    {
+        return !is_null($this->clientInput);
     }
 
     public function search()
