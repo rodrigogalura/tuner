@@ -1,5 +1,6 @@
 <?php
 
+use function RGalura\ApiIgniter\is_multi_array;
 use function RGalura\ApiIgniter\filter_explode;
 
 test('filter_explode', function (string $input, string $delimiter, array $expect): void {
@@ -15,30 +16,14 @@ test('filter_explode', function (string $input, string $delimiter, array $expect
         'multiple with many space' => ['johndoe@test.com,       foobar@test.com', ',', ['johndoe@test.com', 'foobar@test.com']],
     ]);
 
-// test('array_insert', function (array $input, int $position, $item, array $expect) {
-//     // Act
-//     array_insert($input, $position, $item);
+test('is_multi_array', function ($array, $isMultiArray) {
+    expect(is_multi_array($array))->toBe($isMultiArray);
+})->with([
+    'plainNumericArray' => ['array' => [1, 2, 3], 'isMultiArray' => false],
+    'plainAlphabeticArray' => ['array' => ['a', 'b', 'c'], 'isMultiArray' => false],
+    'plainAlphanumericrray' => ['array' => [1, 2, 3, 'a', 'b', 'c'], 'isMultiArray' => false],
 
-//     // Assert
-//     expect($input)->toBe($expect);
-// })
-// ->with([
-//     'insert into index 0' => ['input' => ['a', 'b', 'c', 'd'], 'position' => 0, 'item' => 'x', 'expect' => ['x', 'a', 'b', 'c', 'd']],
-//     'insert into index 1' => ['input' => ['a', 'b', 'c', 'd'], 'position' => 1, 'item' => 'x', 'expect' => ['a', 'x', 'b', 'c', 'd']],
-//     'insert into index 2' => ['input' => ['a', 'b', 'c', 'd'], 'position' => 2, 'item' => 'x', 'expect' => ['a', 'b', 'x', 'c', 'd']],
-//     'insert into index -1' => ['input' => ['a', 'b', 'c', 'd'], 'position' => -1, 'item' => 'x', 'expect' => ['a', 'b', 'c', 'd', 'x']],
-// ]);
-
-// test('array_insert_multiple', function (array $arrayFrom, array $arrayTo, array $expect) {
-//     // Act
-//     array_insert_multiple($arrayFrom, $arrayTo);
-
-//     // Assert
-//     expect($arrayFrom)->toBe($expect);
-// })
-// ->with([
-//     ['arrayFrom' => ['a', 'b', 'c', 'd'], 'arrayTo' => ['x', 'y'], 'expect' => ['x', 'y', 'a', 'b', 'c', 'd']],
-//     ['arrayFrom' => ['a', 'b', 'c', 'd'], 'arrayTo' => [1 => 'x', 2 => 'y'], 'expect' => ['a', 'x', 'y', 'b', 'c', 'd']],
-//     ['arrayFrom' => ['a', 'b', 'c', 'd'], 'arrayTo' => [1 => 'x', 3 => 'y'], 'expect' => ['a', 'x', 'b', 'y', 'c', 'd']],
-//     ['arrayFrom' => ['a', 'b', 'c', 'd'], 'arrayTo' => [-1 => 'x', 1 => 'y'], 'expect' => ['a', 'y', 'b', 'c', 'd', 'x']],
-// ]);
+    'numericMultiArray' => ['array' => [[1, 2, 3]], 'isMultiArray' => true],
+    'alphaMultiArray' => ['array' => [['a', 'b', 'c']], 'isMultiArray' => true],
+    'alphanumericMultiArray' => ['array' => [[1, 2, 3], ['a', 'b', 'c']], 'isMultiArray' => true],
+])->only();

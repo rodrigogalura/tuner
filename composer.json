@@ -67,6 +67,10 @@
         "pint": [
             "@php vendor/bin/pint --ansi"
         ],
+        "helperTest": [
+            "@clear",
+            "@php vendor/bin/pest tests/Unit/Core/HelperTest.php --profile --bail"
+        ],
         "projectionFeatureTest": [
             "@clear",
             "@php vendor/bin/pest tests/Feature/ProjectionTest.php --profile --bail"

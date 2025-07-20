@@ -2,22 +2,25 @@
 
 namespace Laradigs\Tweaker\Search;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 use Laradigs\Tweaker\TruthTable;
-use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
-
+use Illuminate\Database\Eloquent\Model;
 use function RGalura\ApiIgniter\filter_explode;
+use function RGalura\ApiIgniter\is_multi_array;
+use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
+use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 
 class Search
 {
+    private array $fields;
+    private string $keyword;
+
     protected TruthTable $truthTable;
 
     public function __construct(
         private Model $model,
         protected array $searchableFields,
-        private array $clientInput,
+        private mixed $clientInput,
         private int $minimumLength = 2
     ) {
         $this->truthTable = new TruthTable(
@@ -39,17 +42,30 @@ class Search
         return ! empty($this->truthTable->diffFromAllItems($fields));
     }
 
-    protected function validate(array $fields, string $keyword)
+    protected function validate()
     {
-        if (empty($fields)) {
+        if (
+            !is_array($this->clientInput) ||
+            is_multi_array($this->clientInput)
+        ) {
             throw new NoActionWillPerformException;
         }
 
-        if ($this->checkIfNotInVisibleFields($fields)) {
+        $this->fields = filter_explode(key($this->clientInput));
+
+        if (empty($this->fields)) {
             throw new NoActionWillPerformException;
         }
 
-        $sanitizeKeyword = trim(trim($keyword, '*'));
+        $this->truthTable->extractIfAsterisk($this->fields);
+
+
+        if ($this->checkIfNotInVisibleFields($this->fields)) {
+            throw new NoActionWillPerformException;
+        }
+
+        $this->keyword = current($this->clientInput);
+        $sanitizeKeyword = trim(trim($this->keyword, '*'));
 
         if (empty($sanitizeKeyword) || strlen($sanitizeKeyword) < $this->minimumLength) {
             throw new NoActionWillPerformException;
@@ -65,18 +81,15 @@ class Search
 
     public function search()
     {
-        $fields = filter_explode(key($this->clientInput));
-        $this->truthTable->extractIfAsterisk($fields);
+        $this->validate();
 
-        $this->validate($fields, $keyword = current($this->clientInput));
-
-        if (! str_starts_with($keyword, '*') && ! str_ends_with($keyword, '*')) {
-            $keyword = "*{$keyword}*";
+        if (! str_starts_with($this->keyword, '*') && ! str_ends_with($this->keyword, '*')) {
+            $this->keyword = "*{$this->keyword}*";
         }
 
-        // convert asterisk to percentage of first and last position of keyword
-        $keyword = Str::replaceMatches('/^\*|\*$/', '%', $keyword);
+        // convert asterisk to percentage of first and last position of this->keyword
+        $this->keyword = Str::replaceMatches('/^\*|\*$/', '%', $this->keyword);
 
-        return [implode(', ', $this->truthTable->intersect($this->searchableFields, $fields)) => $keyword];
+        return [implode(', ', $this->truthTable->intersect($this->searchableFields, $this->fields)) => $this->keyword];
     }
 }
