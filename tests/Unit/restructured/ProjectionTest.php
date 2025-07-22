@@ -7,8 +7,6 @@ use Laradigs\Tweaker\Projection\ProjectionFieldNot;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 use RGalura\ApiIgniter\Exceptions\NoDefinedFieldException;
 
-use function RGalura\ApiIgniter\filter_explode;
-
 beforeEach(function (): void {
     Mockery::globalHelpers();
 

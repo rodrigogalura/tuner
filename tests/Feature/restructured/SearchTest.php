@@ -4,7 +4,6 @@ use Workbench\App\Models\AllFieldsAreProjectableModel;
 use Workbench\App\Models\InvalidProjectableModel;
 use Workbench\App\Models\NoProjectableModel;
 use Workbench\App\Models\OnlyIdAndNameAreProjectableModel;
-use Workbench\App\Models\OnlyIdIsProjectableModel;
 use Workbench\App\Models\OnlyNameIsProjectableModel;
 
 use function Pest\Laravel\get;
@@ -118,7 +117,7 @@ describe('Valid scenarios', function (): void {
             ->assertOk()
             ->assertJsonCount($expectedCount);
     })
-    ->with('keyword-and-count');
+        ->with('keyword-and-count');
 
     it('should passed all valid scenarios for searchable field name', function ($clientKeyword, $expectedCount): void {
         // Prepare
@@ -131,7 +130,7 @@ describe('Valid scenarios', function (): void {
             ->assertOk()
             ->assertJsonCount($expectedCount);
     })
-    ->with('keyword-and-count');
+        ->with('keyword-and-count');
 
     it('should passed all valid scenarios for searchable fields id and name', function ($clientKeyword, $expectedCount): void {
         // Prepare
@@ -144,5 +143,5 @@ describe('Valid scenarios', function (): void {
             ->assertOk()
             ->assertJsonCount($expectedCount);
     })
-    ->with('keyword-and-count');
+        ->with('keyword-and-count');
 });

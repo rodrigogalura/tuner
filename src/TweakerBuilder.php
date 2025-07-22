@@ -2,15 +2,14 @@
 
 namespace Laradigs\Tweaker;
 
-use Laradigs\Tweaker\Sort\Sort;
-use Laradigs\Tweaker\Search\Search;
-use RGalura\ApiIgniter\filter_explode;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use function RGalura\ApiIgniter\filter_explode;
+use Illuminate\Database\Eloquent\Model;
+use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 use Laradigs\Tweaker\Projection\ProjectionField;
 use Laradigs\Tweaker\Projection\ProjectionFieldNot;
-use Laradigs\Tweaker\Projection\NoActionWillPerformException;
+use Laradigs\Tweaker\Search\Search;
+
+use function RGalura\ApiIgniter\filter_explode;
 
 /**
  * Singleton

@@ -12,6 +12,6 @@ return [
     ],
 
     'sort' => [
-        'key' => 'sort'
+        'key' => 'sort',
     ],
 ];

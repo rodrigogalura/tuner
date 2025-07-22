@@ -2,8 +2,9 @@
 
 namespace Laradigs\Tweaker\Projection;
 
-use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+
 use function RGalura\ApiIgniter\filter_explode;
 
 class ProjectionField extends Projection
@@ -31,7 +32,7 @@ class ProjectionField extends Projection
 
     public function isUsed()
     {
-        return !is_null($this->clientInput);
+        return ! is_null($this->clientInput);
     }
 
     public function project()

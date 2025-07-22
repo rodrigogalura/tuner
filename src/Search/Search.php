@@ -2,18 +2,20 @@
 
 namespace Laradigs\Tweaker\Search;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 use Laradigs\Tweaker\TruthTable;
-use Illuminate\Database\Eloquent\Model;
+use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
+
 use function RGalura\ApiIgniter\filter_explode;
 use function RGalura\ApiIgniter\is_multi_array;
-use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
-use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 
 class Search
 {
     private array $fields;
+
     private string $keyword;
 
     protected TruthTable $truthTable;
@@ -38,7 +40,7 @@ class Search
     private function prerequisites()
     {
         $searchIsNotUsed = is_null($this->clientInput);
-        $searchIsNotALinearArray = !is_array($this->clientInput) || is_multi_array($this->clientInput);
+        $searchIsNotALinearArray = ! is_array($this->clientInput) || is_multi_array($this->clientInput);
 
         throw_if($searchIsNotUsed || $searchIsNotALinearArray, NoActionWillPerformException::class);
     }

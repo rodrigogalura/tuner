@@ -2,8 +2,8 @@
 
 namespace Laradigs\Tweaker\Projection;
 
-use Laradigs\Tweaker\TruthTable;
 use Illuminate\Database\Eloquent\Model;
+use Laradigs\Tweaker\TruthTable;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 use RGalura\ApiIgniter\Exceptions\NoDefinedFieldException;
 
@@ -33,7 +33,7 @@ abstract class Projection
     protected function prerequisites()
     {
         // Make sure client input type is string
-        throw_if(!is_string($this->clientInput), NoActionWillPerformException::class);
+        throw_if(! is_string($this->clientInput), NoActionWillPerformException::class);
     }
 
     protected function validate()

@@ -1,7 +1,7 @@
 <?php
 
-use function RGalura\ApiIgniter\is_multi_array;
 use function RGalura\ApiIgniter\filter_explode;
+use function RGalura\ApiIgniter\is_multi_array;
 
 test('filter_explode', function (string $input, string $delimiter, array $expect): void {
     // Act & Assert
@@ -16,7 +16,7 @@ test('filter_explode', function (string $input, string $delimiter, array $expect
         'multiple with many space' => ['johndoe@test.com,       foobar@test.com', ',', ['johndoe@test.com', 'foobar@test.com']],
     ]);
 
-test('is_multi_array', function ($array, $isMultiArray) {
+test('is_multi_array', function ($array, $isMultiArray): void {
     expect(is_multi_array($array))->toBe($isMultiArray);
 })->with([
     'plainNumericArray' => ['array' => [1, 2, 3], 'isMultiArray' => false],
