@@ -31,4 +31,9 @@ class NoProjectableModel extends Model
     {
         return [];
     }
+
+    protected function getSortableFields()
+    {
+        return [];
+    }
 }

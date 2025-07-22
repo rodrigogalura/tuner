@@ -67,25 +67,33 @@
         "pint": [
             "@php vendor/bin/pint --ansi"
         ],
+        "unitTest": [
+            "@clear",
+            "@php vendor/bin/pest tests/Unit/restructured --profile --bail"
+        ],
+        "featureTest": [
+            "@clear",
+            "@php vendor/bin/pest tests/Feature/restructured --profile --bail"
+        ],
         "helperTest": [
             "@clear",
-            "@php vendor/bin/pest tests/Unit/Core/HelperTest.php --profile --bail"
+            "@php vendor/bin/pest tests/Unit/restructured/Core/HelperTest.php --profile --bail"
         ],
         "projectionFeatureTest": [
             "@clear",
-            "@php vendor/bin/pest tests/Feature/ProjectionTest.php --profile --bail"
+            "@php vendor/bin/pest tests/Feature/restructured/ProjectionTest.php --profile --bail"
         ],
         "projectionUnitTest": [
             "@clear",
-            "@php vendor/bin/pest tests/Unit/ProjectionTest.php --profile --bail"
+            "@php vendor/bin/pest tests/Unit/restructured/ProjectionTest.php --profile --bail"
         ],
         "searchFeatureTest": [
             "@clear",
-            "@php vendor/bin/pest tests/Feature/SearchTest.php --profile --bail"
+            "@php vendor/bin/pest tests/Feature/restructured/SearchTest.php --profile --bail"
         ],
         "searchUnitTest": [
             "@clear",
-            "@php vendor/bin/pest tests/Unit/SearchTest.php --profile --bail"
+            "@php vendor/bin/pest tests/Unit/restructured/SearchTest.php --profile --bail"
         ]
     },
     "extra": {

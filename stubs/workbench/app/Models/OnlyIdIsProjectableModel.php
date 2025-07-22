@@ -31,4 +31,9 @@ class OnlyIdIsProjectableModel extends Model
     {
         return ['id'];
     }
+
+    protected function getSortableFields()
+    {
+        return ['id'];
+    }
 }

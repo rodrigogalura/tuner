@@ -31,4 +31,9 @@ class InvalidProjectableModel extends Model
     {
         return ['email'];
     }
+
+    protected function getSortableFields()
+    {
+        return ['email'];
+    }
 }

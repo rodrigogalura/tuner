@@ -17,6 +17,7 @@ class Sort
         private Model $model,
         protected array $sortableFields,
         private array $clientInput,
+        private array $sortConfig = ['key' => 'sort'],
     ) {
         $this->truthTable = new TruthTable(
             $model->getConnection()
@@ -52,7 +53,7 @@ class Sort
         $this->throwIfNotInVisibleFields($this->sortableFields);
     }
 
-    public function search()
+    public function sort()
     {
         $fields = filter_explode(key($this->clientInput));
         $this->truthTable->extractIfAsterisk($fields);

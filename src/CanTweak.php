@@ -16,6 +16,11 @@ trait CanTweak
         return ['*'];
     }
 
+    protected function getSortableFields(): array
+    {
+        return ['*'];
+    }
+
     /**
      * @return void
      */
@@ -33,7 +38,7 @@ trait CanTweak
         // ->inFiter()
         // ->betweenFilter()
             ->searchFilter($this->getSearchableFields())
-        // ->sort()
+            ->sort($this->getSortableFields())
         // ->limit()
         // ->offset()
         // ->debug()

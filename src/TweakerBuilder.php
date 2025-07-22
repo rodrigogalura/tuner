@@ -2,15 +2,15 @@
 
 namespace Laradigs\Tweaker;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Laradigs\Tweaker\Projection\NoActionWillPerformException;
-use Laradigs\Tweaker\Projection\ProjectionField;
-use Laradigs\Tweaker\Projection\ProjectionFieldNot;
+use Laradigs\Tweaker\Sort\Sort;
 use Laradigs\Tweaker\Search\Search;
 use RGalura\ApiIgniter\filter_explode;
-
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use function RGalura\ApiIgniter\filter_explode;
+use Laradigs\Tweaker\Projection\ProjectionField;
+use Laradigs\Tweaker\Projection\ProjectionFieldNot;
+use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 
 /**
  * Singleton
@@ -20,6 +20,8 @@ final class TweakerBuilder
     private ?array $projectedFields = null;
 
     private ?array $searchedResult = null;
+
+    private ?array $sortedResult = null;
 
     /**
      * The Singleton's constructor should always be private to prevent direct
@@ -107,43 +109,40 @@ final class TweakerBuilder
 
     public function searchFilter(array $searchableFields)
     {
-        $search = new Search(
-            model: $this->model,
-            searchableFields: $searchableFields,
-            clientInput: $this->clientInput,
-            searchConfig: $this->config['search']
-        );
+        try {
+            $search = new Search(
+                model: $this->model,
+                searchableFields: $searchableFields,
+                clientInput: $this->clientInput,
+                searchConfig: $this->config['search']
+            );
 
-        if ($search->isUsed()) {
-            try {
-                $this->searchedResult = $search->search();
-            } catch (NoActionWillPerformException $e) {
-                //
-            }
+            $this->searchedResult = $search->search();
+        } catch (NoActionWillPerformException $e) {
+            //
         }
 
         return $this;
     }
 
-    public function sort(array $sortable)
+    public function sort(array $sortableFields)
     {
-        $clientInputSort = $this->clientInput[$this->config['sort']['key']] ?? null;
+        // $sort = new Sort(
+        //     model: $this->model,
+        //     sortableFields: $sortableFields,
+        //     clientInput: $this->clientInput,
+        //     sortConfig: $this->config['sort']
+        // );
 
-        // if (isset($clientInputSort)) {
-        //     $search = new Search(
-        //         model: $this->model,
-        //         searchableFields: $searchableFields,
-        //         clientInput: $clientInputSort,
-        //     );
-
+        // if ($sort->isUsed()) {
         //     try {
-        //         $this->searchedResult = $search->search();
-
-        //         // $builder->whereAny(filter_explode(key($searchResult)), 'LIKE', current($searchResult));
+        //         $this->sortedResult = $sort->sort();
         //     } catch (NoActionWillPerformException $e) {
         //         //
         //     }
         // }
+
+        return $this;
     }
 
     public function execute()

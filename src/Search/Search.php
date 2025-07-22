@@ -31,7 +31,22 @@ class Search
                 ->getColumnListing($model->getTable())
         );
 
-        $this->clientInput = Arr::get($this->clientInput, $this->searchConfig['key']);
+        $this->prerequisites();
+    }
+
+    private function prerequisites()
+    {
+        if(!($this->clientInput = Arr::get($this->clientInput, $this->searchConfig['key']))){
+            throw new NoActionWillPerformException;
+        }
+
+        // Make sure client input type is valid
+        if (
+            !is_array($this->clientInput) ||
+            is_multi_array($this->clientInput)
+        ) {
+            throw new NoActionWillPerformException;
+        }
     }
 
     private function throwIfNotInVisibleFields(array $fields)
@@ -48,13 +63,6 @@ class Search
 
     protected function validate()
     {
-        if (
-            !is_array($this->clientInput) ||
-            is_multi_array($this->clientInput)
-        ) {
-            throw new NoActionWillPerformException;
-        }
-
         $this->fields = filter_explode(key($this->clientInput));
 
         if (empty($this->fields)) {
@@ -80,11 +88,6 @@ class Search
 
         $this->truthTable->extractIfAsterisk($this->searchableFields);
         $this->throwIfNotInVisibleFields($this->searchableFields);
-    }
-
-    public function isUsed()
-    {
-        return !is_null($this->clientInput);
     }
 
     public function search()

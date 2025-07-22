@@ -31,4 +31,9 @@ class OnlyNameIsProjectableModel extends Model
     {
         return ['name'];
     }
+
+    protected function getSortableFields()
+    {
+        return ['name'];
+    }
 }

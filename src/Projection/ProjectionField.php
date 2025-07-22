@@ -22,19 +22,19 @@ class ProjectionField extends Projection
         $this->clientInput = Arr::get($this->clientInput, $this->projectionConfig['intersect_key']);
     }
 
-    private function convertClientInputToArray()
+    private function prerequisites()
     {
-        $this->clientInput = filter_explode($this->clientInput);
+        // Make sure client input type is string
+        if (!is_string($this->clientInput)) {
+            throw new NoActionWillPerformException;
+        }
     }
 
     protected function validate()
     {
-        // Make sure client input is valid
-        if (!is_string($this->clientInput)) {
-            throw new NoActionWillPerformException;
-        }
+        $this->prerequisites();
 
-        if (static::$ignoreIfFieldsAreEmpty && empty($clientInput)) {
+        if (static::$ignoreIfFieldsAreEmpty && empty($this->clientInput)) {
             throw new NoActionWillPerformException;
         }
 
@@ -49,7 +49,8 @@ class ProjectionField extends Projection
     public function project()
     {
         $this->validate();
-        $this->convertClientInputToArray();
+
+        $this->clientInput = filter_explode($this->clientInput);
 
         return $this->clientInput === ['*']
             ? $this->projectableFields
