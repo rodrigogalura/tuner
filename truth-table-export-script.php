@@ -98,7 +98,7 @@ class CSVToArray
         $CELL_ROW_STARTS_AT = 11;
         $CELL_COLS_LENGTH = 5;
 
-        $PREREQUISITES_CODES = [1, 2];
+        $PREREQUISITES_CODES = [1, 2, 3];
 
         return $this->readFileAndReturnData(function (&$data, $row) use (
             &$rowCounter,
@@ -119,10 +119,13 @@ class CSVToArray
                 static::convertToEmptyStringIfEmptyValue($row[$i]);
             }
 
-            $result_fields = $row[3];
-            $result_fields_not = $row[4];
+            $intersectResult = $row[3];
+            // $exceptResult = $row[4];
 
-            if (in_array($result_fields, $PREREQUISITES_CODES) || in_array($result_fields_not, $PREREQUISITES_CODES)) {
+            if (
+                in_array($intersectResult, $PREREQUISITES_CODES)
+                // in_array($exceptResult, $PREREQUISITES_CODES)
+            ) {
                 return; // skip;
             }
 
@@ -134,8 +137,8 @@ class CSVToArray
                 'projectableFields' => explode_sanitized($projectableFields),
                 'definedFields' => explode_sanitized($definedFields),
                 'clientInput' => $clientInput,
-                'resultFields' => explode_sanitized($result_fields),
-                'resultFieldsNot' => explode_sanitized($result_fields_not),
+                'intersectResult' => explode_sanitized($intersectResult),
+                // 'exceptResult' => explode_sanitized($exceptResult),
             ];
         });
     }
@@ -196,29 +199,6 @@ class CSVToArray
                     'resultKeyword' => $resultKeyword,
                 ];
             }
-
-            // if (! is_numeric($result_fields = $row[7])) {
-            //     $data[] = [
-            //         'searchableFields' => explode_sanitized($row[0]),
-
-            //         'search_fields' => $row[1],
-            //         'search_value_no_wildcard' => $row[2],
-            //         'search_value_both_wildcard' => $row[3],
-            //         'search_value_left_wildcard' => $row[4],
-            //         'search_value_right_wildcard' => $row[5],
-
-            //         'result_fields' => $result_fields,
-            //         'result_value_unit_no_wildcard' => $row[8],
-            //         'result_value_unit_both_wildcard' => $row[9],
-            //         'result_value_unit_left_wildcard' => $row[10],
-            //         'result_value_unit_right_wildcard' => $row[11],
-
-            //         'result_value_feature_no_wildcard' => static::isEmpty($row[12]) ? [] : explode_sanitized($row[12]),
-            //         'result_value_feature_both_wildcard' => static::isEmpty($row[13]) ? [] : explode_sanitized($row[13]),
-            //         'result_value_feature_left_wildcard' => static::isEmpty($row[14]) ? [] : explode_sanitized($row[14]),
-            //         'result_value_feature_right_wildcard' => static::isEmpty($row[15]) ? [] : explode_sanitized($row[15]),
-            //     ];
-            // }
         });
     }
 }
@@ -231,7 +211,7 @@ function explode_sanitized(string $str, string $delimiter = ',')
 // $csvToArray = new CSVToArray('truth-table.csv');
 // echo $csvToArray->export();
 
-$csvToArray = new CSVToArray('search-truth-table.csv');
+$csvToArray = new CSVToArray('projection-truth-table.csv');
 echo $csvToArray->export();
 
 /*

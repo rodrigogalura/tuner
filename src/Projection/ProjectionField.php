@@ -2,52 +2,39 @@
 
 namespace Laradigs\Tweaker\Projection;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-
+use Illuminate\Database\Eloquent\Model;
 use function RGalura\ApiIgniter\filter_explode;
+use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 
 class ProjectionField extends Projection
 {
-    private static $ignoreIfFieldsAreEmpty = false;
-
     public function __construct(
         Model $model,
         array $projectableFields,
         array $definedFields,
-        mixed $clientInput,
-        array $projectionConfig = ['intersect_key' => 'fields'],
+        array $clientInput,
     ) {
-        parent::__construct($model, $projectableFields, $definedFields, Arr::get($clientInput, $projectionConfig['intersect_key']));
+        parent::__construct($model, $projectableFields, $definedFields, $clientInput);
     }
 
     protected function validate()
     {
         parent::prerequisites();
 
-        throw_if(static::$ignoreIfFieldsAreEmpty && empty($this->clientInput), NoActionWillPerformException::class);
+        throw_if(empty($this->clientInputValue), NoActionWillPerformException::class);
 
         parent::validate();
-    }
-
-    public function isUsed()
-    {
-        return ! is_null($this->clientInput);
     }
 
     public function project()
     {
         $this->validate();
 
-        $this->clientInput = filter_explode($this->clientInput);
+        $inputArr = filter_explode($this->clientInputValue);
 
-        return $this->clientInput === ['*']
+        return $inputArr === ['*']
             ? $this->projectableFields
-            : $this->truthTable->intersect($this->projectableFields, $this->clientInput);
-    }
-
-    public static function ignoreIfFieldsAreEmpty()
-    {
-        static::$ignoreIfFieldsAreEmpty = true;
+            : $this->truthTable->intersect($this->projectableFields, $inputArr);
     }
 }

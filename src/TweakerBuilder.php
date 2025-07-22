@@ -2,14 +2,14 @@
 
 namespace Laradigs\Tweaker;
 
-use Illuminate\Database\Eloquent\Builder;
+use Laradigs\Tweaker\Search\Search;
 use Illuminate\Database\Eloquent\Model;
-use Laradigs\Tweaker\Projection\NoActionWillPerformException;
+use Illuminate\Database\Eloquent\Builder;
+use Laradigs\Tweaker\Projection\Projection;
+use function RGalura\ApiIgniter\filter_explode;
 use Laradigs\Tweaker\Projection\ProjectionField;
 use Laradigs\Tweaker\Projection\ProjectionFieldNot;
-use Laradigs\Tweaker\Search\Search;
-
-use function RGalura\ApiIgniter\filter_explode;
+use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 
 /**
  * Singleton
@@ -75,29 +75,26 @@ final class TweakerBuilder
 
     public function projection(array $projectableFields)
     {
-        $projectionField = new ProjectionField(
+        $intersectKey = $this->config['projection']['intersect_key'];
+        $exceptKey = $this->config['projection']['except_key'];
+
+        $projection[$intersectKey] = new ProjectionField(
             model: $this->model,
             projectableFields: $projectableFields,
             definedFields: $this->builder->getQuery()->columns ?? ['*'],
-            clientInput: $this->clientInput,
-            projectionConfig: $this->config['projection']
+            clientInput: [$intersectKey => $this->clientInput[$intersectKey] ?? null],
         );
 
-        $projectionFieldNot = new ProjectionFieldNot(
+        $projection[$exceptKey] = new ProjectionFieldNot(
             model: $this->model,
             projectableFields: $projectableFields,
             definedFields: $this->builder->getQuery()->columns ?? ['*'],
-            clientInput: $this->clientInput,
-            projectionConfig: $this->config['projection']
+            clientInput: [$exceptKey => $this->clientInput[$exceptKey] ?? null],
         );
 
-        if (($intersectIsUsed = $projectionField->isUsed()) xor $projectionFieldNot->isUsed()) {
-            $projection = $intersectIsUsed
-                ? $projectionField
-                : $projectionFieldNot;
-
+        if ($key = Projection::getKeyCanUse()) {
             try {
-                $this->projectedFields = $projection->project();
+                $this->projectedFields = $projection[$key]->project();
             } catch (NoActionWillPerformException $e) {
                 //
             }

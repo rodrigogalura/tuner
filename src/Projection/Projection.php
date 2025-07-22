@@ -7,22 +7,27 @@ use Laradigs\Tweaker\TruthTable;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 use RGalura\ApiIgniter\Exceptions\NoDefinedFieldException;
 
-// abstract class Projection extends TruthTable
 abstract class Projection
 {
     protected TruthTable $truthTable;
+
+    protected readonly mixed $clientInputValue;
+
+    public static $clientInputs = [];
 
     public function __construct(
         private Model $model,
         protected array $projectableFields,
         protected array $definedFields,
-        protected mixed $clientInput,
+        array $clientInput,
     ) {
         $this->truthTable = new TruthTable(
             $model->getConnection()
                 ->getSchemaBuilder()
                 ->getColumnListing($model->getTable())
         );
+
+        $this->clientInputValue = static::$clientInputs[key($clientInput)] = current($clientInput);
     }
 
     private function throwIfNotInVisibleFields(array $fields)
@@ -33,7 +38,7 @@ abstract class Projection
     protected function prerequisites()
     {
         // Make sure client input type is string
-        throw_if(! is_string($this->clientInput), NoActionWillPerformException::class);
+        throw_if(! is_string($this->clientInputValue), NoActionWillPerformException::class);
     }
 
     protected function validate()
@@ -50,6 +55,18 @@ abstract class Projection
 
         $this->projectableFields = $this->truthTable->intersect($this->projectableFields, $this->definedFields);
         throw_if(empty($this->projectableFields), NoActionWillPerformException::class);
+    }
+
+    public static function getKeyCanUse()
+    {
+        $clientInput = array_filter(static::$clientInputs);
+
+        return count($clientInput) === 1 ? key($clientInput) : null;
+    }
+
+    public static function clearKeys()
+    {
+        static::$clientInputs = [];
     }
 
     abstract public function project();

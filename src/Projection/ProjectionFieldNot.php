@@ -9,43 +9,28 @@ use function RGalura\ApiIgniter\filter_explode;
 
 class ProjectionFieldNot extends Projection
 {
-    private static $ignoreIfFieldNotIsAsterisk = false;
-
     public function __construct(
         Model $model,
         array $projectableFields,
         array $definedFields,
-        mixed $clientInput,
-        array $projectionConfig = ['except_key' => 'fields!'],
+        array $clientInput,
     ) {
-        parent::__construct($model, $projectableFields, $definedFields, Arr::get($clientInput, $projectionConfig['except_key']));
+        parent::__construct($model, $projectableFields, $definedFields, $clientInput);
     }
 
     protected function validate()
     {
         parent::prerequisites();
 
-        throw_if(static::$ignoreIfFieldNotIsAsterisk && $this->clientInput === '*', NoActionWillPerformException::class);
+        throw_if($this->clientInputValue === '*', NoActionWillPerformException::class);
 
         parent::validate();
-    }
-
-    public function isUsed()
-    {
-        return ! is_null($this->clientInput);
     }
 
     public function project()
     {
         $this->validate();
 
-        $this->clientInput = filter_explode($this->clientInput);
-
-        return $this->truthTable->except($this->projectableFields, $this->clientInput);
-    }
-
-    public static function ignoreIfFieldNotIsAsterisk()
-    {
-        static::$ignoreIfFieldNotIsAsterisk = true;
+        return $this->truthTable->except($this->projectableFields, filter_explode($this->clientInputValue));
     }
 }
