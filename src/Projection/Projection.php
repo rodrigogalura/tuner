@@ -2,7 +2,6 @@
 
 namespace Laradigs\Tweaker\Projection;
 
-use Illuminate\Database\Eloquent\Model;
 use Laradigs\Tweaker\TruthTable;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 use RGalura\ApiIgniter\Exceptions\NoDefinedFieldException;
@@ -16,16 +15,12 @@ abstract class Projection
     public static $clientInputs = [];
 
     public function __construct(
-        private Model $model,
+        array $columnListing,
         protected array $projectableFields,
         protected array $definedFields,
         array $clientInput,
     ) {
-        $this->truthTable = new TruthTable(
-            $model->getConnection()
-                ->getSchemaBuilder()
-                ->getColumnListing($model->getTable())
-        );
+        $this->truthTable = new TruthTable($columnListing);
 
         $this->clientInputValue = static::$clientInputs[key($clientInput)] = current($clientInput);
     }
@@ -59,8 +54,10 @@ abstract class Projection
 
     public static function getKeyCanUse()
     {
+        // remove all falsy value
         $clientInput = array_filter(static::$clientInputs);
 
+        // check if there is one truthy value remains
         return count($clientInput) === 1 ? key($clientInput) : null;
     }
 

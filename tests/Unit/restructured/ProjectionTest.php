@@ -1,12 +1,11 @@
 <?php
 
-use Illuminate\Database\Eloquent\Model;
-use Laradigs\Tweaker\Projection\Projection;
-use Laradigs\Tweaker\Projection\IntersectProjection;
 use Laradigs\Tweaker\Projection\ExceptProjection;
+use Laradigs\Tweaker\Projection\IntersectProjection;
+use Laradigs\Tweaker\Projection\NoActionWillPerformException;
+use Laradigs\Tweaker\Projection\Projection;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 use RGalura\ApiIgniter\Exceptions\NoDefinedFieldException;
-use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 
 dataset('not-string-value', [
     [[]],
@@ -18,42 +17,28 @@ dataset('not-string-value', [
 ]);
 
 beforeEach(function (): void {
-    Mockery::globalHelpers();
-
-    $table = 'users';
-    $this->visibleFields = ['id', 'name'];
-    $this->visibleFieldsString = implode(', ', $this->visibleFields);
-
-    $this->model = mock(Model::class);
-    $this->model
-        ->shouldReceive('getTable')
-        ->andReturn($table)
-        ->shouldReceive('getHidden')
-        ->andReturn([])
-        ->shouldReceive('getConnection->getSchemaBuilder->getColumnListing')
-        ->with(Mockery::type('string'))
-        ->andReturn($this->visibleFields);
+    $this->columnListing = ['id', 'name'];
+    $this->columnListingString = implode(', ', $this->columnListing);
 });
 
 afterEach(function (): void {
     Projection::clearKeys();
-    Mockery::close();
 });
 
-describe('Not meet the requirements', function () {
-    it('should no available keys can use if both intersect and except projection are used', function () {
+describe('Not meet the requirements', function (): void {
+    it('should no available keys can use if both intersect and except projection are used', function (): void {
         $projectableFields = $definedFields = ['*'];
 
         // Prepare
         $intersect = new IntersectProjection(
-            $this->model,
+            $this->columnListing,
             $projectableFields,
             $definedFields,
             ['fields' => 'foo']
         );
 
         $except = new ExceptProjection(
-            $this->model,
+            $this->columnListing,
             $projectableFields,
             $definedFields,
             ['fields!' => 'bar']
@@ -64,11 +49,11 @@ describe('Not meet the requirements', function () {
     });
 });
 
-describe('Prerequisites', function () {
+describe('Prerequisites', function (): void {
     it('should throw NoActionWillPerformException if the "fields" value is not string', function ($input): void {
         // Prepare
         $projection = new IntersectProjection(
-            $this->model,
+            $this->columnListing,
             projectableFields: ['*'],
             definedFields: ['*'],
             clientInput: ['fields' => $input],
@@ -81,7 +66,7 @@ describe('Prerequisites', function () {
     it('should throw NoActionWillPerformException if the "fields!" value is not string', function ($input): void {
         // Prepare
         $projection = new ExceptProjection(
-            $this->model,
+            $this->columnListing,
             projectableFields: ['*'],
             definedFields: ['*'],
             clientInput: ['fields!' => $input],
@@ -92,11 +77,11 @@ describe('Prerequisites', function () {
     })->with('not-string-value');
 });
 
-describe('Validations', function () {
+describe('Validations', function (): void {
     it('should throw NoActionWillPerformException if the "fields" value is empty', function (): void {
         // Prepare
         $projection = new IntersectProjection(
-            $this->model,
+            $this->columnListing,
             projectableFields: ['*'],
             definedFields: ['*'],
             clientInput: ['fields' => ''],
@@ -109,7 +94,7 @@ describe('Validations', function () {
     it('should throw NoActionWillPerformException if the "fields!" value is *', function (): void {
         // Prepare
         $projection = new ExceptProjection(
-            $this->model,
+            $this->columnListing,
             projectableFields: ['*'],
             definedFields: ['*'],
             clientInput: ['fields' => '*'],
@@ -123,7 +108,7 @@ describe('Validations', function () {
         // Prepare
         $DEFINE_FIELDS = ['*'];
         $projection = new IntersectProjection(
-            $this->model,
+            $this->columnListing,
             projectableFields: [],
             definedFields: $DEFINE_FIELDS,
             clientInput: ['fields' => ''],
@@ -135,10 +120,10 @@ describe('Validations', function () {
 
     it('should throw NoActionWillPerformExceptionn if the projectable fields and defined fields are not intersect', function (): void {
         // Prepare
-        $DEFINE_FIELDS = [$this->visibleFields[1]];
+        $DEFINE_FIELDS = [$this->columnListing[1]];
         $projection = new IntersectProjection(
-            $this->model,
-            projectableFields: [$this->visibleFields[0]],
+            $this->columnListing,
+            projectableFields: [$this->columnListing[0]],
             definedFields: $DEFINE_FIELDS,
             clientInput: ['fields' => 'foo'],
         );
@@ -152,10 +137,10 @@ describe('Validations', function () {
             // Prepare
             $notInVisibleFields = ['email'];
             $projection = new IntersectProjection(
-                $this->model,
+                $this->columnListing,
                 projectableFields: $notInVisibleFields,
                 definedFields: [],
-                clientInput: ['fields' => $this->visibleFieldsString],
+                clientInput: ['fields' => $this->columnListingString],
             );
 
             // Act & Assert
@@ -165,10 +150,10 @@ describe('Validations', function () {
         it('should throw an exception if the defined fields is empty', function (): void {
             // Prepare
             $projection = new IntersectProjection(
-                $this->model,
+                $this->columnListing,
                 projectableFields: ['id'],
                 definedFields: [],
-                clientInput: ['fields' => $this->visibleFieldsString],
+                clientInput: ['fields' => $this->columnListingString],
             );
 
             // Act & Assert
@@ -179,10 +164,10 @@ describe('Validations', function () {
             // Prepare
             $notInVisibleFields = ['email'];
             $projection = new IntersectProjection(
-                $this->model,
+                $this->columnListing,
                 projectableFields: ['id'],
                 definedFields: $notInVisibleFields,
-                clientInput: ['fields' => $this->visibleFieldsString],
+                clientInput: ['fields' => $this->columnListingString],
             );
 
             // Act & Assert
@@ -195,7 +180,7 @@ describe('Valid scenarios', function (): void {
     it('should passed all valid scenarios for client input "fields"', function ($projectableFields, $definedFields, $clientInput, $intersectResult): void {
         // Prepare
         $intersect = new IntersectProjection(
-            $this->model,
+            $this->columnListing,
             $projectableFields,
             $definedFields,
             ['fields' => $clientInput]
@@ -209,7 +194,7 @@ describe('Valid scenarios', function (): void {
     it('should passed all valid scenarios for client input "fields!"', function ($projectableFields, $definedFields, $clientInput, $exceptResult): void {
         // Prepare
         $except = new ExceptProjection(
-            $this->model,
+            $this->columnListing,
             $projectableFields,
             $definedFields,
             ['fields!' => $clientInput]
@@ -218,5 +203,5 @@ describe('Valid scenarios', function (): void {
         // Act & Assert
         expect($except->project())->toBe($exceptResult);
     })
-         ->with('except-projection-truth-table');
+        ->with('except-projection-truth-table');
 });

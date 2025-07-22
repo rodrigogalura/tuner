@@ -55,7 +55,7 @@ describe('Throw an exception', function (): void {
 });
 
 describe('Valid scenarios', function (): void {
-    it('should passed all valid scenarios', function ($projectableFields, $definedFields, $clientInput, $resultFields, $resultFieldsNot): void {
+    it('should passed all valid scenarios', function ($projectableFields, $definedFields, $clientInput, $intersectResult, $exceptResult): void {
         // Prepare
         $equivalentRoutes = [
             '*' => '/api/all-fields-are-projectable',
@@ -87,8 +87,8 @@ describe('Valid scenarios', function (): void {
         // Act & Assert
         get($route)
             ->assertOk()
-            ->assertJsonCount(empty($resultFields) ? 0 : $data->count())
-            ->assertExactJsonStructure(['*' => $resultFields]);
+            ->assertJsonCount(empty($intersectResult) ? 0 : $data->count())
+            ->assertExactJsonStructure(['*' => $intersectResult]);
 
         unset($_GET['fields']);
         $_GET['fields!'] = $clientInput;
@@ -96,8 +96,8 @@ describe('Valid scenarios', function (): void {
         // Act & Assert
         get($route)
             ->assertOk()
-            ->assertJsonCount(empty($resultFieldsNot) ? 0 : $data->count())
-            ->assertExactJsonStructure(['*' => $resultFieldsNot]);
+            ->assertJsonCount(empty($exceptResult) ? 0 : $data->count())
+            ->assertExactJsonStructure(['*' => $exceptResult]);
     })
         ->with('projection-truth-table');
 });

@@ -2,8 +2,6 @@
 
 namespace Laradigs\Tweaker\Search;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 use Laradigs\Tweaker\TruthTable;
@@ -21,28 +19,20 @@ class Search
     protected TruthTable $truthTable;
 
     public function __construct(
-        private Model $model,
+        private array $columnListing,
         protected array $searchableFields,
-        private mixed $clientInput,
+        private array $clientInput,
         private int $minimumLength = 2,
-        array $searchConfig = ['key' => 'search'],
     ) {
-        $this->truthTable = new TruthTable(
-            $model->getConnection()
-                ->getSchemaBuilder()
-                ->getColumnListing($model->getTable())
-        );
+        $this->truthTable = new TruthTable($columnListing);
 
-        $this->clientInput = Arr::get($this->clientInput, $searchConfig['key']);
-        $this->prerequisites();
+        $this->clientInput = current($clientInput);
     }
 
     private function prerequisites()
     {
-        $searchIsNotUsed = is_null($this->clientInput);
-        $searchIsNotALinearArray = ! is_array($this->clientInput) || is_multi_array($this->clientInput);
-
-        throw_if($searchIsNotUsed || $searchIsNotALinearArray, NoActionWillPerformException::class);
+        $searchIsNotALinearArray = is_multi_array($this->clientInput);
+        throw_if(empty($this->clientInput) || $searchIsNotALinearArray, NoActionWillPerformException::class);
     }
 
     private function throwIfNotInVisibleFields(array $fields)
@@ -59,13 +49,16 @@ class Search
 
     protected function validate()
     {
+        $this->prerequisites();
+
         $this->fields = filter_explode(key($this->clientInput));
+        $this->keyword = current($this->clientInput);
+
         throw_if(empty($this->fields), NoActionWillPerformException::class);
 
         $this->truthTable->extractIfAsterisk($this->fields);
         throw_if($this->checkIfNotInVisibleFields($this->fields), NoActionWillPerformException::class);
 
-        $this->keyword = current($this->clientInput);
         $sanitizeKeyword = trim(trim($this->keyword, '*'));
 
         throw_if(empty($sanitizeKeyword), NoActionWillPerformException::class);

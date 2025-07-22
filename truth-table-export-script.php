@@ -120,11 +120,12 @@ class CSVToArray
             }
 
             $intersectResult = $row[3];
-            // $exceptResult = $row[4];
+            $exceptResult = $row[4];
 
             if (
                 in_array($intersectResult, $PREREQUISITES_CODES)
-                // in_array($exceptResult, $PREREQUISITES_CODES)
+                ||
+                in_array($exceptResult, $PREREQUISITES_CODES)
             ) {
                 return; // skip;
             }
@@ -138,7 +139,7 @@ class CSVToArray
                 'definedFields' => explode_sanitized($definedFields),
                 'clientInput' => $clientInput,
                 'intersectResult' => explode_sanitized($intersectResult),
-                // 'exceptResult' => explode_sanitized($exceptResult),
+                'exceptResult' => explode_sanitized($exceptResult),
             ];
         });
     }
@@ -212,6 +213,7 @@ function explode_sanitized(string $str, string $delimiter = ',')
 // echo $csvToArray->export();
 
 $csvToArray = new CSVToArray('projection-truth-table.csv');
+// $csvToArray = new CSVToArray('search-truth-table.csv');
 echo $csvToArray->export();
 
 /*

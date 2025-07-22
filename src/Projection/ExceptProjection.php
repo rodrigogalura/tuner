@@ -2,20 +2,17 @@
 
 namespace Laradigs\Tweaker\Projection;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
-
 use function RGalura\ApiIgniter\filter_explode;
 
 class ExceptProjection extends Projection
 {
     public function __construct(
-        Model $model,
+        array $columnListing,
         array $projectableFields,
         array $definedFields,
         array $clientInput,
     ) {
-        parent::__construct($model, $projectableFields, $definedFields, $clientInput);
+        parent::__construct($columnListing, $projectableFields, $definedFields, $clientInput);
     }
 
     protected function validate()

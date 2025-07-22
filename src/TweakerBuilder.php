@@ -2,14 +2,14 @@
 
 namespace Laradigs\Tweaker;
 
-use Laradigs\Tweaker\Search\Search;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Laradigs\Tweaker\Projection\Projection;
-use function RGalura\ApiIgniter\filter_explode;
-use Laradigs\Tweaker\Projection\IntersectProjection;
 use Laradigs\Tweaker\Projection\ExceptProjection;
+use Laradigs\Tweaker\Projection\IntersectProjection;
 use Laradigs\Tweaker\Projection\NoActionWillPerformException;
+use Laradigs\Tweaker\Projection\Projection;
+use Laradigs\Tweaker\Search\Search;
+
+use function RGalura\ApiIgniter\filter_explode;
 
 /**
  * Singleton
@@ -28,7 +28,7 @@ final class TweakerBuilder
      */
     private function __construct(
         private Builder $builder,
-        private Model $model,
+        private array $columnListing,
         private array $config,
         private array $clientInput
     ) {
@@ -60,17 +60,11 @@ final class TweakerBuilder
 
     public static function getInstance(
         Builder $builder,
-        Model $model,
+        array $columnListing,
         array $config,
         array $clientInput
     ) {
-        // return new static(
-        return new TweakerBuilder(
-            builder: $builder,
-            model: $model,
-            config: $config,
-            clientInput: $clientInput
-        );
+        return new self($builder, $columnListing, $config, $clientInput);
     }
 
     public function projection(array $projectableFields)
@@ -79,15 +73,15 @@ final class TweakerBuilder
         $exceptKey = $this->config['projection']['except_key'];
 
         $projection[$intersectKey] = new IntersectProjection(
-            model: $this->model,
-            projectableFields: $projectableFields,
+            $this->columnListing,
+            $projectableFields,
             definedFields: $this->builder->getQuery()->columns ?? ['*'],
             clientInput: [$intersectKey => $this->clientInput[$intersectKey] ?? null],
         );
 
         $projection[$exceptKey] = new ExceptProjection(
-            model: $this->model,
-            projectableFields: $projectableFields,
+            $this->columnListing,
+            $projectableFields,
             definedFields: $this->builder->getQuery()->columns ?? ['*'],
             clientInput: [$exceptKey => $this->clientInput[$exceptKey] ?? null],
         );
@@ -105,14 +99,17 @@ final class TweakerBuilder
 
     public function searchFilter(array $searchableFields)
     {
-        try {
-            $search = new Search(
-                model: $this->model,
-                searchableFields: $searchableFields,
-                clientInput: $this->clientInput,
-                searchConfig: $this->config['search']
-            );
+        $key = $this->config['search']['key'];
+        $minimumLength = $this->config['search']['minimum_length'];
 
+        $search = new Search(
+            $this->columnListing,
+            $searchableFields,
+            clientInput: [$key => $this->clientInput[$key] ?? []],
+            minimumLength: $minimumLength
+        );
+
+        try {
             $this->searchedResult = $search->search();
         } catch (NoActionWillPerformException $e) {
             //

@@ -2,20 +2,17 @@
 
 namespace Laradigs\Tweaker\Projection;
 
-use Illuminate\Support\Arr;
-use Illuminate\Database\Eloquent\Model;
 use function RGalura\ApiIgniter\filter_explode;
-use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 
 class IntersectProjection extends Projection
 {
     public function __construct(
-        Model $model,
+        array $columnListing,
         array $projectableFields,
         array $definedFields,
         array $clientInput,
     ) {
-        parent::__construct($model, $projectableFields, $definedFields, $clientInput);
+        parent::__construct($columnListing, $projectableFields, $definedFields, $clientInput);
     }
 
     protected function validate()
