@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Laradigs\Tweaker\Projection\Projection;
 use function RGalura\ApiIgniter\filter_explode;
-use Laradigs\Tweaker\Projection\ProjectionField;
-use Laradigs\Tweaker\Projection\ProjectionFieldNot;
+use Laradigs\Tweaker\Projection\IntersectProjection;
+use Laradigs\Tweaker\Projection\ExceptProjection;
 use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 
 /**
@@ -78,14 +78,14 @@ final class TweakerBuilder
         $intersectKey = $this->config['projection']['intersect_key'];
         $exceptKey = $this->config['projection']['except_key'];
 
-        $projection[$intersectKey] = new ProjectionField(
+        $projection[$intersectKey] = new IntersectProjection(
             model: $this->model,
             projectableFields: $projectableFields,
             definedFields: $this->builder->getQuery()->columns ?? ['*'],
             clientInput: [$intersectKey => $this->clientInput[$intersectKey] ?? null],
         );
 
-        $projection[$exceptKey] = new ProjectionFieldNot(
+        $projection[$exceptKey] = new ExceptProjection(
             model: $this->model,
             projectableFields: $projectableFields,
             definedFields: $this->builder->getQuery()->columns ?? ['*'],

@@ -2,12 +2,12 @@
 
 namespace Laradigs\Tweaker\Projection;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-
+use Illuminate\Database\Eloquent\Model;
 use function RGalura\ApiIgniter\filter_explode;
+use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 
-class ProjectionFieldNot extends Projection
+class IntersectProjection extends Projection
 {
     public function __construct(
         Model $model,
@@ -22,7 +22,7 @@ class ProjectionFieldNot extends Projection
     {
         parent::prerequisites();
 
-        throw_if($this->clientInputValue === '*', NoActionWillPerformException::class);
+        throw_if(empty($this->clientInputValue), NoActionWillPerformException::class);
 
         parent::validate();
     }
@@ -31,6 +31,10 @@ class ProjectionFieldNot extends Projection
     {
         $this->validate();
 
-        return $this->truthTable->except($this->projectableFields, filter_explode($this->clientInputValue));
+        $inputArr = filter_explode($this->clientInputValue);
+
+        return $inputArr === ['*']
+            ? $this->projectableFields
+            : $this->truthTable->intersect($this->projectableFields, $inputArr);
     }
 }
