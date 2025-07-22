@@ -10,14 +10,6 @@ use function Pest\Laravel\get;
 
 beforeEach(function (): void {
     $_GET = [];
-
-    // $this->equivalentRoutes = [
-    //     '*' => '/api/all-fields-are-projectable',
-    //     'id' => '/api/only-id-is-projectable',
-    //     'name' => '/api/only-name-is-projectable',
-    //     'id, name' => '/api/id-and-name-are-projectable',
-    //     'empty' => '/api/no-projectable',
-    // ];
 });
 
 describe('Not perform any action.', function (): void {

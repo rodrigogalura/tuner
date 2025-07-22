@@ -23,7 +23,7 @@ class Search
         protected array $searchableFields,
         private mixed $clientInput,
         private int $minimumLength = 2,
-        private array $searchConfig = ['key' => 'search'],
+        array $searchConfig = ['key' => 'search'],
     ) {
         $this->truthTable = new TruthTable(
             $model->getConnection()
@@ -31,22 +31,16 @@ class Search
                 ->getColumnListing($model->getTable())
         );
 
+        $this->clientInput = Arr::get($this->clientInput, $searchConfig['key']);
         $this->prerequisites();
     }
 
     private function prerequisites()
     {
-        if(!($this->clientInput = Arr::get($this->clientInput, $this->searchConfig['key']))){
-            throw new NoActionWillPerformException;
-        }
+        $searchIsNotUsed = is_null($this->clientInput);
+        $searchIsNotALinearArray = !is_array($this->clientInput) || is_multi_array($this->clientInput);
 
-        // Make sure client input type is valid
-        if (
-            !is_array($this->clientInput) ||
-            is_multi_array($this->clientInput)
-        ) {
-            throw new NoActionWillPerformException;
-        }
+        throw_if($searchIsNotUsed || $searchIsNotALinearArray, NoActionWillPerformException::class);
     }
 
     private function throwIfNotInVisibleFields(array $fields)
@@ -64,27 +58,20 @@ class Search
     protected function validate()
     {
         $this->fields = filter_explode(key($this->clientInput));
-
-        if (empty($this->fields)) {
-            throw new NoActionWillPerformException;
-        }
+        throw_if(empty($this->fields), NoActionWillPerformException::class);
 
         $this->truthTable->extractIfAsterisk($this->fields);
-
-        if ($this->checkIfNotInVisibleFields($this->fields)) {
-            throw new NoActionWillPerformException;
-        }
+        throw_if($this->checkIfNotInVisibleFields($this->fields), NoActionWillPerformException::class);
 
         $this->keyword = current($this->clientInput);
         $sanitizeKeyword = trim(trim($this->keyword, '*'));
 
-        if (empty($sanitizeKeyword) || strlen($sanitizeKeyword) < $this->minimumLength) {
-            throw new NoActionWillPerformException;
-        }
+        throw_if(empty($sanitizeKeyword), NoActionWillPerformException::class);
 
-        if (empty($this->searchableFields)) {
-            throw new NoActionWillPerformException;
-        }
+        $belowTheRequiredLength = strlen($sanitizeKeyword) < $this->minimumLength;
+        $searchableFieldsAreEmpty = empty($this->searchableFields);
+
+        throw_if($belowTheRequiredLength || $searchableFieldsAreEmpty, NoActionWillPerformException::class);
 
         $this->truthTable->extractIfAsterisk($this->searchableFields);
         $this->throwIfNotInVisibleFields($this->searchableFields);

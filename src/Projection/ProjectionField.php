@@ -14,29 +14,17 @@ class ProjectionField extends Projection
         Model $model,
         array $projectableFields,
         array $definedFields,
-        private mixed $clientInput,
-        private array $projectionConfig = ['intersect_key' => 'fields'],
+        mixed $clientInput,
+        array $projectionConfig = ['intersect_key' => 'fields'],
     ) {
-        parent::__construct($model, $projectableFields, $definedFields);
-
-        $this->clientInput = Arr::get($this->clientInput, $this->projectionConfig['intersect_key']);
-    }
-
-    private function prerequisites()
-    {
-        // Make sure client input type is string
-        if (!is_string($this->clientInput)) {
-            throw new NoActionWillPerformException;
-        }
+        parent::__construct($model, $projectableFields, $definedFields, Arr::get($clientInput, $projectionConfig['intersect_key']));
     }
 
     protected function validate()
     {
-        $this->prerequisites();
+        parent::prerequisites();
 
-        if (static::$ignoreIfFieldsAreEmpty && empty($this->clientInput)) {
-            throw new NoActionWillPerformException;
-        }
+        throw_if(static::$ignoreIfFieldsAreEmpty && empty($this->clientInput), NoActionWillPerformException::class);
 
         parent::validate();
     }

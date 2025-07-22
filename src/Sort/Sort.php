@@ -17,7 +17,7 @@ class Sort
         private Model $model,
         protected array $sortableFields,
         private array $clientInput,
-        private array $sortConfig = ['key' => 'sort'],
+        array $sortConfig = ['key' => 'sort'],
     ) {
         $this->truthTable = new TruthTable(
             $model->getConnection()
