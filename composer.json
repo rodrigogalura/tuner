@@ -94,6 +94,14 @@
         "searchUnitTest": [
             "@clear",
             "@php vendor/bin/pest tests/Unit/restructured/SearchTest.php --profile --bail"
+        ],
+        "sortFeatureTest": [
+            "@clear",
+            "@php vendor/bin/pest tests/Feature/restructured/SortTest.php --profile --bail"
+        ],
+        "sortUnitTest": [
+            "@clear",
+            "@php vendor/bin/pest tests/Unit/restructured/SortTest.php --profile --bail"
         ]
     },
     "extra": {

@@ -7,12 +7,12 @@ use function RGalura\ApiIgniter\filter_explode;
 class IntersectProjection extends Projection
 {
     public function __construct(
-        array $columnListing,
+        array $visibleFields,
         array $projectableFields,
         array $definedFields,
         array $clientInput,
     ) {
-        parent::__construct($columnListing, $projectableFields, $definedFields, $clientInput);
+        parent::__construct($visibleFields, $projectableFields, $definedFields, $clientInput);
     }
 
     protected function validate()

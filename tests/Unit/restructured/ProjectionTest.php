@@ -17,8 +17,8 @@ dataset('not-string-value', [
 ]);
 
 beforeEach(function (): void {
-    $this->columnListing = ['id', 'name'];
-    $this->columnListingString = implode(', ', $this->columnListing);
+    $this->visibleFields = ['id', 'name'];
+    $this->visibleFieldsString = implode(', ', $this->visibleFields);
 });
 
 afterEach(function (): void {
@@ -31,14 +31,14 @@ describe('Not meet the requirements', function (): void {
 
         // Prepare
         $intersect = new IntersectProjection(
-            $this->columnListing,
+            $this->visibleFields,
             $projectableFields,
             $definedFields,
             ['fields' => 'foo']
         );
 
         $except = new ExceptProjection(
-            $this->columnListing,
+            $this->visibleFields,
             $projectableFields,
             $definedFields,
             ['fields!' => 'bar']
@@ -53,7 +53,7 @@ describe('Prerequisites', function (): void {
     it('should throw NoActionWillPerformException if the "fields" value is not string', function ($input): void {
         // Prepare
         $projection = new IntersectProjection(
-            $this->columnListing,
+            $this->visibleFields,
             projectableFields: ['*'],
             definedFields: ['*'],
             clientInput: ['fields' => $input],
@@ -66,7 +66,7 @@ describe('Prerequisites', function (): void {
     it('should throw NoActionWillPerformException if the "fields!" value is not string', function ($input): void {
         // Prepare
         $projection = new ExceptProjection(
-            $this->columnListing,
+            $this->visibleFields,
             projectableFields: ['*'],
             definedFields: ['*'],
             clientInput: ['fields!' => $input],
@@ -81,7 +81,7 @@ describe('Validations', function (): void {
     it('should throw NoActionWillPerformException if the "fields" value is empty', function (): void {
         // Prepare
         $projection = new IntersectProjection(
-            $this->columnListing,
+            $this->visibleFields,
             projectableFields: ['*'],
             definedFields: ['*'],
             clientInput: ['fields' => ''],
@@ -94,7 +94,7 @@ describe('Validations', function (): void {
     it('should throw NoActionWillPerformException if the "fields!" value is *', function (): void {
         // Prepare
         $projection = new ExceptProjection(
-            $this->columnListing,
+            $this->visibleFields,
             projectableFields: ['*'],
             definedFields: ['*'],
             clientInput: ['fields' => '*'],
@@ -108,7 +108,7 @@ describe('Validations', function (): void {
         // Prepare
         $DEFINE_FIELDS = ['*'];
         $projection = new IntersectProjection(
-            $this->columnListing,
+            $this->visibleFields,
             projectableFields: [],
             definedFields: $DEFINE_FIELDS,
             clientInput: ['fields' => ''],
@@ -120,10 +120,10 @@ describe('Validations', function (): void {
 
     it('should throw NoActionWillPerformExceptionn if the projectable fields and defined fields are not intersect', function (): void {
         // Prepare
-        $DEFINE_FIELDS = [$this->columnListing[1]];
+        $DEFINE_FIELDS = [$this->visibleFields[1]];
         $projection = new IntersectProjection(
-            $this->columnListing,
-            projectableFields: [$this->columnListing[0]],
+            $this->visibleFields,
+            projectableFields: [$this->visibleFields[0]],
             definedFields: $DEFINE_FIELDS,
             clientInput: ['fields' => 'foo'],
         );
@@ -137,10 +137,10 @@ describe('Validations', function (): void {
             // Prepare
             $notInVisibleFields = ['email'];
             $projection = new IntersectProjection(
-                $this->columnListing,
+                $this->visibleFields,
                 projectableFields: $notInVisibleFields,
                 definedFields: [],
-                clientInput: ['fields' => $this->columnListingString],
+                clientInput: ['fields' => $this->visibleFieldsString],
             );
 
             // Act & Assert
@@ -150,10 +150,10 @@ describe('Validations', function (): void {
         it('should throw an exception if the defined fields is empty', function (): void {
             // Prepare
             $projection = new IntersectProjection(
-                $this->columnListing,
+                $this->visibleFields,
                 projectableFields: ['id'],
                 definedFields: [],
-                clientInput: ['fields' => $this->columnListingString],
+                clientInput: ['fields' => $this->visibleFieldsString],
             );
 
             // Act & Assert
@@ -164,10 +164,10 @@ describe('Validations', function (): void {
             // Prepare
             $notInVisibleFields = ['email'];
             $projection = new IntersectProjection(
-                $this->columnListing,
+                $this->visibleFields,
                 projectableFields: ['id'],
                 definedFields: $notInVisibleFields,
-                clientInput: ['fields' => $this->columnListingString],
+                clientInput: ['fields' => $this->visibleFieldsString],
             );
 
             // Act & Assert
@@ -180,7 +180,7 @@ describe('Valid scenarios', function (): void {
     it('should passed all valid scenarios for client input "fields"', function ($projectableFields, $definedFields, $clientInput, $intersectResult): void {
         // Prepare
         $intersect = new IntersectProjection(
-            $this->columnListing,
+            $this->visibleFields,
             $projectableFields,
             $definedFields,
             ['fields' => $clientInput]
@@ -194,7 +194,7 @@ describe('Valid scenarios', function (): void {
     it('should passed all valid scenarios for client input "fields!"', function ($projectableFields, $definedFields, $clientInput, $exceptResult): void {
         // Prepare
         $except = new ExceptProjection(
-            $this->columnListing,
+            $this->visibleFields,
             $projectableFields,
             $definedFields,
             ['fields!' => $clientInput]

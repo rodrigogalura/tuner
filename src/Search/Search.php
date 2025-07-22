@@ -19,20 +19,20 @@ class Search
     protected TruthTable $truthTable;
 
     public function __construct(
-        private array $columnListing,
+        private array $visibleFields,
         protected array $searchableFields,
         private array $clientInput,
         private int $minimumLength = 2,
     ) {
-        $this->truthTable = new TruthTable($columnListing);
+        $this->truthTable = new TruthTable($visibleFields);
 
         $this->clientInput = current($clientInput);
     }
 
     private function prerequisites()
     {
-        $searchIsNotALinearArray = is_multi_array($this->clientInput);
-        throw_if(empty($this->clientInput) || $searchIsNotALinearArray, NoActionWillPerformException::class);
+        $searchIsNotLinearArray = is_multi_array($this->clientInput);
+        throw_if(empty($this->clientInput) || $searchIsNotLinearArray, NoActionWillPerformException::class);
     }
 
     private function throwIfNotInVisibleFields(array $fields)

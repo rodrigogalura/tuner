@@ -15,12 +15,12 @@ abstract class Projection
     public static $clientInputs = [];
 
     public function __construct(
-        array $columnListing,
+        array $visibleFields,
         protected array $projectableFields,
         protected array $definedFields,
         array $clientInput,
     ) {
-        $this->truthTable = new TruthTable($columnListing);
+        $this->truthTable = new TruthTable($visibleFields);
 
         $this->clientInputValue = static::$clientInputs[key($clientInput)] = current($clientInput);
     }

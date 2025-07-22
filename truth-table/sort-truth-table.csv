@@ -1,0 +1,42 @@
+Truth Table:,,
+Searchable (p),Client (q) – sort[fields] = keyword,Result
+,,fields (p in q)
+*,*,"id, name"
+*,id,id
+*,name,name
+*,"id, name","id, name"
+*,empty,1
+,,
+id,*,id
+id,id,id
+id,name,1
+id,"id, name",id
+id,empty,1
+,,
+name,*,name
+name,id,1
+name,name,name
+name,"id, name",name
+name,empty,1
+,,
+"id, name",*,"id, name"
+"id, name",id,id
+"id, name",name,name
+"id, name","id, name","id, name"
+"id, name",empty,1
+,,
+empty,*,2
+empty,id,2
+empty,name,2
+empty,"id, name",2
+empty,empty,1
+,,
+,,
+Searchable (p),Client (r) – sort[][fields] = order,Result
+,,direction
+,empty,ASC
+,d,DESC
+,des,DESC
+,desc,DESC
+,descending,DESC
+,-,DESC

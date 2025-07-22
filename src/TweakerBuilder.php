@@ -8,6 +8,7 @@ use Laradigs\Tweaker\Projection\IntersectProjection;
 use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 use Laradigs\Tweaker\Projection\Projection;
 use Laradigs\Tweaker\Search\Search;
+use Laradigs\Tweaker\Sort\Sort;
 
 use function RGalura\ApiIgniter\filter_explode;
 
@@ -28,7 +29,7 @@ final class TweakerBuilder
      */
     private function __construct(
         private Builder $builder,
-        private array $columnListing,
+        private array $visibleFields,
         private array $config,
         private array $clientInput
     ) {
@@ -58,13 +59,18 @@ final class TweakerBuilder
         return ! is_null($this->searchedResult);
     }
 
+    private function sortWasExecute()
+    {
+        return ! is_null($this->sortedResult);
+    }
+
     public static function getInstance(
         Builder $builder,
-        array $columnListing,
+        array $visibleFields,
         array $config,
         array $clientInput
     ) {
-        return new self($builder, $columnListing, $config, $clientInput);
+        return new self($builder, $visibleFields, $config, $clientInput);
     }
 
     public function projection(array $projectableFields)
@@ -73,14 +79,14 @@ final class TweakerBuilder
         $exceptKey = $this->config['projection']['except_key'];
 
         $projection[$intersectKey] = new IntersectProjection(
-            $this->columnListing,
+            $this->visibleFields,
             $projectableFields,
             definedFields: $this->builder->getQuery()->columns ?? ['*'],
             clientInput: [$intersectKey => $this->clientInput[$intersectKey] ?? null],
         );
 
         $projection[$exceptKey] = new ExceptProjection(
-            $this->columnListing,
+            $this->visibleFields,
             $projectableFields,
             definedFields: $this->builder->getQuery()->columns ?? ['*'],
             clientInput: [$exceptKey => $this->clientInput[$exceptKey] ?? null],
@@ -103,7 +109,7 @@ final class TweakerBuilder
         $minimumLength = $this->config['search']['minimum_length'];
 
         $search = new Search(
-            $this->columnListing,
+            $this->visibleFields,
             $searchableFields,
             clientInput: [$key => $this->clientInput[$key] ?? []],
             minimumLength: $minimumLength
@@ -120,20 +126,19 @@ final class TweakerBuilder
 
     public function sort(array $sortableFields)
     {
-        // $sort = new Sort(
-        //     model: $this->model,
-        //     sortableFields: $sortableFields,
-        //     clientInput: $this->clientInput,
-        //     sortConfig: $this->config['sort']
-        // );
+        $key = $this->config['sort']['key'];
 
-        // if ($sort->isUsed()) {
-        //     try {
-        //         $this->sortedResult = $sort->sort();
-        //     } catch (NoActionWillPerformException $e) {
-        //         //
-        //     }
-        // }
+        $sort = new Sort(
+            $this->visibleFields,
+            $sortableFields,
+            clientInput: [$key => $this->clientInput[$key] ?? []],
+        );
+
+        try {
+            $this->sortedResult = $sort->sort();
+        } catch (NoActionWillPerformException $e) {
+            //
+        }
 
         return $this;
     }
@@ -153,6 +158,17 @@ final class TweakerBuilder
             $searchKeyword = current($this->searchedResult);
 
             $this->builder->where(fn ($builderInner) => $builderInner->whereAny($searchFromFields, 'LIKE', $searchKeyword));
+        }
+
+        if ($this->sortWasExecute()) {
+            // if (! empty($table)) {
+            //     $table .= '.';
+            // }
+
+            foreach ($this->sortedResult as $field => $direction) {
+                // $q->orderBy("{$table}{$field}", $direction);
+                $this->builder->orderBy($field, $direction);
+            }
         }
 
         return $this->builder->get();

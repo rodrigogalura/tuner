@@ -2,28 +2,32 @@
 
 namespace Laradigs\Tweaker\Sort;
 
-use Illuminate\Database\Eloquent\Model;
 use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 use Laradigs\Tweaker\TruthTable;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 
-use function RGalura\ApiIgniter\filter_explode;
+use function RGalura\ApiIgniter\is_multi_array;
 
 class Sort
 {
+    private const array DESCENDING_VALUES = ['d', 'des', 'desc', 'descending', '-'];
+
     protected TruthTable $truthTable;
 
     public function __construct(
-        private Model $model,
+        private array $visibleFields,
         protected array $sortableFields,
         private array $clientInput,
-        array $sortConfig = ['key' => 'sort'],
     ) {
-        $this->truthTable = new TruthTable(
-            $model->getConnection()
-                ->getSchemaBuilder()
-                ->getColumnListing($model->getTable())
-        );
+        $this->truthTable = new TruthTable($visibleFields);
+
+        $this->clientInput = current($clientInput);
+    }
+
+    private function prerequisites()
+    {
+        $sortIsNotLinearArray = is_multi_array($this->clientInput);
+        throw_if(empty($this->clientInput) || $sortIsNotLinearArray, NoActionWillPerformException::class);
     }
 
     private function throwIfNotInVisibleFields(array $fields)
@@ -38,16 +42,21 @@ class Sort
         return ! empty($this->truthTable->diffFromAllItems($fields));
     }
 
-    protected function validate(array $fields, string $value)
+    protected function validate()
     {
-        if (
+        $this->prerequisites();
+
+        $this->truthTable->extractIfKeyIsAsterisk($this->clientInput);
+
+        $fields = array_keys($this->clientInput);
+
+        throw_if(
             empty($fields) ||
             $this->checkIfNotInVisibleFields($fields) ||
-            empty($value) ||
-            empty($this->sortableFields)
-        ) {
-            throw new NoActionWillPerformException;
-        }
+            empty($this->sortableFields),
+
+            NoActionWillPerformException::class
+        );
 
         $this->truthTable->extractIfAsterisk($this->sortableFields);
         $this->throwIfNotInVisibleFields($this->sortableFields);
@@ -55,18 +64,10 @@ class Sort
 
     public function sort()
     {
-        $fields = filter_explode(key($this->clientInput));
-        $this->truthTable->extractIfAsterisk($fields);
+        $this->validate();
 
-        $this->validate($fields, $value = current($this->clientInput));
+        $sort = array_map(fn ($direction) => in_array(strtolower($direction), static::DESCENDING_VALUES) ? 'DESC' : 'ASC', $this->clientInput);
 
-        // if (! str_starts_with($keyword, '*') && ! str_ends_with($keyword, '*')) {
-        //     $keyword = "*{$keyword}*";
-        // }
-
-        // // convert asterisk to percentage of first and last position of keyword
-        // $keyword = Str::replaceMatches('/^\*|\*$/', '%', $keyword);
-
-        // return [implode(', ', $this->truthTable->intersect($this->sortableFields, $fields)) => $keyword];
+        return array_filter($sort, fn ($field) => in_array($field, $this->sortableFields), ARRAY_FILTER_USE_KEY);
     }
 }

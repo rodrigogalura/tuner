@@ -28,30 +28,12 @@ class TruthTable
         }
     }
 
-    // private function extractAndValidate(string|array &$value)
-    // {
-    //     $this->extractIfAsterisk($value);
-    //     return $this->validate($value);
-    // }
-
-    // private function diff(array $p, array $q)
-    // {
-    //     return array_values(array_diff($p, $q));
-    // }
-
-    // public function validateAndIntersect(array|string $p, array|string $q)
-    // {
-    //     $this->extractAndValidate($p) && $this->extractAndValidate($q)
-    //         ? $this->intersect($p, $q)
-    //         : false;
-    // }
-
-    // public function validateAndExcept(array|string $p, array|string $q)
-    // {
-    //     $this->extractAndValidate($p) && $this->extractAndValidate($q)
-    //         ? $this->except($p, $q)
-    //         : false;
-    // }
+    public function extractIfKeyIsAsterisk(array &$value)
+    {
+        if (array_key_exists('*', $value)) {
+            $value = array_fill_keys($this->allItems, $value['*']);
+        }
+    }
 
     public function intersect(array|string $p, array|string $q)
     {
@@ -59,10 +41,6 @@ class TruthTable
         $this->extractIfAsterisk($q);
 
         return array_values(array_intersect($p, $q));
-
-        // return $this->containsAll($p) && $this->containsAll($q)
-        //     ? array_values(array_intersect($p, $q))
-        //     : false;
     }
 
     public function except(array|string $p, array|string $q)
@@ -71,9 +49,5 @@ class TruthTable
         $this->extractIfAsterisk($q);
 
         return array_values(array_diff($p, $q));
-
-        // return $this->containsAll($p) && $this->containsAll($q)
-        //     ? array_values(array_diff($p, $q))
-        //     : false;
     }
 }

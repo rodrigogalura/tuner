@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait CanTweak
 {
-    private readonly array $columnListing;
+    private readonly array $visibleFields;
 
     protected function getProjectableFields(): array
     {
@@ -15,7 +15,7 @@ trait CanTweak
 
     protected function getSearchableFields(): array
     {
-        return array_slice($this->columnListing, 0, 2); // first two columns
+        return array_slice($this->visibleFields, 0, 2); // first two columns
     }
 
     protected function getSortableFields(): array
@@ -29,14 +29,14 @@ trait CanTweak
     public function scopeSend(
         Builder $builder,
     ) {
-        $this->columnListing = array_diff(
+        $this->visibleFields = array_diff(
             $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable()),
             $this->getHidden()
         );
 
         return TweakerBuilder::getInstance(
             $builder,
-            $this->columnListing,
+            $this->visibleFields,
             config('tweaker'),
             clientInput: $_GET
         )
@@ -45,7 +45,7 @@ trait CanTweak
         // ->inFiter()
         // ->betweenFilter()
             ->searchFilter($this->getSearchableFields())
-            // ->sort($this->getSortableFields())
+            ->sort($this->getSortableFields())
         // ->limit()
         // ->offset()
         // ->debug()

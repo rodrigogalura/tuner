@@ -3,9 +3,10 @@
 class CSVToArray
 {
     private array $fileMethod = [
-        'truth-table.csv' => 'truthTable',
-        'projection-truth-table.csv' => 'projection',
-        'search-truth-table.csv' => 'search',
+        'truth-table/truth-table.csv' => 'truthTable',
+        'truth-table/projection-truth-table.csv' => 'projection',
+        'truth-table/search-truth-table.csv' => 'search',
+        'truth-table/sort-truth-table.csv' => 'sort',
     ];
 
     private readonly array $data;
@@ -202,6 +203,65 @@ class CSVToArray
             }
         });
     }
+
+    public function sort()
+    {
+        $rowCounter = 1;
+
+        $CELL_ROW_STARTS_AT = 4;
+        $CELL_ROW_CLIENT_KEYWORD_STARTS_AT = 37;
+        $CELL_COLS_LENGTH = 3;
+
+        $PREREQUISITES_CODES = [1, 2];
+
+        return $this->readFileAndReturnData(function (&$data, $row) use (
+            &$rowCounter,
+            $CELL_ROW_STARTS_AT,
+            $CELL_ROW_CLIENT_KEYWORD_STARTS_AT,
+            $CELL_COLS_LENGTH,
+            $PREREQUISITES_CODES
+        ) {
+            if ($rowCounter++ < $CELL_ROW_STARTS_AT) {
+                return; // skip
+            }
+
+            if ($row[1] == '') { // skip no value row
+                return; //
+            }
+
+            // convert 'empty' string to ''
+            for ($i = 0; $i < $CELL_COLS_LENGTH; $i++) {
+                static::convertToEmptyStringIfEmptyValue($row[$i]);
+            }
+
+            $sortableFields = $row[0];
+
+            if ($rowCounter < $CELL_ROW_CLIENT_KEYWORD_STARTS_AT) {
+                $clientFields = $row[1];
+                $resultFields = $row[2];
+
+                if (in_array($resultFields, $PREREQUISITES_CODES)) {
+                    return; // skip;
+                }
+
+                // fields
+                $data[] = [
+                    'sortableFields' => explode_sanitized($sortableFields),
+                    'clientFields' => explode_sanitized($clientFields),
+                    'resultFields' => explode_sanitized($resultFields),
+                ];
+            } else {
+                $clientDirection = $row[1];
+                $resultDirection = $row[2];
+
+                // keyword
+                $data[] = [
+                    'clientDirection' => $clientDirection,
+                    'resultDirection' => $resultDirection,
+                ];
+            }
+        });
+    }
 }
 
 function explode_sanitized(string $str, string $delimiter = ',')
@@ -209,11 +269,12 @@ function explode_sanitized(string $str, string $delimiter = ',')
     return array_filter(array_map('trim', explode($delimiter, $str)));
 }
 
-// $csvToArray = new CSVToArray('truth-table.csv');
+// $csvToArray = new CSVToArray('truth-table/truth-table.csv');
 // echo $csvToArray->export();
 
-$csvToArray = new CSVToArray('projection-truth-table.csv');
-// $csvToArray = new CSVToArray('search-truth-table.csv');
+// $csvToArray = new CSVToArray('truth-table/projection-truth-table.csv');
+// $csvToArray = new CSVToArray('truth-table/search-truth-table.csv');
+$csvToArray = new CSVToArray('truth-table/sort-truth-table.csv');
 echo $csvToArray->export();
 
 /*
