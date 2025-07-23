@@ -36,6 +36,28 @@ beforeEach(function (): void {
 });
 
 describe('Not perform any action.', function (): void {
+    it('should not perform any action if the search input is empty', function (): void {
+        // Prepare
+        $_GET['search'] = [];
+        AllFieldsAreProjectableModel::factory()->createMany($this->data);
+
+        // Act & Assert
+        get('/api/all-fields-are-projectable')
+            ->assertOk()
+            ->assertExactJson($this->data);
+    });
+
+    it('should not perform any action if the search input is multi-dimensional array', function (): void {
+        // Prepare
+        $_GET['search'] = ['name' => ['foo']];
+        AllFieldsAreProjectableModel::factory()->createMany($this->data);
+
+        // Act & Assert
+        get('/api/all-fields-are-projectable')
+            ->assertOk()
+            ->assertExactJson($this->data);
+    });
+
     it('should not perform any action if the search fields is empty', function (): void {
         // Prepare
         $_GET['search'] = ['' => 'Mr%'];
