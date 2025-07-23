@@ -19,12 +19,12 @@ trait HasDefaultValue
         return ['id', 'name'];
     }
 
-    private function getMinimumKeywordCharForSearch()
+    private function getMinimumKeywordCharForSearch(): int
     {
         return 2;
     }
 
-    private function canInspect()
+    private function canInspect(): bool
     {
         return true;
     }

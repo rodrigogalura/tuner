@@ -179,7 +179,7 @@ trait ApiIgniter
 
             foreach (self::$expand as $expand) {
                 $builder->with($expand['relation'], function ($builderInner) use ($expand): void {
-                    $builderInner->select(array_map(fn ($field) => $expand['table'].'.'.$field, $expand['fields']));
+                    $builderInner->select(array_map(fn ($field): string => $expand['table'].'.'.$field, $expand['fields']));
 
                     if (! empty($expand['filter'])) {
                         Query::filter($builderInner, $expand['filter']);

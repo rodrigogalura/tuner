@@ -6,7 +6,10 @@ use RGalura\ApiIgniter\Services\QueryBuilder as Query;
 
 trait InFilterable
 {
-    private static function inFilter(array|string $filterableFields, string $client_key = 'in')
+    /**
+     * @return mixed[]
+     */
+    private static function inFilter(array|string $filterableFields, string $client_key = 'in'): array
     {
         if (is_string($filterableFields)) {
             $filterableFields = filter_explode($filterableFields);
@@ -16,7 +19,7 @@ trait InFilterable
             $clientParams = [];
         }
 
-        $clientIn = array_filter($clientParams ?? [], fn ($key) => ! empty($key) && in_array(str_word_count($key), [1, 2]), ARRAY_FILTER_USE_KEY);
+        $clientIn = array_filter($clientParams ?? [], fn ($key): bool => ! empty($key) && in_array(str_word_count($key), [1, 2]), ARRAY_FILTER_USE_KEY);
 
         if (empty($filterableFields) || empty($clientIn)) {
             return [];
@@ -32,6 +35,6 @@ trait InFilterable
 
         return $filterableFields === ['*']
             ? $inFilter
-            : array_filter($inFilter, fn ($expression) => in_array($expression[1], $filterableFields));
+            : array_filter($inFilter, fn ($expression): bool => in_array($expression[1], $filterableFields));
     }
 }

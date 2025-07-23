@@ -66,8 +66,8 @@ class Sort
     {
         $this->validate();
 
-        $sort = array_map(fn ($direction) => in_array(strtolower($direction), static::DESCENDING_VALUES) ? 'DESC' : 'ASC', $this->clientInput);
+        $sort = array_map(fn ($direction): string => in_array(strtolower($direction), static::DESCENDING_VALUES) ? 'DESC' : 'ASC', $this->clientInput);
 
-        return array_filter($sort, fn ($field) => in_array($field, $this->sortableFields), ARRAY_FILTER_USE_KEY);
+        return array_filter($sort, fn ($field): bool => in_array($field, $this->sortableFields), ARRAY_FILTER_USE_KEY);
     }
 }

@@ -10,7 +10,7 @@ test('bind_and_resolve', function (string $key, callable $component, mixed $expe
     expect(Core::resolve($key))->toBe($expect);
 })
     ->with([
-        'num' => ['test', fn () => 1, 1],
-        'str' => ['test', fn () => 'hello world', 'hello world'],
-        'array' => ['test', fn () => [1, 'hello world'], [1, 'hello world']],
+        'num' => ['test', fn (): int => 1, 1],
+        'str' => ['test', fn (): string => 'hello world', 'hello world'],
+        'array' => ['test', fn (): array => [1, 'hello world'], [1, 'hello world']],
     ]);

@@ -10,8 +10,8 @@ trait Sortable2
             return null;
         }
 
-        $sort = array_map(fn ($direction) => in_array(strtolower($direction), ['d', 'des', 'desc', 'descending', '-']) ? 'DESC' : 'ASC', $_GET[$clientKey]);
+        $sort = array_map(fn ($direction): string => in_array(strtolower($direction), ['d', 'des', 'desc', 'descending', '-']) ? 'DESC' : 'ASC', $_GET[$clientKey]);
 
-        return array_filter($sort, fn ($field) => in_array($field, $sortableFields), ARRAY_FILTER_USE_KEY);
+        return array_filter($sort, fn ($field): bool => in_array($field, $sortableFields), ARRAY_FILTER_USE_KEY);
     }
 }

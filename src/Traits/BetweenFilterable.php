@@ -6,7 +6,10 @@ use RGalura\ApiIgniter\Services\QueryBuilder as Query;
 
 trait BetweenFilterable
 {
-    private static function betweenFilter(array|string $filterableFields, string $client_key = 'between')
+    /**
+     * @return mixed[]
+     */
+    private static function betweenFilter(array|string $filterableFields, string $client_key = 'between'): array
     {
         if (is_string($filterableFields)) {
             $filterableFields = filter_explode($filterableFields);
@@ -35,6 +38,6 @@ trait BetweenFilterable
 
         return $filterableFields === ['*']
             ? $betweenFilter
-            : array_filter($betweenFilter, fn ($expression) => in_array($expression[2], $filterableFields));
+            : array_filter($betweenFilter, fn ($expression): bool => in_array($expression[2], $filterableFields));
     }
 }

@@ -7,7 +7,7 @@ function filter_explode(string $string, string $delimiter = ',')
     return array_filter(array_map('trim', explode($delimiter, $string)));
 }
 
-function is_multi_array(array $arr)
+function is_multi_array(array $arr): bool
 {
     while ($current = current($arr)) {
         if (is_array($current)) {
