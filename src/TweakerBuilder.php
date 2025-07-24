@@ -4,6 +4,7 @@ namespace Laradigs\Tweaker;
 
 use Laradigs\Tweaker\Sort\Sort;
 use Laradigs\Tweaker\Search\Search;
+use Laradigs\Tweaker\DisabledException;
 use Illuminate\Database\Eloquent\Builder;
 use Laradigs\Tweaker\Projection\Projection;
 use function RGalura\ApiIgniter\filter_explode;
@@ -147,31 +148,50 @@ final class TweakerBuilder
 
     public function execute()
     {
-        if ($key = Projection::getKeyCanUse()) {
-            if (empty($fields = $this->projection[$key]->project())) {
-                return [];
+        $run = [];
+
+        $run['projection'] = function() {
+            if ($key = Projection::getKeyCanUse()) {
+                if (empty($fields = $this->projection[$key]->project())) {
+                    return [];
+                }
+
+                $this->builder->select($fields);
             }
+        };
 
-            $this->builder->select($fields);
-        }
-
-        if ($this->searchWasExecute()) {
-            $searchFromFields = filter_explode(key($this->searchedResult));
-            $searchKeyword = current($this->searchedResult);
-
-            $this->builder->where(fn ($builderInner) => $builderInner->whereAny($searchFromFields, 'LIKE', $searchKeyword));
-        }
-
-        if ($this->sortWasExecute()) {
-            // if (! empty($table)) {
-            //     $table .= '.';
-            // }
-
-            foreach ($this->sortedResult as $field => $direction) {
-                // $q->orderBy("{$table}{$field}", $direction);
-                $this->builder->orderBy($field, $direction);
+        try {
+            foreach ($run as $feature) {
+                $feature();
             }
+        } catch (DisabledException $e) {
+            // noop
         }
+        // if ($key = Projection::getKeyCanUse()) {
+        //     if (empty($fields = $this->projection[$key]->project())) {
+        //         return [];
+        //     }
+
+        //     $this->builder->select($fields);
+        // }
+
+        // if ($this->searchWasExecute()) {
+        //     $searchFromFields = filter_explode(key($this->searchedResult));
+        //     $searchKeyword = current($this->searchedResult);
+
+        //     $this->builder->where(fn ($builderInner) => $builderInner->whereAny($searchFromFields, 'LIKE', $searchKeyword));
+        // }
+
+        // if ($this->sortWasExecute()) {
+        //     // if (! empty($table)) {
+        //     //     $table .= '.';
+        //     // }
+
+        //     foreach ($this->sortedResult as $field => $direction) {
+        //         // $q->orderBy("{$table}{$field}", $direction);
+        //         $this->builder->orderBy($field, $direction);
+        //     }
+        // }
 
         return $this->builder->get();
     }

@@ -6,5 +6,5 @@ use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
 
 class InvalidDefinedFieldsException extends InvalidFieldsException
 {
-
+    //
 }

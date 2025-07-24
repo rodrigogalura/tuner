@@ -9,8 +9,8 @@ class ExceptProjection extends Projection
 {
     public function __construct(
         array $visibleFields,
-        array $projectableFields,
-        array $definedFields,
+        mixed $projectableFields,
+        mixed $definedFields,
         private array $clientInput,
     ) {
         parent::__construct($visibleFields, $projectableFields, $definedFields, $clientInput);

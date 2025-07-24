@@ -59,10 +59,11 @@ trait CanTweak
         } catch (CannotUseMultipleProjectionException $e) {
             return response()->json(http_response_error($e->getMessage()), $e->getCode());
         } catch (ValidationException $e) {
+            $error = current($e->errors());
+
             return response()->json([
                 'success' => false,
-                'message' => 'The given data was invalid.',
-                'errors' => $e->errors()
+                'message' => $error[0],
             ], $e->status);
         }
     }

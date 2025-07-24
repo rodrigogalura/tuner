@@ -2,12 +2,12 @@
 
 namespace Laradigs\Tweaker\Projection;
 
-use function RGalura\ApiIgniter\abc;
 use Laradigs\Tweaker\TruthTable;
+use function RGalura\ApiIgniter\abc;
+use Laradigs\Tweaker\DisabledException;
 use Laradigs\Tweaker\InvalidClientInput;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Laradigs\Tweaker\Projection\Exceptions\ProjectionIsEmptyException;
 use Laradigs\Tweaker\Projection\Exceptions\InvalidProjectableException;
 use Laradigs\Tweaker\Projection\Exceptions\InvalidDefinedFieldsException;
 use Laradigs\Tweaker\Projection\Exceptions\DefinedFieldsAreEmptyException;
@@ -24,8 +24,8 @@ abstract class Projection
 
     public function __construct(
         array $visibleFields,
-        protected array $projectableFields,
-        protected array $definedFields,
+        protected mixed $projectableFields,
+        protected mixed $definedFields,
         private array $clientInput,
     ) {
         $this->truthTable = new TruthTable($visibleFields);
@@ -36,13 +36,13 @@ abstract class Projection
 
     private function throwIfNotInVisibleFields(array $fields, $exception)
     {
-        throw_if($diff = $this->truthTable->diffFromAllItems($fields), $exception, $diff);
+        throw_if($diff = $this->truthTable->diffFromAllItems($fields), new $exception($diff));
     }
 
     protected function prerequisites()
     {
         # Projectable
-        throw_if(empty($this->projectableFields), ProjectionIsEmptyException::class);
+        throw_if(empty($this->projectableFields), DisabledException::class);
 
         $this->truthTable->extractIfAsterisk($this->projectableFields);
         $this->throwIfNotInVisibleFields($this->projectableFields, InvalidProjectableException::class);
