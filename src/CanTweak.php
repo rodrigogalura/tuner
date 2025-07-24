@@ -2,11 +2,11 @@
 
 namespace Laradigs\Tweaker;
 
+use Laradigs\Tweaker\InvalidClientInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\ValidationException;
-use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
-
 use function RGalura\ApiIgniter\http_response_error;
+use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
 
 trait CanTweak
 {
@@ -14,6 +14,7 @@ trait CanTweak
 
     protected function getProjectableFields(): array
     {
+        // return ['id', 'name'];
         return ['*'];
     }
 
@@ -50,7 +51,7 @@ trait CanTweak
             // ->inFiter()
             // ->betweenFilter()
             // ->searchFilter($this->getSearchableFields())
-                ->sort($this->getSortableFields())
+            ->sort($this->getSortableFields())
             // ->limit()
             // ->offset()
             // ->debug()

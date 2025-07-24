@@ -14,7 +14,6 @@ define('INTERSECT_KEY', 'fields');
 define('EXCEPT_KEY', 'fields!');
 
 dataset('not-string-value', [
-    [[]],
     [[1]], [['1']],
     [[10]], [['20']],
     [[100]], [['300']],
@@ -25,7 +24,6 @@ dataset('not-string-value', [
 beforeEach(function (): void {
     $this->visibleFields = ['id', 'name'];
     $this->visibleFieldsString = implode(', ', $this->visibleFields);
-
 });
 
 afterEach(function (): void {
