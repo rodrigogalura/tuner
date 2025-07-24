@@ -23,7 +23,7 @@ function filter_explode(string $string, string $delimiter = ',')
 //     return false;
 // }
 
-function http_response_error($message, $errors=[])
+function http_response_error($message, $errors = [])
 {
     $success = false;
 
@@ -32,7 +32,7 @@ function http_response_error($message, $errors=[])
         : compact('success', 'message', 'errors');
 }
 
-function validate($input, $rule, $customErrorMessage=null)
+function validate($input, $rule, $customErrorMessage = null): void
 {
     $keys = array_keys($input);
 

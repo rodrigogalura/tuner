@@ -2,15 +2,12 @@
 
 namespace Laradigs\Tweaker\Sort;
 
-use Laradigs\Tweaker\TruthTable;
 use Laradigs\Tweaker\DisabledException;
 use Laradigs\Tweaker\Rules\LinearArray;
-use function RGalura\ApiIgniter\validate;
 use Laradigs\Tweaker\Rules\ValidArrayKeys;
-use function RGalura\ApiIgniter\is_multi_array;
-use Laradigs\Tweaker\Sort\InvalidSortableException;
-use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
-use Laradigs\Tweaker\Projection\NoActionWillPerformException;
+use Laradigs\Tweaker\TruthTable;
+
+use function RGalura\ApiIgniter\validate;
 
 class Sort
 {
@@ -19,6 +16,7 @@ class Sort
     protected TruthTable $truthTable;
 
     protected readonly string $key;
+
     protected mixed $clientInputValue;
 
     public function __construct(
@@ -62,7 +60,7 @@ class Sort
         $validValues = implode(',', static::DESCENDING_VALUES);
 
         validate($this->clientInputValue,
-            ['in:' . $validValues],
+            ['in:'.$validValues],
             "The {$this->key} with :attribute value is not valid. It must be one of the valid values: {$validValues}"
         );
     }

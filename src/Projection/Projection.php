@@ -2,22 +2,21 @@
 
 namespace Laradigs\Tweaker\Projection;
 
-use Laradigs\Tweaker\TruthTable;
-use function RGalura\ApiIgniter\validate;
 use Laradigs\Tweaker\DisabledException;
-use Laradigs\Tweaker\InvalidClientInput;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
-use Laradigs\Tweaker\Projection\Exceptions\InvalidProjectableException;
-use Laradigs\Tweaker\Projection\Exceptions\InvalidDefinedFieldsException;
-use Laradigs\Tweaker\Projection\Exceptions\DefinedFieldsAreEmptyException;
 use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
+use Laradigs\Tweaker\Projection\Exceptions\DefinedFieldsAreEmptyException;
+use Laradigs\Tweaker\Projection\Exceptions\InvalidDefinedFieldsException;
+use Laradigs\Tweaker\Projection\Exceptions\InvalidProjectableException;
+use Laradigs\Tweaker\TruthTable;
+
+use function RGalura\ApiIgniter\validate;
 
 abstract class Projection
 {
     protected TruthTable $truthTable;
 
     protected readonly string $key;
+
     protected readonly mixed $clientInputValue;
 
     public static $clientInputs = [];
@@ -41,13 +40,13 @@ abstract class Projection
 
     protected function prerequisites()
     {
-        # Projectable
+        // Projectable
         throw_if(empty($this->projectableFields), DisabledException::class);
 
         $this->truthTable->extractIfAsterisk($this->projectableFields);
         $this->throwIfNotInVisibleFields($this->projectableFields, InvalidProjectableException::class);
 
-        # Defined
+        // Defined
         throw_if(empty($this->definedFields), DefinedFieldsAreEmptyException::class);
 
         $this->truthTable->extractIfAsterisk($this->definedFields);

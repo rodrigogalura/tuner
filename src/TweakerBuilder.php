@@ -2,16 +2,13 @@
 
 namespace Laradigs\Tweaker;
 
-use Laradigs\Tweaker\Sort\Sort;
-use Laradigs\Tweaker\Search\Search;
-use Laradigs\Tweaker\DisabledException;
 use Illuminate\Database\Eloquent\Builder;
-use Laradigs\Tweaker\Projection\Projection;
-use function RGalura\ApiIgniter\filter_explode;
 use Laradigs\Tweaker\Projection\ExceptProjection;
 use Laradigs\Tweaker\Projection\IntersectProjection;
 use Laradigs\Tweaker\Projection\NoActionWillPerformException;
-use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
+use Laradigs\Tweaker\Projection\Projection;
+use Laradigs\Tweaker\Search\Search;
+use Laradigs\Tweaker\Sort\Sort;
 
 /**
  * Singleton
@@ -23,9 +20,6 @@ final class TweakerBuilder
     private ?array $searchedResult = null;
 
     private ?array $sortedResult = null;
-
-
-
 
     private ?array $projection = null;
 
@@ -154,7 +148,7 @@ final class TweakerBuilder
     public function execute()
     {
         $run = [
-            'projection' => function() {
+            'projection' => function () {
                 if ($key = Projection::getKeyCanUse()) {
                     if (empty($fields = $this->projection[$key]->project())) {
                         return [];
@@ -164,18 +158,18 @@ final class TweakerBuilder
                 }
             },
 
-            'sort' => function() {
+            'sort' => function (): void {
                 $sortedResult = $this->sort->sort();
 
                 foreach ($sortedResult as $field => $direction) {
                     $this->builder->orderBy($field, $direction);
                 }
-            }
+            },
         ];
 
         try {
             foreach ($run as $feature => $cb) {
-                if (!is_null($this->{$feature})) {
+                if (! is_null($this->{$feature})) {
                     $cb();
                 }
             }

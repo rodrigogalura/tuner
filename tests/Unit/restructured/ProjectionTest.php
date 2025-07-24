@@ -1,20 +1,17 @@
 <?php
 
-use Laradigs\Tweaker\DisabledException;
-use Laradigs\Tweaker\Projection\Projection;
 use Illuminate\Validation\ValidationException;
+use Laradigs\Tweaker\DisabledException;
+use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
+use Laradigs\Tweaker\Projection\Exceptions\DefinedFieldsAreEmptyException;
+use Laradigs\Tweaker\Projection\Exceptions\InvalidDefinedFieldsException;
+use Laradigs\Tweaker\Projection\Exceptions\InvalidProjectableException;
 use Laradigs\Tweaker\Projection\ExceptProjection;
 use Laradigs\Tweaker\Projection\IntersectProjection;
-use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
-use RGalura\ApiIgniter\Exceptions\NoDefinedFieldException;
-use Laradigs\Tweaker\Projection\NoActionWillPerformException;
-use Laradigs\Tweaker\Projection\Exceptions\InvalidProjectableException;
-use Laradigs\Tweaker\Projection\Exceptions\InvalidDefinedFieldsException;
-use Laradigs\Tweaker\Projection\Exceptions\DefinedFieldsAreEmptyException;
-use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
+use Laradigs\Tweaker\Projection\Projection;
 
-DEFINE('INTERSECT_KEY', 'fields');
-DEFINE('EXCEPT_KEY', 'fields!');
+define('INTERSECT_KEY', 'fields');
+define('EXCEPT_KEY', 'fields!');
 
 dataset('not-string-value', [
     [[]],
@@ -35,7 +32,7 @@ afterEach(function (): void {
     Projection::clearKeys();
 });
 
-describe('Prerequisites', function () {
+describe('Prerequisites', function (): void {
     it('should throw DisabledException if the projectable fields are empty', function ($projection, $key, $projectableFields): void {
         // Prepare
         $projectionClass = new $projection(
@@ -48,12 +45,12 @@ describe('Prerequisites', function () {
         // Act & Expect Throws
         $projectionClass->project();
     })
-    ->with([
-        [IntersectProjection::class, INTERSECT_KEY],
-        [ExceptProjection::class, EXCEPT_KEY],
-    ])
-    ->with(['', null, [[]], false, 0, '0'])
-    ->throws(DisabledException::class);
+        ->with([
+            [IntersectProjection::class, INTERSECT_KEY],
+            [ExceptProjection::class, EXCEPT_KEY],
+        ])
+        ->with(['', null, [[]], false, 0, '0'])
+        ->throws(DisabledException::class);
 
     it('should throw InvalidProjectableException if all projectable fields are not in visible fields', function ($projection, $key): void {
         // Prepare
@@ -68,11 +65,11 @@ describe('Prerequisites', function () {
         // Act & Expect Throws
         $projectionClass->project();
     })
-    ->with([
-        [IntersectProjection::class, INTERSECT_KEY],
-        [ExceptProjection::class, EXCEPT_KEY],
-    ])
-    ->throws(InvalidProjectableException::class);
+        ->with([
+            [IntersectProjection::class, INTERSECT_KEY],
+            [ExceptProjection::class, EXCEPT_KEY],
+        ])
+        ->throws(InvalidProjectableException::class);
 
     it('should throw DefinedFieldsAreEmptyException if the defined fields is empty', function ($projection, $key, $definedFields): void {
         // Prepare
@@ -86,12 +83,12 @@ describe('Prerequisites', function () {
         // Act & Expect Throws
         $projectionClass->project();
     })
-    ->with([
-        [IntersectProjection::class, INTERSECT_KEY],
-        [ExceptProjection::class, EXCEPT_KEY],
-    ])
-    ->with(['', null, [[]], false, 0, '0'])
-    ->throws(DefinedFieldsAreEmptyException::class);
+        ->with([
+            [IntersectProjection::class, INTERSECT_KEY],
+            [ExceptProjection::class, EXCEPT_KEY],
+        ])
+        ->with(['', null, [[]], false, 0, '0'])
+        ->throws(DefinedFieldsAreEmptyException::class);
 
     it('should throw InvalidDefinedFieldsException if all defined fields are not in visible fields', function ($projection, $key): void {
         // Prepare
@@ -106,11 +103,11 @@ describe('Prerequisites', function () {
         // Act & Expect Throws
         $projectionClass->project();
     })
-    ->with([
-        [IntersectProjection::class, INTERSECT_KEY],
-        [ExceptProjection::class, EXCEPT_KEY],
-    ])
-    ->throws(InvalidDefinedFieldsException::class);
+        ->with([
+            [IntersectProjection::class, INTERSECT_KEY],
+            [ExceptProjection::class, EXCEPT_KEY],
+        ])
+        ->throws(InvalidDefinedFieldsException::class);
 
     it('should throw InvalidDefinedFieldsException if all defined fields are not in projectable fields', function ($projection, $key): void {
         // Prepare
@@ -124,14 +121,14 @@ describe('Prerequisites', function () {
         // Act & Expect Throws
         $projectionClass->project();
     })
-    ->with([
-        [IntersectProjection::class, INTERSECT_KEY],
-        [ExceptProjection::class, EXCEPT_KEY],
-    ])
-    ->throws(InvalidDefinedFieldsException::class);
+        ->with([
+            [IntersectProjection::class, INTERSECT_KEY],
+            [ExceptProjection::class, EXCEPT_KEY],
+        ])
+        ->throws(InvalidDefinedFieldsException::class);
 });
 
-describe('Validations', function () {
+describe('Validations', function (): void {
     it('should no available keys can use if both intersect and except projection are used', function (): void {
         $projectableFields = $definedFields = ['*'];
 
@@ -153,7 +150,7 @@ describe('Validations', function () {
         // Act & Assert
         expect(Projection::getKeyCanUse())->toBeEmpty();
     })
-    ->throws(CannotUseMultipleProjectionException::class);
+        ->throws(CannotUseMultipleProjectionException::class);
 
     it('should throw ValidationException if the input is not string', function ($projection, $key, $input): void {
         // // Prepare
@@ -167,12 +164,12 @@ describe('Validations', function () {
         // Act & Expect Throws
         $projectionClass->project();
     })
-    ->with([
-        [IntersectProjection::class, INTERSECT_KEY],
-        [ExceptProjection::class, EXCEPT_KEY],
-    ])
-    ->with('not-string-value')
-    ->throws(ValidationException::class);
+        ->with([
+            [IntersectProjection::class, INTERSECT_KEY],
+            [ExceptProjection::class, EXCEPT_KEY],
+        ])
+        ->with('not-string-value')
+        ->throws(ValidationException::class);
 
     it('should throw ValidationException if the input is asterisk(*)', function (): void {
         // // Prepare
@@ -186,7 +183,7 @@ describe('Validations', function () {
         // Act & Expect Throws
         $projectionClass->project();
     })
-    ->throws(ValidationException::class);
+        ->throws(ValidationException::class);
 });
 
 describe('Valid scenarios', function (): void {

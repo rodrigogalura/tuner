@@ -2,8 +2,8 @@
 
 namespace Laradigs\Tweaker\Projection;
 
-use function RGalura\ApiIgniter\validate;
 use function RGalura\ApiIgniter\filter_explode;
+use function RGalura\ApiIgniter\validate;
 
 class ExceptProjection extends Projection
 {

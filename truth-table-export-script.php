@@ -60,10 +60,9 @@ class CSVToArray
 
     /**
      * Get index by alphabet
-     * @param  string $char  Single character
+     *
+     * @param  string  $char  Single character
      */
-
-
     public function export()
     {
         $export = var_export($this->data, true);
