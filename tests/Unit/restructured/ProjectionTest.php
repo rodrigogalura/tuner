@@ -13,6 +13,9 @@ use Laradigs\Tweaker\Projection\Exceptions\InvalidDefinedFieldsException;
 use Laradigs\Tweaker\Projection\Exceptions\DefinedFieldsAreEmptyException;
 use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
 
+DEFINE('INTERSECT_KEY', 'fields');
+DEFINE('EXCEPT_KEY', 'fields!');
+
 dataset('not-string-value', [
     [[]],
     [[1]], [['1']],
@@ -25,6 +28,7 @@ dataset('not-string-value', [
 beforeEach(function (): void {
     $this->visibleFields = ['id', 'name'];
     $this->visibleFieldsString = implode(', ', $this->visibleFields);
+
 });
 
 afterEach(function (): void {
@@ -45,8 +49,8 @@ describe('Prerequisites', function () {
         $projectionClass->project();
     })
     ->with([
-        [IntersectProjection::class, 'fields'],
-        [ExceptProjection::class, 'fields!'],
+        [IntersectProjection::class, INTERSECT_KEY],
+        [ExceptProjection::class, EXCEPT_KEY],
     ])
     ->with(['', null, [[]], false, 0, '0'])
     ->throws(DisabledException::class);
@@ -65,8 +69,8 @@ describe('Prerequisites', function () {
         $projectionClass->project();
     })
     ->with([
-        [IntersectProjection::class, 'fields'],
-        [ExceptProjection::class, 'fields!'],
+        [IntersectProjection::class, INTERSECT_KEY],
+        [ExceptProjection::class, EXCEPT_KEY],
     ])
     ->throws(InvalidProjectableException::class);
 
@@ -83,8 +87,8 @@ describe('Prerequisites', function () {
         $projectionClass->project();
     })
     ->with([
-        [IntersectProjection::class, 'fields'],
-        [ExceptProjection::class, 'fields!'],
+        [IntersectProjection::class, INTERSECT_KEY],
+        [ExceptProjection::class, EXCEPT_KEY],
     ])
     ->with(['', null, [[]], false, 0, '0'])
     ->throws(DefinedFieldsAreEmptyException::class);
@@ -103,8 +107,8 @@ describe('Prerequisites', function () {
         $projectionClass->project();
     })
     ->with([
-        [IntersectProjection::class, 'fields'],
-        [ExceptProjection::class, 'fields!'],
+        [IntersectProjection::class, INTERSECT_KEY],
+        [ExceptProjection::class, EXCEPT_KEY],
     ])
     ->throws(InvalidDefinedFieldsException::class);
 
@@ -121,8 +125,8 @@ describe('Prerequisites', function () {
         $projectionClass->project();
     })
     ->with([
-        [IntersectProjection::class, 'fields'],
-        [ExceptProjection::class, 'fields!'],
+        [IntersectProjection::class, INTERSECT_KEY],
+        [ExceptProjection::class, EXCEPT_KEY],
     ])
     ->throws(InvalidDefinedFieldsException::class);
 });
@@ -136,14 +140,14 @@ describe('Validations', function () {
             $this->visibleFields,
             $projectableFields,
             $definedFields,
-            ['fields' => $this->visibleFieldsString]
+            [INTERSECT_KEY => $this->visibleFieldsString]
         );
 
         $except = new ExceptProjection(
             $this->visibleFields,
             $projectableFields,
             $definedFields,
-            ['fields!' => $this->visibleFieldsString]
+            [EXCEPT_KEY => $this->visibleFieldsString]
         );
 
         // Act & Assert
@@ -164,8 +168,8 @@ describe('Validations', function () {
         $projectionClass->project();
     })
     ->with([
-        [IntersectProjection::class, 'fields'],
-        [ExceptProjection::class, 'fields!'],
+        [IntersectProjection::class, INTERSECT_KEY],
+        [ExceptProjection::class, EXCEPT_KEY],
     ])
     ->with('not-string-value')
     ->throws(ValidationException::class);
@@ -176,7 +180,7 @@ describe('Validations', function () {
             $this->visibleFields,
             projectableFields: ['*'],
             definedFields: ['*'],
-            clientInput: ['fields!' => '*'],
+            clientInput: [EXCEPT_KEY => '*'],
         );
 
         // Act & Expect Throws
@@ -192,7 +196,7 @@ describe('Valid scenarios', function (): void {
             $this->visibleFields,
             $projectableFields,
             $definedFields,
-            ['fields' => $clientInput]
+            [INTERSECT_KEY => $clientInput]
         );
 
         // Act & Assert
@@ -206,7 +210,7 @@ describe('Valid scenarios', function (): void {
             $this->visibleFields,
             $projectableFields,
             $definedFields,
-            ['fields!' => $clientInput]
+            [EXCEPT_KEY => $clientInput]
         );
 
         // Act & Assert
