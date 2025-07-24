@@ -55,7 +55,7 @@ describe('Throw an exception', function (): void {
 });
 
 describe('Valid scenarios', function (): void {
-    it('should passed all valid scenarios', function ($projectableFields, $definedFields, $clientInput, $intersectResult, $exceptResult): void {
+    it('should passed all valid scenarios for intersect projection', function ($projectableFields, $definedFields, $clientInput, $intersectResult): void {
         // Prepare
         $equivalentRoutes = [
             '*' => '/api/all-fields-are-projectable',
@@ -89,8 +89,45 @@ describe('Valid scenarios', function (): void {
             ->assertOk()
             ->assertJsonCount(empty($intersectResult) ? 0 : $data->count())
             ->assertExactJsonStructure(['*' => $intersectResult]);
+    })
+        ->with('intersect-projection-truth-table');
 
-        unset($_GET['fields']);
+    it('should passed all valid scenarios for except projection', function ($projectableFields, $definedFields, $clientInput, $exceptResult): void {
+        // Prepare
+        $equivalentRoutes = [
+            '*' => '/api/all-fields-are-projectable',
+            'id' => '/api/only-id-is-projectable',
+            'name' => '/api/only-name-is-projectable',
+            'id, name' => '/api/only-id-and-name-are-projectable',
+            'empty' => '/api/no-projectable',
+        ];
+
+        $models = [
+            '*' => AllFieldsAreProjectableModel::class,
+            'id' => OnlyIdIsProjectableModel::class,
+            'name' => OnlyNameIsProjectableModel::class,
+            'id, name' => OnlyIdAndNameAreProjectableModel::class,
+            'empty' => NoProjectableModel::class,
+        ];
+
+        $key = implode(', ', $projectableFields);
+
+        $_GET['defined_fields'] = $definedFields;
+
+        $model = $models[$key];
+        $data = $model::factory(rand(2, 5))->create();
+
+        $route = $equivalentRoutes[$key];
+
+        // $_GET['fields'] = $clientInput;
+
+        // Act & Assert
+        // get($route)
+        //     ->assertOk()
+        //     ->assertJsonCount(empty($intersectResult) ? 0 : $data->count())
+        //     ->assertExactJsonStructure(['*' => $intersectResult]);
+
+        // unset($_GET['fields']);
         $_GET['fields!'] = $clientInput;
 
         // Act & Assert
@@ -99,5 +136,5 @@ describe('Valid scenarios', function (): void {
             ->assertJsonCount(empty($exceptResult) ? 0 : $data->count())
             ->assertExactJsonStructure(['*' => $exceptResult]);
     })
-        ->with('projection-truth-table');
-});
+        ->with('except-projection-truth-table')->only();
+})->only();

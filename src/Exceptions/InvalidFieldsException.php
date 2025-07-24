@@ -9,10 +9,10 @@ class InvalidFieldsException extends \Exception
      *
      * @param  array|string  $fields
      */
-    public function __construct(array $fields, int $strict = 0)
+    public function __construct(array $fields)
     {
         $message = $this->buildMessage($fields);
-        parent::__construct($message, $strict);
+        parent::__construct($message);
     }
 
     /**

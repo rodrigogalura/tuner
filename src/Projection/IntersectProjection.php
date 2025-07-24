@@ -18,9 +18,6 @@ class IntersectProjection extends Projection
     protected function validate()
     {
         parent::prerequisites();
-
-        throw_if(empty($this->clientInputValue), NoActionWillPerformException::class);
-
         parent::validate();
     }
 

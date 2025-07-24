@@ -2,14 +2,22 @@
 
 namespace Laradigs\Tweaker\Projection;
 
+use function RGalura\ApiIgniter\abc;
 use Laradigs\Tweaker\TruthTable;
-use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
-use RGalura\ApiIgniter\Exceptions\NoDefinedFieldException;
+use Laradigs\Tweaker\InvalidClientInput;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+use Laradigs\Tweaker\Projection\Exceptions\ProjectionIsEmptyException;
+use Laradigs\Tweaker\Projection\Exceptions\InvalidProjectableException;
+use Laradigs\Tweaker\Projection\Exceptions\InvalidDefinedFieldsException;
+use Laradigs\Tweaker\Projection\Exceptions\DefinedFieldsAreEmptyException;
+use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
 
 abstract class Projection
 {
     protected TruthTable $truthTable;
 
+    protected readonly string $key;
     protected readonly mixed $clientInputValue;
 
     public static $clientInputs = [];
@@ -18,47 +26,51 @@ abstract class Projection
         array $visibleFields,
         protected array $projectableFields,
         protected array $definedFields,
-        array $clientInput,
+        private array $clientInput,
     ) {
         $this->truthTable = new TruthTable($visibleFields);
 
-        $this->clientInputValue = static::$clientInputs[key($clientInput)] = current($clientInput);
+        $this->key = key($clientInput);
+        $this->clientInputValue = static::$clientInputs[$this->key] = current($clientInput);
     }
 
-    private function throwIfNotInVisibleFields(array $fields)
+    private function throwIfNotInVisibleFields(array $fields, $exception)
     {
-        throw_if($diff = $this->truthTable->diffFromAllItems($fields), InvalidFieldsException::class, $diff);
+        throw_if($diff = $this->truthTable->diffFromAllItems($fields), $exception, $diff);
     }
 
     protected function prerequisites()
     {
-        // Make sure client input type is string
-        throw_if(! is_string($this->clientInputValue), NoActionWillPerformException::class);
+        # Projectable
+        throw_if(empty($this->projectableFields), ProjectionIsEmptyException::class);
+
+        $this->truthTable->extractIfAsterisk($this->projectableFields);
+        $this->throwIfNotInVisibleFields($this->projectableFields, InvalidProjectableException::class);
+
+        # Defined
+        throw_if(empty($this->definedFields), DefinedFieldsAreEmptyException::class);
+
+        $this->truthTable->extractIfAsterisk($this->definedFields);
+        $this->throwIfNotInVisibleFields($this->definedFields, InvalidDefinedFieldsException::class);
+
+        $this->projectableFields = $this->truthTable->intersect($this->projectableFields, $this->definedFields);
+        throw_if(empty($this->projectableFields), InvalidDefinedFieldsException::class);
     }
 
     protected function validate()
     {
-        throw_if(empty($this->projectableFields), NoActionWillPerformException::class);
-
-        $this->truthTable->extractIfAsterisk($this->projectableFields);
-        $this->throwIfNotInVisibleFields($this->projectableFields);
-
-        throw_if(empty($this->definedFields), NoDefinedFieldException::class);
-
-        $this->truthTable->extractIfAsterisk($this->definedFields);
-        $this->throwIfNotInVisibleFields($this->definedFields);
-
-        $this->projectableFields = $this->truthTable->intersect($this->projectableFields, $this->definedFields);
-        throw_if(empty($this->projectableFields), NoActionWillPerformException::class);
+        abc($this->clientInput, 'string');
     }
 
     public static function getKeyCanUse()
     {
-        // remove all falsy value
-        $clientInput = array_filter(static::$clientInputs);
+        $keys = array_keys(
+            array_filter(static::$clientInputs) // remove all falsy value
+        );
 
-        // check if there is one truthy value remains
-        return count($clientInput) === 1 ? key($clientInput) : null;
+        throw_if(count($keys) > 1, CannotUseMultipleProjectionException::class, $keys);
+
+        return count($keys) === 1 ? $keys[0] : null;
     }
 
     public static function clearKeys()

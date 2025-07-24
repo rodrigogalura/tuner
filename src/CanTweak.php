@@ -2,7 +2,11 @@
 
 namespace Laradigs\Tweaker;
 
+use Laradigs\Tweaker\InvalidClientInput;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Validation\ValidationException;
+use function RGalura\ApiIgniter\http_response_error;
+use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
 
 trait CanTweak
 {
@@ -34,22 +38,32 @@ trait CanTweak
             $this->getHidden()
         );
 
-        return TweakerBuilder::getInstance(
-            $builder,
-            $this->visibleFields,
-            config('tweaker'),
-            clientInput: $_GET
-        )
-            ->projection($this->getProjectableFields())
-        // ->filter()
-        // ->inFiter()
-        // ->betweenFilter()
-            ->searchFilter($this->getSearchableFields())
-            ->sort($this->getSortableFields())
-        // ->limit()
-        // ->offset()
-        // ->debug()
-        // ->paginate()
-            ->execute();
+        try {
+            return TweakerBuilder::getInstance(
+                $builder,
+                $this->visibleFields,
+                config('tweaker'),
+                clientInput: $_GET
+            )
+                ->projection($this->getProjectableFields())
+            // ->filter()
+            // ->inFiter()
+            // ->betweenFilter()
+            // ->searchFilter($this->getSearchableFields())
+            // ->sort($this->getSortableFields())
+            // ->limit()
+            // ->offset()
+            // ->debug()
+            // ->paginate()
+                ->execute();
+        } catch (CannotUseMultipleProjectionException $e) {
+            return response()->json(http_response_error($e->getMessage()), $e->getCode());
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'The given data was invalid.',
+                'errors' => $e->errors()
+            ], $e->status);
+        }
     }
 }

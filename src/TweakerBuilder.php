@@ -2,15 +2,15 @@
 
 namespace Laradigs\Tweaker;
 
+use Laradigs\Tweaker\Sort\Sort;
+use Laradigs\Tweaker\Search\Search;
 use Illuminate\Database\Eloquent\Builder;
+use Laradigs\Tweaker\Projection\Projection;
+use function RGalura\ApiIgniter\filter_explode;
 use Laradigs\Tweaker\Projection\ExceptProjection;
 use Laradigs\Tweaker\Projection\IntersectProjection;
 use Laradigs\Tweaker\Projection\NoActionWillPerformException;
-use Laradigs\Tweaker\Projection\Projection;
-use Laradigs\Tweaker\Search\Search;
-use Laradigs\Tweaker\Sort\Sort;
-
-use function RGalura\ApiIgniter\filter_explode;
+use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
 
 /**
  * Singleton
@@ -22,6 +22,8 @@ final class TweakerBuilder
     private ?array $searchedResult = null;
 
     private ?array $sortedResult = null;
+
+    private ?array $projection;
 
     /**
      * The Singleton's constructor should always be private to prevent direct
@@ -78,27 +80,27 @@ final class TweakerBuilder
         $intersectKey = $this->config['projection']['intersect_key'];
         $exceptKey = $this->config['projection']['except_key'];
 
-        $projection[$intersectKey] = new IntersectProjection(
+        $this->projection[$intersectKey] = new IntersectProjection(
             $this->visibleFields,
             $projectableFields,
             definedFields: $this->builder->getQuery()->columns ?? ['*'],
             clientInput: [$intersectKey => $this->clientInput[$intersectKey] ?? null],
         );
 
-        $projection[$exceptKey] = new ExceptProjection(
+        $this->projection[$exceptKey] = new ExceptProjection(
             $this->visibleFields,
             $projectableFields,
             definedFields: $this->builder->getQuery()->columns ?? ['*'],
             clientInput: [$exceptKey => $this->clientInput[$exceptKey] ?? null],
         );
 
-        if ($key = Projection::getKeyCanUse()) {
-            try {
-                $this->projectedFields = $projection[$key]->project();
-            } catch (NoActionWillPerformException $e) {
-                //
-            }
-        }
+        // if ($key = Projection::getKeyCanUse()) {
+        //     try {
+        //         $this->projectedFields = $projection[$key]->project();
+        //     } catch (NoActionWillPerformException $e) {
+        //         //
+        //     }
+        // }
 
         return $this;
     }
@@ -145,12 +147,12 @@ final class TweakerBuilder
 
     public function execute()
     {
-        if ($this->projectionWasExecute()) {
-            if (empty($this->projectedFields)) {
+        if ($key = Projection::getKeyCanUse()) {
+            if (empty($fields = $this->projection[$key]->project())) {
                 return [];
             }
 
-            $this->builder->select($this->projectedFields);
+            $this->builder->select($fields);
         }
 
         if ($this->searchWasExecute()) {

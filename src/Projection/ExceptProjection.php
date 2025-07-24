@@ -2,6 +2,7 @@
 
 namespace Laradigs\Tweaker\Projection;
 
+use function RGalura\ApiIgniter\abc;
 use function RGalura\ApiIgniter\filter_explode;
 
 class ExceptProjection extends Projection
@@ -10,7 +11,7 @@ class ExceptProjection extends Projection
         array $visibleFields,
         array $projectableFields,
         array $definedFields,
-        array $clientInput,
+        private array $clientInput,
     ) {
         parent::__construct($visibleFields, $projectableFields, $definedFields, $clientInput);
     }
@@ -18,10 +19,9 @@ class ExceptProjection extends Projection
     protected function validate()
     {
         parent::prerequisites();
-
-        throw_if($this->clientInputValue === '*', NoActionWillPerformException::class);
-
         parent::validate();
+
+        abc($this->clientInput, 'not_in:*', "The {$this->key} must not use asterisk(*).");
     }
 
     public function project()

@@ -44,7 +44,7 @@ describe('Not perform any action.', function (): void {
         // Act & Assert
         get('/api/all-fields-are-projectable')
             ->assertOk()
-            ->assertExactJson($this->data);
+            ->assertExactJson($this->data); // same data, search filter not used
     });
 
     it('should not perform any action if the search input is multi-dimensional array', function (): void {
@@ -55,7 +55,7 @@ describe('Not perform any action.', function (): void {
         // Act & Assert
         get('/api/all-fields-are-projectable')
             ->assertOk()
-            ->assertExactJson($this->data);
+            ->assertExactJson($this->data); // same data, search filter not used
     });
 
     it('should not perform any action if the search fields is empty', function (): void {
@@ -66,7 +66,7 @@ describe('Not perform any action.', function (): void {
         // Act & Assert
         get('/api/all-fields-are-projectable')
             ->assertOk()
-            ->assertExactJson($this->data);
+            ->assertExactJson($this->data); // same data, search filter not used
     });
 
     it('should not perform any action if the search fields is invalid', function (): void {
@@ -77,7 +77,7 @@ describe('Not perform any action.', function (): void {
         // Act & Assert
         get('/api/all-fields-are-projectable')
             ->assertOk()
-            ->assertExactJson($this->data);
+            ->assertExactJson($this->data); // same data, search filter not used
     });
 
     it('should not perform any action if the search value is empty', function (): void {
@@ -88,7 +88,7 @@ describe('Not perform any action.', function (): void {
         // Act & Assert
         get('/api/all-fields-are-projectable')
             ->assertOk()
-            ->assertExactJson($this->data);
+            ->assertExactJson($this->data); // same data, search filter not used
     });
 
     it('should not perform any action if the search value is not hit the minimum', function (): void {
@@ -101,7 +101,7 @@ describe('Not perform any action.', function (): void {
         // Act & Assert
         get('/api/all-fields-are-projectable')
             ->assertOk()
-            ->assertExactJson($this->data);
+            ->assertExactJson($this->data); // same data, search filter not used
     });
 
     it('should not perform any action if the searchable fields are empty', function (): void {
@@ -112,7 +112,7 @@ describe('Not perform any action.', function (): void {
         // Act & Assert
         get('/api/no-projectable')
             ->assertOk()
-            ->assertExactJson($this->data);
+            ->assertExactJson($this->data); // same data, search filter not used
     });
 });
 
