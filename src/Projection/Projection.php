@@ -3,7 +3,7 @@
 namespace Laradigs\Tweaker\Projection;
 
 use Laradigs\Tweaker\TruthTable;
-use function RGalura\ApiIgniter\abc;
+use function RGalura\ApiIgniter\validate;
 use Laradigs\Tweaker\DisabledException;
 use Laradigs\Tweaker\InvalidClientInput;
 use Illuminate\Support\Facades\Validator;
@@ -59,7 +59,7 @@ abstract class Projection
 
     protected function validate()
     {
-        abc($this->clientInput, 'string');
+        validate($this->clientInput, 'string');
     }
 
     public static function getKeyCanUse()

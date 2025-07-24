@@ -4,7 +4,8 @@ class CSVToArray
 {
     private array $fileMethod = [
         'truth-table/truth-table.csv' => 'truthTable',
-        'truth-table/projection-truth-table.csv' => 'projection',
+        // 'truth-table/projection-truth-table.csv' => 'intersectProjection',
+        'truth-table/projection-truth-table.csv' => 'exceptProjection',
         'truth-table/search-truth-table.csv' => 'search',
         'truth-table/sort-truth-table.csv' => 'sort',
     ];
@@ -57,6 +58,12 @@ class CSVToArray
         }
     }
 
+    /**
+     * Get index by alphabet
+     * @param  string $char  Single character
+     */
+
+
     public function export()
     {
         $export = var_export($this->data, true);
@@ -97,7 +104,7 @@ class CSVToArray
         $rowCounter = 1;
 
         $CELL_ROW_STARTS_AT = 11;
-        $CELL_COLS_LENGTH = 5;
+        $CELL_COLS_LENGTH = 9;
 
         $PREREQUISITES_CODES = [1, 2, 3];
 
@@ -111,7 +118,7 @@ class CSVToArray
                 return; // skip
             }
 
-            if ($row[0] == '') { // skip no value row
+            if ($row[at('A')] == '') { // skip no value row
                 return; //
             }
 
@@ -120,26 +127,114 @@ class CSVToArray
                 static::convertToEmptyStringIfEmptyValue($row[$i]);
             }
 
-            $intersectResult = $row[3];
-            $exceptResult = $row[4];
 
-            if (
-                in_array($intersectResult, $PREREQUISITES_CODES)
-                ||
-                in_array($exceptResult, $PREREQUISITES_CODES)
-            ) {
-                return; // skip;
+
+            // $intersectResult = $row[3];
+            // $exceptResult = $row[4];
+
+            // if (
+            //     in_array($intersectResult, $PREREQUISITES_CODES)
+            //     ||
+            //     in_array($exceptResult, $PREREQUISITES_CODES)
+            // ) {
+            //     return; // skip;
+            // }
+
+            // $projectableFields = $row[0];
+            // $definedFields = $row[1];
+            // $clientInput = $row[2];
+
+            // $data[] = [
+            //     'projectableFields' => explode_sanitized($projectableFields),
+            //     'definedFields' => explode_sanitized($definedFields),
+            //     'clientInput' => $clientInput,
+            //     'intersectResult' => explode_sanitized($intersectResult),
+            //     'exceptResult' => explode_sanitized($exceptResult),
+            // ];
+        });
+    }
+
+    public function intersectProjection()
+    {
+        $rowCounter = 1;
+
+        $CELL_ROW_STARTS_AT = 3;
+        $CELL_COLS_LENGTH = 4;
+
+        return $this->readFileAndReturnData(function (&$data, $row) use (
+            &$rowCounter,
+            $CELL_ROW_STARTS_AT,
+            $CELL_COLS_LENGTH,
+        ) {
+            if ($rowCounter++ < $CELL_ROW_STARTS_AT) {
+                return; // skip
             }
 
-            $projectableFields = $row[0];
-            $definedFields = $row[1];
-            $clientInput = $row[2];
+            if ($row[at('A')] == '') { // skip no value row
+                return; //
+            }
+
+            // convert 'empty' string to ''
+            for ($i = 0; $i < $CELL_COLS_LENGTH; $i++) {
+                static::convertToEmptyStringIfEmptyValue($row[$i]);
+            }
+
+            $projectableFields = $row[at('A')];
+            $definedFields = $row[at('B')];
+            $clientInput = $row[at('C')];
+            $intersectResult = $row[at('D')];
+
+            if ($intersectResult === 'NotIntersectException') {
+                return; // skip;
+            }
 
             $data[] = [
                 'projectableFields' => explode_sanitized($projectableFields),
                 'definedFields' => explode_sanitized($definedFields),
                 'clientInput' => $clientInput,
                 'intersectResult' => explode_sanitized($intersectResult),
+            ];
+        });
+    }
+
+    public function exceptProjection()
+    {
+        $rowCounter = 1;
+
+        $CELL_ROW_STARTS_AT = 3;
+        $CELL_COLS_LENGTH = 9;
+
+        return $this->readFileAndReturnData(function (&$data, $row) use (
+            &$rowCounter,
+            $CELL_ROW_STARTS_AT,
+            $CELL_COLS_LENGTH,
+        ) {
+            if ($rowCounter++ < $CELL_ROW_STARTS_AT) {
+                return; // skip
+            }
+
+            if ($row[at('F')] == '') { // skip no value row
+                return; //
+            }
+
+            // convert 'empty' string to ''
+            for ($i = 0; $i < $CELL_COLS_LENGTH; $i++) {
+                static::convertToEmptyStringIfEmptyValue($row[$i]);
+            }
+
+            $projectableFields = $row[at('F')];
+            $definedFields = $row[at('G')];
+            $clientInput = $row[at('H')];
+            $exceptResult = $row[at('I')];
+
+            if ($exceptResult === 'NotIntersectException') {
+                return; // skip;
+            }
+
+            $data[] = [
+                'projectableFields' => explode_sanitized($projectableFields),
+                'definedFields' => explode_sanitized($definedFields),
+                'clientInput' => $clientInput,
                 'exceptResult' => explode_sanitized($exceptResult),
             ];
         });
@@ -264,6 +359,14 @@ class CSVToArray
     }
 }
 
+function at($char)
+{
+    $char = strtoupper($char);
+    $alphabet = str_split('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+
+    return array_search($char, $alphabet);
+}
+
 function explode_sanitized(string $str, string $delimiter = ',')
 {
     return array_filter(array_map('trim', explode($delimiter, $str)));
@@ -272,9 +375,9 @@ function explode_sanitized(string $str, string $delimiter = ',')
 // $csvToArray = new CSVToArray('truth-table/truth-table.csv');
 // echo $csvToArray->export();
 
-// $csvToArray = new CSVToArray('truth-table/projection-truth-table.csv');
+$csvToArray = new CSVToArray('truth-table/projection-truth-table.csv');
 // $csvToArray = new CSVToArray('truth-table/search-truth-table.csv');
-$csvToArray = new CSVToArray('truth-table/sort-truth-table.csv');
+// $csvToArray = new CSVToArray('truth-table/sort-truth-table.csv');
 echo $csvToArray->export();
 
 /*

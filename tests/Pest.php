@@ -1,6 +1,7 @@
 <?php
 
-use Tests\TestCase;
+use Tests\FeatureTestCase;
+use Tests\UnitTestCase;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +14,8 @@ use Tests\TestCase;
 |
 */
 
-pest()->extend(TestCase::class)->in('Feature');
+pest()->extend(FeatureTestCase::class)->in('Feature');
+pest()->extend(UnitTestCase::class)->in('Unit');
 
 /*
 |--------------------------------------------------------------------------

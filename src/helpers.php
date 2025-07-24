@@ -32,7 +32,7 @@ function http_response_error($message, $errors=[])
         : compact('success', 'message', 'errors');
 }
 
-function abc($input, $rule, $customErrorMessage=null)
+function validate($input, $rule, $customErrorMessage=null)
 {
     $keys = array_keys($input);
 

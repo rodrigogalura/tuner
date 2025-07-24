@@ -2,6 +2,7 @@
 
 use Laradigs\Tweaker\DisabledException;
 use Laradigs\Tweaker\Projection\Projection;
+use Illuminate\Validation\ValidationException;
 use Laradigs\Tweaker\Projection\ExceptProjection;
 use Laradigs\Tweaker\Projection\IntersectProjection;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
@@ -10,6 +11,7 @@ use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 use Laradigs\Tweaker\Projection\Exceptions\InvalidProjectableException;
 use Laradigs\Tweaker\Projection\Exceptions\InvalidDefinedFieldsException;
 use Laradigs\Tweaker\Projection\Exceptions\DefinedFieldsAreEmptyException;
+use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
 
 dataset('not-string-value', [
     [[]],
@@ -29,107 +31,103 @@ afterEach(function (): void {
     Projection::clearKeys();
 });
 
-describe('Prerequisites 2', function () {
-    it('should throw DisabledException if the projectable fields are empty', function ($projection, $projectableFields): void {
+describe('Prerequisites', function () {
+    it('should throw DisabledException if the projectable fields are empty', function ($projection, $key, $projectableFields): void {
         // Prepare
         $projectionClass = new $projection(
             $this->visibleFields,
             $projectableFields,
             definedFields: ['*'],
-            clientInput: ['fields' => $this->visibleFieldsString],
+            clientInput: [$key => $this->visibleFieldsString],
         );
 
         // Act & Expect Throws
         $projectionClass->project();
     })
     ->with([
-        IntersectProjection::class,
-        ExceptProjection::class,
+        [IntersectProjection::class, 'fields'],
+        [ExceptProjection::class, 'fields!'],
     ])
     ->with(['', null, [[]], false, 0, '0'])
     ->throws(DisabledException::class);
 
-    it('should throw InvalidProjectableException if all projectable fields are not in visible fields', function ($projection): void {
+    it('should throw InvalidProjectableException if all projectable fields are not in visible fields', function ($projection, $key): void {
         // Prepare
         $notInVisibleFields = ['email'];
         $projectionClass = new $projection(
             $this->visibleFields,
             projectableFields: $notInVisibleFields,
             definedFields: ['*'],
-            clientInput: ['fields' => $this->visibleFieldsString],
+            clientInput: [$key => $this->visibleFieldsString],
         );
 
         // Act & Expect Throws
         $projectionClass->project();
     })
     ->with([
-        IntersectProjection::class,
-        ExceptProjection::class,
+        [IntersectProjection::class, 'fields'],
+        [ExceptProjection::class, 'fields!'],
     ])
     ->throws(InvalidProjectableException::class);
 
-    it('should throw DefinedFieldsAreEmptyException if the defined fields is empty', function ($projection, $definedFields): void {
+    it('should throw DefinedFieldsAreEmptyException if the defined fields is empty', function ($projection, $key, $definedFields): void {
         // Prepare
         $projectionClass = new $projection(
             $this->visibleFields,
             projectableFields: ['id'],
             definedFields: $definedFields,
-            clientInput: ['fields' => $this->visibleFieldsString],
+            clientInput: [$key => $this->visibleFieldsString],
         );
 
         // Act & Expect Throws
         $projectionClass->project();
     })
     ->with([
-        IntersectProjection::class,
-        ExceptProjection::class,
+        [IntersectProjection::class, 'fields'],
+        [ExceptProjection::class, 'fields!'],
     ])
     ->with(['', null, [[]], false, 0, '0'])
     ->throws(DefinedFieldsAreEmptyException::class);
 
-    it('should throw InvalidDefinedFieldsException if all defined fields are not in visible fields', function ($projection): void {
+    it('should throw InvalidDefinedFieldsException if all defined fields are not in visible fields', function ($projection, $key): void {
         // Prepare
         $notInVisibleFields = ['email'];
         $projectionClass = new $projection(
             $this->visibleFields,
             projectableFields: ['*'],
             definedFields: $notInVisibleFields,
-            clientInput: ['fields' => $this->visibleFieldsString],
+            clientInput: [$key => $this->visibleFieldsString],
         );
 
         // Act & Expect Throws
         $projectionClass->project();
     })
     ->with([
-        IntersectProjection::class,
-        ExceptProjection::class,
+        [IntersectProjection::class, 'fields'],
+        [ExceptProjection::class, 'fields!'],
     ])
     ->throws(InvalidDefinedFieldsException::class);
 
-    it('should throw InvalidDefinedFieldsException if all defined fields are not in projectable fields', function ($projection): void {
+    it('should throw InvalidDefinedFieldsException if all defined fields are not in projectable fields', function ($projection, $key): void {
         // Prepare
         $projectionClass = new $projection(
             $this->visibleFields,
             projectableFields: ['id', 'name'],
             definedFields: ['email'],
-            clientInput: ['fields' => $this->visibleFieldsString],
+            clientInput: [$key => $this->visibleFieldsString],
         );
 
         // Act & Expect Throws
         $projectionClass->project();
     })
     ->with([
-        IntersectProjection::class,
-        ExceptProjection::class,
+        [IntersectProjection::class, 'fields'],
+        [ExceptProjection::class, 'fields!'],
     ])
     ->throws(InvalidDefinedFieldsException::class);
-})->only();
-
-describe('Validations 2', function () {
-
 });
 
-describe('Not meet the requirements', function (): void {
+describe('Validations', function () {
     it('should no available keys can use if both intersect and except projection are used', function (): void {
         $projectableFields = $definedFields = ['*'];
 
@@ -138,146 +136,53 @@ describe('Not meet the requirements', function (): void {
             $this->visibleFields,
             $projectableFields,
             $definedFields,
-            ['fields' => 'foo']
+            ['fields' => $this->visibleFieldsString]
         );
 
         $except = new ExceptProjection(
             $this->visibleFields,
             $projectableFields,
             $definedFields,
-            ['fields!' => 'bar']
+            ['fields!' => $this->visibleFieldsString]
         );
 
         // Act & Assert
         expect(Projection::getKeyCanUse())->toBeEmpty();
-    });
-});
+    })
+    ->throws(CannotUseMultipleProjectionException::class);
 
-describe('Prerequisites', function (): void {
-    it('should throw NoActionWillPerformException if the "fields" value is not string', function ($input): void {
-        // Prepare
-        $projectionClass = new IntersectProjection(
+    it('should throw ValidationException if the input is not string', function ($projection, $key, $input): void {
+        // // Prepare
+        $projectionClass = new $projection(
             $this->visibleFields,
             projectableFields: ['*'],
             definedFields: ['*'],
-            clientInput: ['fields' => $input],
+            clientInput: [$key => $input],
         );
 
-        // Act & Assert
-        expect(fn () => $projectionClass->project())->toThrow(NoActionWillPerformException::class);
-    })->with('not-string-value');
+        // Act & Expect Throws
+        $projectionClass->project();
+    })
+    ->with([
+        [IntersectProjection::class, 'fields'],
+        [ExceptProjection::class, 'fields!'],
+    ])
+    ->with('not-string-value')
+    ->throws(ValidationException::class);
 
-    it('should throw NoActionWillPerformException if the "fields!" value is not string', function ($input): void {
-        // Prepare
+    it('should throw ValidationException if the input is asterisk(*)', function (): void {
+        // // Prepare
         $projectionClass = new ExceptProjection(
             $this->visibleFields,
             projectableFields: ['*'],
             definedFields: ['*'],
-            clientInput: ['fields!' => $input],
+            clientInput: ['fields!' => '*'],
         );
 
-        // Act & Assert
-        expect(fn () => $projectionClass->project())->toThrow(NoActionWillPerformException::class);
-    })->with('not-string-value');
-});
-
-describe('Validations', function (): void {
-    it('should throw NoActionWillPerformException if the "fields" value is empty', function (): void {
-        // Prepare
-        $projectionClass = new IntersectProjection(
-            $this->visibleFields,
-            projectableFields: ['*'],
-            definedFields: ['*'],
-            clientInput: ['fields' => ''],
-        );
-
-        // Act & Assert
-        expect(fn () => $projectionClass->project())->toThrow(NoActionWillPerformException::class);
-    });
-
-    it('should throw NoActionWillPerformException if the "fields!" value is *', function (): void {
-        // Prepare
-        $projectionClass = new ExceptProjection(
-            $this->visibleFields,
-            projectableFields: ['*'],
-            definedFields: ['*'],
-            clientInput: ['fields' => '*'],
-        );
-
-        // Act & Assert
-        expect(fn () => $projectionClass->project())->toThrow(NoActionWillPerformException::class);
-    });
-
-    // it('should throw NoActionWillPerformExceptionn if the projectable field\'s value is empty', function (): void {
-    //     // Prepare
-    //     $DEFINE_FIELDS = ['*'];
-    //     $projectionClass = new IntersectProjection(
-    //         $this->visibleFields,
-    //         projectableFields: [],
-    //         definedFields: $DEFINE_FIELDS,
-    //         clientInput: ['fields' => ''],
-    //     );
-
-    //     // Act & Assert
-    //     expect(fn () => $projectionClass->project())->toThrow(NoActionWillPerformException::class);
-    // });
-
-    // it('should throw NoActionWillPerformExceptionn if the projectable fields and defined fields are not intersect', function (): void {
-    //     // Prepare
-    //     $DEFINE_FIELDS = [$this->visibleFields[1]];
-    //     $projectionClass = new IntersectProjection(
-    //         $this->visibleFields,
-    //         projectableFields: [$this->visibleFields[0]],
-    //         definedFields: $DEFINE_FIELDS,
-    //         clientInput: ['fields' => 'foo'],
-    //     );
-
-    //     // Act & Assert
-    //     expect(fn () => $projectionClass->project())->toThrow(NoActionWillPerformException::class);
-    // });
-
-    // describe('Throw an exception', function (): void {
-    //     it('should throw an exception if one of projectable fields is invalid', function (): void {
-    //         // Prepare
-    //         $notInVisibleFields = ['email'];
-    //         $projectionClass = new IntersectProjection(
-    //             $this->visibleFields,
-    //             projectableFields: $notInVisibleFields,
-    //             definedFields: [],
-    //             clientInput: ['fields' => $this->visibleFieldsString],
-    //         );
-
-    //         // Act & Assert
-    //         expect(fn () => $projectionClass->project())->toThrow(InvalidFieldsException::class);
-    //     });
-
-    //     it('should throw an exception if the defined fields is empty', function (): void {
-    //         // Prepare
-    //         $projectionClass = new IntersectProjection(
-    //             $this->visibleFields,
-    //             projectableFields: ['id'],
-    //             definedFields: [],
-    //             clientInput: ['fields' => $this->visibleFieldsString],
-    //         );
-
-    //         // Act & Assert
-    //         expect(fn () => $projectionClass->project())->toThrow(NoDefinedFieldException::class);
-    //     });
-
-    //     it('should throw an exception if one of defined fields is invalid', function (): void {
-    //         // Prepare
-    //         $notInVisibleFields = ['email'];
-    //         $projectionClass = new IntersectProjection(
-    //             $this->visibleFields,
-    //             projectableFields: ['id'],
-    //             definedFields: $notInVisibleFields,
-    //             clientInput: ['fields' => $this->visibleFieldsString],
-    //         );
-
-    //         // Act & Assert
-    //         expect(fn () => $projectionClass->project())->toThrow(InvalidFieldsException::class);
-    //     });
-    // });
+        // Act & Expect Throws
+        $projectionClass->project();
+    })
+    ->throws(ValidationException::class);
 });
 
 describe('Valid scenarios', function (): void {
