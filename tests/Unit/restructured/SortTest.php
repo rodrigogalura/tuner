@@ -1,87 +1,100 @@
 <?php
 
-use Laradigs\Tweaker\Projection\NoActionWillPerformException;
 use Laradigs\Tweaker\Sort\Sort;
+use Laradigs\Tweaker\DisabledException;
+use Illuminate\Validation\ValidationException;
+use Laradigs\Tweaker\Sort\InvalidSortableException;
 use RGalura\ApiIgniter\Exceptions\InvalidFieldsException;
+use Laradigs\Tweaker\Projection\NoActionWillPerformException;
+
+DEFINE('SORT_KEY', 'sort');
+// DEFINE('SORT_VALID_DIRECTIONS', ['', 'd', 'des', 'desc', 'descending', '-']);
 
 beforeEach(function (): void {
     $this->visibleFields = ['id', 'name'];
 });
 
-describe('Not perform any action.', function (): void {
-    it('should not perform any action if the sort input is empty', function (): void {
+describe('Prerequisites', function () {
+    it('should throw DisabledException if the sortable fields are empty', function ($sortableFields): void {
         // Prepare
         $sort = new Sort(
             $this->visibleFields,
-            sortableFields: $this->visibleFields,
-            clientInput: ['sort' => []],
+            $sortableFields,
+            clientInput: [SORT_KEY => ['id' => 'DESC']],
         );
 
-        // Act & Assert
-        expect(fn () => $sort->sort())->toThrow(NoActionWillPerformException::class);
-    });
+        // Act & Expect Throws
+        $sort->sort();
+    })
+    ->with(['', null, [[]], false, 0, '0'])
+    ->throws(DisabledException::class);
 
-    it('should not perform any action if the sort input is multi-dimensional array', function (): void {
+    it('should throw InvalidSortableException if all sortable fields are not in visible fields', function (): void {
         // Prepare
+        $notInVisibleFields = ['email'];
         $sort = new Sort(
             $this->visibleFields,
-            sortableFields: $this->visibleFields,
-            clientInput: ['sort' => ['direction' => ['descending']]],
+            sortableFields: $notInVisibleFields,
+            clientInput: [SORT_KEY => ['id' => 'DESC']],
         );
 
-        // Act & Assert
-        expect(fn () => $sort->sort())->toThrow(NoActionWillPerformException::class);
-    });
-
-    it('should not perform any action if the sort "fields" are empty', function (): void {
-        // Prepare
-        $sort = new Sort(
-            $this->visibleFields,
-            sortableFields: $this->visibleFields,
-            clientInput: ['sort' => ['' => 'descending']],
-        );
-
-        // Act & Assert
-        expect(fn () => $sort->sort())->toThrow(NoActionWillPerformException::class);
-    });
-
-    it('should not perform any action if one of sort "fields" is invalid', function (): void {
-        // Prepare
-        $sort = new Sort(
-            $this->visibleFields,
-            sortableFields: $this->visibleFields,
-            clientInput: ['sort' => ['email' => 'descending']], // 'email' is not existing on visible field]s
-        );
-
-        // Act & Assert
-        expect(fn () => $sort->sort())->toThrow(NoActionWillPerformException::class);
-    });
-
-    it('should not perform any action if the sortable fields are empty', function (): void {
-        // Prepare
-        $sort = new Sort(
-            $this->visibleFields,
-            sortableFields: [],
-            clientInput: ['sort' => ['name' => '']],
-        );
-
-        // Act & Assert
-        expect(fn () => $sort->sort())->toThrow(NoActionWillPerformException::class);
-    });
+        // Act & Expect Throws
+        $sort->sort();
+    })
+    ->throws(InvalidSortableException::class);
 });
 
-describe('Throw an exception', function (): void {
-    it('should throw an exception if one of sortable fields is invalid', function (): void {
+describe('Validations', function () {
+    it('should throw ValidationException if the input is not a linear array', function ($input): void {
         // Prepare
         $sort = new Sort(
             $this->visibleFields,
-            sortableFields: ['email'], // not existing on visible fields
-            clientInput: ['sort' => ['name' => 'descending']],
+            sortableFields: ['*'],
+            clientInput: [SORT_KEY => $input],
         );
 
-        // Act & Assert
-        expect(fn () => $sort->sort())->toThrow(InvalidFieldsException::class);
-    });
+        // Act & Expect Throws
+        $sort->sort();
+    })
+    ->with([
+        'string' => ['desc'],
+        'numeric' => [1],
+        'multi-array' =>
+            [
+                [
+                    'id' => ['desc']
+                ]
+            ],
+    ])
+    ->throws(ValidationException::class);
+
+    it('should throw ValidationException if the input fields are not in sortable fields', function (): void {
+        // Prepare
+        $invalidInput = ['email' => 'desc']; // email is not in sortable fields
+        $sort = new Sort(
+            $this->visibleFields,
+            sortableFields: ['id', 'name'],
+            clientInput: [SORT_KEY => $invalidInput],
+        );
+
+        // Act & Expect Throws
+        $sort->sort();
+    })
+    ->throws(ValidationException::class);
+
+    it('should throw ValidationException if the input direction is not in valid directions', function ($direction): void {
+        // Prepare
+        $sort = new Sort(
+            $this->visibleFields,
+            sortableFields: ['id', 'name'],
+            clientInput: [SORT_KEY => ['id' => $direction]],
+        );
+
+        // Act & Expect Throws
+        $sort->sort();
+    })
+    ->with(['a', 'b', 'c'])
+    ->throws(ValidationException::class);
 });
 
 describe('Valid scenarios', function (): void {
@@ -90,7 +103,7 @@ describe('Valid scenarios', function (): void {
         $sort = new Sort(
             $this->visibleFields,
             sortableFields: $sortableFields,
-            clientInput: ['sort' => array_fill_keys($clientFields, $clientDirection)],
+            clientInput: [SORT_KEY => array_fill_keys($clientFields, $clientDirection)],
         );
 
         // Act & Assert

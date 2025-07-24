@@ -99,61 +99,6 @@ class CSVToArray
         });
     }
 
-    public function projection()
-    {
-        $rowCounter = 1;
-
-        $CELL_ROW_STARTS_AT = 11;
-        $CELL_COLS_LENGTH = 9;
-
-        $PREREQUISITES_CODES = [1, 2, 3];
-
-        return $this->readFileAndReturnData(function (&$data, $row) use (
-            &$rowCounter,
-            $CELL_ROW_STARTS_AT,
-            $CELL_COLS_LENGTH,
-            $PREREQUISITES_CODES
-        ) {
-            if ($rowCounter++ < $CELL_ROW_STARTS_AT) {
-                return; // skip
-            }
-
-            if ($row[at('A')] == '') { // skip no value row
-                return; //
-            }
-
-            // convert 'empty' string to ''
-            for ($i = 0; $i < $CELL_COLS_LENGTH; $i++) {
-                static::convertToEmptyStringIfEmptyValue($row[$i]);
-            }
-
-
-
-            // $intersectResult = $row[3];
-            // $exceptResult = $row[4];
-
-            // if (
-            //     in_array($intersectResult, $PREREQUISITES_CODES)
-            //     ||
-            //     in_array($exceptResult, $PREREQUISITES_CODES)
-            // ) {
-            //     return; // skip;
-            // }
-
-            // $projectableFields = $row[0];
-            // $definedFields = $row[1];
-            // $clientInput = $row[2];
-
-            // $data[] = [
-            //     'projectableFields' => explode_sanitized($projectableFields),
-            //     'definedFields' => explode_sanitized($definedFields),
-            //     'clientInput' => $clientInput,
-            //     'intersectResult' => explode_sanitized($intersectResult),
-            //     'exceptResult' => explode_sanitized($exceptResult),
-            // ];
-        });
-    }
-
     public function intersectProjection()
     {
         $rowCounter = 1;
@@ -184,7 +129,7 @@ class CSVToArray
             $clientInput = $row[at('C')];
             $intersectResult = $row[at('D')];
 
-            if ($intersectResult === 'NotIntersectException') {
+            if ($intersectResult === 'throw d invalid') {
                 return; // skip;
             }
 
@@ -227,7 +172,7 @@ class CSVToArray
             $clientInput = $row[at('H')];
             $exceptResult = $row[at('I')];
 
-            if ($exceptResult === 'NotIntersectException') {
+            if ($exceptResult === 'throw d invalid') {
                 return; // skip;
             }
 
@@ -304,23 +249,20 @@ class CSVToArray
         $rowCounter = 1;
 
         $CELL_ROW_STARTS_AT = 4;
-        $CELL_ROW_CLIENT_KEYWORD_STARTS_AT = 37;
+        $CELL_ROW_CLIENT_KEYWORD_STARTS_AT = 20;
         $CELL_COLS_LENGTH = 3;
-
-        $PREREQUISITES_CODES = [1, 2];
 
         return $this->readFileAndReturnData(function (&$data, $row) use (
             &$rowCounter,
             $CELL_ROW_STARTS_AT,
             $CELL_ROW_CLIENT_KEYWORD_STARTS_AT,
             $CELL_COLS_LENGTH,
-            $PREREQUISITES_CODES
         ) {
             if ($rowCounter++ < $CELL_ROW_STARTS_AT) {
                 return; // skip
             }
 
-            if ($row[1] == '') { // skip no value row
+            if (in_array($row[at('C')], ['', 422])) { // skip no value row
                 return; //
             }
 
@@ -329,15 +271,11 @@ class CSVToArray
                 static::convertToEmptyStringIfEmptyValue($row[$i]);
             }
 
-            $sortableFields = $row[0];
+            $sortableFields = $row[at('A')];
 
             if ($rowCounter < $CELL_ROW_CLIENT_KEYWORD_STARTS_AT) {
-                $clientFields = $row[1];
-                $resultFields = $row[2];
-
-                if (in_array($resultFields, $PREREQUISITES_CODES)) {
-                    return; // skip;
-                }
+                $clientFields = $row[at('B')];
+                $resultFields = $row[at('C')];
 
                 // fields
                 $data[] = [
@@ -346,8 +284,8 @@ class CSVToArray
                     'resultFields' => explode_sanitized($resultFields),
                 ];
             } else {
-                $clientDirection = $row[1];
-                $resultDirection = $row[2];
+                $clientDirection = $row[at('B')];
+                $resultDirection = $row[at('C')];
 
                 // keyword
                 $data[] = [
@@ -375,9 +313,9 @@ function explode_sanitized(string $str, string $delimiter = ',')
 // $csvToArray = new CSVToArray('truth-table/truth-table.csv');
 // echo $csvToArray->export();
 
-$csvToArray = new CSVToArray('truth-table/projection-truth-table.csv');
+// $csvToArray = new CSVToArray('truth-table/projection-truth-table.csv');
 // $csvToArray = new CSVToArray('truth-table/search-truth-table.csv');
-// $csvToArray = new CSVToArray('truth-table/sort-truth-table.csv');
+$csvToArray = new CSVToArray('truth-table/sort-truth-table.csv');
 echo $csvToArray->export();
 
 /*

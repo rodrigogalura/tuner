@@ -24,7 +24,7 @@ trait CanTweak
 
     protected function getSortableFields(): array
     {
-        return ['*'];
+        return ['id'];
     }
 
     /**
@@ -50,7 +50,7 @@ trait CanTweak
             // ->inFiter()
             // ->betweenFilter()
             // ->searchFilter($this->getSearchableFields())
-            // ->sort($this->getSortableFields())
+            ->sort($this->getSortableFields())
             // ->limit()
             // ->offset()
             // ->debug()

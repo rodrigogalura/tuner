@@ -23,7 +23,7 @@ abstract class Projection
     public static $clientInputs = [];
 
     public function __construct(
-        array $visibleFields,
+        private array $visibleFields,
         protected mixed $projectableFields,
         protected mixed $definedFields,
         private array $clientInput,

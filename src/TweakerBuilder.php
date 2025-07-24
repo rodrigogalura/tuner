@@ -24,7 +24,12 @@ final class TweakerBuilder
 
     private ?array $sortedResult = null;
 
-    private ?array $projection;
+
+
+
+    private ?array $projection = null;
+
+    private ?Sort $sort = null;
 
     /**
      * The Singleton's constructor should always be private to prevent direct
@@ -131,66 +136,58 @@ final class TweakerBuilder
     {
         $key = $this->config['sort']['key'];
 
-        $sort = new Sort(
+        $this->sort = new Sort(
             $this->visibleFields,
             $sortableFields,
             clientInput: [$key => $this->clientInput[$key] ?? []],
         );
 
-        try {
-            $this->sortedResult = $sort->sort();
-        } catch (NoActionWillPerformException $e) {
-            //
-        }
+        // try {
+        //     $this->sortedResult = $sort->sort();
+        // } catch (NoActionWillPerformException $e) {
+        //     //
+        // }
 
         return $this;
     }
 
     public function execute()
     {
-        $run = [];
+        $run = [
+            'projection' => function() {
+                if ($key = Projection::getKeyCanUse()) {
+                    if (empty($fields = $this->projection[$key]->project())) {
+                        return [];
+                    }
 
-        $run['projection'] = function() {
-            if ($key = Projection::getKeyCanUse()) {
-                if (empty($fields = $this->projection[$key]->project())) {
-                    return [];
+                    $this->builder->select($fields);
                 }
+            },
 
-                $this->builder->select($fields);
+            'sort' => function() {
+                $sortedResult = $this->sort->sort();
+
+                foreach ($sortedResult as $field => $direction) {
+                    $this->builder->orderBy($field, $direction);
+                }
             }
-        };
+        ];
 
         try {
-            foreach ($run as $feature) {
-                $feature();
+            foreach ($run as $feature => $cb) {
+                if (!is_null($this->{$feature})) {
+                    $cb();
+                }
             }
         } catch (DisabledException $e) {
             // noop
         }
-        // if ($key = Projection::getKeyCanUse()) {
-        //     if (empty($fields = $this->projection[$key]->project())) {
-        //         return [];
-        //     }
-
-        //     $this->builder->select($fields);
-        // }
 
         // if ($this->searchWasExecute()) {
         //     $searchFromFields = filter_explode(key($this->searchedResult));
         //     $searchKeyword = current($this->searchedResult);
 
         //     $this->builder->where(fn ($builderInner) => $builderInner->whereAny($searchFromFields, 'LIKE', $searchKeyword));
-        // }
-
-        // if ($this->sortWasExecute()) {
-        //     // if (! empty($table)) {
-        //     //     $table .= '.';
-        //     // }
-
-        //     foreach ($this->sortedResult as $field => $direction) {
-        //         // $q->orderBy("{$table}{$field}", $direction);
-        //         $this->builder->orderBy($field, $direction);
-        //     }
         // }
 
         return $this->builder->get();
