@@ -706,7 +706,7 @@ dataset('intersect-projection-truth-table', [
 ]);
 
 dataset('except-projection-truth-table', [
-    0 => [
+    1 => [
         'projectableFields' => [
             0 => '*',
         ],
@@ -716,18 +716,6 @@ dataset('except-projection-truth-table', [
         'clientInput' => 'id',
         'exceptResult' => [
             0 => 'name',
-        ],
-    ],
-    1 => [
-        'projectableFields' => [
-            0 => '*',
-        ],
-        'definedFields' => [
-            0 => '*',
-        ],
-        'clientInput' => 'name',
-        'exceptResult' => [
-            0 => 'id',
         ],
     ],
     2 => [
@@ -737,8 +725,9 @@ dataset('except-projection-truth-table', [
         'definedFields' => [
             0 => '*',
         ],
-        'clientInput' => 'id, name',
+        'clientInput' => 'name',
         'exceptResult' => [
+            0 => 'id',
         ],
     ],
     3 => [
@@ -748,8 +737,9 @@ dataset('except-projection-truth-table', [
         'definedFields' => [
             0 => 'id',
         ],
-        'clientInput' => 'id',
+        'clientInput' => 'name',
         'exceptResult' => [
+            0 => 'id',
         ],
     ],
     4 => [
@@ -757,11 +747,11 @@ dataset('except-projection-truth-table', [
             0 => '*',
         ],
         'definedFields' => [
-            0 => 'id',
+            0 => 'name',
         ],
-        'clientInput' => 'name',
+        'clientInput' => 'id',
         'exceptResult' => [
-            0 => 'id',
+            0 => 'name',
         ],
     ],
     5 => [
@@ -770,9 +760,11 @@ dataset('except-projection-truth-table', [
         ],
         'definedFields' => [
             0 => 'id',
+            1 => 'name',
         ],
-        'clientInput' => 'id, name',
+        'clientInput' => 'id',
         'exceptResult' => [
+            0 => 'name',
         ],
     ],
     6 => [
@@ -780,51 +772,41 @@ dataset('except-projection-truth-table', [
             0 => '*',
         ],
         'definedFields' => [
-            0 => 'name',
+            0 => 'id',
+            1 => 'name',
         ],
-        'clientInput' => 'id',
+        'clientInput' => 'name',
         'exceptResult' => [
-            0 => 'name',
+            0 => 'id',
         ],
     ],
     7 => [
         'projectableFields' => [
-            0 => '*',
+            0 => 'id',
         ],
         'definedFields' => [
-            0 => 'name',
+            0 => '*',
         ],
         'clientInput' => 'name',
         'exceptResult' => [
+            0 => 'id',
         ],
     ],
     8 => [
         'projectableFields' => [
-            0 => '*',
+            0 => 'id',
         ],
         'definedFields' => [
-            0 => 'name',
+            0 => 'id',
         ],
-        'clientInput' => 'id, name',
+        'clientInput' => 'name',
         'exceptResult' => [
+            0 => 'id',
         ],
     ],
     9 => [
         'projectableFields' => [
-            0 => '*',
-        ],
-        'definedFields' => [
             0 => 'id',
-            1 => 'name',
-        ],
-        'clientInput' => 'id',
-        'exceptResult' => [
-            0 => 'name',
-        ],
-    ],
-    10 => [
-        'projectableFields' => [
-            0 => '*',
         ],
         'definedFields' => [
             0 => 'id',
@@ -835,357 +817,112 @@ dataset('except-projection-truth-table', [
             0 => 'id',
         ],
     ],
-    11 => [
+    10 => [
         'projectableFields' => [
-            0 => '*',
-        ],
-        'definedFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'clientInput' => 'id, name',
-        'exceptResult' => [
-        ],
-    ],
-    12 => [
-        'projectableFields' => [
-            0 => 'id',
+            0 => 'name',
         ],
         'definedFields' => [
             0 => '*',
         ],
         'clientInput' => 'id',
         'exceptResult' => [
+            0 => 'name',
+        ],
+    ],
+    11 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => 'id',
+        'exceptResult' => [
+            0 => 'name',
+        ],
+    ],
+    12 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'id',
+        'exceptResult' => [
+            0 => 'name',
         ],
     ],
     13 => [
         'projectableFields' => [
             0 => 'id',
+            1 => 'name',
         ],
         'definedFields' => [
             0 => '*',
         ],
-        'clientInput' => 'name',
+        'clientInput' => 'id',
         'exceptResult' => [
-            0 => 'id',
+            0 => 'name',
         ],
     ],
     14 => [
         'projectableFields' => [
             0 => 'id',
+            1 => 'name',
         ],
         'definedFields' => [
             0 => '*',
         ],
-        'clientInput' => 'id, name',
+        'clientInput' => 'name',
         'exceptResult' => [
+            0 => 'id',
         ],
     ],
     15 => [
         'projectableFields' => [
             0 => 'id',
+            1 => 'name',
         ],
         'definedFields' => [
             0 => 'id',
         ],
-        'clientInput' => 'id',
+        'clientInput' => 'name',
         'exceptResult' => [
+            0 => 'id',
         ],
     ],
     16 => [
         'projectableFields' => [
             0 => 'id',
+            1 => 'name',
         ],
         'definedFields' => [
-            0 => 'id',
+            0 => 'name',
         ],
-        'clientInput' => 'name',
+        'clientInput' => 'id',
         'exceptResult' => [
-            0 => 'id',
+            0 => 'name',
         ],
     ],
     17 => [
         'projectableFields' => [
             0 => 'id',
+            1 => 'name',
         ],
         'definedFields' => [
             0 => 'id',
+            1 => 'name',
         ],
-        'clientInput' => 'id, name',
+        'clientInput' => 'id',
         'exceptResult' => [
+            0 => 'name',
         ],
     ],
     18 => [
         'projectableFields' => [
             0 => 'id',
-        ],
-        'definedFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'clientInput' => 'id',
-        'exceptResult' => [
-        ],
-    ],
-    19 => [
-        'projectableFields' => [
-            0 => 'id',
-        ],
-        'definedFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'clientInput' => 'name',
-        'exceptResult' => [
-            0 => 'id',
-        ],
-    ],
-    20 => [
-        'projectableFields' => [
-            0 => 'id',
-        ],
-        'definedFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'clientInput' => 'id, name',
-        'exceptResult' => [
-        ],
-    ],
-    21 => [
-        'projectableFields' => [
-            0 => 'name',
-        ],
-        'definedFields' => [
-            0 => '*',
-        ],
-        'clientInput' => 'id',
-        'exceptResult' => [
-            0 => 'name',
-        ],
-    ],
-    22 => [
-        'projectableFields' => [
-            0 => 'name',
-        ],
-        'definedFields' => [
-            0 => '*',
-        ],
-        'clientInput' => 'name',
-        'exceptResult' => [
-        ],
-    ],
-    23 => [
-        'projectableFields' => [
-            0 => 'name',
-        ],
-        'definedFields' => [
-            0 => '*',
-        ],
-        'clientInput' => 'id, name',
-        'exceptResult' => [
-        ],
-    ],
-    24 => [
-        'projectableFields' => [
-            0 => 'name',
-        ],
-        'definedFields' => [
-            0 => 'name',
-        ],
-        'clientInput' => 'id',
-        'exceptResult' => [
-            0 => 'name',
-        ],
-    ],
-    25 => [
-        'projectableFields' => [
-            0 => 'name',
-        ],
-        'definedFields' => [
-            0 => 'name',
-        ],
-        'clientInput' => 'name',
-        'exceptResult' => [
-        ],
-    ],
-    26 => [
-        'projectableFields' => [
-            0 => 'name',
-        ],
-        'definedFields' => [
-            0 => 'name',
-        ],
-        'clientInput' => 'id, name',
-        'exceptResult' => [
-        ],
-    ],
-    27 => [
-        'projectableFields' => [
-            0 => 'name',
-        ],
-        'definedFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'clientInput' => 'id',
-        'exceptResult' => [
-            0 => 'name',
-        ],
-    ],
-    28 => [
-        'projectableFields' => [
-            0 => 'name',
-        ],
-        'definedFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'clientInput' => 'name',
-        'exceptResult' => [
-        ],
-    ],
-    29 => [
-        'projectableFields' => [
-            0 => 'name',
-        ],
-        'definedFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'clientInput' => 'id, name',
-        'exceptResult' => [
-        ],
-    ],
-    30 => [
-        'projectableFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'definedFields' => [
-            0 => '*',
-        ],
-        'clientInput' => 'id',
-        'exceptResult' => [
-            0 => 'name',
-        ],
-    ],
-    31 => [
-        'projectableFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'definedFields' => [
-            0 => '*',
-        ],
-        'clientInput' => 'name',
-        'exceptResult' => [
-            0 => 'id',
-        ],
-    ],
-    32 => [
-        'projectableFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'definedFields' => [
-            0 => '*',
-        ],
-        'clientInput' => 'id, name',
-        'exceptResult' => [
-        ],
-    ],
-    33 => [
-        'projectableFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'definedFields' => [
-            0 => 'id',
-        ],
-        'clientInput' => 'id',
-        'exceptResult' => [
-        ],
-    ],
-    34 => [
-        'projectableFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'definedFields' => [
-            0 => 'id',
-        ],
-        'clientInput' => 'name',
-        'exceptResult' => [
-            0 => 'id',
-        ],
-    ],
-    35 => [
-        'projectableFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'definedFields' => [
-            0 => 'id',
-        ],
-        'clientInput' => 'id, name',
-        'exceptResult' => [
-        ],
-    ],
-    36 => [
-        'projectableFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'definedFields' => [
-            0 => 'name',
-        ],
-        'clientInput' => 'id',
-        'exceptResult' => [
-            0 => 'name',
-        ],
-    ],
-    37 => [
-        'projectableFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'definedFields' => [
-            0 => 'name',
-        ],
-        'clientInput' => 'name',
-        'exceptResult' => [
-        ],
-    ],
-    38 => [
-        'projectableFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'definedFields' => [
-            0 => 'name',
-        ],
-        'clientInput' => 'id, name',
-        'exceptResult' => [
-        ],
-    ],
-    39 => [
-        'projectableFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'definedFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'clientInput' => 'id',
-        'exceptResult' => [
-            0 => 'name',
-        ],
-    ],
-    40 => [
-        'projectableFields' => [
-            0 => 'id',
             1 => 'name',
         ],
         'definedFields' => [
@@ -1195,19 +932,6 @@ dataset('except-projection-truth-table', [
         'clientInput' => 'name',
         'exceptResult' => [
             0 => 'id',
-        ],
-    ],
-    41 => [
-        'projectableFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'definedFields' => [
-            0 => 'id',
-            1 => 'name',
-        ],
-        'clientInput' => 'id, name',
-        'exceptResult' => [
         ],
     ],
 ]);

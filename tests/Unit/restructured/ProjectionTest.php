@@ -169,7 +169,21 @@ describe('Validations', function (): void {
         ->with('not-string-value')
         ->throws(ValidationException::class);
 
-    it('should throw ValidationException if the input is asterisk(*)', function (): void {
+    it('should throw ValidationException if the input exclude all available fields', function (): void {
+        // // Prepare
+        $projectionClass = new ExceptProjection(
+            $this->visibleFields,
+            projectableFields: ['*'],
+            definedFields: ['*'],
+            clientInput: [EXCEPT_KEY => $this->visibleFieldsString],
+        );
+
+        // Act & Expect Throws
+        $projectionClass->project();
+    })
+        ->throws(ValidationException::class);
+
+    it('should throw ValidationException if the input value is asterisk(*)', function (): void {
         // // Prepare
         $projectionClass = new ExceptProjection(
             $this->visibleFields,

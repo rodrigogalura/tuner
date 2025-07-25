@@ -1,71 +1,73 @@
+,,,,,,,,
+Truth Table,,,,,,,,
 Projectable (p),Defined (q),Client (r),Result,,Projectable (p),Defined (q),Client (r),Result
 ,,,Intersect ((p in q) in r),,,,,Except ((p in q) ex r)
 *,*,*,"id, name",,*,*,id,name
 *,*,id,id,,*,*,name,id
-*,*,name,name,,*,*,"id, name",empty
+*,*,name,name,,*,*,"id, name",422
 *,*,"id, name","id, name",,,,,
-,,,,,*,id,id,empty
+,,,,,*,id,id,422
 *,id,*,id,,*,id,name,id
-*,id,id,id,,*,id,"id, name",empty
+*,id,id,id,,*,id,"id, name",422
 *,id,name,empty,,,,,
 *,id,"id, name",id,,*,name,id,name
-,,,,,*,name,name,empty
-*,name,*,name,,*,name,"id, name",empty
+,,,,,*,name,name,422
+*,name,*,name,,*,name,"id, name",422
 *,name,id,empty,,,,,
 *,name,name,name,,*,"id, name",id,name
 *,name,"id, name",name,,*,"id, name",name,id
-,,,,,*,"id, name","id, name",empty
+,,,,,*,"id, name","id, name",422
 *,"id, name",*,"id, name",,,,,
 *,"id, name",id,id,,,,,
-*,"id, name",name,name,,id,*,id,empty
+*,"id, name",name,name,,id,*,id,422
 *,"id, name","id, name","id, name",,id,*,name,id
-,,,,,id,*,"id, name",empty
+,,,,,id,*,"id, name",422
 ,,,,,,,,
-id,*,*,id,,id,id,id,empty
+id,*,*,id,,id,id,id,422
 id,*,id,id,,id,id,name,id
-id,*,name,empty,,id,id,"id, name",empty
+id,*,name,empty,,id,id,"id, name",422
 id,*,"id, name",id,,,,,
-,,,,,id,name,id,NotIntersectException
-id,id,*,id,,id,name,name,NotIntersectException
-id,id,id,id,,id,name,"id, name",NotIntersectException
+,,,,,id,name,id,throw d invalid
+id,id,*,id,,id,name,name,throw d invalid
+id,id,id,id,,id,name,"id, name",throw d invalid
 id,id,name,empty,,,,,
-id,id,"id, name",id,,id,"id, name",id,empty
+id,id,"id, name",id,,id,"id, name",id,422
 ,,,,,id,"id, name",name,id
-id,name,*,NotIntersectException,,id,"id, name","id, name",empty
-id,name,id,NotIntersectException,,,,,
-id,name,name,NotIntersectException,,,,,
-id,name,"id, name",NotIntersectException,,name,*,id,name
-,,,,,name,*,name,empty
-id,"id, name",*,id,,name,*,"id, name",empty
+id,name,*,throw d invalid,,id,"id, name","id, name",422
+id,name,id,throw d invalid,,,,,
+id,name,name,throw d invalid,,,,,
+id,name,"id, name",throw d invalid,,name,*,id,name
+,,,,,name,*,name,422
+id,"id, name",*,id,,name,*,"id, name",422
 id,"id, name",id,id,,,,,
-id,"id, name",name,empty,,name,id,id,NotIntersectException
-id,"id, name","id, name",id,,name,id,name,NotIntersectException
-,,,,,name,id,"id, name",NotIntersectException
+id,"id, name",name,empty,,name,id,id,throw d invalid
+id,"id, name","id, name",id,,name,id,name,throw d invalid
+,,,,,name,id,"id, name",throw d invalid
 ,,,,,,,,
 name,*,*,name,,name,name,id,name
-name,*,id,empty,,name,name,name,empty
-name,*,name,name,,name,name,"id, name",empty
+name,*,id,empty,,name,name,name,422
+name,*,name,name,,name,name,"id, name",422
 name,*,"id, name",name,,,,,
 ,,,,,name,"id, name",id,name
-name,id,*,NotIntersectException,,name,"id, name",name,empty
-name,id,id,NotIntersectException,,name,"id, name","id, name",empty
-name,id,name,NotIntersectException,,,,,
-name,id,"id, name",NotIntersectException,,,,,
+name,id,*,throw d invalid,,name,"id, name",name,422
+name,id,id,throw d invalid,,name,"id, name","id, name",422
+name,id,name,throw d invalid,,,,,
+name,id,"id, name",throw d invalid,,,,,
 ,,,,,"id, name",*,id,name
 name,name,*,name,,"id, name",*,name,id
-name,name,id,empty,,"id, name",*,"id, name",empty
+name,name,id,empty,,"id, name",*,"id, name",422
 name,name,name,name,,,,,
-name,name,"id, name",name,,"id, name",id,id,empty
+name,name,"id, name",name,,"id, name",id,id,422
 ,,,,,"id, name",id,name,id
-name,"id, name",*,name,,"id, name",id,"id, name",empty
+name,"id, name",*,name,,"id, name",id,"id, name",422
 name,"id, name",id,empty,,,,,
 name,"id, name",name,name,,"id, name",name,id,name
-name,"id, name","id, name",name,,"id, name",name,name,empty
-,,,,,"id, name",name,"id, name",empty
+name,"id, name","id, name",name,,"id, name",name,name,422
+,,,,,"id, name",name,"id, name",422
 ,,,,,,,,
 "id, name",*,*,"id, name",,"id, name","id, name",id,name
 "id, name",*,id,id,,"id, name","id, name",name,id
-"id, name",*,name,name,,"id, name","id, name","id, name",empty
+"id, name",*,name,name,,"id, name","id, name","id, name",422
 "id, name",*,"id, name","id, name",,,,,
 ,,,,,,,,
 "id, name",id,*,id,,,,,

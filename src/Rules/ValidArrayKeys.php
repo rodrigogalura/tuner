@@ -2,23 +2,21 @@
 
 namespace Laradigs\Tweaker\Rules;
 
-use Illuminate\Translation\PotentiallyTranslatedString;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 class ValidArrayKeys implements ValidationRule
 {
-    protected array $allowedKeys;
-
-    public function __construct(array $allowedKeys)
+    public function __construct(private array $allowedKeys)
     {
-        $this->allowedKeys = $allowedKeys;
+        //
     }
 
     /**
      * Run the validation rule.
      *
-     * @param \Closure(string, ?string=):PotentiallyTranslatedString $fail
+     * @param  \Closure(string, ?string=):PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {

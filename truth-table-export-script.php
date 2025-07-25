@@ -58,11 +58,6 @@ class CSVToArray
         }
     }
 
-    /**
-     * Get index by alphabet
-     *
-     * @param  string  $char  Single character
-     */
     public function export()
     {
         $export = var_export($this->data, true);
@@ -171,7 +166,7 @@ class CSVToArray
             $clientInput = $row[at('H')];
             $exceptResult = $row[at('I')];
 
-            if ($exceptResult === 'throw d invalid') {
+            if ($exceptResult === 'throw d invalid' || $exceptResult == 422) {
                 return; // skip;
             }
 
@@ -296,6 +291,11 @@ class CSVToArray
     }
 }
 
+/**
+ * Get index by alphabet
+ *
+ * @param  string  $char  Single character
+ */
 function at($char)
 {
     $char = strtoupper($char);
@@ -312,9 +312,9 @@ function explode_sanitized(string $str, string $delimiter = ',')
 // $csvToArray = new CSVToArray('truth-table/truth-table.csv');
 // echo $csvToArray->export();
 
-// $csvToArray = new CSVToArray('truth-table/projection-truth-table.csv');
+$csvToArray = new CSVToArray('truth-table/projection-truth-table.csv');
 // $csvToArray = new CSVToArray('truth-table/search-truth-table.csv');
-$csvToArray = new CSVToArray('truth-table/sort-truth-table.csv');
+// $csvToArray = new CSVToArray('truth-table/sort-truth-table.csv');
 echo $csvToArray->export();
 
 /*

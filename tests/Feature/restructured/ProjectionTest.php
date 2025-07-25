@@ -1,13 +1,12 @@
 <?php
 
-use function Pest\Laravel\get;
-use Laradigs\Tweaker\DisabledException;
+use Workbench\App\Models\AllFieldsAreProjectableModel;
 use Workbench\App\Models\NoProjectableModel;
-use Workbench\App\Models\InvalidProjectableModel;
+use Workbench\App\Models\OnlyIdAndNameAreProjectableModel;
 use Workbench\App\Models\OnlyIdIsProjectableModel;
 use Workbench\App\Models\OnlyNameIsProjectableModel;
-use Workbench\App\Models\AllFieldsAreProjectableModel;
-use Workbench\App\Models\OnlyIdAndNameAreProjectableModel;
+
+use function Pest\Laravel\get;
 
 define('INTERSECT_KEY', 'fields');
 define('EXCEPT_KEY', 'fields!');
@@ -81,7 +80,7 @@ describe('Prerequisites', function (): void {
         ->with([INTERSECT_KEY, EXCEPT_KEY]);
 });
 
-describe('Validations', function () {
+describe('Validations', function (): void {
     it('should throw ValidationException if both intersect and except are used at the same time', function (): void {
         $_GET[INTERSECT_KEY] = $this->validFieldsString;
         $_GET[EXCEPT_KEY] = $this->validFieldsString;
@@ -98,8 +97,8 @@ describe('Validations', function () {
         get('/api/all-fields-are-projectable')
             ->assertUnprocessable();
     })
-    ->with([INTERSECT_KEY, EXCEPT_KEY])
-    ->with('not-string-value');
+        ->with([INTERSECT_KEY, EXCEPT_KEY])
+        ->with('not-string-value');
 
     it('should throw ValidationException if the except input is asterisk(*)', function (): void {
         $_GET[EXCEPT_KEY] = '*';
@@ -125,7 +124,6 @@ describe('Validations', function () {
 // });
 
 // describe('Throw an exception', function (): void {
-
 
 //     it('should throw an exception if the defined fields is empty', function (): void {
 //         $_GET['fields'] = '*';

@@ -94,14 +94,6 @@ final class TweakerBuilder
             clientInput: [$exceptKey => $this->clientInput[$exceptKey] ?? null],
         );
 
-        // if ($key = Projection::getKeyCanUse()) {
-        //     try {
-        //         $this->projectedFields = $projection[$key]->project();
-        //     } catch (NoActionWillPerformException $e) {
-        //         //
-        //     }
-        // }
-
         return $this;
     }
 
@@ -148,15 +140,15 @@ final class TweakerBuilder
     public function execute()
     {
         $run = [
-            'projection' => function () {
-                if ($key = Projection::getKeyCanUse()) {
-                    if (empty($fields = $this->projection[$key]->project())) {
-                        return [];
-                    }
+            // 'projection' => function () {
+            //     if ($key = Projection::getKeyCanUse()) {
+            //         if (empty($fields = $this->projection[$key]->project())) {
+            //             return [];
+            //         }
 
-                    $this->builder->select($fields);
-                }
-            },
+            //         $this->builder->select($fields);
+            //     }
+            // },
 
             'sort' => function (): void {
                 $sortedResult = $this->sort->sort();
@@ -168,11 +160,19 @@ final class TweakerBuilder
         ];
 
         try {
-            foreach ($run as $feature => $cb) {
-                if (! is_null($this->{$feature})) {
-                    $cb();
+            if ($key = Projection::getKeyCanUse()) {
+                if (empty($fields = $this->projection[$key]->project())) {
+                    return [];
                 }
+
+                $this->builder->select($fields);
             }
+
+            // foreach ($run as $feature => $cb) {
+            //     if (! is_null($this->{$feature})) {
+            //         $cb();
+            //     }
+            // }
         } catch (DisabledException $e) {
             // noop
         }
