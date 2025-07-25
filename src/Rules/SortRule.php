@@ -2,9 +2,9 @@
 
 namespace Laradigs\Tweaker\Rules;
 
-use Illuminate\Translation\PotentiallyTranslatedString;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Translation\PotentiallyTranslatedString;
 use Illuminate\Validation\Rule;
 use Laradigs\Tweaker\Sort\Sort;
 
@@ -20,7 +20,7 @@ class SortRule implements ValidationRule
     /**
      * Run the validation rule.
      *
-     * @param \Closure(string, ?string=):PotentiallyTranslatedString $fail
+     * @param  \Closure(string, ?string=):PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
