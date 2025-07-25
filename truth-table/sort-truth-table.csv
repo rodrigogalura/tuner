@@ -3,12 +3,12 @@ Sortable (p),Client (q) – sort[fields] = direction,Result
 ,,Intersect (p in q)
 id,id,id
 id,name,422
-id,"id, name",id
+id,"id, name",422
 ,,
 ,,
 name,id,422
 name,name,name
-name,"id, name",name
+name,"id, name",422
 ,,
 ,,
 "id, name",id,id

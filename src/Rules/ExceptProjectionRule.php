@@ -10,6 +10,8 @@ use function RGalura\ApiIgniter\filter_explode;
 
 class ExceptProjectionRule implements ValidationRule
 {
+    const EXCLUDE_ALL_ERROR_MESSAGE = 'The :attribute is invalid. Excluding all fields is not allowed.';
+
     public function __construct(private array $availableFields)
     {
         //
@@ -22,14 +24,18 @@ class ExceptProjectionRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (trim($value) === '*') {
-            $fail('Invalid :attribute: excluding all fields is not allowed.');
-        }
+        try {
+            if (trim($value) === '*') {
+                throw new \Exception(static::EXCLUDE_ALL_ERROR_MESSAGE);
+            }
 
-        $remainingFields = array_diff($this->availableFields, filter_explode($value));
+            $remainingFields = array_diff($this->availableFields, filter_explode($value));
 
-        if (empty($remainingFields)) {
-            $fail('Invalid :attribute: excluding all fields is not allowed.');
+            if (empty($remainingFields)) {
+                throw new \Exception(static::EXCLUDE_ALL_ERROR_MESSAGE);
+            }
+        } catch (\Exception $e) {
+            $fail($e->getMessage());
         }
     }
 }

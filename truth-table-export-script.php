@@ -312,9 +312,9 @@ function explode_sanitized(string $str, string $delimiter = ',')
 // $csvToArray = new CSVToArray('truth-table/truth-table.csv');
 // echo $csvToArray->export();
 
-$csvToArray = new CSVToArray('truth-table/projection-truth-table.csv');
+// $csvToArray = new CSVToArray('truth-table/projection-truth-table.csv');
 // $csvToArray = new CSVToArray('truth-table/search-truth-table.csv');
-// $csvToArray = new CSVToArray('truth-table/sort-truth-table.csv');
+$csvToArray = new CSVToArray('truth-table/sort-truth-table.csv');
 echo $csvToArray->export();
 
 /*

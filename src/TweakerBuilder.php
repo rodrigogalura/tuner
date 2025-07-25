@@ -139,27 +139,8 @@ final class TweakerBuilder
 
     public function execute()
     {
-        $run = [
-            // 'projection' => function () {
-            //     if ($key = Projection::getKeyCanUse()) {
-            //         if (empty($fields = $this->projection[$key]->project())) {
-            //             return [];
-            //         }
-
-            //         $this->builder->select($fields);
-            //     }
-            // },
-
-            'sort' => function (): void {
-                $sortedResult = $this->sort->sort();
-
-                foreach ($sortedResult as $field => $direction) {
-                    $this->builder->orderBy($field, $direction);
-                }
-            },
-        ];
-
         try {
+            // Projection
             if ($key = Projection::getKeyCanUse()) {
                 if (empty($fields = $this->projection[$key]->project())) {
                     return [];
@@ -168,11 +149,12 @@ final class TweakerBuilder
                 $this->builder->select($fields);
             }
 
-            // foreach ($run as $feature => $cb) {
-            //     if (! is_null($this->{$feature})) {
-            //         $cb();
-            //     }
-            // }
+            // Sort
+            $sortedResult = $this->sort->sort();
+
+            foreach ($sortedResult as $field => $direction) {
+                $this->builder->orderBy($field, $direction);
+            }
         } catch (DisabledException $e) {
             // noop
         }

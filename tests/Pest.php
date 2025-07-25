@@ -43,7 +43,23 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something(): void
+function generateUniqueWord(array $existingWords, int $length = 10): string
 {
-    // ..
+    do {
+        $word = generateRandomWord($length);
+    } while (in_array($word, $existingWords));
+
+    return $word;
+}
+
+function generateRandomWord(int $length): string
+{
+    $characters = 'abcdefghijklmnopqrstuvwxyz-';
+    $word = '';
+
+    for ($i = 0; $i < $length; $i++) {
+        $word .= $characters[random_int(0, strlen($characters) - 1)];
+    }
+
+    return $word;
 }

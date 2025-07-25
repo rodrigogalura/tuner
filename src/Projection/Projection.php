@@ -45,6 +45,7 @@ abstract class Projection
 
         $this->truthTable->extractIfAsterisk($this->projectableFields);
         $this->throwIfNotInVisibleFields($this->projectableFields, InvalidProjectableException::class);
+        $this->truthTable->intersectToAllItems($this->projectableFields);
 
         // Defined
         throw_if(empty($this->definedFields), DefinedFieldsAreEmptyException::class);

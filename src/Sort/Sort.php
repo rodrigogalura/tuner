@@ -3,15 +3,16 @@
 namespace Laradigs\Tweaker\Sort;
 
 use Laradigs\Tweaker\DisabledException;
-use Laradigs\Tweaker\Rules\LinearArray;
-use Laradigs\Tweaker\Rules\ValidArrayKeys;
+use Laradigs\Tweaker\Rules\SortRule;
 use Laradigs\Tweaker\TruthTable;
 
 use function RGalura\ApiIgniter\validate;
 
 class Sort
 {
-    private const array DESCENDING_VALUES = ['d', 'des', 'desc', 'descending', '-'];
+    public const array ASCENDING_VALUES = [''];
+
+    public const array DESCENDING_VALUES = ['d', 'des', 'desc', 'descending', '-'];
 
     protected TruthTable $truthTable;
 
@@ -38,31 +39,17 @@ class Sort
     private function prerequisites()
     {
         throw_if(empty($this->sortableFields), DisabledException::class);
-        $this->throwIfNotInVisibleFields($this->sortableFields, InvalidSortableException::class);
-    }
 
-    private function checkIfNotInVisibleFields(array $fields)
-    {
-        return ! empty($this->truthTable->diffFromAllItems($fields));
+        $this->truthTable->extractIfAsterisk($this->sortableFields);
+        $this->throwIfNotInVisibleFields($this->sortableFields, InvalidSortableException::class);
+        $this->truthTable->intersectToAllItems($this->sortableFields);
     }
 
     protected function validate()
     {
         $this->prerequisites();
 
-        validate($this->clientInput, [
-            new LinearArray,
-            new ValidArrayKeys($this->visibleFields),
-        ]);
-
-        $this->truthTable->extractIfKeyIsAsterisk($this->clientInputValue);
-
-        $validValues = implode(',', static::DESCENDING_VALUES);
-
-        validate($this->clientInputValue,
-            ['in:'.$validValues],
-            "The {$this->key} with :attribute value is not valid. It must be one of the valid values: {$validValues}"
-        );
+        validate($this->clientInput, [new SortRule($this->key, $this->sortableFields)]);
     }
 
     public function sort()

@@ -35,6 +35,11 @@ class TruthTable
         }
     }
 
+    public function intersectToAllItems(array &$p)
+    {
+        $p = array_values(array_intersect($p, $this->allItems));
+    }
+
     public function intersect(array|string $p, array|string $q)
     {
         $this->extractIfAsterisk($p);

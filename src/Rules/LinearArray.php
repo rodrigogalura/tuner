@@ -15,7 +15,11 @@ class LinearArray implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (is_array($value)) {
+        try {
+            if (! is_array($value)) {
+                throw new \Exception('The :attribute must be array.');
+            }
+
             $multiArray = false;
             while ($current = current($value)) {
                 if (is_array($current)) {
@@ -27,14 +31,10 @@ class LinearArray implements ValidationRule
             }
 
             if ($multiArray) {
-                $fail('The :attribute must be a linear array.');
+                throw new \Exception('The :attribute must be a linear array.');
             }
-
-            goto pass;
+        } catch (\Exception $e) {
+            $fail($e->getMessage());
         }
-
-        $fail('The :attribute must be array.');
-
-        pass:
     }
 }

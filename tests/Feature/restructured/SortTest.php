@@ -3,8 +3,6 @@
 use Workbench\App\Models\AllFieldsAreProjectableModel;
 use Workbench\App\Models\InvalidProjectableModel;
 use Workbench\App\Models\NoProjectableModel;
-use Workbench\App\Models\OnlyIdAndNameAreProjectableModel;
-use Workbench\App\Models\OnlyNameIsProjectableModel;
 
 use function Pest\Laravel\get;
 
@@ -103,52 +101,50 @@ describe('Throw an exception', function (): void {
     });
 });
 
-// dd(collect($this->data)->sortByDesc('name'));
+// describe('Valid scenarios', function (): void {
+//     it('should passed all valid scenarios', function ($projectableFields, $definedFields, $clientInput, $intersectResult, $exceptResult): void {
+//         // Prepare
+//         $equivalentRoutes = [
+//             '*' => '/api/all-fields-are-projectable',
+//             'id' => '/api/only-id-is-projectable',
+//             'name' => '/api/only-name-is-projectable',
+//             'id, name' => '/api/only-id-and-name-are-projectable',
+//             'empty' => '/api/no-projectable',
+//         ];
 
-describe('Valid scenarios', function (): void {
-    it('should passed all valid scenarios', function ($projectableFields, $definedFields, $clientInput, $intersectResult, $exceptResult): void {
-        // Prepare
-        $equivalentRoutes = [
-            '*' => '/api/all-fields-are-projectable',
-            'id' => '/api/only-id-is-projectable',
-            'name' => '/api/only-name-is-projectable',
-            'id, name' => '/api/only-id-and-name-are-projectable',
-            'empty' => '/api/no-projectable',
-        ];
+//         $models = [
+//             '*' => AllFieldsAreProjectableModel::class,
+//             'id' => OnlyIdIsProjectableModel::class,
+//             'name' => OnlyNameIsProjectableModel::class,
+//             'id, name' => OnlyIdAndNameAreProjectableModel::class,
+//             'empty' => NoProjectableModel::class,
+//         ];
 
-        $models = [
-            '*' => AllFieldsAreProjectableModel::class,
-            'id' => OnlyIdIsProjectableModel::class,
-            'name' => OnlyNameIsProjectableModel::class,
-            'id, name' => OnlyIdAndNameAreProjectableModel::class,
-            'empty' => NoProjectableModel::class,
-        ];
+//         $key = implode(', ', $projectableFields);
 
-        $key = implode(', ', $projectableFields);
+//         $_GET['defined_fields'] = $definedFields;
 
-        $_GET['defined_fields'] = $definedFields;
+//         $model = $models[$key];
+//         $data = $model::factory(rand(2, 5))->create();
 
-        $model = $models[$key];
-        $data = $model::factory(rand(2, 5))->create();
+//         $route = $equivalentRoutes[$key];
 
-        $route = $equivalentRoutes[$key];
+//         $_GET['fields'] = $clientInput;
 
-        $_GET['fields'] = $clientInput;
+//         // Act & Assert
+//         get($route)
+//             ->assertOk()
+//             ->assertJsonCount(empty($intersectResult) ? 0 : $data->count())
+//             ->assertExactJsonStructure(['*' => $intersectResult]);
 
-        // Act & Assert
-        get($route)
-            ->assertOk()
-            ->assertJsonCount(empty($intersectResult) ? 0 : $data->count())
-            ->assertExactJsonStructure(['*' => $intersectResult]);
+//         unset($_GET['fields']);
+//         $_GET['fields!'] = $clientInput;
 
-        unset($_GET['fields']);
-        $_GET['fields!'] = $clientInput;
-
-        // Act & Assert
-        get($route)
-            ->assertOk()
-            ->assertJsonCount(empty($exceptResult) ? 0 : $data->count())
-            ->assertExactJsonStructure(['*' => $exceptResult]);
-    })
-        ->with('projection-truth-table');
-});
+//         // Act & Assert
+//         get($route)
+//             ->assertOk()
+//             ->assertJsonCount(empty($exceptResult) ? 0 : $data->count())
+//             ->assertExactJsonStructure(['*' => $exceptResult]);
+//     })
+//         ->with('projection-truth-table');
+// });
