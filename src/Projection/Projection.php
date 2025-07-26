@@ -54,7 +54,7 @@ abstract class Projection
         $this->throwIfNotInVisibleFields($this->definedFields, InvalidDefinedFieldsException::class);
 
         $this->projectableFields = $this->truthTable->intersect($this->projectableFields, $this->definedFields);
-        throw_if(empty($this->projectableFields), InvalidDefinedFieldsException::class);
+        throw_if(empty($this->projectableFields), InvalidDefinedFieldsException::class, $this->definedFields);
     }
 
     protected function validate()

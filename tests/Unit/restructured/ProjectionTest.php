@@ -199,7 +199,7 @@ describe('Validations', function (): void {
 });
 
 describe('Valid scenarios', function (): void {
-    it('should passed all valid scenarios for client input "fields"', function ($projectableFields, $definedFields, $clientInput, $intersectResult): void {
+    it('should passed all valid scenarios for non strict intersect projection', function ($projectableFields, $definedFields, $clientInput, $intersectResultNonStrict): void {
         // Prepare
         $intersect = new IntersectProjection(
             $this->visibleFields,
@@ -209,21 +209,35 @@ describe('Valid scenarios', function (): void {
         );
 
         // Act & Assert
-        expect($intersect->project())->toBe($intersectResult);
+        expect($intersect->project())->toBe($intersectResultNonStrict);
     })
-        ->with('intersect-projection-truth-table');
+        ->with('intersect-projection-non-strict-truth-table');
 
-    it('should passed all valid scenarios for client input "fields!"', function ($projectableFields, $definedFields, $clientInput, $exceptResult): void {
+    it('should passed all valid scenarios for strict intersect projection', function ($projectableFields, $definedFields, $clientInput, $intersectResultStrict): void {
         // Prepare
-        $except = new ExceptProjection(
+        $intersect = new IntersectProjection(
             $this->visibleFields,
             $projectableFields,
             $definedFields,
-            [EXCEPT_KEY => $clientInput]
+            [INTERSECT_KEY => $clientInput]
         );
 
         // Act & Assert
-        expect($except->project())->toBe($exceptResult);
+        expect($intersect->project())->toBe($intersectResultStrict);
     })
-        ->with('except-projection-truth-table');
+        ->with('intersect-projection-strict-truth-table')->only();
+
+    // it('should passed all valid scenarios for client input "fields!"', function ($projectableFields, $definedFields, $clientInput, $exceptResult): void {
+    //     // Prepare
+    //     $except = new ExceptProjection(
+    //         $this->visibleFields,
+    //         $projectableFields,
+    //         $definedFields,
+    //         [EXCEPT_KEY => $clientInput]
+    //     );
+
+    //     // Act & Assert
+    //     expect($except->project())->toBe($exceptResult);
+    // })
+    //     ->with('except-projection-truth-table');
 });

@@ -1,6 +1,6 @@
 <?php
 
-dataset('intersect-projection-truth-table', [
+dataset('intersect-projection-non-strict-truth-table', [
     0 => [
         'projectableFields' => [
             0 => '*',
@@ -9,7 +9,7 @@ dataset('intersect-projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => '*',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
             1 => 'name',
         ],
@@ -22,7 +22,7 @@ dataset('intersect-projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'id',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -34,7 +34,7 @@ dataset('intersect-projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -46,7 +46,7 @@ dataset('intersect-projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'id, name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
             1 => 'name',
         ],
@@ -59,7 +59,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => '*',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -71,7 +71,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => 'id',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -83,7 +83,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => 'name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
         ],
     ],
     7 => [
@@ -94,7 +94,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => 'id, name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -106,7 +106,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => '*',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -118,7 +118,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => 'id',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
         ],
     ],
     10 => [
@@ -129,7 +129,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => 'name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -141,7 +141,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => 'id, name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -154,7 +154,7 @@ dataset('intersect-projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => '*',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
             1 => 'name',
         ],
@@ -168,7 +168,7 @@ dataset('intersect-projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'id',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -181,7 +181,7 @@ dataset('intersect-projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -194,7 +194,7 @@ dataset('intersect-projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'id, name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
             1 => 'name',
         ],
@@ -207,7 +207,7 @@ dataset('intersect-projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => '*',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -219,7 +219,7 @@ dataset('intersect-projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'id',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -231,7 +231,7 @@ dataset('intersect-projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
         ],
     ],
     19 => [
@@ -242,7 +242,7 @@ dataset('intersect-projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'id, name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -254,7 +254,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => '*',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -266,7 +266,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => 'id',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -278,7 +278,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => 'name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
         ],
     ],
     23 => [
@@ -289,7 +289,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => 'id, name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -302,7 +302,7 @@ dataset('intersect-projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => '*',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -315,7 +315,7 @@ dataset('intersect-projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'id',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -328,7 +328,7 @@ dataset('intersect-projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
         ],
     ],
     27 => [
@@ -340,7 +340,7 @@ dataset('intersect-projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'id, name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -352,7 +352,7 @@ dataset('intersect-projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => '*',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -364,7 +364,7 @@ dataset('intersect-projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'id',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
         ],
     ],
     30 => [
@@ -375,7 +375,7 @@ dataset('intersect-projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -387,7 +387,7 @@ dataset('intersect-projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'id, name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -399,7 +399,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => '*',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -411,7 +411,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => 'id',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
         ],
     ],
     34 => [
@@ -422,7 +422,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => 'name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -434,7 +434,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => 'id, name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -447,7 +447,7 @@ dataset('intersect-projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => '*',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -460,7 +460,7 @@ dataset('intersect-projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'id',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
         ],
     ],
     38 => [
@@ -472,7 +472,7 @@ dataset('intersect-projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -485,7 +485,7 @@ dataset('intersect-projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'id, name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -498,7 +498,7 @@ dataset('intersect-projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => '*',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
             1 => 'name',
         ],
@@ -512,7 +512,7 @@ dataset('intersect-projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'id',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -525,7 +525,7 @@ dataset('intersect-projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -538,7 +538,7 @@ dataset('intersect-projection-truth-table', [
             0 => '*',
         ],
         'clientInput' => 'id, name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
             1 => 'name',
         ],
@@ -552,7 +552,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => '*',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -565,7 +565,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => 'id',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -578,7 +578,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => 'name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
         ],
     ],
     47 => [
@@ -590,7 +590,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'id',
         ],
         'clientInput' => 'id, name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -603,7 +603,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => '*',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -616,7 +616,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => 'id',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
         ],
     ],
     50 => [
@@ -628,7 +628,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => 'name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -641,7 +641,7 @@ dataset('intersect-projection-truth-table', [
             0 => 'name',
         ],
         'clientInput' => 'id, name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -655,7 +655,7 @@ dataset('intersect-projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => '*',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
             1 => 'name',
         ],
@@ -670,7 +670,7 @@ dataset('intersect-projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'id',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
         ],
     ],
@@ -684,7 +684,7 @@ dataset('intersect-projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'name',
         ],
     ],
@@ -698,12 +698,1184 @@ dataset('intersect-projection-truth-table', [
             1 => 'name',
         ],
         'clientInput' => 'id, name',
-        'intersectResult' => [
+        'intersectResultNonStrict' => [
             0 => 'id',
             1 => 'name',
         ],
     ],
 ]);
+
+dataset('intersect-projection-strict-truth-table', [
+    0 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => '*',
+        'intersectResultStrict' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+    ],
+    1 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'id',
+        'intersectResultStrict' => [
+            0 => 'id',
+        ],
+    ],
+    2 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'name',
+        'intersectResultStrict' => [
+            0 => 'name',
+        ],
+    ],
+    3 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'id, name',
+        'intersectResultStrict' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+    ],
+    4 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => '*',
+        'intersectResultStrict' => [
+            0 => 'id',
+        ],
+    ],
+    5 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => 'id',
+        'intersectResultStrict' => [
+            0 => 'id',
+        ],
+    ],
+    6 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => '*',
+        'intersectResultStrict' => [
+            0 => 'name',
+        ],
+    ],
+    7 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => 'name',
+        'intersectResultStrict' => [
+            0 => 'name',
+        ],
+    ],
+    8 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => '*',
+        'intersectResultStrict' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+    ],
+    9 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'id',
+        'intersectResultStrict' => [
+            0 => 'id',
+        ],
+    ],
+    10 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'name',
+        'intersectResultStrict' => [
+            0 => 'name',
+        ],
+    ],
+    11 => [
+        'projectableFields' => [
+            0 => '*',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'id, name',
+        'intersectResultStrict' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+    ],
+    12 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => '*',
+        'intersectResultStrict' => [
+            0 => 'id',
+        ],
+    ],
+    13 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'id',
+        'intersectResultStrict' => [
+            0 => 'id',
+        ],
+    ],
+    14 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => '*',
+        'intersectResultStrict' => [
+            0 => 'id',
+        ],
+    ],
+    15 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => 'id',
+        'intersectResultStrict' => [
+            0 => 'id',
+        ],
+    ],
+    16 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => '*',
+        'intersectResultStrict' => [
+            0 => 'id',
+        ],
+    ],
+    17 => [
+        'projectableFields' => [
+            0 => 'id',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'id',
+        'intersectResultStrict' => [
+            0 => 'id',
+        ],
+    ],
+    18 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => '*',
+        'intersectResultStrict' => [
+            0 => 'name',
+        ],
+    ],
+    19 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'name',
+        'intersectResultStrict' => [
+            0 => 'name',
+        ],
+    ],
+    20 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => '*',
+        'intersectResultStrict' => [
+            0 => 'name',
+        ],
+    ],
+    21 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => 'name',
+        'intersectResultStrict' => [
+            0 => 'name',
+        ],
+    ],
+    22 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => '*',
+        'intersectResultStrict' => [
+            0 => 'name',
+        ],
+    ],
+    23 => [
+        'projectableFields' => [
+            0 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'name',
+        'intersectResultStrict' => [
+            0 => 'name',
+        ],
+    ],
+    24 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => '*',
+        'intersectResultStrict' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+    ],
+    25 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'id',
+        'intersectResultStrict' => [
+            0 => 'id',
+        ],
+    ],
+    26 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'name',
+        'intersectResultStrict' => [
+            0 => 'name',
+        ],
+    ],
+    27 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => '*',
+        ],
+        'clientInput' => 'id, name',
+        'intersectResultStrict' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+    ],
+    28 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => '*',
+        'intersectResultStrict' => [
+            0 => 'id',
+        ],
+    ],
+    29 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+        ],
+        'clientInput' => 'id',
+        'intersectResultStrict' => [
+            0 => 'id',
+        ],
+    ],
+    30 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => '*',
+        'intersectResultStrict' => [
+            0 => 'name',
+        ],
+    ],
+    31 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'name',
+        ],
+        'clientInput' => 'name',
+        'intersectResultStrict' => [
+            0 => 'name',
+        ],
+    ],
+    32 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => '*',
+        'intersectResultStrict' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+    ],
+    33 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'id',
+        'intersectResultStrict' => [
+            0 => 'id',
+        ],
+    ],
+    34 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'name',
+        'intersectResultStrict' => [
+            0 => 'name',
+        ],
+    ],
+    35 => [
+        'projectableFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'definedFields' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+        'clientInput' => 'id, name',
+        'intersectResultStrict' => [
+            0 => 'id',
+            1 => 'name',
+        ],
+    ],
+]);
+
+// dataset('intersect-projection-truth-table', [
+//     0 => [
+//         'projectableFields' => [
+//             0 => '*',
+//         ],
+//         'definedFields' => [
+//             0 => '*',
+//         ],
+//         'clientInput' => '*',
+//         'intersectResult' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//     ],
+//     1 => [
+//         'projectableFields' => [
+//             0 => '*',
+//         ],
+//         'definedFields' => [
+//             0 => '*',
+//         ],
+//         'clientInput' => 'id',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     2 => [
+//         'projectableFields' => [
+//             0 => '*',
+//         ],
+//         'definedFields' => [
+//             0 => '*',
+//         ],
+//         'clientInput' => 'name',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     3 => [
+//         'projectableFields' => [
+//             0 => '*',
+//         ],
+//         'definedFields' => [
+//             0 => '*',
+//         ],
+//         'clientInput' => 'id, name',
+//         'intersectResult' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//     ],
+//     4 => [
+//         'projectableFields' => [
+//             0 => '*',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//         ],
+//         'clientInput' => '*',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     5 => [
+//         'projectableFields' => [
+//             0 => '*',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//         ],
+//         'clientInput' => 'id',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     6 => [
+//         'projectableFields' => [
+//             0 => '*',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//         ],
+//         'clientInput' => 'name',
+//         'intersectResult' => [
+//         ],
+//     ],
+//     7 => [
+//         'projectableFields' => [
+//             0 => '*',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//         ],
+//         'clientInput' => 'id, name',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     8 => [
+//         'projectableFields' => [
+//             0 => '*',
+//         ],
+//         'definedFields' => [
+//             0 => 'name',
+//         ],
+//         'clientInput' => '*',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     9 => [
+//         'projectableFields' => [
+//             0 => '*',
+//         ],
+//         'definedFields' => [
+//             0 => 'name',
+//         ],
+//         'clientInput' => 'id',
+//         'intersectResult' => [
+//         ],
+//     ],
+//     10 => [
+//         'projectableFields' => [
+//             0 => '*',
+//         ],
+//         'definedFields' => [
+//             0 => 'name',
+//         ],
+//         'clientInput' => 'name',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     11 => [
+//         'projectableFields' => [
+//             0 => '*',
+//         ],
+//         'definedFields' => [
+//             0 => 'name',
+//         ],
+//         'clientInput' => 'id, name',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     12 => [
+//         'projectableFields' => [
+//             0 => '*',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'clientInput' => '*',
+//         'intersectResult' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//     ],
+//     13 => [
+//         'projectableFields' => [
+//             0 => '*',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'clientInput' => 'id',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     14 => [
+//         'projectableFields' => [
+//             0 => '*',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'clientInput' => 'name',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     15 => [
+//         'projectableFields' => [
+//             0 => '*',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'clientInput' => 'id, name',
+//         'intersectResult' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//     ],
+//     16 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//         ],
+//         'definedFields' => [
+//             0 => '*',
+//         ],
+//         'clientInput' => '*',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     17 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//         ],
+//         'definedFields' => [
+//             0 => '*',
+//         ],
+//         'clientInput' => 'id',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     18 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//         ],
+//         'definedFields' => [
+//             0 => '*',
+//         ],
+//         'clientInput' => 'name',
+//         'intersectResult' => [
+//         ],
+//     ],
+//     19 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//         ],
+//         'definedFields' => [
+//             0 => '*',
+//         ],
+//         'clientInput' => 'id, name',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     20 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//         ],
+//         'clientInput' => '*',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     21 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//         ],
+//         'clientInput' => 'id',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     22 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//         ],
+//         'clientInput' => 'name',
+//         'intersectResult' => [
+//         ],
+//     ],
+//     23 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//         ],
+//         'clientInput' => 'id, name',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     24 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'clientInput' => '*',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     25 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'clientInput' => 'id',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     26 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'clientInput' => 'name',
+//         'intersectResult' => [
+//         ],
+//     ],
+//     27 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'clientInput' => 'id, name',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     28 => [
+//         'projectableFields' => [
+//             0 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => '*',
+//         ],
+//         'clientInput' => '*',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     29 => [
+//         'projectableFields' => [
+//             0 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => '*',
+//         ],
+//         'clientInput' => 'id',
+//         'intersectResult' => [
+//         ],
+//     ],
+//     30 => [
+//         'projectableFields' => [
+//             0 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => '*',
+//         ],
+//         'clientInput' => 'name',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     31 => [
+//         'projectableFields' => [
+//             0 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => '*',
+//         ],
+//         'clientInput' => 'id, name',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     32 => [
+//         'projectableFields' => [
+//             0 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'name',
+//         ],
+//         'clientInput' => '*',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     33 => [
+//         'projectableFields' => [
+//             0 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'name',
+//         ],
+//         'clientInput' => 'id',
+//         'intersectResult' => [
+//         ],
+//     ],
+//     34 => [
+//         'projectableFields' => [
+//             0 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'name',
+//         ],
+//         'clientInput' => 'name',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     35 => [
+//         'projectableFields' => [
+//             0 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'name',
+//         ],
+//         'clientInput' => 'id, name',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     36 => [
+//         'projectableFields' => [
+//             0 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'clientInput' => '*',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     37 => [
+//         'projectableFields' => [
+//             0 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'clientInput' => 'id',
+//         'intersectResult' => [
+//         ],
+//     ],
+//     38 => [
+//         'projectableFields' => [
+//             0 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'clientInput' => 'name',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     39 => [
+//         'projectableFields' => [
+//             0 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'clientInput' => 'id, name',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     40 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => '*',
+//         ],
+//         'clientInput' => '*',
+//         'intersectResult' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//     ],
+//     41 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => '*',
+//         ],
+//         'clientInput' => 'id',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     42 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => '*',
+//         ],
+//         'clientInput' => 'name',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     43 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => '*',
+//         ],
+//         'clientInput' => 'id, name',
+//         'intersectResult' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//     ],
+//     44 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//         ],
+//         'clientInput' => '*',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     45 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//         ],
+//         'clientInput' => 'id',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     46 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//         ],
+//         'clientInput' => 'name',
+//         'intersectResult' => [
+//         ],
+//     ],
+//     47 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//         ],
+//         'clientInput' => 'id, name',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     48 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'name',
+//         ],
+//         'clientInput' => '*',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     49 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'name',
+//         ],
+//         'clientInput' => 'id',
+//         'intersectResult' => [
+//         ],
+//     ],
+//     50 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'name',
+//         ],
+//         'clientInput' => 'name',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     51 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'name',
+//         ],
+//         'clientInput' => 'id, name',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     52 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'clientInput' => '*',
+//         'intersectResult' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//     ],
+//     53 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'clientInput' => 'id',
+//         'intersectResult' => [
+//             0 => 'id',
+//         ],
+//     ],
+//     54 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'clientInput' => 'name',
+//         'intersectResult' => [
+//             0 => 'name',
+//         ],
+//     ],
+//     55 => [
+//         'projectableFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'definedFields' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//         'clientInput' => 'id, name',
+//         'intersectResult' => [
+//             0 => 'id',
+//             1 => 'name',
+//         ],
+//     ],
+// ]);
 
 dataset('except-projection-truth-table', [
     1 => [
