@@ -1,0 +1,86 @@
+"Truth Table"
+"Projectable (p)","Defined (q)","Client (r)","Intersect - Strict"
+*,*,*,"id, name"
+*,*,id,id
+*,*,name,name
+*,*,"id, name","id, name"
+
+*,id,*,id
+*,id,id,id
+*,id,name,422
+*,id,"id, name",422
+
+*,name,*,name
+*,name,id,422
+*,name,name,name
+*,name,"id, name",422
+
+*,"id, name",*,"id, name"
+*,"id, name",id,id
+*,"id, name",name,name
+*,"id, name","id, name","id, name"
+
+
+id,*,*,id
+id,*,id,id
+id,*,name,422
+id,*,"id, name",422
+
+id,id,*,id
+id,id,id,id
+id,id,name,422
+id,id,"id, name",422
+
+id,name,*,"invalid defined"
+id,name,id,"invalid defined"
+id,name,name,"invalid defined"
+id,name,"id, name","invalid defined"
+
+id,"id, name",*,id
+id,"id, name",id,id
+id,"id, name",name,422
+id,"id, name","id, name",422
+
+
+name,*,*,name
+name,*,id,422
+name,*,name,name
+name,*,"id, name",422
+
+name,id,*,"invalid defined"
+name,id,id,"invalid defined"
+name,id,name,"invalid defined"
+name,id,"id, name","invalid defined"
+
+name,name,*,name
+name,name,id,422
+name,name,name,name
+name,name,"id, name",422
+
+name,"id, name",*,name
+name,"id, name",id,422
+name,"id, name",name,name
+name,"id, name","id, name",422
+
+
+"id, name",*,*,"id, name"
+"id, name",*,id,id
+"id, name",*,name,name
+"id, name",*,"id, name","id, name"
+
+"id, name",id,*,id
+"id, name",id,id,id
+"id, name",id,name,422
+"id, name",id,"id, name",422
+
+"id, name",name,*,name
+"id, name",name,id,422
+"id, name",name,name,name
+"id, name",name,"id, name",422
+
+"id, name","id, name",*,"id, name"
+"id, name","id, name",id,id
+"id, name","id, name",name,name
+"id, name","id, name","id, name","id, name"
+
+

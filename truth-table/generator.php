@@ -1,96 +1,258 @@
 <?php
 
-class CSVGenerator
+class ProjectionCSV extends CSVGenerator
 {
-    private $handle;
+    private const VISIBLE_COLUMNS = ['id', 'name'];
 
-    public function __construct(private $filename)
+    private const PLACEHOLDER_EMPTY = '[EMPTY]';
+
+    private const PLACEHOLDER_UNPROCESSABLE = 422;
+
+    private function extractIfAsterisk(array &$columns)
     {
-        $this->handle = fopen($filename, 'w');
+        if ($columns === ['*']) {
+            $columns = static::VISIBLE_COLUMNS;
+        }
     }
 
-    private function extractIfAsteriskOtherwiseExplode(string &$val, array $allItems)
+    private function someNotInVisibleColumns(array $columns)
     {
-        $val = $val === '*'
-            ? $allItems
-            : array_filter(array_map('trim', explode(',', $val)));
+        return ! empty(array_diff($columns, static::VISIBLE_COLUMNS));
     }
 
-    private function skipRow()
+    private function someArr1NotInArr2(array $arr1, array $arr2)
     {
-        fputcsv($this->handle, []);
+        return ! empty(array_diff($arr1, $arr2));
     }
 
-    public function intersectProjection()
+    private function validate(array $p, array $q)
     {
-        define('ALL_ITEMS', ['id', 'name']);
+        if (empty($p)) {
+            throw new ProjectionDisabledException;
+        }
 
-        $intersect = function (string $p, string $q, string $r) {
-            $this->extractIfAsteriskOtherwiseExplode($p, ALL_ITEMS);
-            $this->extractIfAsteriskOtherwiseExplode($q, ALL_ITEMS);
+        if (empty($q)) {
+            throw new NoDefinedColumnsException;
+        }
 
-            if (empty($pq = array_intersect($p, $q))) {
-                return 'invalid defined';
-            }
+        if (
+            $this->someNotInVisibleColumns($p) ||
+            $this->someNotInVisibleColumns($q)
+        ) {
+            throw new SomeNotInVisibleColumnsException;
+        }
 
-            $this->extractIfAsteriskOtherwiseExplode($r, $pq);
+        if ($this->someArr1NotInArr2(arr1: $q, arr2: $p)) {
+            throw new SomeNotInProjectableColumnsException;
+        }
+    }
 
-            return implode(', ', array_intersect($pq, $r));
-        };
+    private function nonStrictIntersect(array $p, array $q, array $r)
+    {
+        return array_intersect(array_intersect($p, $q), $r);
+    }
 
-        $strictIntersect = function (string $p, string $q, string $r, string $intersectResult) {
-            if (empty($intersectResult)) {
-                return '422';
-            }
+    private function strictIntersect(array $nonStrictIntersect, array $r)
+    {
+        return $this->someArr1NotInArr2(arr1: $r, arr2: $nonStrictIntersect)
+                ? [static::PLACEHOLDER_UNPROCESSABLE]
+                : $nonStrictIntersect;
+    }
 
-            $this->extractIfAsteriskOtherwiseExplode($p, ALL_ITEMS);
-            $this->extractIfAsteriskOtherwiseExplode($q, ALL_ITEMS);
-
-            $pq = array_intersect($p, $q);
-            $this->extractIfAsteriskOtherwiseExplode($r, $pq);
-
-            if (! empty(array_diff($r, $pq))) {
-                return '422';
-            }
-
-            return $intersectResult;
-        };
-
-        $p = $q = $r = ['*', 'id', 'name', 'id, name'];
-
-        // temporary
-        // $q = ['*'];
+    public function intersect()
+    {
+        $p = $q = $r = [
+            ['*'],
+            ['id'],
+            ['name'],
+            ['id', 'name'],
+            [],
+        ];
 
         fputcsv($this->handle, ['Truth Table']);
-        fputcsv($this->handle, ['Projectable (p)', 'Defined (q)', 'Client (r)', 'Intersect - Non-strict', 'Intersect - Strict']);
+        fputcsv($this->handle, [
+            'Projectable (p)', 'Defined (q)', 'Client (r)',
+            'Intersect - Non-strict',
+            'Intersect - Strict',
+        ]);
 
         foreach ($p as $i) {
-            foreach ($q as $j) {
-                foreach ($r as $k) {
-                    $nonStrict = $intersect($i, $j, $k);
+            $pp = $i;
+            $this->extractIfAsterisk($pp);
 
-                    fputcsv($this->handle, [
-                        $i, $j, $k,
-                        $nonStrict,
-                        $strictIntersect($i, $j, $k, $nonStrict),
-                    ]);
+            foreach ($q as $j) {
+                $qq = $j;
+                $this->extractIfAsterisk($qq);
+
+                foreach ($r as $k) {
+                    $rr = $k;
+                    $this->extractIfAsterisk($rr);
+
+                    try {
+                        $this->validate($pp, $qq);
+
+                        $nonStrictIntersect = $this->nonStrictIntersect($pp, $qq, $rr);
+                        $strictIntersect = $this->strictIntersect($nonStrictIntersect, $rr);
+                    } catch (
+                        ProjectionDisabledException|
+                        NoDefinedColumnsException|
+                        SomeNotInVisibleColumnsException|
+                        SomeNotInProjectableColumnsException $e
+                    ) {
+                        $nonStrictIntersect =
+                        $strictIntersect =
+                        [$e->getCode()];
+                    }
+
+                    fputcsv($this->handle, array_map(fn ($columns) => empty($columns)
+                            ? static::PLACEHOLDER_EMPTY
+                            : implode(', ', $columns),
+
+                        [$i, $j, $k, $nonStrictIntersect, $strictIntersect]
+                    ));
                 }
                 $this->skipRow();
             }
-
             $this->skipRow();
         }
 
         return $this;
     }
 
-    public function close()
+    public function generate()
     {
         fclose($this->handle);
 
         if (file_exists($this->filename)) {
-            echo "CSV file created successfully: $this->filename";
+            echo "CSV file created successfully: $this->filename".PHP_EOL;
         }
+    }
+}
+
+abstract class CSVGenerator
+{
+    protected $handle;
+
+    public function __construct(protected $filename)
+    {
+        $this->handle = fopen($filename, 'w');
+    }
+
+    protected function skipRow()
+    {
+        fputcsv($this->handle, []);
+    }
+
+    // public function exceptProjectionNonStrict()
+    // {
+    //     $nonStrictExcept = function (string $p, string $q, string $r) {
+    //         $this->extractIfAsteriskOtherwiseExplode($p, ALL_ITEMS);
+    //         $this->extractIfAsteriskOtherwiseExplode($q, ALL_ITEMS);
+
+    //         if (empty($pq = array_intersect($p, $q))) {
+    //             return 'invalid defined';
+    //         }
+
+    //         $this->extractIfAsteriskOtherwiseExplode($r, $pq);
+
+    //         return implode(', ', array_intersect($pq, $r));
+    //     };
+
+    //     $p = $q = $r = ['*', 'id', 'name', 'id, name'];
+
+    //     fputcsv($this->handle, ['Truth Table']);
+    //     fputcsv($this->handle, ['Projectable (p)', 'Defined (q)', 'Client (r)', 'Intersect - Non-strict']);
+
+    //     foreach ($p as $i) {
+    //         foreach ($q as $j) {
+    //             foreach ($r as $k) {
+    //                 fputcsv($this->handle, [$i, $j, $k, $nonStrictExcept($i, $j, $k)]);
+    //             }
+    //             $this->skipRow();
+    //         }
+
+    //         $this->skipRow();
+    //     }
+
+    //     return $this;
+    // }
+
+    // public function exceptProjectionStrict()
+    // {
+    //     $strictIntersect = function (string $p, string $q, string $r) {
+    //         $this->extractIfAsteriskOtherwiseExplode($p, ALL_ITEMS);
+    //         $this->extractIfAsteriskOtherwiseExplode($q, ALL_ITEMS);
+
+    //         if (empty($pq = array_intersect($p, $q))) {
+    //             return 'invalid defined';
+    //         }
+
+    //         $pq = array_intersect($p, $q);
+    //         $this->extractIfAsteriskOtherwiseExplode($r, $pq);
+
+    //         // client input not exist on projectable
+    //         if (! empty(array_diff($r, $pq))) {
+    //             return '422';
+    //         }
+
+    //         return implode(', ', array_intersect($pq, $r));
+    //     };
+
+    //     $p = $q = $r = ['*', 'id', 'name', 'id, name'];
+
+    //     fputcsv($this->handle, ['Truth Table']);
+    //     fputcsv($this->handle, ['Projectable (p)', 'Defined (q)', 'Client (r)', 'Intersect - Strict']);
+
+    //     foreach ($p as $i) {
+    //         foreach ($q as $j) {
+    //             foreach ($r as $k) {
+    //                 fputcsv($this->handle, [$i, $j, $k, $strictIntersect($i, $j, $k)]);
+    //             }
+    //             $this->skipRow();
+    //         }
+
+    //         $this->skipRow();
+    //     }
+
+    //     return $this;
+    // }
+
+    abstract public function generate();
+}
+
+class ProjectionDisabledException extends \Exception
+{
+    public function __construct(string $message = 'Projection is disabled', int $code = 1, ?Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
+}
+class NoDefinedColumnsException extends \Exception
+{
+    public function __construct(string $message = 'No defined columns', int $code = 51, ?Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
+}
+class SomeNotInVisibleColumnsException extends \Exception
+{
+    public function __construct(string $message = 'Not in visible columns', int $code = 52, ?Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
+}
+class SomeNotInProjectableColumnsException extends \Exception
+{
+    public function __construct(string $message = 'Not in projectable columns', int $code = 52, ?Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
+}
+class UnprocessableException extends \Exception
+{
+    public function __construct(string $message = 'Unprocessable Entity', int $code = 422, ?Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
     }
 }
 
@@ -105,6 +267,10 @@ function explode_sanitize(string $string, string $delimiter = ',')
     return array_filter(array_map('trim', explode($delimiter, $string)));
 }
 
-(new CSVGenerator(__DIR__.'/intersect-projection.csv'))
-    ->intersectProjection()
-    ->close();
+(new ProjectionCSV(__DIR__.'/intersect-projection.csv'))
+    ->intersect()
+    ->generate();
+
+// (new CSVGenerator(__DIR__.'/except-projection.csv'))
+//     ->exceptProjectionNonStrict()
+//     ->close();

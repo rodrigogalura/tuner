@@ -225,19 +225,5 @@ describe('Valid scenarios', function (): void {
         // Act & Assert
         expect($intersect->project())->toBe($intersectResultStrict);
     })
-        ->with('intersect-projection-strict-truth-table')->only();
-
-    // it('should passed all valid scenarios for client input "fields!"', function ($projectableFields, $definedFields, $clientInput, $exceptResult): void {
-    //     // Prepare
-    //     $except = new ExceptProjection(
-    //         $this->visibleFields,
-    //         $projectableFields,
-    //         $definedFields,
-    //         [EXCEPT_KEY => $clientInput]
-    //     );
-
-    //     // Act & Assert
-    //     expect($except->project())->toBe($exceptResult);
-    // })
-    //     ->with('except-projection-truth-table');
+        ->with('intersect-projection-strict-truth-table');
 });

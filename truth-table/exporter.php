@@ -3,8 +3,11 @@
 class CSVExporter
 {
     private array $fileMethod = [
-        'intersect-projection.csv' => 'intersectProjectionStrict',
-        // 'intersect-projection.csv' => 'intersectProjectionNonStrict',
+        'intersect-projection-non-strict.csv' => 'intersectProjectionNonStrict',
+        'intersect-projection-strict.csv' => 'intersectProjectionStrict',
+
+        'except-projection-non-strict.csv' => 'exceptProjectionNonStrict',
+        // 'except-projection-strict.csv' => 'exceptProjectionNonStrict',
     ];
 
     private readonly array $data;
@@ -111,7 +114,7 @@ class CSVExporter
             $projectableFields = $row[at('A')];
             $definedFields = $row[at('B')];
             $clientInput = $row[at('C')];
-            $intersectResultStrict = $row[at('E')];
+            $intersectResultStrict = $row[at('D')];
 
             if (in_array($intersectResultStrict, ['invalid defined', '422'])) {
 
@@ -123,6 +126,43 @@ class CSVExporter
                 'definedFields' => explode_sanitized($definedFields),
                 'clientInput' => $clientInput,
                 'intersectResultStrict' => explode_sanitized($intersectResultStrict),
+            ];
+        });
+    }
+
+    public function exceptProjectionNonStrict()
+    {
+        $rowCounter = 1;
+
+        $CELL_ROW_STARTS_AT = 3;
+        $CELL_COLS_LENGTH = 11;
+
+        return $this->readFileAndReturnData(function (&$data, $row) use (
+            &$rowCounter,
+            $CELL_ROW_STARTS_AT,
+        ) {
+            if ($rowCounter++ < $CELL_ROW_STARTS_AT) {
+                return; // skip
+            }
+
+            if ($row[at('A')] == '') { // skip no value row
+                return; //
+            }
+
+            $projectableFields = $row[at('A')];
+            $definedFields = $row[at('B')];
+            $clientInput = $row[at('C')];
+            $exceptResultNonStrict = $row[at('D')];
+
+            if ($exceptResultNonStrict === 'invalid defined') {
+                return; // skip;
+            }
+
+            $data[] = [
+                'projectableFields' => explode_sanitized($projectableFields),
+                'definedFields' => explode_sanitized($definedFields),
+                'clientInput' => $clientInput,
+                'exceptResultNonStrict' => explode_sanitized($exceptResultNonStrict),
             ];
         });
     }
