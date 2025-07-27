@@ -3,8 +3,8 @@
 namespace Tests;
 
 // use PHPUnit\Framework\TestCase as BaseTestCase;
-use Illuminate\Validation\ValidationServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
+use Illuminate\Validation\ValidationServiceProvider;
 
 abstract class UnitTestCase extends BaseTestCase
 {

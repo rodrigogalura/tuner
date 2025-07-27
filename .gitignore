@@ -3,6 +3,10 @@
 /bruno-collection
 testbench.yaml
 .DS_Store
+/truth-table
+
+# remove this
+/truth-table-archived
 
 # Ignore gh-pages files
 /_site/

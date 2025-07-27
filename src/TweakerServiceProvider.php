@@ -3,6 +3,7 @@
 namespace Laradigs\Tweaker;
 
 use Illuminate\Support\ServiceProvider;
+use Laradigs\Tweaker\Console\CreateTruthTableCSV;
 
 class TweakerServiceProvider extends ServiceProvider
 {
@@ -11,7 +12,9 @@ class TweakerServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->commands([
+            CreateTruthTableCSV::class
+        ]);
     }
 
     /**
