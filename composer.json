@@ -50,7 +50,9 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "@php setup-development.php"
+            "@php setup-development.php",
+            "@php vendor/bin/testbench create:truth-table 'Projection Intersect'",
+            "@php vendor/bin/testbench create:truth-table 'Projection Except'"
         ],
         "post-autoload-dump": [
             "@clear",

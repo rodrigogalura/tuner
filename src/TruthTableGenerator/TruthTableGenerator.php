@@ -2,7 +2,9 @@
 
 namespace Laradigs\Tweaker\TruthTableGenerator;
 
-abstract class TruthTableGenerator
+use Laradigs\Tweaker\TruthTable;
+
+abstract class TruthTableGenerator extends TruthTable
 {
     protected const VISIBLE_COLUMNS = ['id', 'name'];
 
@@ -15,6 +17,8 @@ abstract class TruthTableGenerator
     public function __construct(protected $filename)
     {
         $this->handle = fopen($filename, 'w');
+
+        parent::__construct(static::VISIBLE_COLUMNS);
     }
 
     protected function skipRow()

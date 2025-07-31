@@ -13,6 +13,8 @@ use function RGalura\ApiIgniter\validate;
 
 abstract class Projection
 {
+    use Exportable;
+
     protected TruthTable $truthTable;
 
     protected readonly string $key;
@@ -34,6 +36,11 @@ abstract class Projection
     }
 
     private function throwIfNotInVisibleFields(array $fields, $exception)
+    {
+        throw_if($diff = $this->truthTable->diffFromAllItems($fields), new $exception($diff));
+    }
+
+    private function throwIfSomeNotInVisibleColumns(array $fields, $exception)
     {
         throw_if($diff = $this->truthTable->diffFromAllItems($fields), new $exception($diff));
     }

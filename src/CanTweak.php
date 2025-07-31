@@ -8,6 +8,23 @@ use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
 
 use function RGalura\ApiIgniter\http_response_error;
 
+class NotOnListRules {
+    public function __construct(private array $list, private $errorCode = 1)
+    {
+        //
+    }
+
+    public function getErrorCode()
+    {
+        return $this->errorCode;
+    }
+
+    public function handle($item)
+    {
+        return !in_array($item, $this->list);
+    }
+}
+
 trait CanTweak
 {
     private readonly array $visibleFields;
@@ -33,6 +50,34 @@ trait CanTweak
     public function scopeSend(
         Builder $builder,
     ) {
+        $projectableColumns = ['id', 'name'];
+        $definedColumns = ['id', 'name'];
+        $clientInput = ['id', 'name'];
+
+        // $projectableColumns = ['a', 'b', 'c'];
+        // $definedColumns = ['d', 'e', 'f'];
+
+        $truthTable = new \Laradigs\Tweaker\V31\TruthTable([
+            0 => # projectable
+            [
+                new NotOnListRules(['id', 'name'])
+            ],
+
+            1 => [ // defined
+
+            ]
+        ]);
+
+        // dd($truthTable->matrix([$projectableColumns, $definedColumns, $clientInput]));
+
+        $variables = [
+            $projectableColumns,
+            $definedColumns,
+            $clientInput // client input must be last on variables
+        ];
+
+        dd($truthTable->matrix($variables));
+
         $this->visibleFields = array_diff(
             $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable()),
             $this->getHidden()

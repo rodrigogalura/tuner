@@ -9,25 +9,20 @@ use Laradigs\Tweaker\Exceptions\Experiment\SomeNotInProjectableColumnsException;
 
 class ProjectionCSV extends TruthTableGenerator
 {
-    public const PROJECTION_NAME = 'intersect-projection';
+    public const PROJECTION_NAME = 'Projection';
 
-    public function __construct()
+    // public const PROJECTION_EXCEPT_NAME = 'Projection Except';
+
+    public function __construct(string $file)
     {
         $appPath = dirname(dirname(__DIR__));
 
-        parent::__construct("{$appPath}/truth-table/" . static::PROJECTION_NAME . ".csv");
-    }
-
-    private function extractIfAsterisk(array &$columns)
-    {
-        if ($columns === ['*']) {
-            $columns = parent::VISIBLE_COLUMNS;
-        }
+        parent::__construct("{$appPath}/truth-table/{$file}");
     }
 
     private function someNotInVisibleColumns(array $columns)
     {
-        return ! empty(array_diff($columns, parent::VISIBLE_COLUMNS));
+        return $this->someArr1NotInArr2($columns, parent::VISIBLE_COLUMNS);
     }
 
     private function someArr1NotInArr2(array $arr1, array $arr2)
@@ -62,14 +57,26 @@ class ProjectionCSV extends TruthTableGenerator
         return array_intersect(array_intersect($p, $q), $r);
     }
 
-    private function strictIntersect(array $nonStrictIntersect, array $r)
-    {
-        return $this->someArr1NotInArr2(arr1: $r, arr2: $nonStrictIntersect)
-                ? [parent::PLACEHOLDER_UNPROCESSABLE]
-                : $nonStrictIntersect;
-    }
+    // private function strictIntersect(array $nonStrictIntersect, array $r)
+    // {
+    //     return $this->someArr1NotInArr2(arr1: $r, arr2: $nonStrictIntersect)
+    //             ? [parent::PLACEHOLDER_UNPROCESSABLE]
+    //             : $nonStrictIntersect;
+    // }
 
-    public function intersect()
+    // private function nonStrictExcept(array $p, array $q, array $r)
+    // {
+    //     // return array_intersect(array_intersect($p, $q), $r);
+    // }
+
+    // private function strictExcept(array $nonStrictExcept, array $r)
+    // {
+    //     // return $this->someArr1NotInArr2(arr1: $r, arr2: $nonStrictExcept)
+    //     //         ? [parent::PLACEHOLDER_UNPROCESSABLE]
+    //     //         : $nonStrictExcept;
+    // }
+
+    public function intersectCSV()
     {
         $p = $q = $r = [
             ['*'],
@@ -119,6 +126,68 @@ class ProjectionCSV extends TruthTableGenerator
                             : implode(', ', $columns),
 
                         [$i, $j, $k, $nonStrictIntersect, $strictIntersect]
+                    ));
+                }
+                $this->skipRow();
+            }
+            $this->skipRow();
+        }
+
+        return $this;
+    }
+
+    public function exceptCSV()
+    {
+        $p = $q = $r = [
+            ['*'],
+            ['id'],
+            ['name'],
+            ['id', 'name'],
+            [],
+        ];
+
+        fputcsv($this->handle, ['Truth Table']);
+        fputcsv($this->handle, [
+            'Projectable (p)', 'Defined (q)', 'Client (r)',
+            'Except - Non-strict',
+            'Except - Strict',
+        ]);
+
+        foreach ($p as $i) {
+            $pp = $i;
+            $this->extractIfAsterisk($pp);
+
+            foreach ($q as $j) {
+                $qq = $j;
+                $this->extractIfAsterisk($qq);
+
+                foreach ($r as $k) {
+                    $rr = $k;
+                    $this->extractIfAsterisk($rr);
+
+                    try {
+                        $this->validate($pp, $qq);
+
+                        $nonStrictExcept = $this->nonStrictExcept($pp, $qq, $rr);
+                        $strictExcept = $this->strictExcept($nonStrictExcept, $rr);
+                    } catch (
+                        ProjectionDisabledException|
+                        NoDefinedColumnsException|
+                        SomeNotInVisibleColumnsException|
+                        SomeNotInProjectableColumnsException $e
+                    ) {
+                        $nonStrictExcept =
+                        $strictExcept =
+                        [$e->getCode()];
+                    }
+
+                    // Cannot except all projectable columns
+
+                    fputcsv($this->handle, array_map(fn ($columns) => empty($columns)
+                            ? parent::PLACEHOLDER_EMPTY
+                            : implode(', ', $columns),
+
+                        [$i, $j, $k, $nonStrictExcept, $strictExcept]
                     ));
                 }
                 $this->skipRow();
