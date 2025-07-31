@@ -4,43 +4,8 @@ namespace Laradigs\Tweaker;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\ValidationException;
-use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
-
 use function RGalura\ApiIgniter\http_response_error;
-
-class NotOnListRules {
-    public function __construct(private array $list, private $errorCode)
-    {
-        //
-    }
-
-    public function getErrorCode()
-    {
-        return $this->errorCode;
-    }
-
-    public function handle($item)
-    {
-        return !in_array($item, $this->list);
-    }
-}
-
-class FalsyRules {
-    public function __construct(private $errorCode)
-    {
-        //
-    }
-
-    public function getErrorCode()
-    {
-        return $this->errorCode;
-    }
-
-    public function handle($item)
-    {
-        return empty($item);
-    }
-}
+use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
 
 trait CanTweak
 {
@@ -67,34 +32,6 @@ trait CanTweak
     public function scopeSend(
         Builder $builder,
     ) {
-        $projectableColumns = ['id', 'name', 'id, name', ''];
-        $definedColumns = ['id', 'name', 'a'];
-        $clientInput = ['id', 'name'];
-
-        $truthTable = new \Laradigs\Tweaker\V31\TruthTable([
-            // projectableColumns Rules
-            [
-                new FalsyRules(1),
-                new NotOnListRules(['id', 'name'], 2)
-            ],
-            // definedColumns Rules
-            [
-                new FalsyRules(3),
-                new NotOnListRules(['id', 'name'], 4),
-                new NotOnListRules($projectableColumns, 5),
-            ],
-        ]);
-
-        // dd($truthTable->matrix([$projectableColumns, $definedColumns, $clientInput]));
-
-        $variables = [
-            $projectableColumns,
-            $definedColumns,
-            $clientInput // client input must be last on variables
-        ];
-
-        dd($truthTable->matrix($variables));
-
         $this->visibleFields = array_diff(
             $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable()),
             $this->getHidden()
