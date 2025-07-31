@@ -23,6 +23,11 @@ class TruthTable
         return array_values(array_intersect($p, $q));
     }
 
+    private function except(array $p, array $q)
+    {
+        return array_values(array_diff($p, $q));
+    }
+
     // private function intersectStrict(array $p, array $q, int $errorCode)
     // {
     //     return $this->someFirstNotInSecond($q, $p)
@@ -30,17 +35,26 @@ class TruthTable
     //         : $this->intersect($p, $q);
     // }
 
-    private function except(array $p, array $q)
-    {
-        return array_values(array_diff($p, $q));
-    }
-
     // private function exceptStrict(array $p, array $q, int $errorCode)
     // {
     //     return $this->someFirstNotInSecond($q, $p)
     //         ? [$errorCode]
     //         : $this->except($p, $q);
     // }
+
+    private function intersectAllKeys(array $keys)
+    {
+        while (count($keys) >= 2) {
+            $p = filter_explode(array_shift($keys));
+            $q = filter_explode(array_shift($keys));
+
+            $keys[0] = implode(', ', $this->intersect($p, $q));
+
+            next($keys);
+        }
+
+        return array_shift($keys);
+    }
 
     // original code
     // public function matrix($array, $keys = [])
@@ -66,20 +80,6 @@ class TruthTable
     //     return $arr;
     // }
 
-    private function intersectAllKeys(array $keys)
-    {
-        while (count($keys) >= 2) {
-            $p = filter_explode(array_shift($keys));
-            $q = filter_explode(array_shift($keys));
-
-            $keys[0] = implode(', ', $this->intersect($p, $q));
-
-            next($keys);
-        }
-
-        return array_shift($keys);
-    }
-
     // refactor recursion
     public function matrix(array $variables, $keys = [])
     {
@@ -102,6 +102,22 @@ class TruthTable
         }
 
         return $recursion($variables, $keys, function($variablesAlias, $keys, $value) {
+            foreach ($this->rules as $index => $rules) {
+                foreach ($rules as $rule) {
+                    $variable = $keys[$index];
+
+                    if ($rule->handle($variable)) {
+                        $intersect
+                            = $intersect_strict
+                            = $except
+                            = $except_strict
+                            = $rule->getErrorCode();
+                        goto end;
+                        return;
+                    }
+                }
+            }
+
             $compressedKey = $this->intersectAllKeys($keys);
 
             $p = filter_explode($compressedKey);
@@ -115,6 +131,7 @@ class TruthTable
             $except = implode(', ', $this->except($p, $q));
             $except_strict = $some ? 422 : $except;
 
+            end:
             return compact('intersect', 'intersect_strict', 'except', 'except_strict');
         });
     }

@@ -9,7 +9,7 @@ use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
 use function RGalura\ApiIgniter\http_response_error;
 
 class NotOnListRules {
-    public function __construct(private array $list, private $errorCode = 1)
+    public function __construct(private array $list, private $errorCode)
     {
         //
     }
@@ -22,6 +22,23 @@ class NotOnListRules {
     public function handle($item)
     {
         return !in_array($item, $this->list);
+    }
+}
+
+class FalsyRules {
+    public function __construct(private $errorCode)
+    {
+        //
+    }
+
+    public function getErrorCode()
+    {
+        return $this->errorCode;
+    }
+
+    public function handle($item)
+    {
+        return empty($item);
     }
 }
 
@@ -50,22 +67,22 @@ trait CanTweak
     public function scopeSend(
         Builder $builder,
     ) {
-        $projectableColumns = ['id', 'name'];
-        $definedColumns = ['id', 'name'];
+        $projectableColumns = ['id', 'name', 'id, name', ''];
+        $definedColumns = ['id', 'name', 'a'];
         $clientInput = ['id', 'name'];
 
-        // $projectableColumns = ['a', 'b', 'c'];
-        // $definedColumns = ['d', 'e', 'f'];
-
         $truthTable = new \Laradigs\Tweaker\V31\TruthTable([
-            0 => # projectable
+            // projectableColumns Rules
             [
-                new NotOnListRules(['id', 'name'])
+                new FalsyRules(1),
+                new NotOnListRules(['id', 'name'], 2)
             ],
-
-            1 => [ // defined
-
-            ]
+            // definedColumns Rules
+            [
+                new FalsyRules(3),
+                new NotOnListRules(['id', 'name'], 4),
+                new NotOnListRules($projectableColumns, 5),
+            ],
         ]);
 
         // dd($truthTable->matrix([$projectableColumns, $definedColumns, $clientInput]));
