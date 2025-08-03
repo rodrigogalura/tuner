@@ -69,6 +69,10 @@
         "pint": [
             "@php vendor/bin/pint --ansi"
         ],
+        "truthTableUnitTest": [
+            "@clear",
+            "@php vendor/bin/pest tests/Unit/restructured/TruthTableTest.php --profile --bail"
+        ],
         "unitTest": [
             "@clear",
             "@php vendor/bin/pest tests/Unit/restructured --profile --bail"

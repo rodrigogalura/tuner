@@ -44,24 +44,24 @@ class CreateTruthTableCSV extends Command
         ];
 
         $truthTable = new \Laradigs\Tweaker\V31\TruthTable\TruthTable(
-            rules:
-            [
-                # Projectable Columns Rules
-                [
-                    new FalsyRule(1),
-                    new NotOnListRule($visibleColumns, 2)
-                ],
-                # Defined Columns Rules
-                [
-                    new FalsyRule(3),
-                    new NotOnListRule($visibleColumns, 4),
-                    new NotOnListRule($variables['Projectable Columns (p)'], 5),
-                ],
-                # Client Input Rules
-                [
-                    new FalsyRule(0),
-                ]
-            ],
+            // rules:
+            // [
+            //     # Projectable Columns Rules
+            //     [
+            //         new FalsyRule(1),
+            //         new NotOnListRule($visibleColumns, 2)
+            //     ],
+            //     # Defined Columns Rules
+            //     [
+            //         new FalsyRule(3),
+            //         new NotOnListRule($visibleColumns, 4),
+            //         new NotOnListRule($variables['Projectable Columns (p)'], 5),
+            //     ],
+            //     # Client Input Rules
+            //     [
+            //         new FalsyRule(0),
+            //     ]
+            // ],
             asteriskValues: $visibleColumns
         );
 

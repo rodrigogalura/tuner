@@ -55,92 +55,29 @@ class TruthTable
         return array_shift($keys);
     }
 
-    // original code
-    // public function matrix($array, $keys = [])
-    // {
-    //     $arr = [];
-
-    //     if (count($array) >= 2) {
-    //         $pick = array_shift($array);
-
-    //         foreach ($pick as $value) {
-    //             $arr[$value] = $this->matrix($array, array_merge($keys, [$value]));
-    //         }
-
-    //         return $arr;
-    //     }
-
-    //     $last = array_shift($array);
-
-    //     foreach ($last as $value) {
-    //         $arr[$value] = implode(' intersect ', array_merge($keys, [$value]));
-    //     }
-
-    //     return $arr;
-    // }
-
-    // refactor recursion
-    public function matrix(array $variables, $keys = [])
+    public function matrix3d(array $variables)
     {
-        $recursion = function($variablesAlias, $keys, $cb) {
-            $arr = [];
-
-            $pick = array_shift($variablesAlias);
-
-            foreach ($pick as $value) {
-                $arr[$value] = $cb($variablesAlias, $keys, $value);
-            }
-
-            return $arr;
-        };
-
-        if (count($variables) >= 2) {
-            return $recursion($variables, $keys, function($variablesAlias, $keys, $value) {
-                return $this->matrix($variablesAlias, array_merge($keys, [$value]));
-            });
+        if (count($variables) === 0) {
+            return [];
         }
 
-        return $recursion($variables, $keys, function($variablesAlias, $keys, $value) {
-            # Extract if asterisk
-            for ($i = 0; $i < count($keys); $i++) {
-                $this->extractIfAsterisk($keys[$i]);
-            }
-            $this->extractIfAsterisk($value);
+        if (count($variables) > 1) {
+            $arr = [];
 
-            # Apply the Rules
-            foreach ($this->rules as $index => $rules) {
-                foreach ($rules as $rule) {
-                    if (!is_null($subjectToValidate = $keys[$index] ?? (count($this->rules)-1 == $index ? $value : null))) {
-                        if ($rule->handle($subjectToValidate)) {
-                            $intersect
-                                = $intersect_strict
-                                = $except
-                                = $except_strict
-                                = $rule->getErrorCode();
-                            goto end;
-                            return;
-                        }
-                    }
+            $variable = array_shift($variables);
+
+            foreach ($variable as $value) {
+                $currentVariable = $this->matrix3d($variables);
+
+                foreach ($currentVariable as $currentValue) {
+                    $arr[] = array_merge([$value], is_array($currentValue) ? $currentValue : [$currentValue]);
                 }
             }
 
-            # Perform intersect and except logic
-            $compressedKey = $this->intersectAllKeys($keys);
+            return $arr;
+        }
 
-            $p = filter_explode($compressedKey);
-            $q = filter_explode($value);
-
-            $some = $this->someFirstNotInSecond($q, $p);
-
-            $intersect = implode(', ', $this->intersect($p, $q));
-            $intersect_strict = $some ? 422 : $intersect;
-
-            $except = implode(', ', $this->except($p, $q));
-            $except_strict = $some ? 422 : $except;
-
-            end:
-            return compact('intersect', 'intersect_strict', 'except', 'except_strict');
-        });
+        return array_shift($variables);
     }
 
     public function export($filename, array $variables)
@@ -153,19 +90,36 @@ class TruthTable
             ['Intersect', 'Intersect Strict', 'Except', 'Except Strict']
         ));
 
-        $matrix = $this->matrix($variables);
+        $matrix = $this->matrix2($variables);
 
-        $fputcsvRecursion = function (array $matrix, $keys = []) use(&$fputcsvRecursion, $handle) {
-            foreach ($matrix as $key => $current) {
-                $mergeKeys = array_merge($keys, [$key]);
-
-                is_multi_array($current)
-                    ? $fputcsvRecursion($current, $mergeKeys)
-                    : fputcsv($handle, array_merge($mergeKeys, $current));
+        foreach ($matrix as $m) {
+            foreach ($m as $mm) {
+                dd($mm);
+                fputcsv($handle, $mm);
             }
-        };
 
-        $fputcsvRecursion($matrix);
+            fputcsv($handle, []);
+        }
+
+        foreach ($matrix as $mmm) {
+            foreach ($mmm as $mm) {
+                foreach ($mm as $m) {
+                    fputcsv($handle, $m);
+                }
+            }
+        }
+
+        // $fputcsvRecursion = function (array $matrix, $keys = []) use(&$fputcsvRecursion, $handle) {
+        //     foreach ($matrix as $key => $current) {
+        //         $mergeKeys = array_merge($keys, [$key]);
+
+        //         is_multi_array($current)
+        //             ? $fputcsvRecursion($current, $mergeKeys)
+        //             : fputcsv($handle, array_merge($mergeKeys, $current));
+        //     }
+        // };
+
+        // $fputcsvRecursion($matrix);
 
         fclose($handle);
         if (file_exists($filename)) {
