@@ -44,28 +44,34 @@ class CreateTruthTableCSV extends Command
         ];
 
         $truthTable = new \Laradigs\Tweaker\V31\TruthTable\TruthTable(
-            // rules:
-            // [
-            //     # Projectable Columns Rules
-            //     [
-            //         new FalsyRule(1),
-            //         new NotOnListRule($visibleColumns, 2)
-            //     ],
-            //     # Defined Columns Rules
-            //     [
-            //         new FalsyRule(3),
-            //         new NotOnListRule($visibleColumns, 4),
-            //         new NotOnListRule($variables['Projectable Columns (p)'], 5),
-            //     ],
-            //     # Client Input Rules
-            //     [
-            //         new FalsyRule(0),
-            //     ]
-            // ],
+            rules:
+            [
+                # Client Input Rules
+                2 => [
+                    new FalsyRule(0),
+                ],
+
+                # Projectable Columns Rules
+                0 => [
+                    new FalsyRule(1),
+                    new NotOnListRule($visibleColumns, 2)
+                ],
+
+                # Defined Columns Rules
+                1 => [
+                    new FalsyRule(3),
+                    new NotOnListRule($visibleColumns, 4),
+                    new NotOnListRule($variables['Projectable Columns (p)'], 5),
+                ],
+            ],
+
             asteriskValues: $visibleColumns
         );
 
-        $truthTable->export(base_path('truth-table/projection.csv'), $variables);
+        $matrix2d = $truthTable->matrix2d($variables);
+        $matrixProjection = $truthTable->matrixProjection($matrix2d);
+
+        $truthTable->export(base_path('truth-table/projection.csv'), $matrixProjection);
 
         // $matrix = $truthTable->matrix($variables);
 
