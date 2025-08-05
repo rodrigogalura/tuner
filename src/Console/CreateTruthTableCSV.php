@@ -71,7 +71,18 @@ class CreateTruthTableCSV extends Command
         $matrix2d = $truthTable->matrix2d($variables);
         $matrixProjection = $truthTable->matrixProjection($matrix2d);
 
-        $truthTable->export(base_path('truth-table/projection.csv'), $matrixProjection);
+        $truthTable->export(base_path('truth-table/projection.csv'), $matrixProjection,
+            function($handle) {
+                fputcsv($handle, ['Truth Table']);
+                fputcsv($handle, [
+                    'Projectable (p)', 'Defined (q)', 'Client (r)',
+                    'Intersect - Non-strict',
+                    'Intersect - Strict',
+                    'Except - Non-strict',
+                    'Except - Strict',
+                ]);
+            }
+        );
 
         // $matrix = $truthTable->matrix($variables);
 

@@ -2,10 +2,13 @@
 
 namespace Laradigs\Tweaker\V31\TruthTable;
 
+use Laradigs\Tweaker\V31\TruthTable\Exportable;
 use function RGalura\ApiIgniter\filter_explode;
 
 class TruthTable
 {
+    use Exportable;
+
     private const RULE_PASSED_CODE = true;
 
     public function __construct(
@@ -137,27 +140,27 @@ class TruthTable
         return $matrixProjection;
     }
 
-    public function export($filepath, $data)
-    {
-        $handle = fopen($filepath, 'w');
+    // public function export($filepath, $data)
+    // {
+    //     $handle = fopen($filepath, 'w');
 
-        fputcsv($handle, ['Truth Table']);
-        fputcsv($handle, [
-            'Projectable (p)', 'Defined (q)', 'Client (r)',
-            'Intersect - Non-strict',
-            'Intersect - Strict',
-            'Except - Non-strict',
-            'Except - Strict',
-        ]);
+    //     fputcsv($handle, ['Truth Table']);
+    //     fputcsv($handle, [
+    //         'Projectable (p)', 'Defined (q)', 'Client (r)',
+    //         'Intersect - Non-strict',
+    //         'Intersect - Strict',
+    //         'Except - Non-strict',
+    //         'Except - Strict',
+    //     ]);
 
-        foreach ($data as $d) {
-            fputcsv($handle, $d);
-        }
+    //     foreach ($data as $d) {
+    //         fputcsv($handle, $d);
+    //     }
 
-        fclose($handle);
+    //     fclose($handle);
 
-        if (file_exists($filepath)) {
-            echo "CSV file created successfully: {$filepath}".PHP_EOL;
-        }
-    }
+    //     if (file_exists($filepath)) {
+    //         echo "CSV file created successfully: {$filepath}".PHP_EOL;
+    //     }
+    // }
 }
