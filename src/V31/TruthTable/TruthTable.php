@@ -16,6 +16,7 @@ class TruthTable
         private array $allValues = []
     )
     {
+        //
         set_time_limit(1);
     }
 
@@ -26,10 +27,6 @@ class TruthTable
         $powerSet = [];
         $SET_COUNT = count($SET);
         $SET_LAST_INDEX = $SET_COUNT-1;
-
-        $addPivot = function(&$pivots) {
-            $pivots = range(0, count($pivots));
-        };
 
         $pivots = [0];
         while (count($pivots) <= $SET_COUNT) {
@@ -43,46 +40,28 @@ class TruthTable
                 $powerSet[] = implode(', ', $subSets);
             }
 
-            $active = array_pop($pc);
-            if (is_null($active)) {
-                $addPivot($pivots);
-                continue;
-            }
+            $prevPivotsNum = 0;
+            while (!is_null($op = array_pop($pc))) {
+                $isActivePivotAtTheEndPos = $op === ($SET_LAST_INDEX-1-($prevPivotsNum));
 
-            $activePos = $start-1;
+                if ($isActivePivotAtTheEndPos) {
+                    $activePos = $op;
+                    $prevPivotsNum++;
+                } else {
+                    $pivots = $pc; # reset pivots
+                    $pivots[$op] = $op+1;
 
-            $isActivePivotInSecondToTheLast = $activePos === $SET_LAST_INDEX-1;
-
-            if ($isActivePivotInSecondToTheLast) {
-
-                $otherPivotsNum = 0;
-                while (!is_null($op = array_pop($pc))) {
-                    $isOtherPivotInPreviousActivePivot = $op === $activePos-1;
-
-                    if ($isOtherPivotInPreviousActivePivot) {
-                        $activePos = $op;
-                        $otherPivotsNum++;
-                    } else {
-                        $pivots = $pc; # reset pivots
-                        $pivots[$op] = $op+1;
-
-                        for ($j = 1; $j <= $otherPivotsNum+2; $j++) { # +2 for active pivot and counter
-                            $pivots[$op+$j] = $op+1+$j;
-                        }
-
-                        $pivots = array_values($pivots);
-                        continue 2;
+                    for ($j = 1; $j <= $prevPivotsNum+1; $j++) { # +1 for counter
+                        $pivots[$op+$j] = $op+$j+1;
                     }
+
+                    $pivots = array_values($pivots);
+                    continue 2;
                 }
-
-                $addPivot($pivots);
-            } else {
-                $pivots = $pc; # reset pivots
-                $pivots[$activePos] = $activePos+1;
-                $pivots[$start] = $pivots[$activePos]+1;
-
-                $pivots = array_values($pivots);
             }
+
+            # Add 1 pivot
+            $pivots = range(0, count($pivots));
         }
 
         array_unshift($powerSet, '');
