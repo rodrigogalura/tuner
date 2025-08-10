@@ -32,6 +32,15 @@ trait CanTweak
     public function scopeSend(
         Builder $builder,
     ) {
+        $truthTable = new \Laradigs\Tweaker\V31\TruthTable\TruthTable(
+            // allValues: ['a', 'b', 'c', 'd']
+            allValues: ['a', 'b', 'c', 'd', 'e']
+        );
+
+        dd($truthTable->powerSet());
+
+        die;
+
         $this->visibleFields = array_diff(
             $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable()),
             $this->getHidden()
