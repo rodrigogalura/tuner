@@ -2,27 +2,27 @@
 
 namespace Laradigs\Tweaker\V31\Projection;
 
-use function RGalura\ApiIgniter\filter_explode;
 use Laradigs\Tweaker\V31\TruthTable\Exportable;
 use Laradigs\Tweaker\V31\TruthTable\TruthTable;
+use function RGalura\ApiIgniter\filter_explode;
 
 class ProjectionTruthTable extends TruthTable
 {
     use Exportable;
 
-    const PROJECTABLE_INDEX = 0;
-    const DEFINED_INDEX = 1;
-    const CLIENT_INPUT_INDEX = 2;
-    const INTERSECT_NON_STRICT_INDEX = 3;
-    const INTERSECT_STRICT_INDEX = 4;
-    const EXCEPT_NON_STRICT_INDEX = 5;
-    const EXCEPT_STRICT_INDEX = 6;
+    const INDEX_PROJECTABLE = 0;
+    const INDEX_DEFINED = 1;
+    const INDEX_CLIENT_INPUT = 2;
+    const INDEX_INTERSECT_NON_STRICT = 3;
+    const INDEX_INTERSECT_STRICT = 4;
+    const INDEX_EXCEPT_NON_STRICT = 5;
+    const INDEX_EXCEPT_STRICT = 6;
 
     private array $enables = [
-        self::INTERSECT_NON_STRICT_INDEX => true,
-        self::INTERSECT_STRICT_INDEX => false,
-        self::EXCEPT_NON_STRICT_INDEX => false,
-        self::EXCEPT_STRICT_INDEX => false,
+        self::INDEX_INTERSECT_NON_STRICT => true,
+        self::INDEX_INTERSECT_STRICT => false,
+        self::INDEX_EXCEPT_NON_STRICT => false,
+        self::INDEX_EXCEPT_STRICT => false,
     ];
 
     public function __construct(
@@ -46,22 +46,22 @@ class ProjectionTruthTable extends TruthTable
 
     public function enableIntersect($enable = true)
     {
-        $this->enables[static::INTERSECT_NON_STRICT_INDEX] = $enable;
+        $this->enables[static::INDEX_INTERSECT_NON_STRICT] = $enable;
     }
 
     public function enableIntersectStrict($enable = true)
     {
-        $this->enables[static::INTERSECT_STRICT_INDEX] = $enable;
+        $this->enables[static::INDEX_INTERSECT_STRICT] = $enable;
     }
 
     public function enableExcept($enable = true)
     {
-        $this->enables[static::EXCEPT_NON_STRICT_INDEX] = $enable;
+        $this->enables[static::INDEX_EXCEPT_NON_STRICT] = $enable;
     }
 
     public function enableExceptStrict($enable = true)
     {
-        $this->enables[static::EXCEPT_STRICT_INDEX] = $enable;
+        $this->enables[static::INDEX_EXCEPT_STRICT] = $enable;
     }
 
     public function enableAll($enable = true)
@@ -97,10 +97,10 @@ class ProjectionTruthTable extends TruthTable
                         }
                     }
 
-                    // $truthTable[$i][static::INTERSECT_NON_STRICT_INDEX]
-                    //     = $truthTable[$i][static::INTERSECT_STRICT_INDEX]
-                    //     = $truthTable[$i][static::EXCEPT_NON_STRICT_INDEX]
-                    //     = $truthTable[$i][static::EXCEPT_STRICT_INDEX]
+                    // $truthTable[$i][static::INDEX_INTERSECT_NON_STRICT]
+                    //     = $truthTable[$i][static::INDEX_INTERSECT_STRICT]
+                    //     = $truthTable[$i][static::INDEX_EXCEPT_NON_STRICT]
+                    //     = $truthTable[$i][static::INDEX_EXCEPT_STRICT]
                     //     = $code;
 
                     break;
@@ -111,30 +111,30 @@ class ProjectionTruthTable extends TruthTable
 
             if ($rulePassed) {
                 $projectable = filter_explode($this->intersectAllKeys([
-                    $matrixRow[static::PROJECTABLE_INDEX],
-                    $matrixRow[static::DEFINED_INDEX],
+                    $matrixRow[static::INDEX_PROJECTABLE],
+                    $matrixRow[static::INDEX_DEFINED],
                 ]));
-                $clientInput = filter_explode($matrixRow[static::CLIENT_INPUT_INDEX]);
+                $clientInput = filter_explode($matrixRow[static::INDEX_CLIENT_INPUT]);
 
                 $some = $this->someFirstNotInSecond($clientInput, $projectable);
 
                 $intersect = implode(', ', $this->intersect($projectable, $clientInput));
                 $except = implode(', ', $this->except($projectable, $clientInput));
 
-                if ($this->enables[static::INTERSECT_NON_STRICT_INDEX]) {
-                    $truthTable[$i][static::INTERSECT_NON_STRICT_INDEX] = $intersect;
+                if ($this->enables[static::INDEX_INTERSECT_NON_STRICT]) {
+                    $truthTable[$i][static::INDEX_INTERSECT_NON_STRICT] = $intersect;
                 }
 
-                if ($this->enables[static::INTERSECT_STRICT_INDEX]) {
-                    $truthTable[$i][static::INTERSECT_STRICT_INDEX] = $some ? 422 : $intersect;
+                if ($this->enables[static::INDEX_INTERSECT_STRICT]) {
+                    $truthTable[$i][static::INDEX_INTERSECT_STRICT] = $some ? 422 : $intersect;
                 }
 
-                if ($this->enables[static::EXCEPT_NON_STRICT_INDEX]) {
-                    $truthTable[$i][static::EXCEPT_NON_STRICT_INDEX] = $except;
+                if ($this->enables[static::INDEX_EXCEPT_NON_STRICT]) {
+                    $truthTable[$i][static::INDEX_EXCEPT_NON_STRICT] = $except;
                 }
 
-                if ($this->enables[static::EXCEPT_STRICT_INDEX]) {
-                    $truthTable[$i][static::EXCEPT_STRICT_INDEX] = $some ? 422 : $except;
+                if ($this->enables[static::INDEX_EXCEPT_STRICT]) {
+                    $truthTable[$i][static::INDEX_EXCEPT_STRICT] = $some ? 422 : $except;
                 }
             }
         }
