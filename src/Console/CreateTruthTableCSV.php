@@ -4,11 +4,14 @@ namespace Laradigs\Tweaker\Console;
 
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
+use Laradigs\Tweaker\V31\Matrix2D;
+use Laradigs\Tweaker\V31\PowerSet;
 use function Laravel\Prompts\select;
 use function RGalura\ApiIgniter\base_path;
 use Laradigs\Tweaker\V31\TruthTable\Rules\FalsyRule;
 use Laradigs\Tweaker\TruthTableGenerator\ProjectionCSV;
 use Laradigs\Tweaker\V31\TruthTable\Rules\NotOnListRule;
+use Laradigs\Tweaker\V31\Projection\ProjectionTruthTable;
 
 class CreateTruthTableCSV extends Command
 {
@@ -35,15 +38,18 @@ class CreateTruthTableCSV extends Command
         # all columns of table except hidden columns
         $visibleColumns = ['id', 'name'];
 
+        $variable = array_merge(['*'], (new PowerSet($visibleColumns))->handle());
         $variables = [
-            'Projectable Columns (p)' => ['*', 'id', 'name', 'id, name', ''],
-            'Defined Columns (q)' => ['*', 'id', 'name', 'id, name', ''],
+            'Projectable Columns (p)' => $variable,
+            'Defined Columns (q)' => $variable,
 
             # Client Input must be last on variables
-            'Client Input (r)' => ['*', 'id', 'name', 'id, name', ''],
+            'Client Input (r)' => $variable,
         ];
 
-        $truthTable = new \Laradigs\Tweaker\V31\TruthTable\TruthTable(
+        $matrix2D = new Matrix2D($variables);
+
+        $ptt = new ProjectionTruthTable(
             rules:
             [
                 # Client Input Rules
@@ -53,39 +59,37 @@ class CreateTruthTableCSV extends Command
 
                 # Projectable Columns Rules
                 0 => [
-                    new FalsyRule(1),
-                    new NotOnListRule($visibleColumns, 2)
+                    new FalsyRule(2),
+                    new NotOnListRule($visibleColumns, 3)
                 ],
 
                 # Defined Columns Rules
                 1 => [
-                    new FalsyRule(3),
-                    new NotOnListRule($visibleColumns, 4),
-                    new NotOnListRule($variables['Projectable Columns (p)'], 5),
+                    new FalsyRule(4),
+                    new NotOnListRule($visibleColumns, 5),
+                    new NotOnListRule($variables['Projectable Columns (p)'], 6),
                 ],
             ],
 
-            asteriskValues: $visibleColumns
+            items: $visibleColumns
         );
 
-        $matrix2d = $truthTable->matrix2d($variables);
-        $matrixProjection = $truthTable->matrixProjection($matrix2d);
+        $truthTable = $ptt->truthTable($matrix2D->handle());
 
-        $truthTable->export(base_path('truth-table/projection.csv'), $matrixProjection,
+        $ptt->export(base_path('truth-table/projection.csv'), $truthTable,
             function($handle) {
-                fputcsv($handle, ['Truth Table']);
+                fputcsv($handle, ['Projection Truth Table']);
                 fputcsv($handle, [
                     'Projectable (p)', 'Defined (q)', 'Client (r)',
                     'Intersect - Non-strict',
-                    'Intersect - Strict',
-                    'Except - Non-strict',
-                    'Except - Strict',
+                    // 'Intersect - Strict',
+                    // 'Except - Non-strict',
+                    // 'Except - Strict',
                 ]);
             }
         );
 
         // $matrix = $truthTable->matrix($variables);
-
 
         // $options = Str::of(IntersectProjection::class)
         //     ->classBasename()
@@ -129,57 +133,57 @@ class CreateTruthTableCSV extends Command
         // }
     }
 
-    // private function copyToClipboard($file)
-    // {
-    //     $resultType = select(
-    //         label: 'What result type do you want to copy to clipboard?',
-    //         options: [
-    //             ProjectionCSV::PROJECTION_INTERSECT_NAME,
-    //             ProjectionCSV::PROJECTION_EXCEPT_NAME,
-    //         ],
-    //     );
+    private function copyToClipboard($file)
+    {
+        // $resultType = select(
+        //     label: 'What result type do you want to copy to clipboard?',
+        //     options: [
+        //         ProjectionCSV::PROJECTION_INTERSECT_NAME,
+        //         ProjectionCSV::PROJECTION_EXCEPT_NAME,
+        //     ],
+        // );
 
-    //     $appPath = dirname(dirname(__DIR__));
+        $appPath = dirname(dirname(__DIR__));
 
-    //     if (!$file) {
-    //         $this->warning("Missing argument.\n");
-    //         exit(1);
-    //     }
+        if (!$file) {
+            $this->warning("Missing argument.\n");
+            exit(1);
+        }
 
-    //     // Detect OS
-    //     $os = php_uname('s');
+        // Detect OS
+        $os = php_uname('s');
 
-    //     // Prepare the command to run exporter.php
-    //     $command = escapeshellcmd("php {$appPath}/truth-table/exporter.php {$file} {$resultType}");
+        // Prepare the command to run exporter.php
+        $command = escapeshellcmd("php {$appPath}/truth-table/exporter.php {$file}");
 
-    //     switch (true) {
-    //         case stripos($os, 'Darwin') !== false:
-    //             // macOS
-    //             $fullCommand = "{$command} | pbcopy";
-    //             break;
+        switch (true) {
+            case stripos($os, 'Darwin') !== false:
+                // macOS
+                $fullCommand = "{$command} | pbcopy";
+                break;
 
-    //         case stripos($os, 'Linux') !== false:
-    //             // Linux
-    //             $fullCommand = "{$command} | xclip -selection clipboard";
-    //             break;
+            case stripos($os, 'Linux') !== false:
+                // Linux
+                $fullCommand = "{$command} | xclip -selection clipboard";
+                break;
 
-    //         case stripos($os, 'MINGW') !== false || stripos($os, 'CYGWIN') !== false || stripos($os, 'MSYS') !== false || stripos($os, 'Windows') !== false:
-    //             // Windows (Git Bash or others)
-    //             $fullCommand = "{$command} | clip";
-    //             break;
+            case stripos($os, 'MINGW') !== false || stripos($os, 'CYGWIN') !== false || stripos($os, 'MSYS') !== false || stripos($os, 'Windows') !== false:
+                // Windows (Git Bash or others)
+                $fullCommand = "{$command} | clip";
+                break;
 
-    //         default:
-    //             $this->warning("Unsupported OS: {$os}\n");
-    //             exit(1);
-    //     }
+            default:
+                $this->warning("Unsupported OS: {$os}\n");
+                exit(1);
+        }
 
-    //     // Execute the command
-    //     exec($fullCommand, $output, $resultCode);
+        // Execute the command
+        exec($fullCommand, $output, $resultCode);
 
-    //     if ($resultCode === 0) {
-    //         $this->info("✅ Copied to clipboard!\n");
-    //     } else {
-    //         $this->warning("❌ Failed to copy to clipboard. Error code: {$resultCode}\n");
-    //     }
-    // }
+        if ($resultCode === 0) {
+            $this->info("✅ Copied to clipboard!\n");
+        } else {
+            $this->warning("❌ Failed to copy to clipboard. Error code: {$resultCode}\n");
+        }
+    }
 }
