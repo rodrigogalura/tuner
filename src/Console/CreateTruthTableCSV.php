@@ -21,7 +21,7 @@ class CreateTruthTableCSV extends Command
      * @var string
      */
     // protected $signature = 'create:truth-table {option?} {--copy}';
-    protected $signature = 'create:truth-table {option?} {--copy}';
+    protected $signature = 'create:truth-table {option?}';
 
     /**
      * The console command description.
@@ -74,17 +74,62 @@ class CreateTruthTableCSV extends Command
             items: $visibleColumns
         );
 
-        $truthTable = $ptt->truthTable($matrix2D->handle());
-
-        $ptt->export(base_path('truth-table/projection.csv'), $truthTable,
+        $ptt->export(base_path('truth-table/projection-intersect.csv'), $ptt->truthTable($matrix2D->handle()),
             function($handle) {
                 fputcsv($handle, ['Projection Truth Table']);
                 fputcsv($handle, [
                     'Projectable (p)', 'Defined (q)', 'Client (r)',
                     'Intersect - Non-strict',
-                    // 'Intersect - Strict',
-                    // 'Except - Non-strict',
-                    // 'Except - Strict',
+                ]);
+            }
+        );
+        $ptt->enableIntersect(false); // Disable Intersect Result
+
+        $ptt->enableIntersectStrict();
+        $ptt->export(base_path('truth-table/projection-intersect-strict.csv'), $ptt->truthTable($matrix2D->handle()),
+            function($handle) {
+                fputcsv($handle, ['Projection Truth Table']);
+                fputcsv($handle, [
+                    'Projectable (p)', 'Defined (q)', 'Client (r)',
+                    'Intersect - Strict',
+                ]);
+            }
+        );
+        $ptt->enableIntersectStrict(false); // Disable Intersect Strict Result
+
+        $ptt->enableExcept();
+        $ptt->export(base_path('truth-table/projection-except.csv'), $ptt->truthTable($matrix2D->handle()),
+            function($handle) {
+                fputcsv($handle, ['Projection Truth Table']);
+                fputcsv($handle, [
+                    'Projectable (p)', 'Defined (q)', 'Client (r)',
+                    'Except - Non-strict',
+                ]);
+            }
+        );
+        $ptt->enableExcept(false); // Disable Except Result
+
+        $ptt->enableExceptStrict();
+        $ptt->export(base_path('truth-table/projection-except-strict.csv'), $ptt->truthTable($matrix2D->handle()),
+            function($handle) {
+                fputcsv($handle, ['Projection Truth Table']);
+                fputcsv($handle, [
+                    'Projectable (p)', 'Defined (q)', 'Client (r)',
+                    'Except - Strict',
+                ]);
+            }
+        );
+
+        $ptt->enableAll();
+        $ptt->export(base_path('truth-table/projection-all.csv'), $ptt->truthTable($matrix2D->handle()),
+            function($handle) {
+                fputcsv($handle, ['Projection Truth Table']);
+                fputcsv($handle, [
+                    'Projectable (p)', 'Defined (q)', 'Client (r)',
+                    'Intersect - Non-strict',
+                    'Intersect - Strict',
+                    'Except - Non-strict',
+                    'Except - Strict',
                 ]);
             }
         );

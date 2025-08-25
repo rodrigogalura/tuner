@@ -64,6 +64,17 @@ class ProjectionTruthTable extends TruthTable
         $this->enables[static::EXCEPT_STRICT_INDEX] = $enable;
     }
 
+    public function enableAll($enable = true)
+    {
+        $indexes = array_keys($this->enables);
+
+        while ($index = current($indexes)) {
+            $this->enables[$index] = $enable;
+
+            next($indexes);
+        }
+    }
+
     public function truthTable(array $matrix2D)
     {
         $truthTable = [];
