@@ -47,7 +47,6 @@ abstract class Projection
 
     private function definedPrerequisites()
     {
-        // Defined
         throw_if(empty($this->definedColumns), E::Q_LaravelDefaultError->exception());
 
         $this->truthTable->extractIfAsterisk($this->definedColumns);

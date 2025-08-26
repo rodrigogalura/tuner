@@ -42,22 +42,20 @@ class ProjectionTruthTable extends TruthTable
     private function validate(array $rules, $subjects, $subject)
     {
         foreach ($rules as $rule) {
-            switch (true) {
-                case is_object($rule):
-                    if ($rule->failed($subject)) {
-                        return $rule->getErrorCode();
-                    }
-                    break;
+            $ruleClass = $rule;
+            if (is_array($ruleClass)) {
+                $classRule = array_shift($rule);
+                $errorNum = array_shift($rule);
+                $i = $rule['targetIndexAsArgs'];
 
-                case is_array($rule):
-                    $this->extractIfAsterisk($subjects[$rule['targetArgsIndex']]);
-                    $arg = filter_explode($subjects[$rule['targetArgsIndex']]);
+                $this->extractIfAsterisk($subjects[$i]);
+                $args = filter_explode($subjects[$i]);
 
-                    $ruleClass = new $rule['classRule']($arg, $rule['errorEnum']);
-                    if ($ruleClass->failed($subject)) {
-                        return $ruleClass->getErrorCode();
-                    }
-                    break;
+                $ruleClass = new $classRule($args, $errorNum);
+            }
+
+            if ($ruleClass->failed($subject)) {
+                return $ruleClass->getErrorCode();
             }
         }
 

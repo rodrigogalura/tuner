@@ -21,7 +21,6 @@ class CreateTruthTableCSV extends Command
      *
      * @var string
      */
-    // protected $signature = 'create:truth-table {option?} {--copy}';
     protected $signature = 'create:truth-table';
 
     /**
@@ -86,11 +85,7 @@ class CreateTruthTableCSV extends Command
                 1 => [
                     new TruthyRule(E::Q_LaravelDefaultError),
                     new SomeInListRule(static::VISIBLE_COLUMNS, E::Q_NotInColumns),
-                    [
-                        'classRule' => SomeInListRule::class,
-                        'targetArgsIndex' => 0,
-                        'errorEnum' => E::Q_NotInProjectable,
-                    ],
+                    [SomeInListRule::class, E::Q_NotInProjectable, 'targetIndexAsArgs' => 0],
                 ],
             ],
 
