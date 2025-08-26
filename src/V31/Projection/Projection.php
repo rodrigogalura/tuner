@@ -34,36 +34,37 @@ abstract class Projection
         $this->clientInputValue = static::$clientInputs[$this->key] = current($clientInput);
     }
 
-    // private function throwIfNotInColumns(array $fields, $exception)
-    // {
-    //     throw_if($diff = $this->truthTable->diffFromAllItems($fields), new $exception($diff));
-    // }
+    private function throwIfNotInColumns(array $fields, E $e)
+    {
+        throw_if($diff = $this->truthTable->diffFromAllItems($fields), $e->exception(invalidColumns: $diff));
+    }
 
-    // private function throwIfSomeNotInVisibleColumns(array $fields, $exception)
-    // {
-    //     throw_if($diff = $this->truthTable->diffFromAllItems($fields), new $exception($diff));
-    // }
+    private function projectablePrerequisites()
+    {
+        throw_if(empty($this->projectableColumns), E::P_Disabled->exception());
+
+        $this->truthTable->extractIfAsterisk($this->projectableColumns);
+        $this->throwIfNotInColumns($this->projectableColumns, E::P_NotInColumns);
+
+        $this->truthTable->intersectToAllItems($this->projectableColumns);
+    }
+
+    private function definedPrerequisites()
+    {
+        # Defined
+        throw_if(empty($this->definedColumns), E::Q_LaravelDefaultError->exception());
+
+        $this->truthTable->extractIfAsterisk($this->definedColumns);
+        $this->throwIfNotInColumns($this->definedColumns, E::Q_NotInColumns);
+
+        $this->projectableColumns = $this->truthTable->intersect($this->projectableColumns, $this->definedColumns);
+        throw_if(empty($this->projectableColumns), E::Q_NotInProjectable->exception());
+    }
 
     protected function prerequisites()
     {
-        # Projectable
-        throw_if(empty($this->projectableColumns), E::P_Disabled->exception2());
-
-        $this->truthTable->extractIfAsterisk($this->projectableColumns);
-        $diff = $this->truthTable->diffFromAllItems($this->projectableColumns);
-        throw_if(!empty($diff), E::P_NotInColumns->exception2(invalidColumns: $diff));
-
-        $this->truthTable->intersectToAllItems($this->projectableColumns);
-
-        # Defined
-        throw_if(empty($this->definedColumns), E::Q_LaravelDefaultError->exception2());
-
-        $this->truthTable->extractIfAsterisk($this->definedColumns);
-        $diff = $this->truthTable->diffFromAllItems($this->definedColumns);
-        throw_if(!empty($diff), E::Q_NotInColumns->exception2(invalidColumns: $diff));
-
-        $this->projectableColumns = $this->truthTable->intersect($this->projectableColumns, $this->definedColumns);
-        throw_if(empty($this->projectableColumns), E::Q_NotInProjectable->exception2());
+        $this->projectablePrerequisites();
+        $this->definedPrerequisites();
     }
 
     protected function validate()

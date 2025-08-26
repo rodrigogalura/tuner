@@ -2,16 +2,19 @@
 
 namespace Laradigs\Tweaker\V31\TruthTable;
 
+use Laradigs\Tweaker\V31\ErrorCodes;
+use Laradigs\Tweaker\V31\Projection\ProjectionError;
+
 abstract class Rule
 {
-    public function __construct(private int $errorCode = 0)
+    public function __construct(private ProjectionError|ErrorCodes $e)
     {
         //
     }
 
     public function getErrorCode()
     {
-        return $this->errorCode;
+        return $this->e->value;
     }
 
     public function failed($subject)

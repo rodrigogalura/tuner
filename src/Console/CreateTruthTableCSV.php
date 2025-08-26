@@ -9,7 +9,6 @@ use Laradigs\Tweaker\V31\PowerSet;
 use Laradigs\Tweaker\V31\ErrorCodes;
 use function Laravel\Prompts\select;
 use function RGalura\ApiIgniter\base_path;
-use Laradigs\Tweaker\V31\TruthTable\Rules\FalsyRule;
 use Laradigs\Tweaker\V31\TruthTable\Rules\TruthyRule;
 use Laradigs\Tweaker\V31\Projection\DefinedErrorCodes;
 use Laradigs\Tweaker\TruthTableGenerator\ProjectionCSV;
@@ -17,8 +16,6 @@ use Laradigs\Tweaker\V31\Projection\ProjectionError as E;
 use Laradigs\Tweaker\V31\Projection\ProjectionTruthTable;
 use Laradigs\Tweaker\V31\TruthTable\Rules\SomeInListRule;
 use Laradigs\Tweaker\V31\Projection\ProjectableErrorCodes;
-use Laradigs\Tweaker\V31\TruthTable\Rules\EveryInListRule;
-use Laradigs\Tweaker\V31\TruthTable\Rules\AllAreNotOnListRule;
 
 class CreateTruthTableCSV extends Command
 {
@@ -80,30 +77,23 @@ class CreateTruthTableCSV extends Command
             [
                 # Client Input Rules
                 2 => [
-                    new TruthyRule(ErrorCodes::NotUsed->value),
+                    new TruthyRule(ErrorCodes::NotUsed),
                 ],
 
                 # Projectable Columns Rules
                 0 => [
-                    new TruthyRule(E::P_Disabled->value),
-                    new SomeInListRule(static::VISIBLE_COLUMNS, E::P_NotInColumns->value)
-                    // new AllAreNotOnListRule(static::VISIBLE_COLUMNS, E::P_NotInColumns->value)
+                    new TruthyRule(E::P_Disabled),
+                    new SomeInListRule(static::VISIBLE_COLUMNS, E::P_NotInColumns)
                 ],
 
                 # Defined Columns Rules
                 1 => [
-                    new TruthyRule(E::Q_LaravelDefaultError->value),
-                    new SomeInListRule(static::VISIBLE_COLUMNS, E::Q_NotInColumns->value),
-                    // new AllAreNotOnListRule(static::VISIBLE_COLUMNS, E::Q_NotInColumns->value),
-                    // [
-                    //     'classRule' => AllAreNotOnListRule::class,
-                    //     'targetArgsIndex' => 0,
-                    //     'errorCode' => E::Q_NotInProjectable->value
-                    // ]
+                    new TruthyRule(E::Q_LaravelDefaultError),
+                    new SomeInListRule(static::VISIBLE_COLUMNS, E::Q_NotInColumns),
                     [
                         'classRule' => SomeInListRule::class,
                         'targetArgsIndex' => 0,
-                        'errorCode' => E::Q_NotInProjectable->value
+                        'errorEnum' => E::Q_NotInProjectable
                     ]
                 ],
             ],

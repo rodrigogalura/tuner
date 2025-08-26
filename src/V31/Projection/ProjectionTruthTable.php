@@ -47,7 +47,7 @@ class ProjectionTruthTable extends TruthTable
                     $this->extractIfAsterisk($subjects[$rule['targetArgsIndex']]);
                     $arg = filter_explode($subjects[$rule['targetArgsIndex']]);
 
-                    $ruleClass = new $rule['classRule']($arg, $rule['errorCode']);
+                    $ruleClass = new $rule['classRule']($arg, $rule['errorEnum']);
                     if ($ruleClass->failed($subject)) {
                         return $ruleClass->getErrorCode();
                     }
