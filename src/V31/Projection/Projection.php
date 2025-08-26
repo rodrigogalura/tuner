@@ -2,15 +2,11 @@
 
 namespace Laradigs\Tweaker\V31\Projection;
 
-use Exceptions;
-use Laradigs\Tweaker\TruthTable;
-use Laradigs\Tweaker\DisabledException;
-use function RGalura\ApiIgniter\validate;
-use Laradigs\Tweaker\V31\Projection\ProjectionError as E;
-use Laradigs\Tweaker\Projection\Exceptions\InvalidProjectableException;
-use Laradigs\Tweaker\Projection\Exceptions\InvalidDefinedFieldsException;
-use Laradigs\Tweaker\Projection\Exceptions\DefinedFieldsAreEmptyException;
 use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
+use Laradigs\Tweaker\TruthTable;
+use Laradigs\Tweaker\V31\Projection\ProjectionError as E;
+
+use function RGalura\ApiIgniter\validate;
 
 abstract class Projection
 {
@@ -51,7 +47,7 @@ abstract class Projection
 
     private function definedPrerequisites()
     {
-        # Defined
+        // Defined
         throw_if(empty($this->definedColumns), E::Q_LaravelDefaultError->exception());
 
         $this->truthTable->extractIfAsterisk($this->definedColumns);

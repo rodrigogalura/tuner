@@ -2,7 +2,7 @@
 
 use Laradigs\Tweaker\V31\Matrix;
 
-test('Matrix', function ($variables, $matrix2d) {
+test('Matrix', function ($variables, $matrix2d): void {
     $m = new Matrix($variables);
 
     expect($m->handle())->toBe($matrix2d);
@@ -17,7 +17,7 @@ test('Matrix', function ($variables, $matrix2d) {
             ['a', 'd'],
             ['b', 'c'],
             ['b', 'd'],
-        ]
+        ],
     ],
 
     '2x3' => [
@@ -36,7 +36,7 @@ test('Matrix', function ($variables, $matrix2d) {
             ['b', 'c', 'f'],
             ['b', 'd', 'e'],
             ['b', 'd', 'f'],
-        ]
+        ],
     ],
 
     '3x2' => [
@@ -56,7 +56,7 @@ test('Matrix', function ($variables, $matrix2d) {
             ['c', 'd'],
             ['c', 'e'],
             ['c', 'f'],
-        ]
+        ],
     ],
 
     '3x3' => [
@@ -95,6 +95,6 @@ test('Matrix', function ($variables, $matrix2d) {
             ['c', 'f', 'g'],
             ['c', 'f', 'h'],
             ['c', 'f', 'i'],
-        ]
+        ],
     ],
 ]);

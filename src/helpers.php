@@ -57,5 +57,5 @@ function validate2($input, $rule, $customErrorMessages = []): void
 
 function base_path(string $subPath = '')
 {
-    return realpath(__DIR__.'/..') . ($subPath ? DIRECTORY_SEPARATOR . $subPath : '');
+    return realpath(__DIR__.'/..').($subPath ? DIRECTORY_SEPARATOR.$subPath : '');
 }

@@ -2,20 +2,17 @@
 
 namespace Laradigs\Tweaker\Console;
 
-use Illuminate\Support\Str;
 use Illuminate\Console\Command;
+use Laradigs\Tweaker\V31\ErrorCodes;
 use Laradigs\Tweaker\V31\Matrix2D;
 use Laradigs\Tweaker\V31\PowerSet;
-use Laradigs\Tweaker\V31\ErrorCodes;
-use function Laravel\Prompts\select;
-use function RGalura\ApiIgniter\base_path;
-use Laradigs\Tweaker\V31\TruthTable\Rules\TruthyRule;
-use Laradigs\Tweaker\V31\Projection\DefinedErrorCodes;
-use Laradigs\Tweaker\TruthTableGenerator\ProjectionCSV;
 use Laradigs\Tweaker\V31\Projection\ProjectionError as E;
 use Laradigs\Tweaker\V31\Projection\ProjectionTruthTable;
 use Laradigs\Tweaker\V31\TruthTable\Rules\SomeInListRule;
-use Laradigs\Tweaker\V31\Projection\ProjectableErrorCodes;
+use Laradigs\Tweaker\V31\TruthTable\Rules\TruthyRule;
+
+use function Laravel\Prompts\select;
+use function RGalura\ApiIgniter\base_path;
 
 class CreateTruthTableCSV extends Command
 {
@@ -36,7 +33,7 @@ class CreateTruthTableCSV extends Command
 
     const TRUTH_TABLE_PROJECTION = 'Projection';
 
-    # all columns of table except hidden columns
+    // all columns of table except hidden columns
     const VISIBLE_COLUMNS = ['id', 'name'];
 
     /**
@@ -48,8 +45,8 @@ class CreateTruthTableCSV extends Command
             label: 'Select the Truth Table do you want to generate CSV:',
             options: array_map('class_basename', [
                 static::TRUTH_TABLE_PROJECTION,
-                "Foo",
-                "Bar"
+                'Foo',
+                'Bar',
             ])
         )) {
             case static::TRUTH_TABLE_PROJECTION:
@@ -67,34 +64,33 @@ class CreateTruthTableCSV extends Command
         $variables = [
             'p' => $variable,
             'q' => $variable,
-            'r' => array_filter($variable) // remove falsy value
+            'r' => array_filter($variable), // remove falsy value
         ];
 
         $class = ProjectionTruthTable::class;
 
         $ptt = new $class(
-            rules:
-            [
-                # Client Input Rules
+            rules: [
+                // Client Input Rules
                 2 => [
                     new TruthyRule(ErrorCodes::NotUsed),
                 ],
 
-                # Projectable Columns Rules
+                // Projectable Columns Rules
                 0 => [
                     new TruthyRule(E::P_Disabled),
-                    new SomeInListRule(static::VISIBLE_COLUMNS, E::P_NotInColumns)
+                    new SomeInListRule(static::VISIBLE_COLUMNS, E::P_NotInColumns),
                 ],
 
-                # Defined Columns Rules
+                // Defined Columns Rules
                 1 => [
                     new TruthyRule(E::Q_LaravelDefaultError),
                     new SomeInListRule(static::VISIBLE_COLUMNS, E::Q_NotInColumns),
                     [
                         'classRule' => SomeInListRule::class,
                         'targetArgsIndex' => 0,
-                        'errorEnum' => E::Q_NotInProjectable
-                    ]
+                        'errorEnum' => E::Q_NotInProjectable,
+                    ],
                 ],
             ],
 
@@ -105,9 +101,9 @@ class CreateTruthTableCSV extends Command
         if ($debug) {
             $ptt->enabledAll(); // enable
             $ptt->export(base_path('truth-table/debug.csv'), $ptt->truthTable([
-                ['id', '*', '*']
+                ['id', '*', '*'],
             ]),
-                function($handle) use($CSV_HEADERS) {
+                function ($handle) use ($CSV_HEADERS): void {
                     fputcsv($handle, ['Projection Truth Table']);
                     fputcsv($handle, array_merge($CSV_HEADERS, ['Intersect - Non-strict']));
                 }
@@ -120,22 +116,22 @@ class CreateTruthTableCSV extends Command
                 [
                     'file' => base_path('truth-table/projection-intersect.csv'),
                     'headers' => array_merge($CSV_HEADERS, ['Intersect - Non-strict']),
-                    'projectionMethod' => 'enabledIntersect'
+                    'projectionMethod' => 'enabledIntersect',
                 ],
                 [
                     'file' => base_path('truth-table/projection-intersect-strict.csv'),
                     'headers' => array_merge($CSV_HEADERS, ['Intersect - Strict']),
-                    'projectionMethod' => 'enabledIntersectStrict'
+                    'projectionMethod' => 'enabledIntersectStrict',
                 ],
                 [
                     'file' => base_path('truth-table/projection-except.csv'),
                     'headers' => array_merge($CSV_HEADERS, ['Except - Non-strict']),
-                    'projectionMethod' => 'enabledExcept'
+                    'projectionMethod' => 'enabledExcept',
                 ],
                 [
                     'file' => base_path('truth-table/projection-except-strict.csv'),
                     'headers' => array_merge($CSV_HEADERS, ['Except - Strict']),
-                    'projectionMethod' => 'enabledExceptStrict'
+                    'projectionMethod' => 'enabledExceptStrict',
                 ],
                 [
                     'file' => base_path('truth-table/projection-all.csv'),
@@ -143,14 +139,14 @@ class CreateTruthTableCSV extends Command
                         'Intersect - Non-strict', 'Intersect - Strict',
                         'Except - Non-strict', 'Except - Strict',
                     ]),
-                    'projectionMethod' => 'enabledAll'
-                ]
+                    'projectionMethod' => 'enabledAll',
+                ],
             ];
 
             foreach ($export as $e) {
                 $ptt->{$e['projectionMethod']}(); // enable
                 $ptt->export($e['file'], $ptt->truthTable($matrix2D->handle()),
-                    function($handle) use($e) {
+                    function ($handle) use ($e): void {
                         fputcsv($handle, ['Projection Truth Table']);
                         fputcsv($handle, $e['headers']);
                     }

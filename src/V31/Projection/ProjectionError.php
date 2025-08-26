@@ -4,7 +4,7 @@ namespace Laradigs\Tweaker\V31\Projection;
 
 use Exception;
 
-enum ProjectionError : int
+enum ProjectionError: int
 {
     case P_Disabled = 2;
     case P_NotInColumns = 3;
@@ -16,15 +16,13 @@ enum ProjectionError : int
     public function exception(string $errorMessage = '', array $invalidColumns = [])
     {
         if (count($invalidColumns) > 0) {
-            $errorMessage = match($this) {
+            $errorMessage = match ($this) {
                 ProjectionError::P_NotInColumns,
-                ProjectionError::Q_NotInColumns =>
-                    count($invalidColumns) === 1
+                ProjectionError::Q_NotInColumns => count($invalidColumns) === 1
                     ? "The column '{$invalidColumns[0]}' is not a valid column."
                     : "The columns '".implode("', '", $invalidColumns)."' are not valid columns.",
 
-                ProjectionError::Q_NotInProjectable =>
-                    count($invalidColumns) === 1
+                ProjectionError::Q_NotInProjectable => count($invalidColumns) === 1
                     ? "The projectable column '{$invalidColumns[0]}' is not a valid column."
                     : "The projectable columns '".implode("', '", $invalidColumns)."' are not valid columns.",
                 default => $errorMessage

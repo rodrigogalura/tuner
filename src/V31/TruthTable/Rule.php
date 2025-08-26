@@ -17,9 +17,9 @@ abstract class Rule
         return $this->e->value;
     }
 
-    public function failed($subject)
+    public function failed(string $subject)
     {
-        return !$this->passed($subject);
+        return ! $this->passed($subject);
     }
 
     abstract public function passed(string $subject);

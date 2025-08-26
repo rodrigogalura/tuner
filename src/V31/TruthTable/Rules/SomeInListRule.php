@@ -3,9 +3,10 @@
 namespace Laradigs\Tweaker\V31\TruthTable\Rules;
 
 use Laradigs\Tweaker\V31\ErrorCodes;
-use Laradigs\Tweaker\V31\TruthTable\Rule;
-use function RGalura\ApiIgniter\filter_explode;
 use Laradigs\Tweaker\V31\Projection\ProjectionError;
+use Laradigs\Tweaker\V31\TruthTable\Rule;
+
+use function RGalura\ApiIgniter\filter_explode;
 
 class SomeInListRule extends Rule
 {

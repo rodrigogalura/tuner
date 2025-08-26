@@ -3,6 +3,7 @@
 namespace Laradigs\Tweaker\Console;
 
 use Illuminate\Console\Command;
+
 use function Laravel\Prompts\select;
 use function RGalura\ApiIgniter\base_path;
 
@@ -23,7 +24,9 @@ class CopyToClipboardTheTruthTable extends Command
     protected $description = 'Copy to clipboard the trutht table';
 
     const MAC_COPY = 'pbcopy';
+
     const LINUX_COPY = 'xclip -selection clipboard';
+
     const WIN_COPY = 'clip';
 
     /**
@@ -31,7 +34,7 @@ class CopyToClipboardTheTruthTable extends Command
      */
     public function handle()
     {
-        $files = glob(base_path('truth-table') . '/*.csv');
+        $files = glob(base_path('truth-table').'/*.csv');
 
         if (empty($files)) {
             $this->info('No available CSV files.');
@@ -47,22 +50,22 @@ class CopyToClipboardTheTruthTable extends Command
         $os = php_uname('s');
 
         // Prepare the command to run exporter.php
-        $command = escapeshellcmd("php " . base_path('truth-table/exporter.php') . " {$file}");
+        $command = escapeshellcmd('php '.base_path('truth-table/exporter.php')." {$file}");
 
         switch (true) {
             case stripos($os, 'Darwin') !== false:
                 // macOS
-                $fullCommand = "{$command} | " . static::MAC_COPY;
+                $fullCommand = "{$command} | ".static::MAC_COPY;
                 break;
 
             case stripos($os, 'Linux') !== false:
                 // Linux
-                $fullCommand = "{$command} | " . static::LINUX_COPY;
+                $fullCommand = "{$command} | ".static::LINUX_COPY;
                 break;
 
             case stripos($os, 'MINGW') !== false || stripos($os, 'CYGWIN') !== false || stripos($os, 'MSYS') !== false || stripos($os, 'Windows') !== false:
                 // Windows (Git Bash or others)
-                $fullCommand = "{$command} | " . static::WIN_COPY;
+                $fullCommand = "{$command} | ".static::WIN_COPY;
                 break;
 
             default:

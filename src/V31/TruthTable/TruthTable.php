@@ -10,8 +10,7 @@ abstract class TruthTable
 
     public function __construct(
         private array $items = []
-    )
-    {
+    ) {
         //
     }
 
@@ -24,7 +23,7 @@ abstract class TruthTable
 
     protected function someFirstNotInSecond(array $first, array $second)
     {
-        return ! empty (array_diff($first, $second));
+        return ! empty(array_diff($first, $second));
     }
 
     protected function intersectAllKeys(array $keys)

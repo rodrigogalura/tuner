@@ -1,15 +1,7 @@
 <?php
 
-use Laradigs\Tweaker\DisabledException;
 use Laradigs\Tweaker\Projection\Projection;
-use Illuminate\Validation\ValidationException;
-use Laradigs\Tweaker\Projection\ExceptProjection;
-// use Laradigs\Tweaker\Projection\IntersectProjection;
 use Laradigs\Tweaker\V31\Projection\IntersectProjection;
-use Laradigs\Tweaker\Projection\Exceptions\InvalidProjectableException;
-use Laradigs\Tweaker\Projection\Exceptions\InvalidDefinedFieldsException;
-use Laradigs\Tweaker\Projection\Exceptions\DefinedFieldsAreEmptyException;
-use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
 
 define('INTERSECT_KEY', 'fields');
 define('EXCEPT_KEY', 'fields!');
@@ -37,7 +29,7 @@ test('test lang po', function (
     $definedColumns,
     $clientInput,
     $expectedResult
-) {
+): void {
     $ip = new IntersectProjection(
         $visibleColumns,
         $projectableColumns,
@@ -58,22 +50,21 @@ test('test lang po', function (
         'projectableColumns' => ['id'],
         'definedColumns' => ['name'],
         'clientInput' => ['id', 'name'],
-        'expectedResult' => 6
-    ]
-])->skip()
-;
+        'expectedResult' => 6,
+    ],
+])->skip();
 
 test('Projection', function (
-$projection,
-$key,
-$projectableColumns,
-$definedColumns,
-$clientInput,
-$intersectResultNonStrict,
-$intersectResultStrict,
-$exceptResultNonStrict,
-$exceptResultStrict,
-) {
+    $projection,
+    $key,
+    $projectableColumns,
+    $definedColumns,
+    $clientInput,
+    $intersectResultNonStrict,
+    $intersectResultStrict,
+    $exceptResultNonStrict,
+    $exceptResultStrict,
+): void {
     // dd($projectableColumns,
     // $definedColumns,
     // $clientInput,
@@ -98,11 +89,11 @@ $exceptResultStrict,
 
     expect($result)->toBe($intersectResultNonStrict);
 })
-->with([
-    [IntersectProjection::class, INTERSECT_KEY],
-    // [ExceptProjection::class, EXCEPT_KEY],
-])
-->with('projection');
+    ->with([
+        [IntersectProjection::class, INTERSECT_KEY],
+        // [ExceptProjection::class, EXCEPT_KEY],
+    ])
+    ->with('projection');
 
 // describe('Prerequisites', function (): void {
 //     it('should throw DisabledException if the projectable fields are empty', function ($projection, $key, $projectableFields): void {

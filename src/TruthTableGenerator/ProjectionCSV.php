@@ -4,8 +4,8 @@ namespace Laradigs\Tweaker\TruthTableGenerator;
 
 use Laradigs\Tweaker\Exceptions\Experiment\NoDefinedColumnsException;
 use Laradigs\Tweaker\Exceptions\Experiment\ProjectionDisabledException;
-use Laradigs\Tweaker\Exceptions\Experiment\SomeNotInVisibleColumnsException;
 use Laradigs\Tweaker\Exceptions\Experiment\SomeNotInProjectableColumnsException;
+use Laradigs\Tweaker\Exceptions\Experiment\SomeNotInVisibleColumnsException;
 
 class ProjectionCSV extends TruthTableGenerator
 {
@@ -121,7 +121,7 @@ class ProjectionCSV extends TruthTableGenerator
                         [$e->getCode()];
                     }
 
-                    fputcsv($this->handle, array_map(fn ($columns) => empty($columns)
+                    fputcsv($this->handle, array_map(fn ($columns): string => empty($columns)
                             ? parent::PLACEHOLDER_EMPTY
                             : implode(', ', $columns),
 
@@ -183,7 +183,7 @@ class ProjectionCSV extends TruthTableGenerator
 
                     // Cannot except all projectable columns
 
-                    fputcsv($this->handle, array_map(fn ($columns) => empty($columns)
+                    fputcsv($this->handle, array_map(fn ($columns): string => empty($columns)
                             ? parent::PLACEHOLDER_EMPTY
                             : implode(', ', $columns),
 

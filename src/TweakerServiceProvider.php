@@ -3,8 +3,8 @@
 namespace Laradigs\Tweaker;
 
 use Illuminate\Support\ServiceProvider;
-use Laradigs\Tweaker\Console\CreateTruthTableCSV;
 use Laradigs\Tweaker\Console\CopyToClipboardTheTruthTable;
+use Laradigs\Tweaker\Console\CreateTruthTableCSV;
 
 class TweakerServiceProvider extends ServiceProvider
 {

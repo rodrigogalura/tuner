@@ -2,12 +2,12 @@
 
 use Laradigs\Tweaker\V31\PowerSet;
 
-test('Power Set', function ($set, $powerSet) {
+test('Power Set', function ($set, $powerSet): void {
     expect((new PowerSet($set))->handle())->toBe($powerSet);
 })->with([
     [
         'set' => ['a'],
-        'powerSet' => ['', 'a']
+        'powerSet' => ['', 'a'],
     ],
 
     [
@@ -15,8 +15,8 @@ test('Power Set', function ($set, $powerSet) {
         'powerSet' => [
             '',
             'a', 'b',
-            'a, b'
-        ]
+            'a, b',
+        ],
     ],
 
     [
@@ -25,7 +25,7 @@ test('Power Set', function ($set, $powerSet) {
             '',
             'a', 'b', 'c',
             'a, b', 'a, c', 'b, c',
-            'a, b, c'
+            'a, b, c',
         ],
     ],
 
@@ -36,7 +36,7 @@ test('Power Set', function ($set, $powerSet) {
             'a', 'b', 'c', 'd',
             'a, b', 'a, c', 'a, d', 'b, c', 'b, d', 'c, d',
             'a, b, c', 'a, b, d', 'a, c, d', 'b, c, d',
-            'a, b, c, d'
+            'a, b, c, d',
         ],
     ],
 
@@ -57,7 +57,7 @@ test('Power Set', function ($set, $powerSet) {
             'a, b, c, d', 'a, b, c, e', 'a, b, d, e', 'a, c, d, e',
             'b, c, d, e',
 
-            'a, b, c, d, e'
+            'a, b, c, d, e',
         ],
-    ]
+    ],
 ]);

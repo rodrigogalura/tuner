@@ -86,7 +86,7 @@ use Laradigs\Tweaker\V31\TruthTable\TruthTable;
 //     );
 // });
 
-test('Truth Table Matrix 3d Variable', function ($variables, $matrix2d) {
+test('Truth Table Matrix 3d Variable', function ($variables, $matrix2d): void {
     $t = new TruthTable;
 
     expect($t->matrix2d($variables))->toBe($matrix2d);
@@ -101,7 +101,7 @@ test('Truth Table Matrix 3d Variable', function ($variables, $matrix2d) {
             ['a', 'd'],
             ['b', 'c'],
             ['b', 'd'],
-        ]
+        ],
     ],
 
     '2x3' => [
@@ -120,7 +120,7 @@ test('Truth Table Matrix 3d Variable', function ($variables, $matrix2d) {
             ['b', 'c', 'f'],
             ['b', 'd', 'e'],
             ['b', 'd', 'f'],
-        ]
+        ],
     ],
 
     '3x2' => [
@@ -140,7 +140,7 @@ test('Truth Table Matrix 3d Variable', function ($variables, $matrix2d) {
             ['c', 'd'],
             ['c', 'e'],
             ['c', 'f'],
-        ]
+        ],
     ],
 
     '3x3' => [
@@ -179,6 +179,6 @@ test('Truth Table Matrix 3d Variable', function ($variables, $matrix2d) {
             ['c', 'f', 'g'],
             ['c', 'f', 'h'],
             ['c', 'f', 'i'],
-        ]
+        ],
     ],
 ]);

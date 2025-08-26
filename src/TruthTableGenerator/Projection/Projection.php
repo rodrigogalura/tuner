@@ -2,11 +2,11 @@
 
 namespace Laradigs\Tweaker\TruthTableGenerator\Projection;
 
-use Laradigs\Tweaker\TruthTableGenerator\TruthTableGenerator;
 use Laradigs\Tweaker\Exceptions\Experiment\NoDefinedColumnsException;
 use Laradigs\Tweaker\Exceptions\Experiment\ProjectionDisabledException;
-use Laradigs\Tweaker\Exceptions\Experiment\SomeNotInVisibleColumnsException;
 use Laradigs\Tweaker\Exceptions\Experiment\SomeNotInProjectableColumnsException;
+use Laradigs\Tweaker\Exceptions\Experiment\SomeNotInVisibleColumnsException;
+use Laradigs\Tweaker\TruthTableGenerator\TruthTableGenerator;
 
 class Projection extends TruthTableGenerator
 {

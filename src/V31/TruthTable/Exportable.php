@@ -4,12 +4,12 @@ namespace Laradigs\Tweaker\V31\TruthTable;
 
 trait Exportable
 {
-    public function export($filepath, $data, callable $beforeWriteData = null, callable $afterWriteData = null)
+    public function export($filepath, $data, ?callable $beforeWriteData = null, ?callable $afterWriteData = null)
     {
         $handle = fopen($filepath, 'w');
 
-        if (!is_null($beforeWriteData)) {
-           $beforeWriteData($handle);
+        if (! is_null($beforeWriteData)) {
+            $beforeWriteData($handle);
         }
 
         foreach ($data as $d) {
@@ -18,8 +18,8 @@ trait Exportable
 
         fclose($handle);
 
-        if (!is_null($afterWriteData)) {
-           $afterWriteData();
+        if (! is_null($afterWriteData)) {
+            $afterWriteData();
         } else {
             if (file_exists($filepath)) {
                 echo "CSV file created successfully: {$filepath}".PHP_EOL;

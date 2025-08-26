@@ -4,6 +4,7 @@ namespace Laradigs\Tweaker\V31\Projection;
 
 use Laradigs\Tweaker\V31\TruthTable\Exportable;
 use Laradigs\Tweaker\V31\TruthTable\TruthTable;
+
 use function RGalura\ApiIgniter\filter_explode;
 
 class ProjectionTruthTable extends TruthTable
@@ -11,11 +12,17 @@ class ProjectionTruthTable extends TruthTable
     use Exportable;
 
     const INDEX_PROJECTABLE = 0;
+
     const INDEX_DEFINED = 1;
+
     const INDEX_CLIENT_INPUT = 2;
+
     const INDEX_INTERSECT_NON_STRICT = 3;
+
     const INDEX_INTERSECT_STRICT = 4;
+
     const INDEX_EXCEPT_NON_STRICT = 5;
+
     const INDEX_EXCEPT_STRICT = 6;
 
     private array $enabled = [
@@ -28,8 +35,7 @@ class ProjectionTruthTable extends TruthTable
     public function __construct(
         private array $rules = [],
         array $items = []
-    )
-    {
+    ) {
         parent::__construct($items);
     }
 
@@ -89,7 +95,10 @@ class ProjectionTruthTable extends TruthTable
         }
     }
 
-    public function truthTable(array $matrix2D)
+    /**
+     * @return mixed[]
+     */
+    public function truthTable(array $matrix2D): array
     {
         $truthTable = [];
 

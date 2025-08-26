@@ -259,8 +259,7 @@ class Exporter
     }
 }
 
-
 $csvFile = $argv[1];
 
-$exporter = new Exporter(__DIR__ . "/{$csvFile}");
+$exporter = new Exporter(__DIR__."/{$csvFile}");
 echo $exporter->exportProjection();

@@ -4,8 +4,9 @@ namespace Laradigs\Tweaker;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\ValidationException;
-use function RGalura\ApiIgniter\http_response_error;
 use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
+
+use function RGalura\ApiIgniter\http_response_error;
 
 trait CanTweak
 {
