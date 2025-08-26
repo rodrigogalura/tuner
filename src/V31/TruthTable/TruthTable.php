@@ -52,29 +52,4 @@ abstract class TruthTable
     }
 
     abstract public function truthTable(array $matrix2D);
-
-    // public function matrix2d(array $variables)
-    // {
-    //     if (count($variables) === 0) {
-    //         return [];
-    //     }
-
-    //     if (count($variables) > 1) {
-    //         $arr = [];
-
-    //         $variable = array_shift($variables);
-
-    //         foreach ($variable as $value) {
-    //             $currentVariable = $this->matrix2d($variables);
-
-    //             foreach ($currentVariable as $currentValue) {
-    //                 $arr[] = array_merge([$value], is_array($currentValue) ? $currentValue : [$currentValue]);
-    //             }
-    //         }
-
-    //         return $arr;
-    //     }
-
-    //     return array_shift($variables);
-    // }
 }

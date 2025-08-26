@@ -15,7 +15,7 @@ class FalsyRule implements RuleInterface {
         return $this->errorCode;
     }
 
-    public function handle(string $item)
+    public function handle(string $subject)
     {
         return empty($item);
     }

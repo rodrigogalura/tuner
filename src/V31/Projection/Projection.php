@@ -2,19 +2,18 @@
 
 namespace Laradigs\Tweaker\V31\Projection;
 
-use Laradigs\Tweaker\DisabledException;
-use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
-use Laradigs\Tweaker\Projection\Exceptions\DefinedFieldsAreEmptyException;
-use Laradigs\Tweaker\Projection\Exceptions\InvalidDefinedFieldsException;
-use Laradigs\Tweaker\Projection\Exceptions\InvalidProjectableException;
+use Exceptions;
 use Laradigs\Tweaker\TruthTable;
-
+use Laradigs\Tweaker\DisabledException;
 use function RGalura\ApiIgniter\validate;
+use Laradigs\Tweaker\V31\Projection\ProjectionError as E;
+use Laradigs\Tweaker\Projection\Exceptions\InvalidProjectableException;
+use Laradigs\Tweaker\Projection\Exceptions\InvalidDefinedFieldsException;
+use Laradigs\Tweaker\Projection\Exceptions\DefinedFieldsAreEmptyException;
+use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
 
 abstract class Projection
 {
-    use Exportable;
-
     protected TruthTable $truthTable;
 
     protected readonly string $key;
@@ -35,10 +34,10 @@ abstract class Projection
         $this->clientInputValue = static::$clientInputs[$this->key] = current($clientInput);
     }
 
-    private function throwIfNotInColumns(array $fields, $exception)
-    {
-        throw_if($diff = $this->truthTable->diffFromAllItems($fields), new $exception($diff));
-    }
+    // private function throwIfNotInColumns(array $fields, $exception)
+    // {
+    //     throw_if($diff = $this->truthTable->diffFromAllItems($fields), new $exception($diff));
+    // }
 
     // private function throwIfSomeNotInVisibleColumns(array $fields, $exception)
     // {
@@ -47,21 +46,24 @@ abstract class Projection
 
     protected function prerequisites()
     {
-        // Projectable
-        throw_if(empty($this->projectableColumns), DisabledException::class);
+        # Projectable
+        throw_if(empty($this->projectableColumns), E::P_Disabled->exception2());
 
         $this->truthTable->extractIfAsterisk($this->projectableColumns);
-        $this->throwIfNotInColumns($this->projectableColumns, InvalidProjectableException::class);
+        $diff = $this->truthTable->diffFromAllItems($this->projectableColumns);
+        throw_if(!empty($diff), E::P_NotInColumns->exception2(invalidColumns: $diff));
+
         $this->truthTable->intersectToAllItems($this->projectableColumns);
 
-        // Defined
-        throw_if(empty($this->definedColumns), DefinedFieldsAreEmptyException::class);
+        # Defined
+        throw_if(empty($this->definedColumns), E::Q_LaravelDefaultError->exception2());
 
         $this->truthTable->extractIfAsterisk($this->definedColumns);
-        $this->throwIfNotInColumns($this->definedColumns, InvalidDefinedFieldsException::class);
+        $diff = $this->truthTable->diffFromAllItems($this->definedColumns);
+        throw_if(!empty($diff), E::Q_NotInColumns->exception2(invalidColumns: $diff));
 
         $this->projectableColumns = $this->truthTable->intersect($this->projectableColumns, $this->definedColumns);
-        throw_if(empty($this->projectableColumns), InvalidDefinedFieldsException::class, $this->definedColumns);
+        throw_if(empty($this->projectableColumns), E::Q_NotInProjectable->exception2());
     }
 
     protected function validate()

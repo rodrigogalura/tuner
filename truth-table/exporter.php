@@ -245,13 +245,13 @@ class Exporter
             }
 
             $data[] = [
-                'projectableFields' => explode_sanitized($row[at('A')]),
-                'definedFields' => explode_sanitized($row[at('B')]),
+                'projectableColumns' => explode_sanitized($row[at('A')]),
+                'definedColumns' => explode_sanitized($row[at('B')]),
                 'clientInput' => $row[at('C')],
-                'intersectResultNonStrict' => is_numeric($row[at('D')]) ? $row[at('D')] : explode_sanitized($row[at('D')]),
-                'intersectResultStrict' => is_numeric($row[at('E')]) ? $row[at('E')] : explode_sanitized($row[at('E')]),
-                'exceptResultNonStrict' => is_numeric($row[at('F')]) ? $row[at('F')] : explode_sanitized($row[at('F')]),
-                'exceptResultStrict' => is_numeric($row[at('G')]) ? $row[at('G')] : explode_sanitized($row[at('G')]),
+                'intersectResultNonStrict' => is_numeric($row[at('D')]) ? (int) $row[at('D')] : explode_sanitized($row[at('D')]),
+                'intersectResultStrict' => is_numeric($row[at('E')]) ? (int) $row[at('E')] : explode_sanitized($row[at('E')]),
+                'exceptResultNonStrict' => is_numeric($row[at('F')]) ? (int) $row[at('F')] : explode_sanitized($row[at('F')]),
+                'exceptResultStrict' => is_numeric($row[at('G')]) ? (int) $row[at('G')] : explode_sanitized($row[at('G')]),
             ];
         });
 

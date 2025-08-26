@@ -6,5 +6,5 @@ interface RuleInterface
 {
     public function getErrorCode();
 
-    public function handle(string $item);
+    public function handle(string $subject);
 }
