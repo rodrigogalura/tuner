@@ -28,6 +28,9 @@ class TruthTable
         }
     }
 
+    /**
+     * Not used
+     */
     public function extractIfKeyIsAsterisk(array &$value)
     {
         if (array_key_exists('*', $value)) {
@@ -38,14 +41,6 @@ class TruthTable
     public function intersectToAllItems(array &$p)
     {
         $p = array_values(array_intersect($p, $this->allItems));
-    }
-
-    public function intersect(array|string $p, array|string $q)
-    {
-        $this->extractIfAsterisk($p);
-        $this->extractIfAsterisk($q);
-
-        return array_values(array_intersect($p, $q));
     }
 
     public function except(array|string $p, array|string $q)

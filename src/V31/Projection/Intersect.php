@@ -8,8 +8,8 @@ class Intersect extends Projection
 {
     public function __construct(
         array $columns,
-        mixed $projectableColumns,
-        mixed $definedColumns,
+        array $projectableColumns,
+        array $definedColumns,
         array $clientInput,
     ) {
         parent::__construct($columns, $projectableColumns, $definedColumns, $clientInput);
@@ -29,6 +29,6 @@ class Intersect extends Projection
 
         return $inputArr === ['*']
             ? $this->projectableColumns
-            : $this->truthTable->intersect($this->projectableColumns, $inputArr);
+            : ($this->intersect)($this->projectableColumns, $inputArr);
     }
 }

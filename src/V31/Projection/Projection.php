@@ -4,11 +4,14 @@ namespace Laradigs\Tweaker\V31\Projection;
 
 use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
 use Laradigs\Tweaker\TruthTable;
+use Laradigs\Tweaker\V31\Intersect;
 
 use function RGalura\ApiIgniter\validate;
 
 abstract class Projection
 {
+    protected Intersect $intersect;
+
     protected TruthTable $truthTable;
 
     protected readonly string $key;
@@ -19,11 +22,13 @@ abstract class Projection
 
     public function __construct(
         protected array $columns,
-        protected mixed $projectableColumns,
-        protected mixed $definedColumns,
+        protected array $projectableColumns,
+        protected array $definedColumns,
         private array $clientInput,
+
     ) {
         $this->truthTable = new TruthTable($columns);
+        $this->intersect = new Intersect;
 
         $this->key = key($clientInput);
         $this->clientInputValue = static::$clientInputs[$this->key] = current($clientInput);
@@ -51,7 +56,7 @@ abstract class Projection
         $this->truthTable->extractIfAsterisk($this->definedColumns);
         $this->throwIfNotInColumns($this->definedColumns, Error::Q_NotInColumns);
 
-        $this->projectableColumns = $this->truthTable->intersect($this->projectableColumns, $this->definedColumns);
+        $this->projectableColumns = ($this->intersect)($this->projectableColumns, $this->definedColumns);
         throw_if(empty($this->projectableColumns), Error::Q_NotInProjectable->exception());
     }
 
