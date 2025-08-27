@@ -60,7 +60,7 @@ function base_path(string $subPath = '')
     return realpath(__DIR__.'/..').($subPath ? DIRECTORY_SEPARATOR.$subPath : '');
 }
 
-function assign_if($compareTo, &$var, $newValue, bool $strict = true)
+function assign_if($compareTo, &$var, $newValue, bool $strict = true): void
 {
     if ($strict
         ? $var === $compareTo

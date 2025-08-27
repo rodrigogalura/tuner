@@ -3,6 +3,7 @@
 namespace Laradigs\Tweaker\V31\TruthTable;
 
 use Laradigs\Tweaker\V31\Intersect;
+
 use function RGalura\ApiIgniter\filter_explode;
 
 abstract class TruthTable
@@ -17,12 +18,12 @@ abstract class TruthTable
         $this->intersect = new Intersect;
     }
 
-    protected function extractIfAsterisk(string &$str)
-    {
-        if (trim($str) === '*') {
-            $str = implode(', ', $this->items);
-        }
-    }
+    // protected function extractIfAsterisk(string &$str)
+    // {
+    //     if (trim($str) === '*') {
+    //         $str = implode(', ', $this->items);
+    //     }
+    // }
 
     protected function someFirstNotInSecond(array $first, array $second)
     {

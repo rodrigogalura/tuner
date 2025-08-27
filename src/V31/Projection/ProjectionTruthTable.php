@@ -5,6 +5,7 @@ namespace Laradigs\Tweaker\V31\Projection;
 use Laradigs\Tweaker\V31\TruthTable\Exportable;
 use Laradigs\Tweaker\V31\TruthTable\TruthTable;
 
+use function RGalura\ApiIgniter\assign_if;
 use function RGalura\ApiIgniter\filter_explode;
 
 class ProjectionTruthTable extends TruthTable
@@ -34,7 +35,7 @@ class ProjectionTruthTable extends TruthTable
 
     public function __construct(
         private array $rules = [],
-        array $items = []
+        private array $items = []
     ) {
         parent::__construct($items);
     }
@@ -48,8 +49,11 @@ class ProjectionTruthTable extends TruthTable
                 $errorNum = array_shift($rule);
                 $i = $rule['targetIndexAsArgs'];
 
-                $this->extractIfAsterisk($subjects[$i]);
                 $args = filter_explode($subjects[$i]);
+                assign_if(['*'], $args, newValue: $this->items);
+
+                // $this->extractIfAsterisk($subjects[$i]);
+                // $args = filter_explode($subjects[$i]);
 
                 $ruleClass = new $classRule($args, $errorNum);
             }
@@ -100,7 +104,8 @@ class ProjectionTruthTable extends TruthTable
 
             $rulePassed = true;
             foreach ($this->rules as $index => $rules) {
-                $this->extractIfAsterisk($matrixRow[$index]);
+                assign_if('*', $matrixRow[$index], newValue: implode(', ', $this->items));
+                // $this->extractIfAsterisk($matrixRow[$index]);
 
                 $code = $this->validate($rules, $matrixRow, $matrixRow[$index]);
 

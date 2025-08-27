@@ -2,11 +2,11 @@
 
 namespace Laradigs\Tweaker\V31\Projection;
 
+use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
 use Laradigs\Tweaker\TruthTable;
 use Laradigs\Tweaker\V31\Intersect;
-use function RGalura\ApiIgniter\assign_if;
-use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
 
+use function RGalura\ApiIgniter\assign_if;
 use function RGalura\ApiIgniter\validate;
 
 abstract class Projection
