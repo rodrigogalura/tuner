@@ -1,7 +1,7 @@
 <?php
 
 use Laradigs\Tweaker\Projection\Projection;
-use Laradigs\Tweaker\V31\Projection\IntersectProjection;
+use Laradigs\Tweaker\V31\Projection\Intersect;
 
 define('INTERSECT_KEY', 'fields');
 define('EXCEPT_KEY', 'fields!');
@@ -15,6 +15,8 @@ dataset('not-string-value', [
 ]);
 
 beforeEach(function (): void {
+    $this->visibleColumns = ['id', 'name'];
+
     $this->visibleFields = ['id', 'name'];
     $this->visibleFieldsString = implode(', ', $this->visibleFields);
 });
@@ -30,7 +32,7 @@ test('test lang po', function (
     $clientInput,
     $expectedResult
 ): void {
-    $ip = new IntersectProjection(
+    $ip = new Intersect(
         $visibleColumns,
         $projectableColumns,
         $definedColumns,
@@ -73,9 +75,8 @@ test('Projection', function (
     // $exceptResultNonStrict,
     // $exceptResultStrict,);
 
-    $visibleColumns = ['id', 'name'];
     $ip = new $projection(
-        $visibleColumns,
+        $this->visibleColumns,
         $projectableColumns,
         $definedColumns,
         [$key => $clientInput]
@@ -86,11 +87,10 @@ test('Projection', function (
     } catch (\Throwable $e) {
         $result = $e->getCode();
     }
-
     expect($result)->toBe($intersectResultNonStrict);
 })
     ->with([
-        [IntersectProjection::class, INTERSECT_KEY],
+        [Intersect::class, INTERSECT_KEY],
         // [ExceptProjection::class, EXCEPT_KEY],
     ])
     ->with('projection');

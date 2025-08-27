@@ -3,16 +3,17 @@
 namespace Laradigs\Tweaker\Console;
 
 use Illuminate\Console\Command;
-use function Laravel\Prompts\multiselect;
+use Laradigs\Tweaker\V31\ErrorCodes;
 use Laradigs\Tweaker\V31\Matrix2D;
 use Laradigs\Tweaker\V31\PowerSet;
-use Laradigs\Tweaker\V31\ErrorCodes;
-use function Laravel\Prompts\select;
-use function RGalura\ApiIgniter\base_path;
-use Laradigs\Tweaker\V31\TruthTable\Rules\TruthyRule;
-use Laradigs\Tweaker\V31\Projection\ProjectionError as E;
+use Laradigs\Tweaker\V31\Projection\Error;
 use Laradigs\Tweaker\V31\Projection\ProjectionTruthTable;
 use Laradigs\Tweaker\V31\TruthTable\Rules\SomeInListRule;
+use Laradigs\Tweaker\V31\TruthTable\Rules\TruthyRule;
+
+use function Laravel\Prompts\multiselect;
+use function Laravel\Prompts\select;
+use function RGalura\ApiIgniter\base_path;
 
 class CreateTruthTableCSV extends Command
 {
@@ -33,9 +34,9 @@ class CreateTruthTableCSV extends Command
     const TRUTH_TABLE_PROJECTION = 'Projection';
 
     const TRUTH_TABLE_PROJECTION_OPTIONS = [
+        'both' => 'Both Intersect And Except',
         'intersect' => 'Intersect Only',
         'except' => 'Except Only',
-        'both' => 'Both Intersect And Except'
     ];
 
     // all columns of table except hidden columns
@@ -89,15 +90,15 @@ class CreateTruthTableCSV extends Command
 
                 // Projectable Columns Rules
                 0 => [
-                    new TruthyRule(E::P_Disabled),
-                    new SomeInListRule(static::VISIBLE_COLUMNS, E::P_NotInColumns),
+                    new TruthyRule(Error::P_Disabled),
+                    new SomeInListRule(static::VISIBLE_COLUMNS, Error::P_NotInColumns),
                 ],
 
                 // Defined Columns Rules
                 1 => [
-                    new TruthyRule(E::Q_LaravelDefaultError),
-                    new SomeInListRule(static::VISIBLE_COLUMNS, E::Q_NotInColumns),
-                    [SomeInListRule::class, E::Q_NotInProjectable, 'targetIndexAsArgs' => 0],
+                    new TruthyRule(Error::Q_LaravelDefaultError),
+                    new SomeInListRule(static::VISIBLE_COLUMNS, Error::Q_NotInColumns),
+                    [SomeInListRule::class, Error::Q_NotInProjectable, 'targetIndexAsArgs' => 0],
                 ],
             ],
 
@@ -111,25 +112,25 @@ class CreateTruthTableCSV extends Command
                 'file' => base_path('truth-table/projection-intersect.csv'),
                 'headers' => array_merge($CSV_HEADERS, ['Intersect - Non-strict']),
                 'projectionMethod' => 'enabledIntersect',
-                'option' => "intersect"
+                'option' => 'intersect',
             ],
             [
                 'file' => base_path('truth-table/projection-intersect-strict.csv'),
                 'headers' => array_merge($CSV_HEADERS, ['Intersect - Strict']),
                 'projectionMethod' => 'enabledIntersectStrict',
-                'option' => "intersect"
+                'option' => 'intersect',
             ],
             [
                 'file' => base_path('truth-table/projection-except.csv'),
                 'headers' => array_merge($CSV_HEADERS, ['Except - Non-strict']),
                 'projectionMethod' => 'enabledExcept',
-                'option' => "except"
+                'option' => 'except',
             ],
             [
                 'file' => base_path('truth-table/projection-except-strict.csv'),
                 'headers' => array_merge($CSV_HEADERS, ['Except - Strict']),
                 'projectionMethod' => 'enabledExceptStrict',
-                'option' => "except"
+                'option' => 'except',
             ],
             [
                 'file' => base_path('truth-table/projection.csv'),
@@ -138,7 +139,7 @@ class CreateTruthTableCSV extends Command
                     'Except - Non-strict', 'Except - Strict',
                 ]),
                 'projectionMethod' => 'enabledAll',
-                'option' => "both"
+                'option' => 'both',
             ],
         ]);
 

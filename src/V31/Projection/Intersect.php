@@ -4,7 +4,7 @@ namespace Laradigs\Tweaker\V31\Projection;
 
 use function RGalura\ApiIgniter\filter_explode;
 
-class IntersectProjection extends Projection
+class Intersect extends Projection
 {
     public function __construct(
         array $columns,

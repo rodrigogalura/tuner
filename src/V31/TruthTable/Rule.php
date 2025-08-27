@@ -3,11 +3,11 @@
 namespace Laradigs\Tweaker\V31\TruthTable;
 
 use Laradigs\Tweaker\V31\ErrorCodes;
-use Laradigs\Tweaker\V31\Projection\ProjectionError;
+use Laradigs\Tweaker\V31\Projection\Error;
 
 abstract class Rule
 {
-    public function __construct(private ProjectionError|ErrorCodes $e)
+    public function __construct(private Error|ErrorCodes $e)
     {
         //
     }

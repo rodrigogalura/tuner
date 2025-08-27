@@ -3,14 +3,14 @@
 namespace Laradigs\Tweaker\V31\TruthTable\Rules;
 
 use Laradigs\Tweaker\V31\ErrorCodes;
-use Laradigs\Tweaker\V31\Projection\ProjectionError;
+use Laradigs\Tweaker\V31\Projection\Error;
 use Laradigs\Tweaker\V31\TruthTable\Rule;
 
 use function RGalura\ApiIgniter\filter_explode;
 
 class SomeInListRule extends Rule
 {
-    public function __construct(private array $list, ProjectionError|ErrorCodes $e)
+    public function __construct(private array $list, Error|ErrorCodes $e)
     {
         parent::__construct($e);
     }

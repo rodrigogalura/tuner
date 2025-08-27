@@ -4,7 +4,6 @@ namespace Laradigs\Tweaker\V31\Projection;
 
 use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
 use Laradigs\Tweaker\TruthTable;
-use Laradigs\Tweaker\V31\Projection\ProjectionError as E;
 
 use function RGalura\ApiIgniter\validate;
 
@@ -30,30 +29,30 @@ abstract class Projection
         $this->clientInputValue = static::$clientInputs[$this->key] = current($clientInput);
     }
 
-    private function throwIfNotInColumns(array $fields, E $e)
+    private function throwIfNotInColumns(array $fields, Error $e)
     {
         throw_if($diff = $this->truthTable->diffFromAllItems($fields), $e->exception(invalidColumns: $diff));
     }
 
     private function projectablePrerequisites()
     {
-        throw_if(empty($this->projectableColumns), E::P_Disabled->exception());
+        throw_if(empty($this->projectableColumns), Error::P_Disabled->exception());
 
         $this->truthTable->extractIfAsterisk($this->projectableColumns);
-        $this->throwIfNotInColumns($this->projectableColumns, E::P_NotInColumns);
+        $this->throwIfNotInColumns($this->projectableColumns, Error::P_NotInColumns);
 
         $this->truthTable->intersectToAllItems($this->projectableColumns);
     }
 
     private function definedPrerequisites()
     {
-        throw_if(empty($this->definedColumns), E::Q_LaravelDefaultError->exception());
+        throw_if(empty($this->definedColumns), Error::Q_LaravelDefaultError->exception());
 
         $this->truthTable->extractIfAsterisk($this->definedColumns);
-        $this->throwIfNotInColumns($this->definedColumns, E::Q_NotInColumns);
+        $this->throwIfNotInColumns($this->definedColumns, Error::Q_NotInColumns);
 
         $this->projectableColumns = $this->truthTable->intersect($this->projectableColumns, $this->definedColumns);
-        throw_if(empty($this->projectableColumns), E::Q_NotInProjectable->exception());
+        throw_if(empty($this->projectableColumns), Error::Q_NotInProjectable->exception());
     }
 
     protected function prerequisites()
