@@ -3,16 +3,16 @@
 namespace Laradigs\Tweaker\Console;
 
 use Illuminate\Console\Command;
-use Laradigs\Tweaker\V31\ErrorCodes;
+use function Laravel\Prompts\multiselect;
 use Laradigs\Tweaker\V31\Matrix2D;
 use Laradigs\Tweaker\V31\PowerSet;
+use Laradigs\Tweaker\V31\ErrorCodes;
+use function Laravel\Prompts\select;
+use function RGalura\ApiIgniter\base_path;
+use Laradigs\Tweaker\V31\TruthTable\Rules\TruthyRule;
 use Laradigs\Tweaker\V31\Projection\ProjectionError as E;
 use Laradigs\Tweaker\V31\Projection\ProjectionTruthTable;
 use Laradigs\Tweaker\V31\TruthTable\Rules\SomeInListRule;
-use Laradigs\Tweaker\V31\TruthTable\Rules\TruthyRule;
-
-use function Laravel\Prompts\select;
-use function RGalura\ApiIgniter\base_path;
 
 class CreateTruthTableCSV extends Command
 {
@@ -32,6 +32,12 @@ class CreateTruthTableCSV extends Command
 
     const TRUTH_TABLE_PROJECTION = 'Projection';
 
+    const TRUTH_TABLE_PROJECTION_OPTIONS = [
+        'intersect' => 'Intersect Only',
+        'except' => 'Except Only',
+        'both' => 'Both Intersect And Except'
+    ];
+
     // all columns of table except hidden columns
     const VISIBLE_COLUMNS = ['id', 'name'];
 
@@ -49,12 +55,18 @@ class CreateTruthTableCSV extends Command
             ])
         )) {
             case static::TRUTH_TABLE_PROJECTION:
-                $this->exportProjection();
+                $this->exportProjection(
+                    multiselect(
+                        label: 'Select Projection Variants:',
+                        options: static::TRUTH_TABLE_PROJECTION_OPTIONS,
+                        default: ['both']
+                    )
+                );
                 break;
         }
     }
 
-    private function exportProjection()
+    private function exportProjection(array $options)
     {
         $CSV_HEADERS = ['Projectable Columns (p)', 'Defined Columns (q)', 'Client Input (r)'];
 
@@ -92,62 +104,55 @@ class CreateTruthTableCSV extends Command
             items: static::VISIBLE_COLUMNS
         );
 
-        $debug = 0;
-        if ($debug) {
-            $ptt->enabledAll(); // enable
-            $ptt->export(base_path('truth-table/debug.csv'), $ptt->truthTable([
-                ['id', '*', '*'],
-            ]),
-                function ($handle) use ($CSV_HEADERS): void {
+        $matrix2D = new Matrix2D($variables);
+
+        $export = collect([
+            [
+                'file' => base_path('truth-table/projection-intersect.csv'),
+                'headers' => array_merge($CSV_HEADERS, ['Intersect - Non-strict']),
+                'projectionMethod' => 'enabledIntersect',
+                'option' => "intersect"
+            ],
+            [
+                'file' => base_path('truth-table/projection-intersect-strict.csv'),
+                'headers' => array_merge($CSV_HEADERS, ['Intersect - Strict']),
+                'projectionMethod' => 'enabledIntersectStrict',
+                'option' => "intersect"
+            ],
+            [
+                'file' => base_path('truth-table/projection-except.csv'),
+                'headers' => array_merge($CSV_HEADERS, ['Except - Non-strict']),
+                'projectionMethod' => 'enabledExcept',
+                'option' => "except"
+            ],
+            [
+                'file' => base_path('truth-table/projection-except-strict.csv'),
+                'headers' => array_merge($CSV_HEADERS, ['Except - Strict']),
+                'projectionMethod' => 'enabledExceptStrict',
+                'option' => "except"
+            ],
+            [
+                'file' => base_path('truth-table/projection.csv'),
+                'headers' => array_merge($CSV_HEADERS, [
+                    'Intersect - Non-strict', 'Intersect - Strict',
+                    'Except - Non-strict', 'Except - Strict',
+                ]),
+                'projectionMethod' => 'enabledAll',
+                'option' => "both"
+            ],
+        ]);
+
+        $filtered = $export->whereIn('option', $options)->all();
+
+        foreach ($filtered as $row) {
+            $ptt->{$row['projectionMethod']}(); // enable
+            $ptt->export($row['file'], $ptt->truthTable($matrix2D->handle()),
+                function ($handle) use ($row): void {
                     fputcsv($handle, ['Projection Truth Table']);
-                    fputcsv($handle, array_merge($CSV_HEADERS, ['Intersect - Non-strict']));
+                    fputcsv($handle, $row['headers']);
                 }
             );
-            $ptt->enabledAll(false); // disable
-        } else {
-            $matrix2D = new Matrix2D($variables);
-
-            $export = [
-                [
-                    'file' => base_path('truth-table/projection-intersect.csv'),
-                    'headers' => array_merge($CSV_HEADERS, ['Intersect - Non-strict']),
-                    'projectionMethod' => 'enabledIntersect',
-                ],
-                [
-                    'file' => base_path('truth-table/projection-intersect-strict.csv'),
-                    'headers' => array_merge($CSV_HEADERS, ['Intersect - Strict']),
-                    'projectionMethod' => 'enabledIntersectStrict',
-                ],
-                [
-                    'file' => base_path('truth-table/projection-except.csv'),
-                    'headers' => array_merge($CSV_HEADERS, ['Except - Non-strict']),
-                    'projectionMethod' => 'enabledExcept',
-                ],
-                [
-                    'file' => base_path('truth-table/projection-except-strict.csv'),
-                    'headers' => array_merge($CSV_HEADERS, ['Except - Strict']),
-                    'projectionMethod' => 'enabledExceptStrict',
-                ],
-                [
-                    'file' => base_path('truth-table/projection-all.csv'),
-                    'headers' => array_merge($CSV_HEADERS, [
-                        'Intersect - Non-strict', 'Intersect - Strict',
-                        'Except - Non-strict', 'Except - Strict',
-                    ]),
-                    'projectionMethod' => 'enabledAll',
-                ],
-            ];
-
-            foreach ($export as $e) {
-                $ptt->{$e['projectionMethod']}(); // enable
-                $ptt->export($e['file'], $ptt->truthTable($matrix2D->handle()),
-                    function ($handle) use ($e): void {
-                        fputcsv($handle, ['Projection Truth Table']);
-                        fputcsv($handle, $e['headers']);
-                    }
-                );
-                $ptt->{$e['projectionMethod']}(false); // disable
-            }
+            $ptt->{$row['projectionMethod']}(false); // disable
         }
     }
 }

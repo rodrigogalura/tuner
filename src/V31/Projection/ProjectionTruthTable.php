@@ -85,12 +85,7 @@ class ProjectionTruthTable extends TruthTable
     public function enabledAll($enable = true)
     {
         $indexes = array_keys($this->enabled);
-
-        while ($index = current($indexes)) {
-            $this->enabled[$index] = $enable;
-
-            next($indexes);
-        }
+        $this->enabled = array_fill_keys($indexes, $enable);
     }
 
     /**
