@@ -2,16 +2,19 @@
 
 namespace Laradigs\Tweaker\V31\TruthTable;
 
+use Laradigs\Tweaker\V31\Intersect;
 use function RGalura\ApiIgniter\filter_explode;
 
 abstract class TruthTable
 {
+    protected Intersect $intersect;
+
     protected const RULE_PASSED_CODE = 1;
 
     public function __construct(
         private array $items = []
     ) {
-        //
+        $this->intersect = new Intersect;
     }
 
     protected function extractIfAsterisk(string &$str)
@@ -32,7 +35,7 @@ abstract class TruthTable
             $p = filter_explode(array_shift($keys));
             $q = filter_explode(array_shift($keys));
 
-            $keys[0] = implode(', ', $this->intersect($p, $q));
+            $keys[0] = implode(', ', ($this->intersect)($p, $q));
 
             next($keys);
         }
@@ -40,10 +43,10 @@ abstract class TruthTable
         return array_shift($keys);
     }
 
-    protected function intersect(array $p, array $q)
-    {
-        return array_values(array_intersect($p, $q));
-    }
+    // protected function intersect(array $p, array $q)
+    // {
+    //     return array_values(array_intersect($p, $q));
+    // }
 
     protected function except(array $p, array $q)
     {

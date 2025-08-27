@@ -21,13 +21,6 @@ class TruthTable
         return array_values(array_diff($value, $this->allItems));
     }
 
-    public function extractIfAsterisk(string|array &$value)
-    {
-        if ($value === '*' || $value === ['*']) {
-            $value = $this->allItems;
-        }
-    }
-
     /**
      * Not used
      */

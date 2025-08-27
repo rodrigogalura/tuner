@@ -2,7 +2,6 @@
 
 namespace Laradigs\Tweaker\V31\Projection;
 
-use Laradigs\Tweaker\V31\Intersect;
 use Laradigs\Tweaker\V31\TruthTable\Exportable;
 use Laradigs\Tweaker\V31\TruthTable\TruthTable;
 
@@ -11,8 +10,6 @@ use function RGalura\ApiIgniter\filter_explode;
 class ProjectionTruthTable extends TruthTable
 {
     use Exportable;
-
-    private Intersect $intersect;
 
     const INDEX_PROJECTABLE = 0;
 

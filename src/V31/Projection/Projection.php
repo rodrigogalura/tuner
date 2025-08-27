@@ -2,9 +2,10 @@
 
 namespace Laradigs\Tweaker\V31\Projection;
 
-use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
 use Laradigs\Tweaker\TruthTable;
 use Laradigs\Tweaker\V31\Intersect;
+use function RGalura\ApiIgniter\assign_if;
+use Laradigs\Tweaker\Projection\Exceptions\CannotUseMultipleProjectionException;
 
 use function RGalura\ApiIgniter\validate;
 
@@ -43,7 +44,7 @@ abstract class Projection
     {
         throw_if(empty($this->projectableColumns), Error::P_Disabled->exception());
 
-        $this->truthTable->extractIfAsterisk($this->projectableColumns);
+        assign_if(['*'], $this->projectableColumns, newValue: $this->columns);
         $this->throwIfNotInColumns($this->projectableColumns, Error::P_NotInColumns);
 
         $this->truthTable->intersectToAllItems($this->projectableColumns);
@@ -53,7 +54,7 @@ abstract class Projection
     {
         throw_if(empty($this->definedColumns), Error::Q_LaravelDefaultError->exception());
 
-        $this->truthTable->extractIfAsterisk($this->definedColumns);
+        assign_if(['*'], $this->definedColumns, newValue: $this->columns);
         $this->throwIfNotInColumns($this->definedColumns, Error::Q_NotInColumns);
 
         $this->projectableColumns = ($this->intersect)($this->projectableColumns, $this->definedColumns);
