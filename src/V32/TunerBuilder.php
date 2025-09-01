@@ -3,17 +3,15 @@
 namespace Laradigs\Tweaker\V32;
 
 use Illuminate\Database\Eloquent\Builder;
-use Laradigs\Tweaker\V32\Projection\TunerProjection;
+use Laradigs\Tweaker\V32\Projection\Projector;
 use Laradigs\Tweaker\V32\ValueObjects\ProjectionInput;
 
-/**
- * Singleton
- */
 final class TunerBuilder
 {
+    use HasSingleton;
+
     /**
-     * The Singleton's constructor should always be private to prevent direct
-     * construction calls with the `new` operator.
+     * Private constructor
      */
     private function __construct(
         private Builder $builder,
@@ -22,19 +20,6 @@ final class TunerBuilder
         private array $input
     ) {
         //
-    }
-
-    /**
-     * Singletons should not be cloneable.
-     */
-    protected function __clone() {}
-
-    /**
-     * Singletons should not be restorable from strings.
-     */
-    public function __wakeup()
-    {
-        throw new \Exception('Cannot unserialize a singleton.');
     }
 
     public static function getInstance(
@@ -50,12 +35,13 @@ final class TunerBuilder
     {
         $config = $this->config[str(__METHOD__)->after('::')->value];
 
-        TunerProjection::process(
+        Projector::run(
             $this->builder,
             $this->visibleColumns,
             $projectableColumns,
             definedColumns: $this->builder->getQuery()->columns ?? ['*'],
-            input: new ProjectionInput($config, $this->input)
+            input: new ProjectionInput($config, $this->input),
+            strict: $config['strict'] ?? false
         );
 
         return $this;

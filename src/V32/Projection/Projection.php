@@ -8,8 +8,7 @@ abstract class Projection
 {
     private function __construct(
         protected LinearArray $items
-    )
-    {
+    ) {
         //
     }
 
@@ -20,12 +19,34 @@ abstract class Projection
 
     public function to(array $items)
     {
-        return $this->project(new LinearArray($items));
+        $this->projectedItems = $this->project(new LinearArray($items));
+
+        return $this;
+    }
+
+    public function get()
+    {
+        return $this->projectedItems;
+    }
+
+    public function count()
+    {
+        return count($this->get());
+    }
+
+    public function isEmpty()
+    {
+        return $this->count() === 0;
+    }
+
+    public function isNotEmpty()
+    {
+        return ! $this->isEmpty();
     }
 
     public function toR(array &$items)
     {
-        $items = $this->to($items);
+        $items = $this->to($items)->get();
     }
 
     abstract protected function project(LinearArray $items);

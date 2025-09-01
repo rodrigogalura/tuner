@@ -13,24 +13,36 @@ enum ErrorEnum: int
     case Q_NotInColumns = 5;
     case Q_NotInProjectable = 6;
 
-    case R_CannotExcludeAll = 7;
+    case R_IncludeUnknownColumn = 7;
+    case R_ExcludeUnknownColumn = 8;
+
+    case ProjectedColumnIsEmpty = 9;
 
     public function exception(string $errorMessage = '', array $invalidColumns = [])
     {
         if (count($invalidColumns) > 0) {
-            $errorMessage = match ($this) {
-                Error::P_NotInColumns,
-                Error::Q_NotInColumns => count($invalidColumns) === 1
-                    ? "The column '{$invalidColumns[0]}' is not a valid column."
-                    : "The columns '".implode("', '", $invalidColumns)."' are not valid columns.",
+            $columns = array_values($invalidColumns);
 
-                Error::Q_NotInProjectable => count($invalidColumns) === 1
-                    ? "The projectable column '{$invalidColumns[0]}' is not a valid column."
-                    : "The projectable columns '".implode("', '", $invalidColumns)."' are not valid columns.",
+            $errorMessage = match ($this) {
+                ErrorEnum::P_NotInColumns,
+                ErrorEnum::Q_NotInColumns,
+                ErrorEnum::R_IncludeUnknownColumn,
+                ErrorEnum::R_ExcludeUnknownColumn => count($columns) === 1
+                    ? "The column '{$columns[0]}' is not a valid column."
+                    : "The columns '".implode("', '", $columns)."' are not valid columns.",
+
+                ErrorEnum::Q_NotInProjectable => count($columns) === 1
+                    ? "The projectable column '{$columns[0]}' is not a valid column."
+                    : "The projectable columns '".implode("', '", $columns)."' are not valid columns.",
                 default => $errorMessage
             };
         }
 
-        return new Exception($errorMessage, code: $this->value);
+        return new Exception($errorMessage, $this->errorCode());
+    }
+
+    public function errorCode()
+    {
+        return $this->value;
     }
 }

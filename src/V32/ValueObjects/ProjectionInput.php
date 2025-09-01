@@ -5,6 +5,7 @@ namespace Laradigs\Tweaker\V32\ValueObjects;
 class ProjectionInput
 {
     const INTERSECT_KEY = 'intersect_key';
+
     const EXCEPT_KEY = 'except_key';
 
     private array $inputUsed;
@@ -12,8 +13,7 @@ class ProjectionInput
     public function __construct(
         protected array $config,
         protected array $input
-    )
-    {
+    ) {
         $this->inputUsed = array_keys($this->input);
         $this->validate();
     }
@@ -21,11 +21,11 @@ class ProjectionInput
     private function validate()
     {
         if ($this->intersectIsUse() && $this->exceptIsUse()) {
-            throw new \Exception('Cannot use ' . $this->config[static::INTERSECT_KEY] . ' and ' . $this->config[static::EXCEPT_KEY] . ' at the same time!');
+            throw new \Exception('Cannot use '.$this->config[static::INTERSECT_KEY].' and '.$this->config[static::EXCEPT_KEY].' at the same time!');
         }
     }
 
-    private function intersectIsUse()
+    public function intersectIsUse()
     {
         return in_array($this->config[static::INTERSECT_KEY], $this->inputUsed);
     }

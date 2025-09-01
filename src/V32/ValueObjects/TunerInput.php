@@ -33,9 +33,9 @@ class TunerInput
     {
         $tuner = new static($input);
 
-        $acceptedKeys = Cache::rememberForever('tuner-config-keys', function() use ($tuner) {
+        $acceptedKeys = Cache::rememberForever('tuner-config-keys', function () use ($tuner) {
             $keys = [];
-            foreach ($tuner->config as $kind => $options) {
+            foreach ($tuner->config as $options) {
                 foreach ($options as $key => $optionValue) {
                     if (str_contains($key, 'key')) {
                         $keys[] = $optionValue;
@@ -46,7 +46,7 @@ class TunerInput
             return $keys;
         });
 
-        $tuner->input = array_filter($tuner->input, fn ($key) => in_array($key, $acceptedKeys), ARRAY_FILTER_USE_KEY);
+        $tuner->input = array_filter($tuner->input, fn ($key): bool => in_array($key, $acceptedKeys), ARRAY_FILTER_USE_KEY);
 
         return $tuner;
     }

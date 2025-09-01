@@ -11,7 +11,7 @@ class LinearArray
         }
     }
 
-    private function isLinear()
+    private function isLinear(): bool
     {
         while ($currentItem = current($this->items)) {
             if (is_array($currentItem)) {
