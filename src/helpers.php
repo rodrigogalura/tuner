@@ -69,3 +69,8 @@ function assign_if($compareTo, &$var, $newValue, bool $strict = true): void
         $var = $newValue;
     }
 }
+
+function in_array_all($needles, $haystack)
+{
+    return empty(array_diff($haystack, $needles));
+}
