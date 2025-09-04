@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Laradigs\Tweaker\V33\Projection\Projector;
 use Laradigs\Tweaker\V33\ValueObjects\Columns;
 use Laradigs\Tweaker\V33\ValueObjects\ArrayParser;
+use Laradigs\Tweaker\V33\ValueObjects\DefinedColumns;
 use Laradigs\Tweaker\V32\Projection\ErrorEnum as Error;
 use Laradigs\Tweaker\V33\Projection\IntersectProjection;
 use Laradigs\Tweaker\V33\ValueObjects\ProjectableColumns;
@@ -17,9 +18,7 @@ final class TunerBuilder
 {
     use HasSingleton;
 
-    private ?array $projectedColumns = null;
-
-    private readonly array $definedColumns;
+    private readonly array $projectedColumns;
 
     private readonly array $queryKeywords;
 
@@ -32,7 +31,6 @@ final class TunerBuilder
         private array $config,
         private array $query
     ) {
-        $this->definedColumns = $builder->getQuery()->columns ?? ['*'];
         $this->queryKeywords = array_keys($query);
     }
 
@@ -63,6 +61,8 @@ final class TunerBuilder
                 throw_if(every($this->queryKeywords, $projectionKeywords), new \LogicException('Cannot use '.implode(', ', $projectionKeywords).' at the same time.'));
             }
 
+            $definedColumns = $this->builder->getQuery()->columns ?? ['*'];
+
             foreach ($projectionConfig as $key => $keyword) {
                 if (in_array($keyword, $this->queryKeywords)) {
                     $class = __NAMESPACE__.'\\Projection\\'.
@@ -77,6 +77,7 @@ final class TunerBuilder
                         $projector = new Projector(
                             new $class(
                                 new ProjectableColumns($projectableColumns, $this->visibleColumns),
+                                new DefinedColumns($definedColumns, $this->visibleColumns),
                                 new Columns($inputArr, $this->visibleColumns)
                             )
                         );
@@ -86,8 +87,7 @@ final class TunerBuilder
                         switch ($e->getCode()) {
                             case ProjectableColumns::ERR_CODE_DISABLED:
                                 logger()->info('Skip the projection process');
-                                goto end;
-                                break;
+                                break 2;
 
                             default:
                                 throw $e;
@@ -97,17 +97,18 @@ final class TunerBuilder
             }
         }
 
-        end:
         return $this;
     }
 
     public function execute()
     {
-        if (empty($this->projectedColumns)) {
-            return [];
-        }
+        if (!is_null($this->projectedColumns ?? null)) {
+            if (empty($this->projectedColumns)) {
+                return [];
+            }
 
-        $this->builder->select($this->projectedColumns);
+            $this->builder->select($this->projectedColumns);
+        }
 
         return $this->builder->get();
     }

@@ -8,7 +8,7 @@ trait Tunable
 {
     protected function getProjectableColumns(): array
     {
-        return ['foo'];
+        return ['*'];
     }
 
     /**
@@ -25,19 +25,5 @@ trait Tunable
         return TunerBuilder::getInstance($builder, $visibleColumns, config('tweaker'), $_GET)
             ->projection($this->getProjectableColumns())
             ->execute();
-
-        // try {
-        //     return TunerBuilder::getInstance($builder, $visibleColumns, config('tweaker'), $_GET)
-        //         ->projection($this->getProjectableColumns())
-        //         ->execute();
-        // } catch (Exception $e) {
-        //     switch ($e->getCode()) {
-        //         case ProjectionError::ProjectedColumnIsEmpty->errorCode():
-        //             return [];
-
-        //         default:
-        //             throw $e;
-        //     }
-        // }
     }
 }
