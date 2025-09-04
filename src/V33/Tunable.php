@@ -8,7 +8,7 @@ trait Tunable
 {
     protected function getProjectableColumns(): array
     {
-        return ['foo', 'id'];
+        return ['foo'];
     }
 
     /**

@@ -6,6 +6,6 @@ class ExceptProjection extends Projection
 {
     public function project()
     {
-        return array_diff($this->from, $this->to);
+        return array_diff($this->pCols->getParsedColumns(), $this->cols->getParsedColumns());
     }
 }

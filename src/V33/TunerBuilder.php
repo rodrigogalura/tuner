@@ -2,14 +2,16 @@
 
 namespace Laradigs\Tweaker\V33;
 
-use function RGalura\ApiIgniter\some;
+use function RGalura\ApiIgniter\any;
 use Laradigs\Tweaker\V32\HasSingleton;
 use function RGalura\ApiIgniter\every;
 use Illuminate\Database\Eloquent\Builder;
 use Laradigs\Tweaker\V33\Projection\Projector;
+use Laradigs\Tweaker\V33\ValueObjects\Columns;
 use Laradigs\Tweaker\V33\ValueObjects\ArrayParser;
 use Laradigs\Tweaker\V32\Projection\ErrorEnum as Error;
 use Laradigs\Tweaker\V33\Projection\IntersectProjection;
+use Laradigs\Tweaker\V33\ValueObjects\ProjectableColumns;
 
 final class TunerBuilder
 {
@@ -18,6 +20,7 @@ final class TunerBuilder
     private ?array $projectedColumns = null;
 
     private readonly array $definedColumns;
+
     private readonly array $queryKeywords;
 
     /**
@@ -51,42 +54,13 @@ final class TunerBuilder
         /**
          * Check if the projection is used
          */
-        if (some($this->queryKeywords, $projectionKeywords)) {
+        if (any($this->queryKeywords, $projectionKeywords)) {
             /**
              * Check if the projection's varieties are used more than 1
              */
             if (count($projectionKeywords) > 1) {
-                # All options are used
+                // All options are used
                 throw_if(every($this->queryKeywords, $projectionKeywords), new \LogicException('Cannot use '.implode(', ', $projectionKeywords).' at the same time.'));
-            }
-
-            $validateProjectableColumns = function(&$columns) {
-                throw_if(empty($columns), Error::P_Disabled->exception());
-
-                $columns = (new ArrayParser($columns))
-                    ->assignIfEqTo(['*'], $this->visibleColumns)
-                    ->sanitize()
-                    ->get();
-
-                throw_unless(some($columns, $this->visibleColumns), Error::P_NotInColumns->exception(invalidColumns: $columns));
-
-                $columns = IntersectProjection::from($this->visibleColumns)
-                    ->to($columns)
-                    ->project();
-            };
-
-            try {
-                $validateProjectableColumns($projectableColumns);
-            } catch (\Exception $e) {
-                switch ($e->getCode()) {
-                    case Error::P_Disabled->getCode():
-                        logger()->info('Skip the projection process');
-                        goto end;
-                        break;
-
-                    default:
-                        throw $e;
-                }
             }
 
             foreach ($projectionConfig as $key => $keyword) {
@@ -97,16 +71,28 @@ final class TunerBuilder
                                     ->title()
                                     ->value.'Projection';
 
-                    $inputValue = (new ArrayParser(explode(',', $_GET[$keyword])))
-                        ->assignIfEqTo(['*'], $this->visibleColumns)
-                        ->sanitize()
-                        ->get();
+                    $inputArr = explode(',', $_GET[$keyword]);
 
-                    $projector = new Projector(
-                        new $class($projectableColumns, $inputValue)
-                    );
+                    try {
+                        $projector = new Projector(
+                            new $class(
+                                new ProjectableColumns($projectableColumns, $this->visibleColumns),
+                                new Columns($inputArr, $this->visibleColumns)
+                            )
+                        );
 
-                    $this->projectedColumns = $projector();
+                        $this->projectedColumns = $projector();
+                    } catch (\Exception $e) {
+                        switch ($e->getCode()) {
+                            case ProjectableColumns::ERR_CODE_DISABLED:
+                                logger()->info('Skip the projection process');
+                                goto end;
+                                break;
+
+                            default:
+                                throw $e;
+                        }
+                    }
                 }
             }
         }

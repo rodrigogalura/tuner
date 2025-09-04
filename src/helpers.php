@@ -81,7 +81,15 @@ function every(array $needles, array $haystack): bool
 /**
  * Check if any needle is in the haystack
  */
-function some(array $needles, array $haystack): bool
+function any(array $needles, array $haystack): bool
 {
     return ! empty(array_intersect($haystack, $needles));
+}
+
+/**
+ * Return all in haystack except on the needles
+ */
+function array_except(array $needles, array $haystack)
+{
+    return array_diff($haystack, $needles);
 }
