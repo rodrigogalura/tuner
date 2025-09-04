@@ -2,12 +2,14 @@
 
 namespace Laradigs\Tweaker\V33;
 
-use Illuminate\Database\Eloquent\Builder;
+use function RGalura\ApiIgniter\some;
 use Laradigs\Tweaker\V32\HasSingleton;
+use function RGalura\ApiIgniter\every;
+use Illuminate\Database\Eloquent\Builder;
 use Laradigs\Tweaker\V33\Projection\Projector;
 use Laradigs\Tweaker\V33\ValueObjects\ArrayParser;
-
-use function RGalura\ApiIgniter\in_array_all;
+use Laradigs\Tweaker\V32\Projection\ErrorEnum as Error;
+use Laradigs\Tweaker\V33\Projection\IntersectProjection;
 
 final class TunerBuilder
 {
@@ -15,6 +17,7 @@ final class TunerBuilder
 
     private ?array $projectedColumns = null;
 
+    private readonly array $definedColumns;
     private readonly array $queryKeywords;
 
     /**
@@ -26,6 +29,7 @@ final class TunerBuilder
         private array $config,
         private array $query
     ) {
+        $this->definedColumns = $builder->getQuery()->columns ?? ['*'];
         $this->queryKeywords = array_keys($query);
     }
 
@@ -44,39 +48,70 @@ final class TunerBuilder
         $projectionConfig = $this->config(__METHOD__);
         $projectionKeywords = array_values($projectionConfig);
 
-        if (count($projectionKeywords) > 1) {
-            // All options are used
-            if (in_array_all($this->queryKeywords, $projectionKeywords)) {
-                throw new \LogicException('Cannot use '.implode(', ', $projectionConfig).' at the same time.');
+        /**
+         * Check if the projection is used
+         */
+        if (some($this->queryKeywords, $projectionKeywords)) {
+            /**
+             * Check if the projection's varieties are used more than 1
+             */
+            if (count($projectionKeywords) > 1) {
+                # All options are used
+                throw_if(every($this->queryKeywords, $projectionKeywords), new \LogicException('Cannot use '.implode(', ', $projectionKeywords).' at the same time.'));
             }
-        }
 
-        foreach ($projectionConfig as $key => $keyword) {
-            if (in_array($keyword, $this->queryKeywords)) {
-                $class = __NAMESPACE__.'\\Projection\\'.
-                            str($key)
-                                ->before('_keyword')
-                                ->title()
-                                ->value.'Projection';
+            $validateProjectableColumns = function(&$columns) {
+                throw_if(empty($columns), Error::P_Disabled->exception());
 
-                $projectableColumns = (new ArrayParser($projectableColumns))
-                    ->assignIfEq(['*'], $this->visibleColumns)
+                $columns = (new ArrayParser($columns))
+                    ->assignIfEqTo(['*'], $this->visibleColumns)
                     ->sanitize()
                     ->get();
 
-                $inputValue = (new ArrayParser(explode(',', $_GET[$keyword])))
-                    ->assignIfEq(['*'], $this->visibleColumns)
-                    ->sanitize()
-                    ->get();
+                throw_unless(some($columns, $this->visibleColumns), Error::P_NotInColumns->exception(invalidColumns: $columns));
 
-                $projector = new Projector(
-                    new $class($projectableColumns, $inputValue)
-                );
+                $columns = IntersectProjection::from($this->visibleColumns)
+                    ->to($columns)
+                    ->project();
+            };
 
-                $this->projectedColumns = $projector();
+            try {
+                $validateProjectableColumns($projectableColumns);
+            } catch (\Exception $e) {
+                switch ($e->getCode()) {
+                    case Error::P_Disabled->getCode():
+                        logger()->info('Skip the projection process');
+                        goto end;
+                        break;
+
+                    default:
+                        throw $e;
+                }
+            }
+
+            foreach ($projectionConfig as $key => $keyword) {
+                if (in_array($keyword, $this->queryKeywords)) {
+                    $class = __NAMESPACE__.'\\Projection\\'.
+                                str($key)
+                                    ->before('_keyword')
+                                    ->title()
+                                    ->value.'Projection';
+
+                    $inputValue = (new ArrayParser(explode(',', $_GET[$keyword])))
+                        ->assignIfEqTo(['*'], $this->visibleColumns)
+                        ->sanitize()
+                        ->get();
+
+                    $projector = new Projector(
+                        new $class($projectableColumns, $inputValue)
+                    );
+
+                    $this->projectedColumns = $projector();
+                }
             }
         }
 
+        end:
         return $this;
     }
 

@@ -9,7 +9,7 @@ class Parser
         //
     }
 
-    public function assignIfEq($compareTo, $newValue, bool $strict = true): self
+    public function assignIfEqTo($compareTo, $newValue, bool $strict = true): self
     {
         if ($strict
             ? $this->value === $compareTo

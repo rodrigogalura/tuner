@@ -70,7 +70,18 @@ function assign_if($compareTo, &$var, $newValue, bool $strict = true): void
     }
 }
 
-function in_array_all($needles, $haystack)
+/**
+ * Check if all needles are in haystack
+ */
+function every(array $needles, array $haystack): bool
 {
     return empty(array_diff($haystack, $needles));
+}
+
+/**
+ * Check if any needle is in the haystack
+ */
+function some(array $needles, array $haystack): bool
+{
+    return ! empty(array_intersect($haystack, $needles));
 }

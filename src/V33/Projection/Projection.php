@@ -11,16 +11,16 @@ abstract class Projection implements Projectable
         logger()->debug(print_r($to, true));
     }
 
-    // public static function from(array $from)
-    // {
-    //     return new static($from);
-    // }
+    public static function from(array $from)
+    {
+        return new static($from, []);
+    }
 
-    // public function to(array $to)
-    // {
-    //     $this->to = $to;
-    //     return $this;
-    // }
+    public function to(array $to)
+    {
+        $this->to = $to;
+        return $this;
+    }
 
     abstract public function project();
 }

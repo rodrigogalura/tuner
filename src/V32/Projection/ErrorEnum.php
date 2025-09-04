@@ -24,7 +24,10 @@ enum ErrorEnum: int
             $columns = array_values($invalidColumns);
 
             $errorMessage = match ($this) {
-                ErrorEnum::P_NotInColumns,
+                ErrorEnum::P_NotInColumns => count($columns) === 1
+                    ? "The projectable column '{$columns[0]}' is not a valid projectable column."
+                    : "The projectable columns '".implode("', '", $columns)."' are not valid projectable columns.",
+
                 ErrorEnum::Q_NotInColumns,
                 ErrorEnum::R_IncludeUnknownColumn,
                 ErrorEnum::R_ExcludeUnknownColumn => count($columns) === 1
@@ -38,10 +41,10 @@ enum ErrorEnum: int
             };
         }
 
-        return new Exception($errorMessage, $this->errorCode());
+        return new Exception($errorMessage, $this->getCode());
     }
 
-    public function errorCode()
+    public function getCode()
     {
         return $this->value;
     }
