@@ -32,11 +32,16 @@ trait Tunable
 
         $key = Tuner::PARAM_KEY;
 
-        $projectionRequest = new ProjectionRequest($config[Tuner::DIRECTIVE_PROJECTION][$key], $request);
+        $projectionRequest = new ProjectionRequest(
+            $config[Tuner::DIRECTIVE_PROJECTION][$key],
+            $visibleColumns,
+            $request
+        );
+        // $sortRequest = new SortRequest($config[Tuner::DIRECTIVE_SORT][$key], $request);
 
         return TunerBuilder::getInstance($builder, $visibleColumns, $request)
             ->project($projectionRequest, $this->getProjectableColumns())
-            // ->sort($this->getSortableColumns())
+            // ->sort($sortRequest, $this->getSortableColumns())
             ->build();
     }
 }

@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Laradigs\Tweaker\V32\HasSingleton;
 use Laradigs\Tweaker\V33\Projection\Projector;
-use Laradigs\Tweaker\V33\ValueObjects\Columns;
 use Laradigs\Tweaker\V33\ValueObjects\DefinedColumns;
 use Laradigs\Tweaker\V33\ValueObjects\ProjectableColumns;
 use Laradigs\Tweaker\V33\ValueObjects\Requests\RequestInterface as Request;
@@ -41,13 +40,19 @@ final class TunerBuilder
                 new $projection(
                     new ProjectableColumns($projectableColumns, $this->visibleColumns),
                     new DefinedColumns($definedColumns, $this->visibleColumns),
-                    new Columns($request(), $this->visibleColumns)
+                    // new Columns($request(), $this->visibleColumns)
+                    $request()
                 )
             );
 
             $this->projectedColumns = $projector->getProjectedColumns();
         }
 
+        return $this;
+    }
+
+    public function sort(Request $request, array $sortableColumns)
+    {
         return $this;
     }
 

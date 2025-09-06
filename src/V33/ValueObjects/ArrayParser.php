@@ -15,4 +15,11 @@ class ArrayParser extends Parser
 
         return $this;
     }
+
+    public function intersectTo(array $to): self
+    {
+        $this->value = array_intersect($this->value, $to);
+
+        return $this;
+    }
 }

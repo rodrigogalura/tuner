@@ -8,7 +8,7 @@ class IntersectProjection extends Projection
     {
         return array_intersect(
             array_intersect(($this->projectableColumns)(), ($this->definedColumns)()),
-            ($this->columns)()
+            $this->columns
         );
     }
 }

@@ -6,9 +6,10 @@ use Exception;
 use Laradigs\Tweaker\V33\Projection\ExceptProjection;
 use Laradigs\Tweaker\V33\Projection\IntersectProjection;
 use Laradigs\Tweaker\V33\Projection\Projectable;
+use Laradigs\Tweaker\V33\ValueObjects\Columns;
 use LogicException;
 
-class ProjectionRequest extends Request
+class ProjectionRequest extends MultipleKeysRequest
 {
     private readonly string $projection;
 
@@ -17,15 +18,16 @@ class ProjectionRequest extends Request
         'except' => ExceptProjection::class,
     ];
 
-    public function __construct(private array $keys, array $request)
-    {
+    public function __construct(
+        array $keys,
+        private array $visibleColumns,
+        array $request
+    ) {
         parent::__construct($keys, $request);
     }
 
     protected function validate()
     {
-        $this->request = array_filter($this->request, fn ($paramKey): bool => in_array($paramKey, $this->key), ARRAY_FILTER_USE_KEY);
-
         switch (count($this->request)) {
             case 0:
                 // noop
@@ -39,7 +41,12 @@ class ProjectionRequest extends Request
                 );
 
                 $paramValue = current($this->request);
+
                 throw_unless(is_string($paramValue), new Exception('The '.$paramKey.' must be string'));
+
+                $column = new Columns(explode(', ', $paramValue), $this->visibleColumns);
+
+                throw_if(empty($this->request = $column()), new Exception('The '.$paramKey.' must be use any of these valid columns: '.implode(', ', $this->visibleColumns)));
 
                 break;
 
@@ -66,10 +73,5 @@ class ProjectionRequest extends Request
     public function getProjection(): ?string
     {
         return $this->projection ?? null;
-    }
-
-    public function __invoke(): array
-    {
-        return explode(',', current(parent::__invoke()));
     }
 }

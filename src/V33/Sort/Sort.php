@@ -8,10 +8,10 @@ use Laradigs\Tweaker\V33\ValueObjects\SortableColumns;
 class Sort
 {
     public function __construct(
-        protected SortableColumns $sCols,
-        protected Columns $cols
+        protected SortableColumns $sortableColumns,
+        protected Columns $columns
     ) {
-        logger()->debug(print_r($pCols->getParsedColumns(), true));
-        logger()->debug(print_r($cols->getParsedColumns(), true));
+        logger()->debug(print_r($sortableColumns->getParsedColumns(), true));
+        logger()->debug(print_r($columns->getParsedColumns(), true));
     }
 }

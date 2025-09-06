@@ -21,6 +21,7 @@ class Columns
             (new ArrayParser($this->columns))
                 ->assignIfEqTo(static::ALL_VISIBLE_COLUMNS_ALIAS, $this->visibleColumns)
                 ->sanitize()
+                ->intersectTo($this->visibleColumns)
                 ->get();
 
         return $this->parsedColumns;

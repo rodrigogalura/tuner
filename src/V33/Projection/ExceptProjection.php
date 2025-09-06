@@ -8,7 +8,7 @@ class ExceptProjection extends Projection
     {
         return array_diff(
             array_intersect(($this->projectableColumns)(), ($this->definedColumns)()),
-            ($this->columns)()
+            $this->columns
         );
     }
 }
