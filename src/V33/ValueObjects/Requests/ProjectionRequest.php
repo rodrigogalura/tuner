@@ -17,6 +17,11 @@ class ProjectionRequest extends Request
         'except' => ExceptProjection::class,
     ];
 
+    public function __construct(private array $keys, array $request)
+    {
+        parent::__construct($keys, $request);
+    }
+
     protected function validate()
     {
         $this->request = array_filter($this->request, fn ($paramKey): bool => in_array($paramKey, $this->key), ARRAY_FILTER_USE_KEY);
@@ -27,10 +32,14 @@ class ProjectionRequest extends Request
                 break;
 
             case 1:
-                $modifier = key($this->request);
-                $projection = static::$projections[array_search($modifier, $this->key)];
+                $paramKey = key($this->request);
 
-                $this->setProjection($projection);
+                $this->setProjection(
+                    static::$projections[array_search($paramKey, $this->keys)]
+                );
+
+                $paramValue = current($this->request);
+                throw_unless(is_string($paramValue), new Exception('The '.$paramKey.' must be string'));
 
                 break;
 
