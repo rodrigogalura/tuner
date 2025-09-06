@@ -4,6 +4,7 @@ namespace Laradigs\Tweaker\V33\ValueObjects;
 
 use Exception;
 use LogicException;
+
 use function RGalura\ApiIgniter\any;
 
 class ProjectableColumns extends Columns
@@ -20,13 +21,13 @@ class ProjectableColumns extends Columns
     {
         parent::__construct($columns, $visibleColumns);
 
-        throw_if(empty($this->columns), new Exception(static::ERR_MSG_DISABLED, static::ERR_CODE_DISABLED));
-
-        $this->throwUnlessHasAnyValidColumns();
+        $this->validate();
     }
 
-    private function throwUnlessHasAnyValidColumns()
+    private function validate()
     {
-        throw_unless(any($this->getParsedColumns(), $this->visibleColumns), new LogicException(static::ERR_MSG_PCOLS_VCOLS_NO_MATCH, static::ERR_CODE_PCOLS_VCOLS_NO_MATCH));
+        throw_if(empty($this->columns), new Exception(static::ERR_MSG_DISABLED, static::ERR_CODE_DISABLED));
+
+        throw_unless(any(parent::__invoke(), $this->visibleColumns), new LogicException(static::ERR_MSG_PCOLS_VCOLS_NO_MATCH, static::ERR_CODE_PCOLS_VCOLS_NO_MATCH));
     }
 }

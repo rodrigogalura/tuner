@@ -2,16 +2,18 @@
 
 return [
     'projection' => [
-        'intersect_keyword' => 'columns',
-        'except_keyword' => 'columns!',
+        'key' => [
+            'intersect' => 'columns',
+            'except' => 'columns!',
+        ],
     ],
 
     'search' => [
-        'keyword' => 'search',
+        'key' => 'search',
         'minimum_length' => 2,
     ],
 
     'sort' => [
-        'keyword' => 'sort',
+        'key' => 'sort',
     ],
 ];

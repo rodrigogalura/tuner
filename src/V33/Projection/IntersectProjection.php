@@ -7,8 +7,8 @@ class IntersectProjection extends Projection
     public function project()
     {
         return array_intersect(
-            array_intersect($this->pCols->getParsedColumns(), $this->dCols->getParsedColumns()),
-            $this->cols->getParsedColumns()
+            array_intersect(($this->projectableColumns)(), ($this->definedColumns)()),
+            ($this->columns)()
         );
     }
 }

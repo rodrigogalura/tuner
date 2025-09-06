@@ -9,7 +9,7 @@ class Projector
         //
     }
 
-    public function __invoke()
+    public function getProjectedColumns()
     {
         switch ($this->projection::class) {
             case IntersectProjection::class:
