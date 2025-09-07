@@ -12,6 +12,8 @@ final class TunerBuilder
 
     private readonly ?array $projectedColumns;
 
+    private readonly ?array $search;
+
     private readonly ?array $sort;
 
     /**
@@ -37,6 +39,13 @@ final class TunerBuilder
     public function project(Request $request)
     {
         $this->projectedColumns = $request();
+
+        return $this;
+    }
+
+    public function search(Request $request)
+    {
+        $this->search = $request();
 
         return $this;
     }

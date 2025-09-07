@@ -9,4 +9,6 @@ class Tuner
     const DIRECTIVE_PROJECTION = 'projection';
 
     const DIRECTIVE_SORT = 'sort';
+
+    const DIRECTIVE_SEARCH = 'search';
 }

@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use RodrigoGalura\Tuner\V33\ValueObjects\ProjectableColumns;
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\ProjectionRequest;
+use RodrigoGalura\Tuner\V33\ValueObjects\Requests\SearchRequest;
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\SortRequest;
+use RodrigoGalura\Tuner\V33\ValueObjects\SearchableColumns;
 use RodrigoGalura\Tuner\V33\ValueObjects\SortableColumns;
 
 trait Tunable
@@ -24,6 +26,11 @@ trait Tunable
     protected function getSortableColumns(): array
     {
         return [];
+    }
+
+    protected function getSearchableColumns(): array
+    {
+        return ['*'];
     }
 
     /**
@@ -52,6 +59,15 @@ trait Tunable
             );
         };
 
+        $searchBinder = function () use ($request) {
+            return new SearchRequest(
+                config('tuner.'.Tuner::DIRECTIVE_SEARCH),
+                $this->visibleColumns,
+                $this->getSearchableColumns(),
+                $request
+            );
+        };
+
         $sortBinder = function () use ($request) {
             return new SortRequest(
                 config('tuner.'.Tuner::DIRECTIVE_SORT.'.'.Tuner::PARAM_KEY),
@@ -65,6 +81,10 @@ trait Tunable
             'project' => [
                 'bind' => fn ($requestContainer): ProjectionRequest => $projectionBinder(),
                 'resolve' => fn ($request) => $tunerBuilder->project($request),
+            ],
+            'search' => [
+                'bind' => fn ($requestContainer): SearchRequest => $searchBinder(),
+                'resolve' => fn ($request) => $tunerBuilder->search($request),
             ],
             'sort' => [
                 'bind' => fn ($requestContainer): SortRequest => $sortBinder(),
@@ -82,6 +102,7 @@ trait Tunable
                 switch ($e->getCode()) {
                     case ProjectableColumns::ERR_CODE_DISABLED:
                     case SortableColumns::ERR_CODE_DISABLED:
+                    case SearchableColumns::ERR_CODE_DISABLED:
                         // noop
                         break;
 

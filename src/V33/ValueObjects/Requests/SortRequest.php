@@ -41,18 +41,16 @@ class SortRequest extends SingleKeyColumnRequest
 
     protected function validate()
     {
-        $request = current($this->request); // unwrap
-
         // Validate sort
+        $request = current($this->request); // unwrap
         throw_unless(is_array($request), new Exception('The '.$this->key.' must be array'));
 
-        $columns = new Columns(array_keys($request), $this->validColumns);
-
         // Validate columns
+        $columns = new Columns(array_keys($request), $this->validColumns);
         throw_if(empty($validColumns = $columns->intersect()->get()), new Exception('Invalid columns provided. It must be one of the following valid columns: '.implode(', ', $this->validColumns)));
 
+        // Filter valid columns and order
         $validValues = static::validValues();
-
         $filteredRequest = array_filter($request, function ($order, $column) use ($validColumns, $validValues) {
             return in_array($column, $validColumns)
                 && in_array($order, $validValues);
