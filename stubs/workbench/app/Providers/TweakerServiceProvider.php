@@ -4,7 +4,7 @@ namespace Workbench\App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class TweakerServiceProvider extends ServiceProvider
+class TunerServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -20,7 +20,7 @@ class TweakerServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__.'/../config/tweaker.php' => config_path('tweaker.php'),
+            __DIR__.'/../config/tuner.php' => config_path('tuner.php'),
         ]);
     }
 }

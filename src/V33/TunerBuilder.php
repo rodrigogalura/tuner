@@ -1,20 +1,21 @@
 <?php
 
-namespace Laradigs\Tweaker\V33;
+namespace RodrigoGalura\Tuner\V33;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Laradigs\Tweaker\V32\HasSingleton;
-use Laradigs\Tweaker\V33\Projection\Projector;
-use Laradigs\Tweaker\V33\ValueObjects\DefinedColumns;
-use Laradigs\Tweaker\V33\ValueObjects\ProjectableColumns;
-use Laradigs\Tweaker\V33\ValueObjects\Requests\RequestInterface as Request;
+use RodrigoGalura\Tuner\V33\Projection\Projector;
+use RodrigoGalura\Tuner\V33\ValueObjects\DefinedColumns;
+use RodrigoGalura\Tuner\V33\ValueObjects\ProjectableColumns;
+use RodrigoGalura\Tuner\V33\ValueObjects\Requests\RequestInterface as Request;
 
 final class TunerBuilder
 {
     use HasSingleton;
 
     private readonly ?array $projectedColumns;
+
+    private readonly ?array $sort;
 
     /**
      * Private constructor
@@ -33,18 +34,20 @@ final class TunerBuilder
 
     public function project(Request $request, array $projectableColumns)
     {
-        if ($projection = $request->getProjection()) {
-            $definedColumns = $this->builder->getQuery()->columns ?? ['*'];
+        if (! empty($request())) {
+            if ($projection = $request->getProjection()) {
+                $definedColumns = $this->builder->getQuery()->columns ?? ['*'];
 
-            $projector = new Projector(
-                new $projection(
-                    new ProjectableColumns($projectableColumns, $this->visibleColumns),
-                    new DefinedColumns($definedColumns, $this->visibleColumns),
-                    $request()
-                )
-            );
+                $projector = new Projector(
+                    new $projection(
+                        new ProjectableColumns($projectableColumns, $this->visibleColumns),
+                        new DefinedColumns($definedColumns, $this->visibleColumns),
+                        $request()
+                    )
+                );
 
-            $this->projectedColumns = $projector->getProjectedColumns();
+                $this->projectedColumns = $projector->getProjectedColumns();
+            }
         }
 
         return $this;
@@ -52,6 +55,10 @@ final class TunerBuilder
 
     public function sort(Request $request, array $sortableColumns)
     {
+        if (! empty($request())) {
+
+        }
+
         return $this;
     }
 

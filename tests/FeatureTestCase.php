@@ -14,7 +14,7 @@ abstract class FeatureTestCase extends BaseTestCase
 
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('tweaker', [
+        $app['config']->set('tuner', [
             'projection' => [
                 'intersect_key' => 'fields',
                 'except_key' => 'fields!',

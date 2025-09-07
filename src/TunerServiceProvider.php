@@ -1,22 +1,22 @@
 <?php
 
-namespace Laradigs\Tweaker;
+namespace RodrigoGalura\Tuner;
 
 use Illuminate\Support\ServiceProvider;
 use Laradigs\Tweaker\Console\CopyToClipboardTheTruthTable;
 use Laradigs\Tweaker\Console\CreateTruthTableCSV;
 
-class TweakerServiceProvider extends ServiceProvider
+class TunerServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
      */
     public function register(): void
     {
-        $this->commands([
-            CreateTruthTableCSV::class,
-            CopyToClipboardTheTruthTable::class,
-        ]);
+        // $this->commands([
+        //     CreateTruthTableCSV::class,
+        //     CopyToClipboardTheTruthTable::class,
+        // ]);
     }
 
     /**
@@ -25,7 +25,7 @@ class TweakerServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__.'/../config/tweaker.php' => config_path('tweaker.php'),
+            __DIR__.'/../config/tuner.php' => config_path('tuner.php'),
         ]);
     }
 }

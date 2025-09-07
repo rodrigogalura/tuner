@@ -1,6 +1,6 @@
 <?php
 
-namespace Laradigs\Tweaker\V33;
+namespace RodrigoGalura\Tuner\V33;
 
 class Filter
 {

@@ -37,7 +37,7 @@ trait Tunable
             // return TunerBuilder::getInstance(
             //     $builder,
             //     $this->visibleColumns,
-            //     config('tweaker'),
+            //     config('tuner'),
             //     TunerInput::sanitize($_GET)->get()
             // )
             //     ->projection($this->getProjectableColumns())

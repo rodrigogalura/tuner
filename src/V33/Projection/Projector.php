@@ -1,6 +1,6 @@
 <?php
 
-namespace Laradigs\Tweaker\V33\Projection;
+namespace RodrigoGalura\Tuner\V33\Projection;
 
 class Projector
 {

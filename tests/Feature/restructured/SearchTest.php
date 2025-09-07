@@ -92,7 +92,7 @@ describe('Not perform any action.', function (): void {
     });
 
     it('should not perform any action if the search value is not hit the minimum', function (): void {
-        $minimumLength = config('tweaker.search.minimum_length');
+        $minimumLength = config('tuner.search.minimum_length');
 
         // Prepare
         $_GET['search'] = ['name' => str_repeat('a', $minimumLength - 1)];

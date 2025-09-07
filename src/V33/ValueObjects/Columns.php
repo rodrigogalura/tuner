@@ -1,6 +1,6 @@
 <?php
 
-namespace Laradigs\Tweaker\V33\ValueObjects;
+namespace RodrigoGalura\Tuner\V33\ValueObjects;
 
 class Columns
 {

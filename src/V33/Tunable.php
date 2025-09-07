@@ -1,11 +1,11 @@
 <?php
 
-namespace Laradigs\Tweaker\V33;
+namespace RodrigoGalura\Tuner\V33;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Laradigs\Tweaker\V33\ValueObjects\Requests\ProjectionRequest;
-use Laradigs\Tweaker\V33\ValueObjects\Requests\SortRequest;
+use RodrigoGalura\Tuner\V33\ValueObjects\Requests\ProjectionRequest;
+use RodrigoGalura\Tuner\V33\ValueObjects\Requests\SortRequest;
 
 trait Tunable
 {
@@ -29,7 +29,7 @@ trait Tunable
             $this->getHidden()
         );
 
-        [$config, $request] = [config('tweaker'), $_GET];
+        [$config, $request] = [config('tuner'), $_GET];
 
         $key = Tuner::PARAM_KEY;
 

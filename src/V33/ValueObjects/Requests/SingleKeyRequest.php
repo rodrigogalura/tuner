@@ -1,6 +1,6 @@
 <?php
 
-namespace Laradigs\Tweaker\V33\ValueObjects\Requests;
+namespace RodrigoGalura\Tuner\V33\ValueObjects\Requests;
 
 abstract class SingleKeyRequest extends Request implements RequestInterface
 {

@@ -1,10 +1,10 @@
 {
-    "name": "laradigs/tweaker",
+    "name": "rodrigogalura/tuner",
     "minimum-stability": "dev",
     "description": "A Laravel package to build smart APIs once — and let clients do the rest.",
     "type": "library",
     "require": {
-        "php": "8.3.*"
+        "php": "8.4.*"
     },
     "require-dev": {
         "laravel/pint": "^1.21",
@@ -21,7 +21,7 @@
                 "src/Traits/",
                 "src/Traits/Core/"
             ],
-            "Laradigs\\Tweaker\\": [
+            "RodrigoGalura\\Tuner\\": [
                 "src/"
             ]
         },
@@ -121,7 +121,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Laradigs\\Tweaker\\TweakerServiceProvider"
+                "RodrigoGalura\\Tuner\\TunerServiceProvider"
             ]
         }
     }

@@ -10,7 +10,7 @@ class TunerInput
 
     public function __construct(protected array $input)
     {
-        $this->config = config('tweaker');
+        $this->config = config('tuner');
 
         // $this->projectionValidation();
     }

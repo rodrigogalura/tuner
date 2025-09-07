@@ -1,9 +1,9 @@
 <?php
 
-namespace Laradigs\Tweaker\V33\Sort;
+namespace RodrigoGalura\Tuner\V33\Sort;
 
-use Laradigs\Tweaker\V33\ValueObjects\Columns;
-use Laradigs\Tweaker\V33\ValueObjects\SortableColumns;
+use RodrigoGalura\Tuner\V33\ValueObjects\Columns;
+use RodrigoGalura\Tuner\V33\ValueObjects\SortableColumns;
 
 class Sort
 {

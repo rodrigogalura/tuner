@@ -1,12 +1,12 @@
 <?php
 
-namespace Laradigs\Tweaker\V33\ValueObjects\Requests;
+namespace RodrigoGalura\Tuner\V33\ValueObjects\Requests;
 
 use Exception;
-use Laradigs\Tweaker\V33\Projection\ExceptProjection;
-use Laradigs\Tweaker\V33\Projection\IntersectProjection;
-use Laradigs\Tweaker\V33\Projection\Projectable;
-use Laradigs\Tweaker\V33\ValueObjects\Columns;
+use RodrigoGalura\Tuner\V33\Projection\ExceptProjection;
+use RodrigoGalura\Tuner\V33\Projection\IntersectProjection;
+use RodrigoGalura\Tuner\V33\Projection\Projectable;
+use RodrigoGalura\Tuner\V33\ValueObjects\Columns;
 use LogicException;
 
 class ProjectionRequest extends MultipleKeysRequest
