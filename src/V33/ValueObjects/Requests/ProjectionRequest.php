@@ -5,10 +5,7 @@ namespace RodrigoGalura\Tuner\V33\ValueObjects\Requests;
 use Exception;
 use LogicException;
 use RodrigoGalura\Tuner\V33\ValueObjects\Columns;
-use RodrigoGalura\Tuner\V33\Projection\Projectable;
-use RodrigoGalura\Tuner\V33\Projection\ExceptProjection;
 use RodrigoGalura\Tuner\V33\ValueObjects\DefinedColumns;
-use RodrigoGalura\Tuner\V33\Projection\IntersectProjection;
 use RodrigoGalura\Tuner\V33\ValueObjects\ProjectableColumns;
 
 class ProjectionRequest extends MultipleKeysColumnRequest

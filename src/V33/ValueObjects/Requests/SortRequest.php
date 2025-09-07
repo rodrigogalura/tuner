@@ -4,6 +4,7 @@ namespace RodrigoGalura\Tuner\V33\ValueObjects\Requests;
 
 use Exception;
 use RodrigoGalura\Tuner\V33\ValueObjects\Columns;
+use RodrigoGalura\Tuner\V33\ValueObjects\SortableColumns;
 
 class SortRequest extends SingleKeyColumnRequest
 {
@@ -11,6 +12,17 @@ class SortRequest extends SingleKeyColumnRequest
         'asc' => ['a', 'asc', 'ascending'],
         'desc' => ['-', 'd', 'des', 'desc', 'descending'],
     ];
+
+    public function __construct(
+        string $singleKey,
+        array $visibleColumns,
+        array $sortableColumns,
+        array $request
+    ) {
+        $validColumns = (new SortableColumns($sortableColumns, $visibleColumns))();
+
+        parent::__construct($singleKey, $validColumns, $request);
+    }
 
     private static function validValues()
     {
@@ -20,7 +32,7 @@ class SortRequest extends SingleKeyColumnRequest
     private static function orderInterpreter($request)
     {
         foreach ($request as $column => $order) {
-            $filtered = array_filter(static::ORDERS, fn ($values, $key) => in_array($order, $values), ARRAY_FILTER_USE_BOTH);
+            $filtered = array_filter(static::ORDERS, fn ($values, $key): bool => in_array($order, $values), ARRAY_FILTER_USE_BOTH);
             $request[$column] = key($filtered);
         }
 
@@ -31,13 +43,13 @@ class SortRequest extends SingleKeyColumnRequest
     {
         $request = current($this->request); // unwrap
 
-        # Validate sort
+        // Validate sort
         throw_unless(is_array($request), new Exception('The '.$this->key.' must be array'));
 
         $columns = new Columns(array_keys($request), $this->validColumns);
 
-        # Validate columns
-        throw_if(empty($validColumns = $columns()), new Exception('Invalid columns provided. It must be one of the following valid columns: '.implode(', ', $this->validColumns)));
+        // Validate columns
+        throw_if(empty($validColumns = $columns->intersect()->get()), new Exception('Invalid columns provided. It must be one of the following valid columns: '.implode(', ', $this->validColumns)));
 
         $validValues = static::validValues();
 
@@ -46,7 +58,7 @@ class SortRequest extends SingleKeyColumnRequest
                 && in_array($order, $validValues);
         }, ARRAY_FILTER_USE_BOTH);
 
-        # Validate values
+        // Validate values
         throw_if(empty($filteredRequest), new Exception('The '.$this->key.' must be use any of these valid order: '.implode(', ', $validValues)));
 
         $this->request = static::orderInterpreter($filteredRequest);

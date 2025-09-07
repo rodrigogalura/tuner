@@ -4,9 +4,6 @@ namespace RodrigoGalura\Tuner\V33;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use RodrigoGalura\Tuner\V33\Projection\Projector;
-use RodrigoGalura\Tuner\V33\ValueObjects\DefinedColumns;
-use RodrigoGalura\Tuner\V33\ValueObjects\ProjectableColumns;
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\RequestInterface as Request;
 
 final class TunerBuilder
@@ -40,11 +37,14 @@ final class TunerBuilder
     public function project(Request $request)
     {
         $this->projectedColumns = $request();
+
         return $this;
     }
 
-    public function sort(Request $request, array $sortableColumns)
+    public function sort(Request $request)
     {
+        $this->sort = $request();
+
         return $this;
     }
 
@@ -56,6 +56,12 @@ final class TunerBuilder
             }
 
             $this->builder->select($this->projectedColumns);
+        }
+
+        if ($this->wasAssigned('sort')) {
+            foreach ($this->sort as $column => $order) {
+                $this->builder->orderBy($column, $order);
+            }
         }
 
         return $this->builder->get();
