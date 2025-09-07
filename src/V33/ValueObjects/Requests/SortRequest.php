@@ -6,7 +6,7 @@ use Exception;
 
 class SortRequest extends SingleKeyRequest
 {
-    const VALID_VALUES = [
+    private const VALID_VALUES = [
         '+', 'a', 'asc', 'ascending',
         '-', 'd', 'des', 'desc', 'descending',
     ];
@@ -14,7 +14,6 @@ class SortRequest extends SingleKeyRequest
     protected function validate()
     {
         $value = current($this->request);
-        dd($value);
 
         throw_unless(is_array($value), new Exception('The '.$this->key.' must be array'));
 

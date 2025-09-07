@@ -18,26 +18,14 @@ class ProjectionRequest extends MultipleKeysRequest
         'except' => ExceptProjection::class,
     ];
 
-    public function __construct(
-        array $keys,
-        private array $visibleColumns,
-        array $request
-    ) {
-        parent::__construct($keys, $request);
-    }
-
     protected function validate()
     {
         switch (count($this->request)) {
-            case 0:
-                // noop
-                break;
-
             case 1:
                 $paramKey = key($this->request);
 
                 $this->setProjection(
-                    static::$projections[array_search($paramKey, $this->keys)]
+                    static::$projections[array_search($paramKey, $this->multipleKeys)]
                 );
 
                 $paramValue = current($this->request);

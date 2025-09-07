@@ -2,24 +2,36 @@
 
 namespace Laradigs\Tweaker\V33\ValueObjects\Requests;
 
-abstract class Request implements RequestInterface
+abstract class Request
 {
     public function __construct(
-        protected array|string $key,
+        protected string|array $key,
         protected array $request
     ) {
+        if (! is_a($this, RequestInterface::class)) {
+            throw new \LogicException('The '.$this::class.' must be implementation of '.RequestInterface::class);
+        }
+
         $this->beforeValidate();
-        $this->validate();
+
+        if ($this->hasRequest()) {
+            $this->validate();
+        }
     }
 
-    public function __invoke(): array
+    private function hasRequest()
     {
-        return $this->request;
+        return count($this->request) > 0;
     }
 
     protected function beforeValidate()
     {
         //
+    }
+
+    public function __invoke(): array
+    {
+        return $this->request;
     }
 
     abstract protected function validate();

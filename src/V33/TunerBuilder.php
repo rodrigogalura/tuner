@@ -40,7 +40,6 @@ final class TunerBuilder
                 new $projection(
                     new ProjectableColumns($projectableColumns, $this->visibleColumns),
                     new DefinedColumns($definedColumns, $this->visibleColumns),
-                    // new Columns($request(), $this->visibleColumns)
                     $request()
                 )
             );

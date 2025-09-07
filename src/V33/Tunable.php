@@ -5,6 +5,7 @@ namespace Laradigs\Tweaker\V33;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Laradigs\Tweaker\V33\ValueObjects\Requests\ProjectionRequest;
+use Laradigs\Tweaker\V33\ValueObjects\Requests\SortRequest;
 
 trait Tunable
 {
@@ -37,11 +38,16 @@ trait Tunable
             $visibleColumns,
             $request
         );
-        // $sortRequest = new SortRequest($config[Tuner::DIRECTIVE_SORT][$key], $request);
+
+        $sortRequest = new SortRequest(
+            $config[Tuner::DIRECTIVE_SORT][$key],
+            $visibleColumns,
+            $request
+        );
 
         return TunerBuilder::getInstance($builder, $visibleColumns, $request)
             ->project($projectionRequest, $this->getProjectableColumns())
-            // ->sort($sortRequest, $this->getSortableColumns())
+            ->sort($sortRequest, $this->getSortableColumns())
             ->build();
     }
 }
