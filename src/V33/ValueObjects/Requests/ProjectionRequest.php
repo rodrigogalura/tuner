@@ -4,37 +4,40 @@ namespace RodrigoGalura\Tuner\V33\ValueObjects\Requests;
 
 use Exception;
 use LogicException;
-use RodrigoGalura\Tuner\V33\Projection\ExceptProjection;
-use RodrigoGalura\Tuner\V33\Projection\IntersectProjection;
-use RodrigoGalura\Tuner\V33\Projection\Projectable;
 use RodrigoGalura\Tuner\V33\ValueObjects\Columns;
+use RodrigoGalura\Tuner\V33\Projection\Projectable;
+use RodrigoGalura\Tuner\V33\Projection\ExceptProjection;
+use RodrigoGalura\Tuner\V33\ValueObjects\DefinedColumns;
+use RodrigoGalura\Tuner\V33\Projection\IntersectProjection;
+use RodrigoGalura\Tuner\V33\ValueObjects\ProjectableColumns;
 
-class ProjectionRequest extends MultipleKeysRequest
+class ProjectionRequest extends MultipleKeysColumnRequest
 {
-    private readonly string $projection;
+    public function __construct(
+        array $multipleKeys,
+        array $visibleColumns,
+        array $projectableColumns,
+        array $definedColumns,
+        array $request
+    ) {
+        $p = new ProjectableColumns($projectableColumns, $visibleColumns);
+        $q = new DefinedColumns($definedColumns, $visibleColumns);
 
-    private static array $projections = [
-        'intersect' => IntersectProjection::class,
-        'except' => ExceptProjection::class,
-    ];
+        parent::__construct($multipleKeys, array_intersect($p(), $q()), $request);
+    }
 
     protected function validate()
     {
         switch (count($this->request)) {
             case 1:
                 $paramKey = key($this->request);
-
-                $this->setProjection(
-                    static::$projections[array_search($paramKey, $this->multipleKeys)]
-                );
+                $operator = array_search($paramKey, $this->multipleKeys);
 
                 $paramValue = current($this->request);
-
                 throw_unless(is_string($paramValue), new Exception('The '.$paramKey.' must be string'));
 
-                $column = new Columns(explode(', ', $paramValue), $this->visibleColumns);
-
-                throw_if(empty($this->request = $column()), new Exception('The '.$paramKey.' must be use any of these valid columns: '.implode(', ', $this->visibleColumns)));
+                $columns = new Columns(explode(', ', $paramValue), $this->validColumns);
+                throw_if(empty($this->request = $columns->{$operator}()->get()), new Exception('The '.$paramKey.' must be use any of these valid columns: '.implode(', ', $this->validColumns)));
 
                 break;
 
@@ -44,22 +47,5 @@ class ProjectionRequest extends MultipleKeysRequest
             default:
                 throw new LogicException('Number of projection key is invalid.');
         }
-    }
-
-    /**
-     * Set the projection property only if the param $projection implements the Projectable contract
-     */
-    private function setProjection(string $projection): void
-    {
-        if (! is_subclass_of($projection, Projectable::class)) {
-            throw new Exception('The class ['.$projections.'] is not implemenation of '.Projectable::class);
-        }
-
-        $this->projection = $projection;
-    }
-
-    public function getProjection(): ?string
-    {
-        return $this->projection ?? null;
     }
 }

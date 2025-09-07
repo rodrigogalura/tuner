@@ -6,24 +6,40 @@ class Columns
 {
     const ALL_VISIBLE_COLUMNS_ALIAS = ['*'];
 
-    protected readonly array $parsedColumns;
+    private ArrayParser $parser;
+
+    // protected readonly array $parsedColumns;
 
     public function __construct(
         protected array $columns,
         protected array $visibleColumns
     ) {
-        //
+        $this->parser = ArrayParser::create($this->columns)
+            ->assignIfEqTo(static::ALL_VISIBLE_COLUMNS_ALIAS, $this->visibleColumns)
+            ->sanitize();
+    }
+
+    public function intersect()
+    {
+        $this->parser->intersectTo($this->visibleColumns);
+
+        return $this;
+    }
+
+    public function except()
+    {
+        $this->parser->exceptFrom($this->visibleColumns);
+
+        return $this;
+    }
+
+    public function get()
+    {
+        return $this->parser->get();
     }
 
     public function __invoke()
     {
-        $this->parsedColumns ??=
-            (new ArrayParser($this->columns))
-                ->assignIfEqTo(static::ALL_VISIBLE_COLUMNS_ALIAS, $this->visibleColumns)
-                ->sanitize()
-                ->intersectTo($this->visibleColumns)
-                ->get();
-
-        return $this->parsedColumns;
+        return $this->get();
     }
 }

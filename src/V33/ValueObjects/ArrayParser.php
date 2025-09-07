@@ -22,4 +22,11 @@ class ArrayParser extends Parser
 
         return $this;
     }
+
+    public function exceptFrom(array $from): self
+    {
+        $this->value = array_diff($from, $this->value);
+
+        return $this;
+    }
 }

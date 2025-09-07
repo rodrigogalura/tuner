@@ -2,11 +2,11 @@
 
 namespace RodrigoGalura\Tuner\V33\ValueObjects\Requests;
 
-abstract class SingleKeyRequest extends Request implements RequestInterface
+abstract class SingleKeyColumnRequest extends Request implements RequestInterface
 {
     public function __construct(
         protected string $singleKey,
-        protected array $visibleColumns,
+        protected array $validColumns,
         array $request
     ) {
         parent::__construct($singleKey, $request);

@@ -29,14 +29,29 @@ trait Tunable
             $this->getHidden()
         );
 
+        $definedColumns = $builder->getQuery()->columns ?? ['*'];
+
+
+
+
         [$config, $request] = [config('tuner'), $_GET];
 
         $tunerBuilder = TunerBuilder::getInstance($builder, $visibleColumns, $request);
 
+        $projectionBinder = function() use($config, $visibleColumns, $definedColumns, $request) {
+            return new ProjectionRequest(
+                $config[Tuner::DIRECTIVE_PROJECTION][Tuner::PARAM_KEY],
+                $visibleColumns,
+                $this->getProjectableColumns(),
+                $definedColumns,
+                $request
+            );
+        };
+
         $container = [
             'project' => [
-                'bind' => fn ($requestContainer): ProjectionRequest => new ProjectionRequest($config[Tuner::DIRECTIVE_PROJECTION][Tuner::PARAM_KEY], $visibleColumns, $request),
-                'resolve' => fn ($request) => $tunerBuilder->project($request, $this->getProjectableColumns()),
+                'bind' => fn ($requestContainer) => $projectionBinder(),
+                'resolve' => fn ($request) => $tunerBuilder->project($request),
             ],
             'sort' => [
                 'bind' => fn ($requestContainer): SortRequest => new SortRequest($config[Tuner::DIRECTIVE_SORT][Tuner::PARAM_KEY], $visibleColumns, $request),

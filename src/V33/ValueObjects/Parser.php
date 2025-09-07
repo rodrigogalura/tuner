@@ -25,4 +25,9 @@ class Parser
     {
         return $this->value;
     }
+
+    public static function create($value)
+    {
+        return new static($value);
+    }
 }

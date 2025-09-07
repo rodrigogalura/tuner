@@ -27,27 +27,19 @@ final class TunerBuilder
         //
     }
 
+    private function wasAssigned($property)
+    {
+        return ! is_null($this->{$property} ?? null);
+    }
+
     public static function getInstance()
     {
         return new self(...func_get_args());
     }
 
-    public function project(Request $request, array $projectableColumns)
+    public function project(Request $request)
     {
-        if ($projection = $request->getProjection()) {
-            $definedColumns = $this->builder->getQuery()->columns ?? ['*'];
-
-            $projector = new Projector(
-                new $projection(
-                    new ProjectableColumns($projectableColumns, $this->visibleColumns),
-                    new DefinedColumns($definedColumns, $this->visibleColumns),
-                    $request()
-                )
-            );
-
-            $this->projectedColumns = $projector->getProjectedColumns();
-        }
-
+        $this->projectedColumns = $request();
         return $this;
     }
 
@@ -58,9 +50,7 @@ final class TunerBuilder
 
     public function build()
     {
-        // Check if getProjectedColumns() was executed
-        if (! is_null($this->projectedColumns ?? null)) {
-
+        if ($this->wasAssigned('projectedColumns')) {
             if (empty($this->projectedColumns)) {
                 return new Collection([]);
             }
