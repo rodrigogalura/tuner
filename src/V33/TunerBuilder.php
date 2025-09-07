@@ -34,20 +34,18 @@ final class TunerBuilder
 
     public function project(Request $request, array $projectableColumns)
     {
-        if (! empty($request())) {
-            if ($projection = $request->getProjection()) {
-                $definedColumns = $this->builder->getQuery()->columns ?? ['*'];
+        if ($projection = $request->getProjection()) {
+            $definedColumns = $this->builder->getQuery()->columns ?? ['*'];
 
-                $projector = new Projector(
-                    new $projection(
-                        new ProjectableColumns($projectableColumns, $this->visibleColumns),
-                        new DefinedColumns($definedColumns, $this->visibleColumns),
-                        $request()
-                    )
-                );
+            $projector = new Projector(
+                new $projection(
+                    new ProjectableColumns($projectableColumns, $this->visibleColumns),
+                    new DefinedColumns($definedColumns, $this->visibleColumns),
+                    $request()
+                )
+            );
 
-                $this->projectedColumns = $projector->getProjectedColumns();
-            }
+            $this->projectedColumns = $projector->getProjectedColumns();
         }
 
         return $this;
@@ -55,10 +53,6 @@ final class TunerBuilder
 
     public function sort(Request $request, array $sortableColumns)
     {
-        if (! empty($request())) {
-
-        }
-
         return $this;
     }
 

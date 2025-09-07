@@ -31,23 +31,26 @@ trait Tunable
 
         [$config, $request] = [config('tuner'), $_GET];
 
-        $key = Tuner::PARAM_KEY;
+        $tunerBuilder = TunerBuilder::getInstance($builder, $visibleColumns, $request);
 
-        $projectionRequest = new ProjectionRequest(
-            $config[Tuner::DIRECTIVE_PROJECTION][$key],
-            $visibleColumns,
-            $request
-        );
+        $container = [
+            'project' => [
+                'bind' => fn ($requestContainer): ProjectionRequest => new ProjectionRequest($config[Tuner::DIRECTIVE_PROJECTION][Tuner::PARAM_KEY], $visibleColumns, $request),
+                'resolve' => fn ($request) => $tunerBuilder->project($request, $this->getProjectableColumns()),
+            ],
+            'sort' => [
+                'bind' => fn ($requestContainer): SortRequest => new SortRequest($config[Tuner::DIRECTIVE_SORT][Tuner::PARAM_KEY], $visibleColumns, $request),
+                'resolve' => fn ($request) => $tunerBuilder->sort($request, $this->getSortableColumns()),
+            ],
+        ];
 
-        $sortRequest = new SortRequest(
-            $config[Tuner::DIRECTIVE_SORT][$key],
-            $visibleColumns,
-            $request
-        );
+        $requestContainer = RequestsContainer::create();
 
-        return TunerBuilder::getInstance($builder, $visibleColumns, $request)
-            ->project($projectionRequest, $this->getProjectableColumns())
-            ->sort($sortRequest, $this->getSortableColumns())
-            ->build();
+        foreach ($container as $key => $factories) {
+            $requestContainer->bind($key, $factories['bind']);
+            $requestContainer->resolveAndRunCallbackWhenRequested($key, $factories['resolve']);
+        }
+
+        return $tunerBuilder->build();
     }
 }

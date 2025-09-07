@@ -4,7 +4,10 @@ namespace RGalura\ApiIgniter;
 
 trait Searchable
 {
-    private static function searchFilter(array|string $searchableFields, string $client_key = 'search')
+    /**
+     * @return mixed[]
+     */
+    private static function searchFilter(array|string $searchableFields, string $client_key = 'search'): array
     {
         if (is_string($searchableFields)) {
             $searchableFields = filter_explode($searchableFields);

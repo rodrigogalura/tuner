@@ -3,11 +3,11 @@
 namespace RodrigoGalura\Tuner\V33\ValueObjects\Requests;
 
 use Exception;
+use LogicException;
 use RodrigoGalura\Tuner\V33\Projection\ExceptProjection;
 use RodrigoGalura\Tuner\V33\Projection\IntersectProjection;
 use RodrigoGalura\Tuner\V33\Projection\Projectable;
 use RodrigoGalura\Tuner\V33\ValueObjects\Columns;
-use LogicException;
 
 class ProjectionRequest extends MultipleKeysRequest
 {
@@ -52,7 +52,7 @@ class ProjectionRequest extends MultipleKeysRequest
     private function setProjection(string $projection): void
     {
         if (! is_subclass_of($projection, Projectable::class)) {
-            throw new Exception('The class '.$projections.' is not implemenation of '.Projectable::class);
+            throw new Exception('The class ['.$projections.'] is not implemenation of '.Projectable::class);
         }
 
         $this->projection = $projection;
