@@ -2,7 +2,7 @@
 
 namespace RodrigoGalura\Tuner\V33\ValueObjects\Requests;
 
-abstract class Request
+abstract class Request implements RequestInterface
 {
     public function __construct(
         protected string|array $key,

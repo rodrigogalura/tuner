@@ -6,7 +6,7 @@ use Exception;
 use RodrigoGalura\Tuner\V33\ValueObjects\Columns;
 use RodrigoGalura\Tuner\V33\ValueObjects\SortableColumns;
 
-class SortRequest extends SingleKeyColumnRequest
+class SortRequest extends Request
 {
     private const ORDERS = [
         'asc' => ['a', 'asc', 'ascending'],
@@ -15,16 +15,14 @@ class SortRequest extends SingleKeyColumnRequest
 
     public function __construct(
         string $singleKey,
-        array $visibleColumns,
-        array $sortableColumns,
-        array $request
+        array $request,
+        private array $visibleColumns,
+        private array $sortableColumns,
     ) {
-        $validColumns = (new SortableColumns($sortableColumns, $visibleColumns))();
-
-        parent::__construct($singleKey, $validColumns, $request);
+        parent::__construct($singleKey, $request);
     }
 
-    private static function validValues()
+    private static function validOrderValues()
     {
         return array_merge(static::ORDERS['asc'], static::ORDERS['desc']);
     }
@@ -39,25 +37,32 @@ class SortRequest extends SingleKeyColumnRequest
         return $request;
     }
 
+    protected function beforeValidate()
+    {
+        $this->request = array_filter($this->request, fn ($paramKey): bool => $paramKey === $this->key, ARRAY_FILTER_USE_KEY);
+    }
+
     protected function validate()
     {
+        $sortableColumns = (new SortableColumns($this->sortableColumns, $this->visibleColumns))();
+
         // Validate sort
         $request = current($this->request); // unwrap
         throw_unless(is_array($request), new Exception('The '.$this->key.' must be array'));
 
         // Validate columns
-        $columns = new Columns(array_keys($request), $this->validColumns);
-        throw_if(empty($validColumns = $columns->intersect()->get()), new Exception('Invalid columns provided. It must be one of the following valid columns: '.implode(', ', $this->validColumns)));
+        $columns = new Columns(array_keys($request), $sortableColumns);
+        throw_if(empty($requestedColumns = $columns->intersect()->get()), new Exception('Invalid columns provided. It must be one of the following sortable columns: '.implode(', ', $sortableColumns)));
 
         // Filter valid columns and order
-        $validValues = static::validValues();
-        $filteredRequest = array_filter($request, function ($order, $column) use ($validColumns, $validValues) {
-            return in_array($column, $validColumns)
-                && in_array($order, $validValues);
+        $validOrderValues = static::validOrderValues();
+        $filteredRequest = array_filter($request, function ($order, $column) use ($requestedColumns, $validOrderValues) {
+            return in_array($column, $requestedColumns)
+                && in_array($order, $validOrderValues);
         }, ARRAY_FILTER_USE_BOTH);
 
         // Validate values
-        throw_if(empty($filteredRequest), new Exception('The '.$this->key.' must be use any of these valid order: '.implode(', ', $validValues)));
+        throw_if(empty($filteredRequest), new Exception('The '.$this->key.' must be use any of these valid order: '.implode(', ', $validOrderValues)));
 
         $this->request = static::orderInterpreter($filteredRequest);
     }

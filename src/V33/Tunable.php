@@ -20,12 +20,12 @@ trait Tunable
 
     protected function getProjectableColumns(): array
     {
-        return [];
+        return ['*'];
     }
 
     protected function getSortableColumns(): array
     {
-        return [];
+        return ['*'];
     }
 
     protected function getSearchableColumns(): array
@@ -52,28 +52,28 @@ trait Tunable
         $projectionBinder = function () use ($request) {
             return new ProjectionRequest(
                 config('tuner.'.Tuner::DIRECTIVE_PROJECTION.'.'.Tuner::PARAM_KEY),
+                $request,
                 $this->visibleColumns,
                 $this->getProjectableColumns(),
                 $this->definedColumns,
-                $request
             );
         };
 
-        $searchBinder = function () use ($request) {
-            return new SearchRequest(
-                config('tuner.'.Tuner::DIRECTIVE_SEARCH),
-                $this->visibleColumns,
-                $this->getSearchableColumns(),
-                $request
-            );
-        };
+        // $searchBinder = function () use ($request) {
+        //     return new SearchRequest(
+        //         config('tuner.'.Tuner::DIRECTIVE_SEARCH),
+        //         $this->visibleColumns,
+        //         $this->getSearchableColumns(),
+        //         $request
+        //     );
+        // };
 
         $sortBinder = function () use ($request) {
             return new SortRequest(
                 config('tuner.'.Tuner::DIRECTIVE_SORT.'.'.Tuner::PARAM_KEY),
+                $request,
                 $this->visibleColumns,
                 $this->getSortableColumns(),
-                $request
             );
         };
 
@@ -82,10 +82,10 @@ trait Tunable
                 'bind' => fn ($requestContainer): ProjectionRequest => $projectionBinder(),
                 'resolve' => fn ($request) => $tunerBuilder->project($request),
             ],
-            'search' => [
-                'bind' => fn ($requestContainer): SearchRequest => $searchBinder(),
-                'resolve' => fn ($request) => $tunerBuilder->search($request),
-            ],
+            // 'search' => [
+            //     'bind' => fn ($requestContainer): SearchRequest => $searchBinder(),
+            //     'resolve' => fn ($request) => $tunerBuilder->search($request),
+            // ],
             'sort' => [
                 'bind' => fn ($requestContainer): SortRequest => $sortBinder(),
                 'resolve' => fn ($request) => $tunerBuilder->sort($request),

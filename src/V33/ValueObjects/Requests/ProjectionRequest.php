@@ -8,33 +8,39 @@ use RodrigoGalura\Tuner\V33\ValueObjects\Columns;
 use RodrigoGalura\Tuner\V33\ValueObjects\DefinedColumns;
 use RodrigoGalura\Tuner\V33\ValueObjects\ProjectableColumns;
 
-class ProjectionRequest extends MultipleKeysColumnRequest
+class ProjectionRequest extends Request
 {
     public function __construct(
         array $multipleKeys,
-        array $visibleColumns,
-        array $projectableColumns,
-        array $definedColumns,
-        array $request
+        array $request,
+        private array $visibleColumns,
+        private array $projectableColumns,
+        private array $definedColumns,
     ) {
-        $p = new ProjectableColumns($projectableColumns, $visibleColumns);
-        $q = new DefinedColumns($definedColumns, $visibleColumns);
+        parent::__construct($multipleKeys, $request);
+    }
 
-        parent::__construct($multipleKeys, array_intersect($p(), $q()), $request);
+    protected function beforeValidate()
+    {
+        $this->request = array_filter($this->request, fn ($paramKey): bool => in_array($paramKey, $this->key), ARRAY_FILTER_USE_KEY);
     }
 
     protected function validate()
     {
         switch (count($this->request)) {
             case 1:
+                $p = new ProjectableColumns($this->projectableColumns, $this->visibleColumns);
+                $q = new DefinedColumns($this->definedColumns, $this->visibleColumns);
+                $projectableColumns = array_intersect($p(), $q());
+
                 $paramKey = key($this->request);
-                $operator = array_search($paramKey, $this->multipleKeys);
+                $operator = array_search($paramKey, $this->key);
 
                 $paramValue = current($this->request);
                 throw_unless(is_string($paramValue), new Exception('The '.$paramKey.' must be string'));
 
-                $columns = new Columns(explode(', ', $paramValue), $this->validColumns);
-                throw_if(empty($this->request = $columns->{$operator}()->get()), new Exception('The '.$paramKey.' must be use any of these valid columns: '.implode(', ', $this->validColumns)));
+                $columns = new Columns(explode(', ', $paramValue), $projectableColumns);
+                throw_if(empty($this->request = $columns->{$operator}()->get()), new Exception('The '.$paramKey.' must be use any of these projectable columns: '.implode(', ', $projectableColumns)));
 
                 break;
 
