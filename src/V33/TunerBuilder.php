@@ -73,6 +73,12 @@ final class TunerBuilder
             }
         }
 
+        if ($this->wasAssigned('search')) {
+            [$columns, $searchKeyword] = [key($this->search), current($this->search)];
+
+            $this->builder->whereAny(explode(', ', $columns), 'LIKE', $searchKeyword);
+        }
+
         return $this->builder->get();
     }
 }

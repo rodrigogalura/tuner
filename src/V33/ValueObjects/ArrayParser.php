@@ -4,7 +4,7 @@ namespace RodrigoGalura\Tuner\V33\ValueObjects;
 
 class ArrayParser extends Parser
 {
-    public function __construct(array $value)
+    public function __construct(array|string $value)
     {
         parent::__construct($value);
     }
@@ -26,6 +26,13 @@ class ArrayParser extends Parser
     public function exceptFrom(array $from): self
     {
         $this->value = array_diff($from, $this->value);
+
+        return $this;
+    }
+
+    public function implode($glue = ', '): self
+    {
+        $this->value = implode($glue, $this->value);
 
         return $this;
     }

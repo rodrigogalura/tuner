@@ -8,8 +8,6 @@ class Columns
 
     private ArrayParser $parser;
 
-    // protected readonly array $parsedColumns;
-
     public function __construct(
         protected array $columns,
         protected array $visibleColumns
@@ -29,6 +27,13 @@ class Columns
     public function except()
     {
         $this->parser->exceptFrom($this->visibleColumns);
+
+        return $this;
+    }
+
+    public function implode($glue = ', ')
+    {
+        $this->parser->implode($glue);
 
         return $this;
     }

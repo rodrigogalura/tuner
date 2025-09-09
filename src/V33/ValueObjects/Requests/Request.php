@@ -12,9 +12,10 @@ abstract class Request implements RequestInterface
             throw new \LogicException('The '.$this::class.' must be implementation of '.RequestInterface::class);
         }
 
-        $this->beforeValidate();
+        $this->filterRequest();
 
         if ($this->hasRequest()) {
+            logger()->debug('Request from '.class_basename($this::class));
             $this->validate();
         }
     }
@@ -22,6 +23,16 @@ abstract class Request implements RequestInterface
     private function hasRequest()
     {
         return count($this->request) > 0;
+    }
+
+    private function filterRequest()
+    {
+        $conditionFn = match (gettype($this->key)) {
+            'string' => fn ($paramKey): bool => $paramKey === $this->key,
+            'array' => fn ($paramKey): bool => in_array($paramKey, $this->key),
+        };
+
+        $this->request = array_filter($this->request, fn ($paramKey): bool => $conditionFn($paramKey), ARRAY_FILTER_USE_KEY);
     }
 
     protected function beforeValidate()
