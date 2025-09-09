@@ -85,28 +85,44 @@ class FilterRequest extends Request
         }
     }
 
-    private function valueInterpreter(string $val)
+    private function valueInterpreter(string $key, string $value)
     {
-        switch (true) {
-            case empty($val):
-                return [static::COMPARISON_OPERATOR_EQ, ''];
+        switch ($key) {
+            case static::KEY_FILTER:
+                switch (true) {
+                    case empty($value):
+                        return [static::COMPARISON_OPERATOR_EQ, ''];
 
-            case in_array($op = substr($val, 0, 2), [
-                static::COMPARISON_OPERATOR_GE,
-                static::COMPARISON_OPERATOR_LE,
-                static::COMPARISON_OPERATOR_NE,
-            ]):
-                return [$op, trim(substr($val, 2))];
+                    case in_array($op = substr($value, 0, 2), [
+                        static::COMPARISON_OPERATOR_GE,
+                        static::COMPARISON_OPERATOR_LE,
+                        static::COMPARISON_OPERATOR_NE,
+                    ]):
+                        return [$op, trim(substr($value, 2))];
 
-            case in_array($op = $val[0], [
-                static::COMPARISON_OPERATOR_EQ,
-                static::COMPARISON_OPERATOR_G,
-                static::COMPARISON_OPERATOR_L,
-            ]):
-                return [$op, trim(substr($val, 1))];
+                    case in_array($op = $value[0], [
+                        static::COMPARISON_OPERATOR_EQ,
+                        static::COMPARISON_OPERATOR_G,
+                        static::COMPARISON_OPERATOR_L,
+                    ]):
+                        return [$op, trim(substr($value, 1))];
+
+                    default:
+                        return [static::COMPARISON_OPERATOR_EQ, trim(substr($value, 1))];
+                }
+
+            case static::KEY_IN:
+                return [explode_sanitize($value)];
+
+                // case static::KEY_BETWEEN:
+                //     $interpretedRequest[$key][] = array_merge(
+                //         $interpretedLogicalColumn,
+                //         [$key, trim($value)]
+                //     );
+                //     break;
 
             default:
-                return [static::COMPARISON_OPERATOR_EQ, trim(substr($val, 1))];
+                throw new LogicException('The ['.$key.'] is not a valid key!');
         }
     }
 
@@ -145,7 +161,7 @@ class FilterRequest extends Request
             foreach ($filterRequest as $logicColumn => $value) {
                 $interpretedRequest[$key][] = array_merge(
                     $this->logicColumnInterpreter($logicColumn),
-                    $this->valueInterpreter($value)
+                    $this->valueInterpreter($key, $value)
                 );
             }
         }

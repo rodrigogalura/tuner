@@ -94,9 +94,12 @@ final class TunerBuilder
                     $this->builder->where($column, $comparisonOperator, $val, $logicalOperator.($not ? ' NOT' : ''));
                 }
             }
-            // [$columns, $searchKeyword] = [key($this->search), current($this->search)];
 
-            // $this->builder->whereAny(explode(', ', $columns), 'LIKE', $searchKeyword);
+            if ($inFilter = $this->filter['in'] ?? null) {
+                foreach ($inFilter as [$logicalOperator, $column, $not, $val]) {
+                    $this->builder->whereIn($column, $val, $logicalOperator, $not);
+                }
+            }
         }
 
         return $this->builder->get();
