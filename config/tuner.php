@@ -22,6 +22,6 @@ return [
     ],
 
     'limit' => [
-        'key' => 'limit',
+        'key' => array_combine($keys = ['limit', 'offset'], $keys),
     ],
 ];

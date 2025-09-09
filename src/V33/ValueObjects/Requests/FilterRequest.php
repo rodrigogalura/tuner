@@ -74,9 +74,7 @@ class FilterRequest extends Request
                 $this->validateLogicalOperator($bool = strtoupper($logicColumnArr[0]));
                 $column = $logicColumnArr[1];
 
-                if ($not = str_ends_with($bool, '!')) {
-                    $bool = rtrim($bool, '!');
-                }
+                when($not = str_ends_with($bool, '!'), fn (): string => $bool = rtrim($bool, '!'));
 
                 return [$bool, $column, $not];
 

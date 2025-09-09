@@ -4,6 +4,7 @@ namespace RodrigoGalura\Tuner\V33;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use RodrigoGalura\Tuner\V33\ValueObjects\Requests\LimitRequest;
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\RequestInterface as Request;
 
 final class TunerBuilder
@@ -125,7 +126,11 @@ final class TunerBuilder
         }
 
         if ($this->wasAssigned('limit')) {
-            $this->builder->limit(current($this->limit));
+            $this->builder->limit($this->limit[LimitRequest::KEY_LIMIT]);
+
+            if ($offset = $this->limit[LimitRequest::KEY_OFFSET] ?? null) {
+                $this->builder->offset($offset);
+            }
         }
 
         return $this->builder->get();

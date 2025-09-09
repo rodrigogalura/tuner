@@ -158,12 +158,15 @@ trait Tunable
                         // noop
                         break;
 
-                    default:
+                    case Tuner::ERR_CODE_REQUEST_EXCEPTION: // todo: update this later
                         return new Collection([
                             'status' => 'error',
-                            // 'code' => $code,
+                            'code' => $code,
                             'message' => $e->getMessage(),
                         ]);
+
+                    default:
+                        throw $e;
                 }
             }
         }

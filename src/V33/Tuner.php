@@ -17,4 +17,6 @@ class Tuner
     const DIRECTIVE_EXPANSION = 'expansion';
 
     const DIRECTIVE_LIMIT = 'limit';
+
+    const ERR_CODE_REQUEST_EXCEPTION = 422;
 }

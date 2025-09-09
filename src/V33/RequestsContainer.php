@@ -15,9 +15,7 @@ class RequestsContainer
 
     private function resolve(string $key)
     {
-        if (! isset($this->requests[$key])) {
-            throw new Exception("Target request [{$key}] does not exist.");
-        }
+        when(! isset($this->requests[$key]), fn () => throw new Exception("Target request [{$key}] does not exist."));
 
         $factory = $this->requests[$key];
 
