@@ -16,6 +16,8 @@ final class TunerBuilder
 
     private readonly ?array $sort;
 
+    private readonly ?array $filter;
+
     /**
      * Private constructor
      */
@@ -57,6 +59,13 @@ final class TunerBuilder
         return $this;
     }
 
+    public function filter(Request $request)
+    {
+        $this->filter = $request();
+
+        return $this;
+    }
+
     public function build()
     {
         if ($this->wasAssigned('projectedColumns')) {
@@ -77,6 +86,17 @@ final class TunerBuilder
             [$columns, $searchKeyword] = [key($this->search), current($this->search)];
 
             $this->builder->whereAny(explode(', ', $columns), 'LIKE', $searchKeyword);
+        }
+
+        if ($this->wasAssigned('filter')) {
+            if ($filter = $this->filter['filter'] ?? null) {
+                foreach ($filter as [$logicalOperator, $column, $not, $comparisonOperator, $val]) {
+                    $this->builder->where($column, $comparisonOperator, $val, $logicalOperator.($not ? ' NOT' : ''));
+                }
+            }
+            // [$columns, $searchKeyword] = [key($this->search), current($this->search)];
+
+            // $this->builder->whereAny(explode(', ', $columns), 'LIKE', $searchKeyword);
         }
 
         return $this->builder->get();

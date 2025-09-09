@@ -4,10 +4,10 @@ namespace RodrigoGalura\Tuner\V33\ValueObjects;
 
 class ArrayParser extends Parser
 {
-    public function __construct(array|string $value)
-    {
-        parent::__construct($value);
-    }
+    // public function __construct(array $value)
+    // {
+    //     parent::__construct($value);
+    // }
 
     public function sanitize(): self
     {

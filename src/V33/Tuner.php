@@ -11,4 +11,6 @@ class Tuner
     const DIRECTIVE_SORT = 'sort';
 
     const DIRECTIVE_SEARCH = 'search';
+
+    const DIRECTIVE_FILTER = 'filter';
 }

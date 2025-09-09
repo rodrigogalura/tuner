@@ -5,7 +5,9 @@ namespace RodrigoGalura\Tuner\V33;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use RodrigoGalura\Tuner\V33\ValueObjects\FilterableColumns;
 use RodrigoGalura\Tuner\V33\ValueObjects\ProjectableColumns;
+use RodrigoGalura\Tuner\V33\ValueObjects\Requests\FilterRequest;
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\ProjectionRequest;
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\SearchRequest;
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\SortRequest;
@@ -29,6 +31,11 @@ trait Tunable
     }
 
     protected function getSearchableColumns(): array
+    {
+        return ['*'];
+    }
+
+    protected function getFilterableColumns(): array
     {
         return ['*'];
     }
@@ -77,6 +84,15 @@ trait Tunable
             );
         };
 
+        $filterBinder = function () use ($request) {
+            return new FilterRequest(
+                config('tuner.'.Tuner::DIRECTIVE_FILTER),
+                $request,
+                $this->visibleColumns,
+                $this->getFilterableColumns(),
+            );
+        };
+
         $container = [
             'project' => [
                 'bind' => fn ($requestContainer): ProjectionRequest => $projectionBinder(),
@@ -89,6 +105,10 @@ trait Tunable
             'sort' => [
                 'bind' => fn ($requestContainer): SortRequest => $sortBinder(),
                 'resolve' => fn ($request) => $tunerBuilder->sort($request),
+            ],
+            'filter' => [
+                'bind' => fn ($requestContainer): FilterRequest => $filterBinder(),
+                'resolve' => fn ($request) => $tunerBuilder->filter($request),
             ],
         ];
 
@@ -103,6 +123,7 @@ trait Tunable
                     case ProjectableColumns::ERR_CODE_DISABLED:
                     case SortableColumns::ERR_CODE_DISABLED:
                     case SearchableColumns::ERR_CODE_DISABLED:
+                    case FilterableColumns::ERR_CODE_DISABLED:
                         // noop
                         break;
 

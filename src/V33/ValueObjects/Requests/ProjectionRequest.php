@@ -26,11 +26,11 @@ class ProjectionRequest extends Request
         switch (count($this->request)) {
             case 1:
                 $paramKey = key($this->request);
-                $operator = array_search($paramKey, $this->key);
+                $projector = array_search($paramKey, $this->key);
 
                 // Validate projection
                 $paramValue = current($this->request);
-                throw_unless(is_string($paramValue), new Exception('The '.$paramKey.' must be string'));
+                throw_unless(is_string($paramValue), new Exception('The ['.$paramKey.'] must be string'));
 
                 $p = new ProjectableColumns($this->projectableColumns, $this->visibleColumns);
                 $q = new DefinedColumns($this->definedColumns, $this->visibleColumns);
@@ -38,13 +38,13 @@ class ProjectionRequest extends Request
 
                 // Validate columns
                 $columns = new Columns(explode(', ', $paramValue), $projectableColumns);
-                throw_if(empty($this->request = $columns->{$operator}()->get()), new Exception('The '.$paramKey.' must be use any of these projectable columns: '.implode(', ', $projectableColumns)));
+                throw_if(empty($this->request = $columns->{$projector}()->get()), new Exception('The ['.$paramKey.'] must be use any of these projectable columns: '.implode(', ', $projectableColumns)));
 
                 break;
 
             case 2:
                 $projectionModifiers = array_keys($this->request);
-                throw new Exception('Cannot use '.implode(', ', $projectionModifiers).' at the same time.');
+                throw new Exception('Cannot use ['.implode(', ', $projectionModifiers).'] at the same time.');
             default:
                 throw new LogicException('Number of projection key is invalid.');
         }

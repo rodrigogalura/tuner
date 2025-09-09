@@ -3,6 +3,7 @@
 namespace RodrigoGalura\Tuner\V33\ValueObjects\Requests;
 
 use Exception;
+use Illuminate\Support\Str;
 use RodrigoGalura\Tuner\V33\Tuner;
 use RodrigoGalura\Tuner\V33\ValueObjects\Columns;
 use RodrigoGalura\Tuner\V33\ValueObjects\SearchableColumns;
@@ -26,11 +27,7 @@ class SearchRequest extends Request
             $searchKeyword = "*{$searchKeyword}*";
         }
 
-        return [
-            $columns => str($searchKeyword)
-                ->replaceMatches('/^\*|\*$/', '%')
-                ->value,
-        ];
+        return [$columns => Str::of($searchKeyword)->replaceMatches('/^\*|\*$/', '%')];
     }
 
     protected function validate()
@@ -38,21 +35,21 @@ class SearchRequest extends Request
         $searchableColumns = (new SearchableColumns($this->searchableColumns, $this->visibleColumns))();
 
         // Validate search
-        $request = current($this->request); // unwrap
-        throw_unless(is_array($request), new Exception('The ['.$this->key.'] must be array!'));
-        throw_unless(count($request) === 1, new Exception('The ['.$this->key.'] must be only one value!'));
+        $searchRequest = current($this->request); // unwrap
+        throw_unless(is_array($searchRequest), new Exception('The ['.$this->key.'] must be array!'));
+        throw_unless(count($searchRequest) === 1, new Exception('The ['.$this->key.'] must be only one value!'));
 
-        $columns = explode(',', key($request));
+        $columns = explode(',', key($searchRequest));
 
         // Validate columns
         $columns = new Columns($columns, $searchableColumns);
         throw_if(empty($requestedColumns = $columns->intersect()->implode()->get()), new Exception('Invalid columns. It must be one of the following searchable columns: ['.implode(', ', $searchableColumns).']'));
 
-        $searchKeyword = $searchRequest[$requestedColumns] = current($request);
+        $searchKeyword = current($searchRequest);
 
         // Validate values
         throw_if(strlen($searchKeyword) < $this->config['minimum_length'], new Exception(sprintf('Keyword characters must be at least %d length.', $this->config['minimum_length'])));
 
-        $this->request = static::searchKeywordInterpreter($searchRequest);
+        $this->request = static::searchKeywordInterpreter([$requestedColumns => $searchKeyword]);
     }
 }

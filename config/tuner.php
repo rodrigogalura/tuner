@@ -16,4 +16,8 @@ return [
     'sort' => [
         'key' => 'sort',
     ],
+
+    'filter' => [
+        'key' => array_combine($keys = ['filter', 'in', 'between'], $keys),
+    ],
 ];

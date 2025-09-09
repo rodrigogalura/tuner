@@ -40,17 +40,17 @@ class SortRequest extends Request
 
     protected function validate()
     {
-        // Validate sort
-        $request = current($this->request); // unwrap
-        throw_unless(is_array($request), new Exception('The '.$this->key.' must be array'));
-
         $sortableColumns = (new SortableColumns($this->sortableColumns, $this->visibleColumns))();
 
+        // Validate sort
+        $sortRequest = current($this->request); // unwrap
+        throw_unless(is_array($sortRequest), new Exception('The '.$this->key.' must be array'));
+
         // Validate columns
-        $columns = new Columns(array_keys($request), $sortableColumns);
+        $columns = new Columns(array_keys($sortRequest), $sortableColumns);
         throw_if(empty($requestedColumns = $columns->intersect()->get()), new Exception('Invalid columns provided. It must be one of the following sortable columns: '.implode(', ', $sortableColumns)));
 
-        $filteredRequest = array_filter($request, fn ($column): bool => in_array($column, $requestedColumns), ARRAY_FILTER_USE_KEY);
+        $filteredRequest = array_filter($sortRequest, fn ($column): bool => in_array($column, $requestedColumns), ARRAY_FILTER_USE_KEY);
 
         // Validate values
         $validOrderValues = static::validOrderValues();
