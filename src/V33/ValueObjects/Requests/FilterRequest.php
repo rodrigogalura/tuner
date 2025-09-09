@@ -112,17 +112,11 @@ class FilterRequest extends Request
                 }
 
             case static::KEY_IN:
+            case static::KEY_BETWEEN:
                 return [explode_sanitize($value)];
 
-                // case static::KEY_BETWEEN:
-                //     $interpretedRequest[$key][] = array_merge(
-                //         $interpretedLogicalColumn,
-                //         [$key, trim($value)]
-                //     );
-                //     break;
-
             default:
-                throw new LogicException('The ['.$key.'] is not a valid key!');
+                throw new Exception('The ['.$key.'] is not a valid key!');
         }
     }
 

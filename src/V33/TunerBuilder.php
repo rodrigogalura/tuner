@@ -100,6 +100,12 @@ final class TunerBuilder
                     $this->builder->whereIn($column, $val, $logicalOperator, $not);
                 }
             }
+
+            if ($betweenFilter = $this->filter['between'] ?? null) {
+                foreach ($betweenFilter as [$logicalOperator, $column, $not, $val]) {
+                    $this->builder->whereBetween($column, $val, $logicalOperator, $not);
+                }
+            }
         }
 
         return $this->builder->get();
