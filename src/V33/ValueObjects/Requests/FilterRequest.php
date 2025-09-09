@@ -106,7 +106,7 @@ class FilterRequest extends Request
                         return [$op, trim(substr($value, 1))];
 
                     default:
-                        return [static::COMPARISON_OPERATOR_EQ, trim(substr($value, 1))];
+                        return [static::COMPARISON_OPERATOR_EQ, trim($value)];
                 }
 
             case static::KEY_IN:
