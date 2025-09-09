@@ -5,15 +5,17 @@ namespace RodrigoGalura\Tuner\V33;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use RodrigoGalura\Tuner\V33\ValueObjects\FilterableColumns;
-use RodrigoGalura\Tuner\V33\ValueObjects\ProjectableColumns;
-use RodrigoGalura\Tuner\V33\ValueObjects\Requests\FilterRequest;
-use RodrigoGalura\Tuner\V33\ValueObjects\Requests\LimitRequest;
-use RodrigoGalura\Tuner\V33\ValueObjects\Requests\ProjectionRequest;
-use RodrigoGalura\Tuner\V33\ValueObjects\Requests\SearchRequest;
-use RodrigoGalura\Tuner\V33\ValueObjects\Requests\SortRequest;
-use RodrigoGalura\Tuner\V33\ValueObjects\SearchableColumns;
+use Illuminate\Pagination\LengthAwarePaginator;
 use RodrigoGalura\Tuner\V33\ValueObjects\SortableColumns;
+use RodrigoGalura\Tuner\V33\ValueObjects\FilterableColumns;
+use RodrigoGalura\Tuner\V33\ValueObjects\SearchableColumns;
+use RodrigoGalura\Tuner\V33\ValueObjects\ProjectableColumns;
+use RodrigoGalura\Tuner\V33\ValueObjects\Requests\SortRequest;
+use RodrigoGalura\Tuner\V33\ValueObjects\Requests\LimitRequest;
+use RodrigoGalura\Tuner\V33\ValueObjects\Requests\FilterRequest;
+use RodrigoGalura\Tuner\V33\ValueObjects\Requests\SearchRequest;
+use RodrigoGalura\Tuner\V33\ValueObjects\Requests\PaginationRequest;
+use RodrigoGalura\Tuner\V33\ValueObjects\Requests\ProjectionRequest;
 
 trait Tunable
 {
@@ -46,10 +48,15 @@ trait Tunable
         return true;
     }
 
+    protected function paginatable(): bool
+    {
+        return true;
+    }
+
     /**
      * @return void
      */
-    public function scopeSend(Builder $builder): Collection
+    public function scopeSend(Builder $builder): Collection | LengthAwarePaginator
     {
         $this->visibleColumns = array_diff(
             $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable()),
@@ -64,7 +71,7 @@ trait Tunable
 
         $projectionBinder = function () use ($request) {
             return new ProjectionRequest(
-                config('tuner.'.Tuner::DIRECTIVE_PROJECTION),
+                config('tuner.'.Tuner::CONFIG_PROJECTION),
                 $request,
                 $this->visibleColumns,
                 $this->getProjectableColumns(),
@@ -74,7 +81,7 @@ trait Tunable
 
         $searchBinder = function () use ($request) {
             return new SearchRequest(
-                config('tuner.'.Tuner::DIRECTIVE_SEARCH),
+                config('tuner.'.Tuner::CONFIG_SEARCH),
                 $request,
                 $this->visibleColumns,
                 $this->getSearchableColumns(),
@@ -83,7 +90,7 @@ trait Tunable
 
         $sortBinder = function () use ($request) {
             return new SortRequest(
-                config('tuner.'.Tuner::DIRECTIVE_SORT),
+                config('tuner.'.Tuner::CONFIG_SORT),
                 $request,
                 $this->visibleColumns,
                 $this->getSortableColumns(),
@@ -92,7 +99,7 @@ trait Tunable
 
         $filterBinder = function () use ($request) {
             return new FilterRequest(
-                config('tuner.'.Tuner::DIRECTIVE_FILTER),
+                config('tuner.'.Tuner::CONFIG_FILTER),
                 $request,
                 $this->visibleColumns,
                 $this->getFilterableColumns(),
@@ -101,15 +108,23 @@ trait Tunable
 
         $limitBinder = function () use ($request) {
             return new LimitRequest(
-                config('tuner.'.Tuner::DIRECTIVE_LIMIT),
+                config('tuner.'.Tuner::CONFIG_LIMIT),
                 $request,
                 $this->limitable(),
             );
         };
 
+        $paginationBinder = function () use ($request) {
+            return new PaginationRequest(
+                config('tuner.'.Tuner::CONFIG_PAGINATION),
+                $request,
+                $this->paginatable(),
+            );
+        };
+
         // $expansionBinder = function () use ($request) {
         //     return new ExpansionRequest(
-        //         config('tuner.'.Tuner::DIRECTIVE_EXPANSION),
+        //         config('tuner.'.Tuner::CONFIG_EXPANSION),
         //         $request,
         //         $this->visibleColumns,
         //         $this->getProjectableColumns(),
@@ -136,6 +151,10 @@ trait Tunable
             'limit' => [
                 'bind' => fn ($requestContainer): LimitRequest => $limitBinder(),
                 'resolve' => fn ($request) => $tunerBuilder->limit($request),
+            ],
+            'pagination' => [
+                'bind' => fn ($requestContainer): PaginationRequest => $paginationBinder(),
+                'resolve' => fn ($request) => $tunerBuilder->paginate($request),
             ],
             // 'expand' => [
             //     'bind' => fn ($requestContainer): ExpansionRequest => $expansionBinder(),

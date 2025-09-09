@@ -6,17 +6,19 @@ class Tuner
 {
     const PARAM_KEY = 'key';
 
-    const DIRECTIVE_PROJECTION = 'projection';
+    const CONFIG_PROJECTION = 'projection';
 
-    const DIRECTIVE_SORT = 'sort';
+    const CONFIG_SORT = 'sort';
 
-    const DIRECTIVE_SEARCH = 'search';
+    const CONFIG_SEARCH = 'search';
 
-    const DIRECTIVE_FILTER = 'filter';
+    const CONFIG_FILTER = 'filter';
 
-    const DIRECTIVE_EXPANSION = 'expansion';
+    const CONFIG_EXPANSION = 'expansion';
 
-    const DIRECTIVE_LIMIT = 'limit';
+    const CONFIG_LIMIT = 'limit';
+
+    const CONFIG_PAGINATION = 'pagination';
 
     const ERR_CODE_REQUEST_EXCEPTION = 422;
 }

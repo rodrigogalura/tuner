@@ -4,6 +4,7 @@ namespace RodrigoGalura\Tuner\V33;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\LimitRequest;
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\RequestInterface as Request;
 
@@ -18,6 +19,10 @@ final class TunerBuilder
     private readonly ?array $sort;
 
     private readonly ?array $filter;
+
+    private readonly ?array $limit;
+
+    private readonly ?array $pageSize;
 
     private readonly ?array $expand;
 
@@ -76,6 +81,13 @@ final class TunerBuilder
         return $this;
     }
 
+    public function paginate(Request $request)
+    {
+        $this->pageSize = $request();
+
+        return $this;
+    }
+
     public function expand(Request $request)
     {
         $this->expand = $request();
@@ -83,7 +95,7 @@ final class TunerBuilder
         return $this;
     }
 
-    public function build()
+    public function build(): Collection | LengthAwarePaginator
     {
         if ($this->wasAssigned('projectedColumns')) {
             if (empty($this->projectedColumns)) {
@@ -131,6 +143,10 @@ final class TunerBuilder
             if ($offset = $this->limit[LimitRequest::KEY_OFFSET] ?? null) {
                 $this->builder->offset($offset);
             }
+        }
+
+        if ($this->wasAssigned('pageSize')) {
+            return $this->builder->paginate(current($this->pageSize));
         }
 
         return $this->builder->get();

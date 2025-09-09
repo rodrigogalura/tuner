@@ -24,4 +24,8 @@ return [
     'limit' => [
         'key' => array_combine($keys = ['limit', 'offset'], $keys),
     ],
+
+    'pagination' => [
+        'key' => 'page-size',
+    ],
 ];
