@@ -50,6 +50,6 @@ class SearchRequest extends Request
         // Validate values
         throw_if(strlen($searchKeyword) < $this->config['minimum_length'], new Exception(sprintf('Keyword characters must be at least %d length.', $this->config['minimum_length'])));
 
-        $this->request = static::searchKeywordInterpreter([$requestedColumns => $searchKeyword]);
+        $this->request = [$this->key => static::searchKeywordInterpreter([$requestedColumns => $searchKeyword])];
     }
 }

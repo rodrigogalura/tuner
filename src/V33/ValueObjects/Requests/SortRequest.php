@@ -58,6 +58,6 @@ class SortRequest extends Request
 
         throw_if(empty($filteredRequest), new Exception('The '.$this->key.' must be use any of these valid order: '.implode(', ', $validOrderValues)));
 
-        $this->request = static::orderInterpreter($filteredRequest);
+        $this->request = [$this->key => static::orderInterpreter($filteredRequest)];
     }
 }

@@ -6,16 +6,16 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use RodrigoGalura\Tuner\V33\ValueObjects\SortableColumns;
 use RodrigoGalura\Tuner\V33\ValueObjects\FilterableColumns;
-use RodrigoGalura\Tuner\V33\ValueObjects\SearchableColumns;
 use RodrigoGalura\Tuner\V33\ValueObjects\ProjectableColumns;
-use RodrigoGalura\Tuner\V33\ValueObjects\Requests\SortRequest;
-use RodrigoGalura\Tuner\V33\ValueObjects\Requests\LimitRequest;
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\FilterRequest;
-use RodrigoGalura\Tuner\V33\ValueObjects\Requests\SearchRequest;
+use RodrigoGalura\Tuner\V33\ValueObjects\Requests\LimitRequest;
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\PaginationRequest;
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\ProjectionRequest;
+use RodrigoGalura\Tuner\V33\ValueObjects\Requests\SearchRequest;
+use RodrigoGalura\Tuner\V33\ValueObjects\Requests\SortRequest;
+use RodrigoGalura\Tuner\V33\ValueObjects\SearchableColumns;
+use RodrigoGalura\Tuner\V33\ValueObjects\SortableColumns;
 
 trait Tunable
 {
@@ -56,7 +56,7 @@ trait Tunable
     /**
      * @return void
      */
-    public function scopeSend(Builder $builder): Collection | LengthAwarePaginator
+    public function scopeSend(Builder $builder): Collection|LengthAwarePaginator
     {
         $this->visibleColumns = array_diff(
             $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable()),

@@ -6,13 +6,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\LimitRequest;
-use RodrigoGalura\Tuner\V33\ValueObjects\Requests\RequestInterface as Request;
 
 final class TunerBuilder
 {
     use HasSingleton;
 
-    private readonly ?array $projectedColumns;
+    private readonly ?array $projection;
 
     private readonly ?array $search;
 
@@ -22,7 +21,7 @@ final class TunerBuilder
 
     private readonly ?array $limit;
 
-    private readonly ?array $pageSize;
+    private readonly ?array $pagination;
 
     private readonly ?array $expand;
 
@@ -46,73 +45,48 @@ final class TunerBuilder
         return new self(...func_get_args());
     }
 
-    public function project(Request $request)
+    public function __call(string $attribute, array $arguments)
     {
-        $this->projectedColumns = $request();
+        $request = array_shift($arguments);
+
+        $attributes = [
+            'project' => 'projection',
+            'paginate' => 'pagination',
+        ];
+
+        $property = $attributes[$attribute] ?? null;
+        $this->{$property ?? $attribute} = $request();
 
         return $this;
     }
 
-    public function search(Request $request)
+    // public function expand(Request $request)
+    // {
+    //     $this->expand = $request();
+
+    //     return $this;
+    // }
+
+    public function build(): Collection|LengthAwarePaginator
     {
-        $this->search = $request();
-
-        return $this;
-    }
-
-    public function sort(Request $request)
-    {
-        $this->sort = $request();
-
-        return $this;
-    }
-
-    public function filter(Request $request)
-    {
-        $this->filter = $request();
-
-        return $this;
-    }
-
-    public function limit(Request $request)
-    {
-        $this->limit = $request();
-
-        return $this;
-    }
-
-    public function paginate(Request $request)
-    {
-        $this->pageSize = $request();
-
-        return $this;
-    }
-
-    public function expand(Request $request)
-    {
-        $this->expand = $request();
-
-        return $this;
-    }
-
-    public function build(): Collection | LengthAwarePaginator
-    {
-        if ($this->wasAssigned('projectedColumns')) {
-            if (empty($this->projectedColumns)) {
+        if ($this->wasAssigned('projection')) {
+            if (empty($projectedColumns = current($this->projection))) {
                 return new Collection([]);
             }
 
-            $this->builder->select($this->projectedColumns);
+            $this->builder->select($projectedColumns);
         }
 
         if ($this->wasAssigned('sort')) {
-            foreach ($this->sort as $column => $order) {
+            $sort = current($this->sort);
+            foreach ($sort as $column => $order) {
                 $this->builder->orderBy($column, $order);
             }
         }
 
         if ($this->wasAssigned('search')) {
-            [$columns, $searchKeyword] = [key($this->search), current($this->search)];
+            $search = current($this->search);
+            [$columns, $searchKeyword] = [key($search), current($search)];
 
             $this->builder->whereAny(explode(', ', $columns), 'LIKE', $searchKeyword);
         }
@@ -145,8 +119,8 @@ final class TunerBuilder
             }
         }
 
-        if ($this->wasAssigned('pageSize')) {
-            return $this->builder->paginate(current($this->pageSize));
+        if ($this->wasAssigned('pagination')) {
+            return $this->builder->paginate(current($this->pagination));
         }
 
         return $this->builder->get();
