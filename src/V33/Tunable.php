@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use RodrigoGalura\Tuner\V33\ValueObjects\FilterableColumns;
 use RodrigoGalura\Tuner\V33\ValueObjects\ProjectableColumns;
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\FilterRequest;
+use RodrigoGalura\Tuner\V33\ValueObjects\Requests\LimitRequest;
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\ProjectionRequest;
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\SearchRequest;
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\SortRequest;
@@ -38,6 +39,11 @@ trait Tunable
     protected function getFilterableColumns(): array
     {
         return ['*'];
+    }
+
+    protected function limitable(): bool
+    {
+        return true;
     }
 
     /**
@@ -93,6 +99,23 @@ trait Tunable
             );
         };
 
+        $limitBinder = function () use ($request) {
+            return new LimitRequest(
+                config('tuner.'.Tuner::DIRECTIVE_LIMIT),
+                $request,
+                $this->limitable(),
+            );
+        };
+
+        // $expansionBinder = function () use ($request) {
+        //     return new ExpansionRequest(
+        //         config('tuner.'.Tuner::DIRECTIVE_EXPANSION),
+        //         $request,
+        //         $this->visibleColumns,
+        //         $this->getProjectableColumns(),
+        //     );
+        // };
+
         $container = [
             'project' => [
                 'bind' => fn ($requestContainer): ProjectionRequest => $projectionBinder(),
@@ -110,6 +133,14 @@ trait Tunable
                 'bind' => fn ($requestContainer): FilterRequest => $filterBinder(),
                 'resolve' => fn ($request) => $tunerBuilder->filter($request),
             ],
+            'limit' => [
+                'bind' => fn ($requestContainer): LimitRequest => $limitBinder(),
+                'resolve' => fn ($request) => $tunerBuilder->limit($request),
+            ],
+            // 'expand' => [
+            //     'bind' => fn ($requestContainer): ExpansionRequest => $expansionBinder(),
+            //     'resolve' => fn ($request) => $tunerBuilder->expand($request),
+            // ],
         ];
 
         $requestContainer = RequestsContainer::create();
@@ -119,7 +150,7 @@ trait Tunable
                 $requestContainer->bind($key, $factories['bind']);
                 $requestContainer->resolveAndRunCallbackWhenRequested($key, $factories['resolve']);
             } catch (Exception $e) {
-                switch ($e->getCode()) {
+                switch ($code = $e->getCode()) {
                     case ProjectableColumns::ERR_CODE_DISABLED:
                     case SortableColumns::ERR_CODE_DISABLED:
                     case SearchableColumns::ERR_CODE_DISABLED:
@@ -128,7 +159,11 @@ trait Tunable
                         break;
 
                     default:
-                        throw $e;
+                        return new Collection([
+                            'status' => 'error',
+                            // 'code' => $code,
+                            'message' => $e->getMessage(),
+                        ]);
                 }
             }
         }

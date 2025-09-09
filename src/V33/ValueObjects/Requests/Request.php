@@ -14,7 +14,7 @@ abstract class Request implements RequestInterface
 
         $this->filterRequest();
 
-        if ($this->hasRequest()) {
+        if ($this->shouldValidate() && $this->hasRequest()) {
             logger()->debug('Request from '.class_basename($this::class));
             $this->validate();
         }
@@ -35,9 +35,9 @@ abstract class Request implements RequestInterface
         $this->request = array_filter($this->request, fn ($paramKey): bool => $conditionFn($paramKey), ARRAY_FILTER_USE_KEY);
     }
 
-    protected function beforeValidate()
+    protected function shouldValidate()
     {
-        //
+        return true;
     }
 
     public function __invoke(): array

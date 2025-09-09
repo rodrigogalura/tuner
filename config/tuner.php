@@ -20,4 +20,8 @@ return [
     'filter' => [
         'key' => array_combine($keys = ['filter', 'in', 'between'], $keys),
     ],
+
+    'limit' => [
+        'key' => 'limit',
+    ],
 ];

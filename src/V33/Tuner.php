@@ -13,4 +13,8 @@ class Tuner
     const DIRECTIVE_SEARCH = 'search';
 
     const DIRECTIVE_FILTER = 'filter';
+
+    const DIRECTIVE_EXPANSION = 'expansion';
+
+    const DIRECTIVE_LIMIT = 'limit';
 }

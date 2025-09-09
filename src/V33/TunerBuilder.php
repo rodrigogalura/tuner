@@ -18,6 +18,8 @@ final class TunerBuilder
 
     private readonly ?array $filter;
 
+    private readonly ?array $expand;
+
     /**
      * Private constructor
      */
@@ -66,6 +68,20 @@ final class TunerBuilder
         return $this;
     }
 
+    public function limit(Request $request)
+    {
+        $this->limit = $request();
+
+        return $this;
+    }
+
+    public function expand(Request $request)
+    {
+        $this->expand = $request();
+
+        return $this;
+    }
+
     public function build()
     {
         if ($this->wasAssigned('projectedColumns')) {
@@ -106,6 +122,10 @@ final class TunerBuilder
                     $this->builder->whereBetween($column, $val, $logicalOperator, $not);
                 }
             }
+        }
+
+        if ($this->wasAssigned('limit')) {
+            $this->builder->limit(current($this->limit));
         }
 
         return $this->builder->get();
