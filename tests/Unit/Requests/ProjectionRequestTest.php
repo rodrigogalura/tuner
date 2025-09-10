@@ -2,8 +2,8 @@
 
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\ProjectionRequest;
 
-describe('Filter Request', function () {
-    it('should thrown an exception when using modifier for intersect and except at the same time.', function () {
+describe('Projection Request', function (): void {
+    it('should thrown an exception when using modifier for intersect and except at the same time.', function (): void {
         // Prepare
         $config = [
             'key' => [
@@ -21,7 +21,7 @@ describe('Filter Request', function () {
         new ProjectionRequest($config, $request, [], [], []);
     })->throws(\Exception::class);
 
-    it('should thrown an exception when projectable columns are empty.', function () {
+    it('should thrown an exception when projectable columns are empty.', function (): void {
         // Prepare
         $config = [
             'key' => [
@@ -42,7 +42,7 @@ describe('Filter Request', function () {
         new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
     })->throws(\Exception::class);
 
-    it('should thrown an exception when all projectable columns are not in visible columns.', function () {
+    it('should thrown an exception when all projectable columns are not in visible columns.', function (): void {
         // Prepare
         $config = [
             'key' => [
@@ -63,7 +63,7 @@ describe('Filter Request', function () {
         new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
     })->throws(\Exception::class);
 
-    it('should thrown an exception when defined columns are empty.', function () {
+    it('should thrown an exception when defined columns are empty.', function (): void {
         // Prepare
         $config = [
             'key' => [
@@ -84,7 +84,7 @@ describe('Filter Request', function () {
         new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
     })->throws(\Exception::class);
 
-    it('should thrown an exception when all defined columns are not in visible columns.', function () {
+    it('should thrown an exception when all defined columns are not in visible columns.', function (): void {
         // Prepare
         $config = [
             'key' => [
@@ -105,7 +105,7 @@ describe('Filter Request', function () {
         new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
     })->throws(\Exception::class);
 
-    it('should thrown an exception when request value is not string.', function () {
+    it('should thrown an exception when request value is not string.', function (): void {
         // Prepare
         $config = [
             'key' => [
@@ -122,7 +122,7 @@ describe('Filter Request', function () {
         new ProjectionRequest($config, $request, ['foo'], ['foo'], ['*']);
     })->throws(\Exception::class);
 
-    it('should thrown an exception when requesting non-existing columns.', function () {
+    it('should thrown an exception when requesting non-existing columns.', function (): void {
         // Prepare
         $config = [
             'key' => [
@@ -142,9 +142,9 @@ describe('Filter Request', function () {
         // Act & Assert
         new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
     })
-    ->throws(\Exception::class);
+        ->throws(\Exception::class);
 
-    test('should get request value of columns modifier', function () {
+    test('should get request value of columns modifier', function (): void {
         // Prepare
         $config = [
             'key' => [
@@ -166,7 +166,7 @@ describe('Filter Request', function () {
         expect($request())->toBe(['columns' => ['baz']]);
     });
 
-    test('should get request value of columns! modifier', function () {
+    test('should get request value of columns! modifier', function (): void {
         // Prepare
         $config = [
             'key' => [

@@ -54,7 +54,7 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "@php setup-development.php"
+            "@phpsetup-dev"
         ],
         "post-autoload-dump": [
             "@clear",
@@ -67,6 +67,9 @@
             "Composer\\Config::disableProcessTimeout",
             "@build",
             "@php vendor/bin/testbench serve --ansi"
+        ],
+        "setup-dev": [
+            "@php setup-development.php"
         ],
         "pint": [
             "@php vendor/bin/pint --ansi"

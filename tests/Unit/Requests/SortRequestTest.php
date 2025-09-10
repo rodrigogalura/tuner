@@ -2,8 +2,8 @@
 
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\SortRequest;
 
-describe('Filter Request', function () {
-    it('should thrown an exception when sortable columns are empty.', function () {
+describe('Sort Request', function (): void {
+    it('should thrown an exception when sortable columns are empty.', function (): void {
         // Prepare
         $config = [
             'key' => 'sort',
@@ -20,7 +20,7 @@ describe('Filter Request', function () {
         new SortRequest($config, $request, $visibleColumns, $sortableColumns);
     })->throws(\Exception::class);
 
-    it('should thrown an exception when all sortable columns are not in visible columns.', function () {
+    it('should thrown an exception when all sortable columns are not in visible columns.', function (): void {
         // Prepare
         $config = [
             'key' => 'sort',
@@ -37,7 +37,7 @@ describe('Filter Request', function () {
         new SortRequest($config, $request, $visibleColumns, $sortableColumns);
     })->throws(\Exception::class);
 
-    it('should thrown an exception when request value is not array.', function ($requestValue) {
+    it('should thrown an exception when request value is not array.', function ($requestValue): void {
         // Prepare
         $config = [
             'key' => 'sort',
@@ -50,10 +50,10 @@ describe('Filter Request', function () {
         // Act & Assert
         new SortRequest($config, $request, ['foo'], ['*']);
     })
-    ->with([1, 'foo'])
-    ->throws(\Exception::class);
+        ->with([1, 'foo'])
+        ->throws(\Exception::class);
 
-    it('should thrown an exception when requesting non-existing columns.', function () {
+    it('should thrown an exception when requesting non-existing columns.', function (): void {
         // Prepare
         $config = [
             'key' => 'sort',
@@ -69,9 +69,9 @@ describe('Filter Request', function () {
         // Act & Assert
         new SortRequest($config, $request, $visibleColumns, $sortableColumns);
     })
-    ->throws(\Exception::class);
+        ->throws(\Exception::class);
 
-    test('should get request value of columns modifier', function () {
+    test('should get request value of sort modifier', function (): void {
         // Prepare
         $config = [
             'key' => 'sort',
