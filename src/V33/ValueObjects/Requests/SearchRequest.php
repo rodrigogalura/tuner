@@ -8,7 +8,7 @@ use RodrigoGalura\Tuner\V33\Tuner;
 use RodrigoGalura\Tuner\V33\ValueObjects\Columns;
 use RodrigoGalura\Tuner\V33\ValueObjects\SearchableColumns;
 
-class SearchRequest extends Request
+class SearchRequest extends Request implements RequestInterface
 {
     public function __construct(
         private array $config,

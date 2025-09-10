@@ -10,7 +10,7 @@ use RodrigoGalura\Tuner\V33\ValueObjects\FilterableColumns;
 
 use function RGalura\ApiIgniter\explode_sanitize;
 
-class FilterRequest extends Request
+class FilterRequest extends Request implements RequestInterface
 {
     const KEY_FILTER = 'filter';
 

@@ -1,6 +1,6 @@
 {
     "name": "rodrigogalura/tuner",
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "description": "A Laravel package to build smart APIs once — and let clients do the rest.",
     "type": "library",
     "require": {
@@ -11,7 +11,8 @@
         "pestphp/pest": "^3.7",
         "orchestra/testbench": "^10.1",
         "pestphp/pest-plugin-laravel": "^3.1",
-        "rector/rector": "dev-main"
+        "rector/rector": "dev-main",
+        "mockery/mockery": "^1.6"
     },
     "license": "MIT",
     "autoload": {

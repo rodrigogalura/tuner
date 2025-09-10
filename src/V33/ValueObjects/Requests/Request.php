@@ -2,14 +2,14 @@
 
 namespace RodrigoGalura\Tuner\V33\ValueObjects\Requests;
 
-abstract class Request implements RequestInterface
+abstract class Request
 {
     public function __construct(
         protected string|array $key,
         protected array $request
     ) {
         if (! is_a($this, RequestInterface::class)) {
-            throw new \LogicException('The ['.$this::class.'] must be implementation of ['.RequestInterface::class.']');
+            throw new \Exception('The ['.$this::class.'] must be implementation of ['.RequestInterface::class.']');
         }
 
         $this->filterRequest();

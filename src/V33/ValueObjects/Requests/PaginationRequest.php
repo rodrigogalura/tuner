@@ -5,7 +5,7 @@ namespace RodrigoGalura\Tuner\V33\ValueObjects\Requests;
 use Exception;
 use RodrigoGalura\Tuner\V33\Tuner;
 
-class PaginationRequest extends Request
+class PaginationRequest extends Request implements RequestInterface
 {
     public function __construct(
         array $config,

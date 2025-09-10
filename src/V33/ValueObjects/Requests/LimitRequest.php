@@ -5,7 +5,7 @@ namespace RodrigoGalura\Tuner\V33\ValueObjects\Requests;
 use Exception;
 use RodrigoGalura\Tuner\V33\Tuner;
 
-class LimitRequest extends Request
+class LimitRequest extends Request implements RequestInterface
 {
     const KEY_LIMIT = 'limit';
 

@@ -9,7 +9,7 @@ use RodrigoGalura\Tuner\V33\ValueObjects\Columns;
 use RodrigoGalura\Tuner\V33\ValueObjects\DefinedColumns;
 use RodrigoGalura\Tuner\V33\ValueObjects\ProjectableColumns;
 
-class ProjectionRequest extends Request
+class ProjectionRequest extends Request implements RequestInterface
 {
     public function __construct(
         array $config,

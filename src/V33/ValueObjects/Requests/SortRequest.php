@@ -7,7 +7,7 @@ use RodrigoGalura\Tuner\V33\Tuner;
 use RodrigoGalura\Tuner\V33\ValueObjects\Columns;
 use RodrigoGalura\Tuner\V33\ValueObjects\SortableColumns;
 
-class SortRequest extends Request
+class SortRequest extends Request implements RequestInterface
 {
     private const ORDERS = [
         'asc' => ['a', 'asc', 'ascending'],
