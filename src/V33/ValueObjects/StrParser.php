@@ -6,11 +6,6 @@ class StrParser extends Parser
 {
     private readonly ArrayParser $arrayParser;
 
-    // public function __construct(string $value)
-    // {
-    //     parent::__construct($value);
-    // }
-
     private function arrayParserCreated()
     {
         return ! is_null($this->arrayParser ?? null);

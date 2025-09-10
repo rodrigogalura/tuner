@@ -38,7 +38,7 @@ class ProjectionRequest extends Request
 
                 // Validate columns
                 $columns = new Columns(explode(', ', $paramValue), $projectableColumns);
-                throw_if(empty($projectedColumns = $columns->{$projector}()->get()), new Exception('The ['.$paramKey.'] must be use any of these projectable columns: '.implode(', ', $projectableColumns)));
+                throw_if(empty($projectedColumns = $columns->{$projector}()->get()), new Exception('The ['.$paramKey.'] must be use any of these projectable columns: ['.implode(', ', $projectableColumns).']'));
 
                 $this->request = [$paramKey => $projectedColumns];
 

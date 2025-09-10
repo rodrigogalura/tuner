@@ -44,11 +44,11 @@ class SortRequest extends Request
 
         // Validate sort
         $sortRequest = current($this->request); // unwrap
-        throw_unless(is_array($sortRequest), new Exception('The '.$this->key.' must be array'));
+        throw_unless(is_array($sortRequest), new Exception('The ['.$this->key.'] must be array'));
 
         // Validate columns
         $columns = new Columns(array_keys($sortRequest), $sortableColumns);
-        throw_if(empty($requestedColumns = $columns->intersect()->get()), new Exception('Invalid columns provided. It must be one of the following sortable columns: '.implode(', ', $sortableColumns)));
+        throw_if(empty($requestedColumns = $columns->intersect()->get()), new Exception('Invalid columns provided. It must be one of the following sortable columns: ['.implode(', ', $sortableColumns).']'));
 
         $filteredRequest = array_filter($sortRequest, fn ($column): bool => in_array($column, $requestedColumns), ARRAY_FILTER_USE_KEY);
 
@@ -56,7 +56,7 @@ class SortRequest extends Request
         $validOrderValues = static::validOrderValues();
         $filteredRequest = array_filter($filteredRequest, fn ($order): bool => in_array($order, $validOrderValues));
 
-        throw_if(empty($filteredRequest), new Exception('The '.$this->key.' must be use any of these valid order: '.implode(', ', $validOrderValues)));
+        throw_if(empty($filteredRequest), new Exception('The ['.$this->key.'] must be use any of these valid order: ['.implode(', ', $validOrderValues).']'));
 
         $this->request = [$this->key => static::orderInterpreter($filteredRequest)];
     }

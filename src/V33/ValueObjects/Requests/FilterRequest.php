@@ -148,7 +148,7 @@ class FilterRequest extends Request
 
             // Validate columns
             $columns = new Columns($columns, $filterableColumns);
-            throw_if(empty($columns->intersect()->get()), new Exception('Invalid columns provided. It must be one of the following filterable columns: '.implode(', ', $filterableColumns)));
+            throw_if(empty($columns->intersect()->get()), new Exception('Invalid columns provided. It must be one of the following filterable columns: ['.implode(', ', $filterableColumns).']'));
 
             foreach ($filterRequest as $logicColumn => $value) {
                 $interpretedRequest[$key][] = array_merge(

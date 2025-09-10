@@ -9,13 +9,13 @@ abstract class Request implements RequestInterface
         protected array $request
     ) {
         if (! is_a($this, RequestInterface::class)) {
-            throw new \LogicException('The '.$this::class.' must be implementation of '.RequestInterface::class);
+            throw new \LogicException('The ['.$this::class.'] must be implementation of ['.RequestInterface::class.']');
         }
 
         $this->filterRequest();
 
         if ($this->shouldValidate() && $this->hasRequest()) {
-            logger()->debug('Request from '.class_basename($this::class));
+            // logger()->info('Request from ['.class_basename($this::class).']');
             $this->validate();
         }
     }
