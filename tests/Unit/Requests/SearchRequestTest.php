@@ -21,7 +21,7 @@ describe('Search Request', function (): void {
         new SearchRequest($config, $request, $visibleColumns, $searchableColumns);
     })
         ->with(['tuner', '*tuner*', '*tuner', 'tuner*'])
-        ->throws(\Exception::class);
+        ->throws(Exception::class);
 
     it('should thrown an exception when all searchable columns are not in visible columns.', function ($searchKeyword): void {
         // Prepare
@@ -41,7 +41,7 @@ describe('Search Request', function (): void {
         new SearchRequest($config, $request, $visibleColumns, $searchableColumns);
     })
         ->with(['tuner', '*tuner*', '*tuner', 'tuner*'])
-        ->throws(\Exception::class);
+        ->throws(Exception::class);
 
     it('should thrown an exception when request value is not array.', function ($requestValue): void {
         // Prepare
@@ -58,7 +58,7 @@ describe('Search Request', function (): void {
         new SearchRequest($config, $request, ['foo'], ['*']);
     })
         ->with([1, 'foo'])
-        ->throws(\Exception::class);
+        ->throws(Exception::class);
 
     it('should thrown an exception the search has more than one size.', function ($searchKeyword): void {
         // Prepare
@@ -81,7 +81,7 @@ describe('Search Request', function (): void {
         new SearchRequest($config, $request, $visibleColumns, $searchableColumns);
     })
         ->with(['tuner', '*tuner*', '*tuner', 'tuner*'])
-        ->throws(\Exception::class);
+        ->throws(Exception::class);
 
     it('should thrown an exception when requesting non-existing columns.', function ($searchKeyword): void {
         // Prepare
@@ -101,7 +101,7 @@ describe('Search Request', function (): void {
         new SearchRequest($config, $request, $visibleColumns, $searchableColumns);
     })
         ->with(['tuner', '*tuner*', '*tuner', 'tuner*'])
-        ->throws(\Exception::class);
+        ->throws(Exception::class);
 
     it('should thrown an exception when the search keyword not meet the required length.', function ($searchKeyword): void {
         // Prepare
@@ -121,7 +121,7 @@ describe('Search Request', function (): void {
         new SearchRequest($config, $request, $visibleColumns, $searchableColumns);
     })
         ->with(['tuner', '*tuner*', '*tuner', 'tuner*'])
-        ->throws(\Exception::class);
+        ->throws(Exception::class);
 
     test('should get request value of search modifier', function ($searchKeyword, $interpret): void {
         // Prepare

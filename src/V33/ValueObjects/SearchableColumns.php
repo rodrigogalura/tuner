@@ -3,7 +3,6 @@
 namespace RodrigoGalura\Tuner\V33\ValueObjects;
 
 use Exception;
-use LogicException;
 
 use function RGalura\ApiIgniter\any;
 
@@ -28,6 +27,6 @@ class SearchableColumns extends Columns
     {
         throw_if(empty($this->columns), new Exception(static::ERR_MSG_DISABLED, static::ERR_CODE_DISABLED));
 
-        throw_unless(any(parent::__invoke(), $this->visibleColumns), new LogicException(static::ERR_MSG_PCOLS_VCOLS_NO_MATCH, static::ERR_CODE_PCOLS_VCOLS_NO_MATCH));
+        throw_unless(any(parent::__invoke(), $this->visibleColumns), new Exception(static::ERR_MSG_PCOLS_VCOLS_NO_MATCH, static::ERR_CODE_PCOLS_VCOLS_NO_MATCH));
     }
 }

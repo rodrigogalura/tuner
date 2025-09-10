@@ -18,7 +18,7 @@ describe('Sort Request', function (): void {
 
         // Act & Assert
         new SortRequest($config, $request, $visibleColumns, $sortableColumns);
-    })->throws(\Exception::class);
+    })->throws(Exception::class);
 
     it('should thrown an exception when all sortable columns are not in visible columns.', function (): void {
         // Prepare
@@ -35,7 +35,7 @@ describe('Sort Request', function (): void {
 
         // Act & Assert
         new SortRequest($config, $request, $visibleColumns, $sortableColumns);
-    })->throws(\Exception::class);
+    })->throws(Exception::class);
 
     it('should thrown an exception when request value is not array.', function ($requestValue): void {
         // Prepare
@@ -51,7 +51,7 @@ describe('Sort Request', function (): void {
         new SortRequest($config, $request, ['foo'], ['*']);
     })
         ->with([1, 'foo'])
-        ->throws(\Exception::class);
+        ->throws(Exception::class);
 
     it('should thrown an exception when requesting non-existing columns.', function (): void {
         // Prepare
@@ -69,7 +69,7 @@ describe('Sort Request', function (): void {
         // Act & Assert
         new SortRequest($config, $request, $visibleColumns, $sortableColumns);
     })
-        ->throws(\Exception::class);
+        ->throws(Exception::class);
 
     test('should get request value of sort modifier', function (): void {
         // Prepare

@@ -9,4 +9,4 @@ it('should throw an exception if the class is not implementation of ['.RequestIn
     {
         protected function validate() {}
     };
-})->throws(\Exception::class);
+})->throws(Exception::class);

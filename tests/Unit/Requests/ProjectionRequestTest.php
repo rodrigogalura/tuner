@@ -19,7 +19,7 @@ describe('Projection Request', function (): void {
 
         // Act & Assert
         new ProjectionRequest($config, $request, [], [], []);
-    })->throws(\Exception::class);
+    })->throws(Exception::class);
 
     it('should thrown an exception when projectable columns are empty.', function (): void {
         // Prepare
@@ -40,7 +40,7 @@ describe('Projection Request', function (): void {
 
         // Act & Assert
         new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
-    })->throws(\Exception::class);
+    })->throws(Exception::class);
 
     it('should thrown an exception when all projectable columns are not in visible columns.', function (): void {
         // Prepare
@@ -61,7 +61,7 @@ describe('Projection Request', function (): void {
 
         // Act & Assert
         new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
-    })->throws(\Exception::class);
+    })->throws(Exception::class);
 
     it('should thrown an exception when defined columns are empty.', function (): void {
         // Prepare
@@ -82,7 +82,7 @@ describe('Projection Request', function (): void {
 
         // Act & Assert
         new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
-    })->throws(\Exception::class);
+    })->throws(Exception::class);
 
     it('should thrown an exception when all defined columns are not in visible columns.', function (): void {
         // Prepare
@@ -103,7 +103,7 @@ describe('Projection Request', function (): void {
 
         // Act & Assert
         new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
-    })->throws(\Exception::class);
+    })->throws(Exception::class);
 
     it('should thrown an exception when request value is not string.', function (): void {
         // Prepare
@@ -120,7 +120,7 @@ describe('Projection Request', function (): void {
 
         // Act & Assert
         new ProjectionRequest($config, $request, ['foo'], ['foo'], ['*']);
-    })->throws(\Exception::class);
+    })->throws(Exception::class);
 
     it('should thrown an exception when requesting non-existing columns.', function (): void {
         // Prepare
@@ -142,7 +142,7 @@ describe('Projection Request', function (): void {
         // Act & Assert
         new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
     })
-        ->throws(\Exception::class);
+        ->throws(Exception::class);
 
     test('should get request value of columns modifier', function (): void {
         // Prepare
