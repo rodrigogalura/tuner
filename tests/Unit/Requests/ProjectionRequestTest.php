@@ -1,24 +1,190 @@
 <?php
 
-// use RodrigoGalura\Tuner\V33\ValueObjects\Requests\ProjectionRequest;
+use RodrigoGalura\Tuner\V33\ValueObjects\Requests\ProjectionRequest;
 
-// it('bum-panes', function () {
-//     // Prepare
-//     $config = [
-//         'key' => [
-//             'intersect' => 'columns',
-//             'except' => 'columns!',
-//         ],
-//     ];
-//     $request,
-//     $this->visibleColumns,
-//     $this->getProjectableColumns(),
-//     $this->definedColumns,
+describe('Filter Request', function () {
+    it('should thrown an exception when using modifier for intersect and except at the same time.', function () {
+        // Prepare
+        $config = [
+            'key' => [
+                'intersect' => 'columns',
+                'except' => 'columns!',
+            ],
+        ];
 
+        $request = [
+            'columns' => 'foo',
+            'columns!' => 'bar',
+        ];
 
-//     // Act
+        // Act & Assert
+        new ProjectionRequest($config, $request, [], [], []);
+    })->throws(\Exception::class);
 
+    it('should thrown an exception when request value is not string.', function () {
+        // Prepare
+        $config = [
+            'key' => [
+                'intersect' => 'columns',
+                'except' => 'columns!',
+            ],
+        ];
 
-//     // Assert
-//     new ProjectionRequest()
-// })->throwsNoExceptions();
+        $request = [
+            'columns' => 1,
+        ];
+
+        // Act & Assert
+        new ProjectionRequest($config, $request, ['foo'], ['foo'], ['*']);
+    })->throws(\Exception::class);
+
+    it('should thrown an exception when projectable columns are empty.', function () {
+        // Prepare
+        $config = [
+            'key' => [
+                'intersect' => 'columns',
+                'except' => 'columns!',
+            ],
+        ];
+
+        $request = [
+            'columns' => 1,
+        ];
+
+        $visibleColumns = ['foo'];
+        $projectableColumns = [];
+        $definedColumns = ['*'];
+
+        // Act & Assert
+        new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
+    })->throws(\Exception::class);
+
+    it('should thrown an exception when all projectable columns are not in visible columns.', function () {
+        // Prepare
+        $config = [
+            'key' => [
+                'intersect' => 'columns',
+                'except' => 'columns!',
+            ],
+        ];
+
+        $request = [
+            'columns' => 1,
+        ];
+
+        $visibleColumns = ['foo', 'bar'];
+        $projectableColumns = ['baz'];
+        $definedColumns = ['*'];
+
+        // Act & Assert
+        new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
+    })->throws(\Exception::class);
+
+    it('should thrown an exception when defined columns are empty.', function () {
+        // Prepare
+        $config = [
+            'key' => [
+                'intersect' => 'columns',
+                'except' => 'columns!',
+            ],
+        ];
+
+        $request = [
+            'columns' => 1,
+        ];
+
+        $visibleColumns = ['foo'];
+        $projectableColumns = ['foo'];
+        $definedColumns = [];
+
+        // Act & Assert
+        new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
+    })->throws(\Exception::class);
+
+    it('should thrown an exception when all defined columns are not in visible columns.', function () {
+        // Prepare
+        $config = [
+            'key' => [
+                'intersect' => 'columns',
+                'except' => 'columns!',
+            ],
+        ];
+
+        $request = [
+            'columns' => 1,
+        ];
+
+        $visibleColumns = ['foo', 'bar'];
+        $projectableColumns = ['*'];
+        $definedColumns = ['baz'];
+
+        // Act & Assert
+        new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
+    })->throws(\Exception::class);
+
+    it('should thrown an exception when requesting non-existing columns.', function () {
+        // Prepare
+        $config = [
+            'key' => [
+                'intersect' => 'columns',
+                'except' => 'columns!',
+            ],
+        ];
+
+        $request = [
+            'columns' => 'baz',
+        ];
+
+        $visibleColumns = ['foo', 'bar'];
+        $projectableColumns = ['*'];
+        $definedColumns = ['*'];
+
+        // Act & Assert
+        new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
+    })
+    ->throws(\Exception::class);
+
+    test('should get request value of columns modifier', function () {
+        // Prepare
+        $config = [
+            'key' => [
+                'intersect' => 'columns',
+                'except' => 'columns!',
+            ],
+        ];
+
+        $request = [
+            'columns' => 'baz',
+        ];
+
+        $visibleColumns = ['foo', 'bar', 'baz'];
+        $projectableColumns = ['*'];
+        $definedColumns = ['*'];
+
+        // Act & Assert
+        $request = new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
+        expect($request())->toBe(['columns' => ['baz']]);
+    });
+
+    test('should get request value of columns! modifier', function () {
+        // Prepare
+        $config = [
+            'key' => [
+                'intersect' => 'columns',
+                'except' => 'columns!',
+            ],
+        ];
+
+        $request = [
+            'columns!' => 'baz',
+        ];
+
+        $visibleColumns = ['foo', 'bar', 'baz'];
+        $projectableColumns = ['*'];
+        $definedColumns = ['*'];
+
+        // Act & Assert
+        $request = new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
+        expect($request())->toBe(['columns!' => ['foo', 'bar']]);
+    });
+});
