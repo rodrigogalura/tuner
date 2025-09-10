@@ -5,6 +5,7 @@ namespace RodrigoGalura\Tuner\V33;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use RodrigoGalura\Tuner\V33\ValueObjects\Requests\FilterRequest;
 use RodrigoGalura\Tuner\V33\ValueObjects\Requests\LimitRequest;
 
 final class TunerBuilder
@@ -40,9 +41,64 @@ final class TunerBuilder
         return ! is_null($this->{$property} ?? null);
     }
 
-    public static function getInstance()
+    private function buildProjection(array $projectedColumns): void
     {
-        return new self(...func_get_args());
+        $this->builder->select($projectedColumns);
+    }
+
+    private function buildSort(array $sort): void
+    {
+        foreach ($sort as $column => $order) {
+            $this->builder->orderBy($column, $order);
+        }
+    }
+
+    private function buildSearch(array $search): void
+    {
+        [$columns, $searchKeyword] = [key($search), current($search)];
+
+        $this->builder->where(fn ($builder) => $builder->whereAny(explode(', ', $columns), 'LIKE', $searchKeyword));
+    }
+
+    private function buildFilter(array $filters): void
+    {
+        if ($filter = $filters[FilterRequest::KEY_FILTER] ?? null) {
+            $this->builder->where(function ($builder) use ($filter): void {
+                foreach ($filter as [$logicalOperator, $column, $not, $comparisonOperator, $val]) {
+                    $builder->where($column, $comparisonOperator, $val, $logicalOperator.($not ? ' NOT' : ''));
+                }
+            });
+        }
+
+        if ($inFilter = $filters[FilterRequest::KEY_IN] ?? null) {
+            $this->builder->where(function ($builder) use ($inFilter): void {
+                foreach ($inFilter as [$logicalOperator, $column, $not, $val]) {
+                    $builder->whereIn($column, $val, $logicalOperator, $not);
+                }
+            });
+        }
+
+        if ($betweenFilter = $filters[FilterRequest::KEY_BETWEEN] ?? null) {
+            $this->builder->where(function ($builder) use ($betweenFilter): void {
+                foreach ($betweenFilter as [$logicalOperator, $column, $not, $val]) {
+                    $builder->whereBetween($column, $val, $logicalOperator, $not);
+                }
+            });
+        }
+    }
+
+    private function buildLimit(array $limit): void
+    {
+        $this->builder->limit($limit[LimitRequest::KEY_LIMIT]);
+
+        if ($offset = $limit[LimitRequest::KEY_OFFSET] ?? null) {
+            $this->builder->offset($offset);
+        }
+    }
+
+    private function buildPagination(int $pageSize): LengthAwarePaginator
+    {
+        return $this->builder->paginate($pageSize);
     }
 
     public function __call(string $attribute, array $arguments)
@@ -60,13 +116,6 @@ final class TunerBuilder
         return $this;
     }
 
-    // public function expand(Request $request)
-    // {
-    //     $this->expand = $request();
-
-    //     return $this;
-    // }
-
     public function build(): Collection|LengthAwarePaginator
     {
         if ($this->wasAssigned('projection')) {
@@ -74,55 +123,34 @@ final class TunerBuilder
                 return new Collection([]);
             }
 
-            $this->builder->select($projectedColumns);
+            $this->buildProjection($projectedColumns);
         }
 
         if ($this->wasAssigned('sort')) {
-            $sort = current($this->sort);
-            foreach ($sort as $column => $order) {
-                $this->builder->orderBy($column, $order);
-            }
+            $this->buildSort(current($this->sort));
         }
 
         if ($this->wasAssigned('search')) {
-            $search = current($this->search);
-            [$columns, $searchKeyword] = [key($search), current($search)];
-
-            $this->builder->whereAny(explode(', ', $columns), 'LIKE', $searchKeyword);
+            $this->buildSearch(current($this->search));
         }
 
         if ($this->wasAssigned('filter')) {
-            if ($filter = $this->filter['filter'] ?? null) {
-                foreach ($filter as [$logicalOperator, $column, $not, $comparisonOperator, $val]) {
-                    $this->builder->where($column, $comparisonOperator, $val, $logicalOperator.($not ? ' NOT' : ''));
-                }
-            }
-
-            if ($inFilter = $this->filter['in'] ?? null) {
-                foreach ($inFilter as [$logicalOperator, $column, $not, $val]) {
-                    $this->builder->whereIn($column, $val, $logicalOperator, $not);
-                }
-            }
-
-            if ($betweenFilter = $this->filter['between'] ?? null) {
-                foreach ($betweenFilter as [$logicalOperator, $column, $not, $val]) {
-                    $this->builder->whereBetween($column, $val, $logicalOperator, $not);
-                }
-            }
+            $this->buildFilter($this->filter);
         }
 
         if ($this->wasAssigned('limit')) {
-            $this->builder->limit($this->limit[LimitRequest::KEY_LIMIT]);
-
-            if ($offset = $this->limit[LimitRequest::KEY_OFFSET] ?? null) {
-                $this->builder->offset($offset);
-            }
+            $this->buildLimit($this->limit);
         }
 
         if ($this->wasAssigned('pagination')) {
-            return $this->builder->paginate(current($this->pagination));
+            return $this->buildPagination(current($this->pagination));
         }
 
         return $this->builder->get();
+    }
+
+    public static function getInstance()
+    {
+        return new self(...func_get_args());
     }
 }

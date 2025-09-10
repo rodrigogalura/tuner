@@ -79,21 +79,21 @@ trait Tunable
             );
         };
 
-        $searchBinder = function () use ($request) {
-            return new SearchRequest(
-                config('tuner.'.Tuner::CONFIG_SEARCH),
-                $request,
-                $this->visibleColumns,
-                $this->getSearchableColumns(),
-            );
-        };
-
         $sortBinder = function () use ($request) {
             return new SortRequest(
                 config('tuner.'.Tuner::CONFIG_SORT),
                 $request,
                 $this->visibleColumns,
                 $this->getSortableColumns(),
+            );
+        };
+
+        $searchBinder = function () use ($request) {
+            return new SearchRequest(
+                config('tuner.'.Tuner::CONFIG_SEARCH),
+                $request,
+                $this->visibleColumns,
+                $this->getSearchableColumns(),
             );
         };
 
@@ -122,44 +122,31 @@ trait Tunable
             );
         };
 
-        // $expansionBinder = function () use ($request) {
-        //     return new ExpansionRequest(
-        //         config('tuner.'.Tuner::CONFIG_EXPANSION),
-        //         $request,
-        //         $this->visibleColumns,
-        //         $this->getProjectableColumns(),
-        //     );
-        // };
-
         $container = [
             'project' => [
                 'bind' => fn ($requestContainer): ProjectionRequest => $projectionBinder(),
-                'resolve' => fn ($request) => $tunerBuilder->project($request),
-            ],
-            'search' => [
-                'bind' => fn ($requestContainer): SearchRequest => $searchBinder(),
-                'resolve' => fn ($request) => $tunerBuilder->search($request),
+                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->project($request),
             ],
             'sort' => [
                 'bind' => fn ($requestContainer): SortRequest => $sortBinder(),
-                'resolve' => fn ($request) => $tunerBuilder->sort($request),
+                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->sort($request),
+            ],
+            'search' => [
+                'bind' => fn ($requestContainer): SearchRequest => $searchBinder(),
+                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->search($request),
             ],
             'filter' => [
                 'bind' => fn ($requestContainer): FilterRequest => $filterBinder(),
-                'resolve' => fn ($request) => $tunerBuilder->filter($request),
+                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->filter($request),
             ],
             'limit' => [
                 'bind' => fn ($requestContainer): LimitRequest => $limitBinder(),
-                'resolve' => fn ($request) => $tunerBuilder->limit($request),
+                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->limit($request),
             ],
             'pagination' => [
                 'bind' => fn ($requestContainer): PaginationRequest => $paginationBinder(),
-                'resolve' => fn ($request) => $tunerBuilder->paginate($request),
+                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->paginate($request),
             ],
-            // 'expand' => [
-            //     'bind' => fn ($requestContainer): ExpansionRequest => $expansionBinder(),
-            //     'resolve' => fn ($request) => $tunerBuilder->expand($request),
-            // ],
         ];
 
         $requestContainer = RequestsContainer::create();
