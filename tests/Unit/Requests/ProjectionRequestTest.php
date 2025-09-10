@@ -21,23 +21,6 @@ describe('Filter Request', function () {
         new ProjectionRequest($config, $request, [], [], []);
     })->throws(\Exception::class);
 
-    it('should thrown an exception when request value is not string.', function () {
-        // Prepare
-        $config = [
-            'key' => [
-                'intersect' => 'columns',
-                'except' => 'columns!',
-            ],
-        ];
-
-        $request = [
-            'columns' => 1,
-        ];
-
-        // Act & Assert
-        new ProjectionRequest($config, $request, ['foo'], ['foo'], ['*']);
-    })->throws(\Exception::class);
-
     it('should thrown an exception when projectable columns are empty.', function () {
         // Prepare
         $config = [
@@ -120,6 +103,23 @@ describe('Filter Request', function () {
 
         // Act & Assert
         new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
+    })->throws(\Exception::class);
+
+    it('should thrown an exception when request value is not string.', function () {
+        // Prepare
+        $config = [
+            'key' => [
+                'intersect' => 'columns',
+                'except' => 'columns!',
+            ],
+        ];
+
+        $request = [
+            'columns' => 1,
+        ];
+
+        // Act & Assert
+        new ProjectionRequest($config, $request, ['foo'], ['foo'], ['*']);
     })->throws(\Exception::class);
 
     it('should thrown an exception when requesting non-existing columns.', function () {

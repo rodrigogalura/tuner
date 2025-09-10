@@ -8,13 +8,13 @@ return [
         ],
     ],
 
+    'sort' => [
+        'key' => 'sort',
+    ],
+
     'search' => [
         'key' => 'search',
         'minimum_length' => 2,
-    ],
-
-    'sort' => [
-        'key' => 'sort',
     ],
 
     'filter' => [

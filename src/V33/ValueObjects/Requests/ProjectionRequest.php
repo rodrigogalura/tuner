@@ -25,16 +25,15 @@ class ProjectionRequest extends Request implements RequestInterface
     {
         switch (count($this->request)) {
             case 1:
-                $paramKey = key($this->request);
-                $projector = array_search($paramKey, $this->key);
-
-                // Validate projection
-                $paramValue = current($this->request);
-                throw_unless(is_string($paramValue), new Exception('The ['.$paramKey.'] must be string'));
-
                 $p = new ProjectableColumns($this->projectableColumns, $this->visibleColumns);
                 $q = new DefinedColumns($this->definedColumns, $this->visibleColumns);
                 $projectableColumns = array_intersect($p(), $q());
+
+                // Validate projection
+                [$paramKey, $paramValue] = [key($this->request), current($this->request)];
+                throw_unless(is_string($paramValue), new Exception('The ['.$paramKey.'] must be string'));
+
+                $projector = array_search($paramKey, $this->key);
 
                 // Validate columns
                 $columns = new Columns(explode(', ', $paramValue), $projectableColumns);
