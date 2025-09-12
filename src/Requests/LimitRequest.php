@@ -5,6 +5,9 @@ namespace Tuner\Requests;
 use Exception;
 use Tuner\Tuner;
 
+/**
+ * @internal
+ */
 class LimitRequest extends Request implements RequestInterface
 {
     const KEY_LIMIT = 'limit';

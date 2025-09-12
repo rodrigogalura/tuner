@@ -6,6 +6,9 @@ use Exception;
 
 use function Tuner\any;
 
+/**
+ * @internal
+ */
 class DefinedColumns extends Columns
 {
     const ERR_CODE_QUERY_EXCEPTION = 11;

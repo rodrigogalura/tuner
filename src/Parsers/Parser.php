@@ -2,6 +2,9 @@
 
 namespace Tuner\Parsers;
 
+/**
+ * @internal
+ */
 class Parser
 {
     public function __construct(private mixed $value)

@@ -5,6 +5,9 @@ namespace Tuner\Requests;
 use Exception;
 use Tuner\Tuner;
 
+/**
+ * @internal
+ */
 class PaginationRequest extends Request implements RequestInterface
 {
     public function __construct(

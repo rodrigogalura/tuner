@@ -7,6 +7,9 @@ use Tuner\Columns\Columns;
 use Tuner\Columns\SortableColumns;
 use Tuner\Tuner;
 
+/**
+ * @internal
+ */
 class SortRequest extends Request implements RequestInterface
 {
     private const ORDERS = [

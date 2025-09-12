@@ -8,6 +8,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Tuner\Requests\FilterRequest;
 use Tuner\Requests\LimitRequest;
 
+/**
+ * @internal
+ */
 final class TunerBuilder
 {
     use HasSingleton;

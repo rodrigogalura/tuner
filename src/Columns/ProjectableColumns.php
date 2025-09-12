@@ -6,6 +6,9 @@ use Exception;
 
 use function Tuner\any;
 
+/**
+ * @internal
+ */
 class ProjectableColumns extends Columns
 {
     const ERR_CODE_DISABLED = 1;

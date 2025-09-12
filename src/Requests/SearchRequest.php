@@ -8,6 +8,9 @@ use Tuner\Columns\Columns;
 use Tuner\Columns\SearchableColumns;
 use Tuner\Tuner;
 
+/**
+ * @internal
+ */
 class SearchRequest extends Request implements RequestInterface
 {
     public function __construct(

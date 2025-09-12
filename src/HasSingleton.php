@@ -2,6 +2,9 @@
 
 namespace Tuner;
 
+/**
+ * @internal
+ */
 trait HasSingleton
 {
     /**

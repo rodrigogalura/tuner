@@ -2,6 +2,9 @@
 
 namespace Tuner\Requests;
 
+/**
+ * @internal
+ */
 abstract class Request
 {
     public function __construct(

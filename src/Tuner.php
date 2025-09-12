@@ -2,6 +2,9 @@
 
 namespace Tuner;
 
+/**
+ * @internal
+ */
 class Tuner
 {
     const PARAM_KEY = 'key';

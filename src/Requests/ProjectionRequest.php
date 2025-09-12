@@ -9,6 +9,9 @@ use Tuner\Columns\DefinedColumns;
 use Tuner\Columns\ProjectableColumns;
 use Tuner\Tuner;
 
+/**
+ * @internal
+ */
 class ProjectionRequest extends Request implements RequestInterface
 {
     public function __construct(

@@ -2,6 +2,9 @@
 
 namespace Tuner\Parsers;
 
+/**
+ * @internal
+ */
 class ArrayParser extends Parser
 {
     public function sanitize(): self

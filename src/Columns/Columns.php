@@ -4,6 +4,9 @@ namespace Tuner\Columns;
 
 use Tuner\Parsers\ArrayParser;
 
+/**
+ * @internal
+ */
 class Columns
 {
     const ALL_VISIBLE_COLUMNS_ALIAS = ['*'];

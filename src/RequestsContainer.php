@@ -4,6 +4,9 @@ namespace Tuner;
 
 use Exception;
 
+/**
+ * @internal
+ */
 class RequestsContainer
 {
     private array $requests = [];

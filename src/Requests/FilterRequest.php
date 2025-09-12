@@ -10,6 +10,9 @@ use Tuner\Tuner;
 
 use function Tuner\explode_sanitize;
 
+/**
+ * @internal
+ */
 class FilterRequest extends Request implements RequestInterface
 {
     const KEY_FILTER = 'filter';
