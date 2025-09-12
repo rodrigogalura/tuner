@@ -11,7 +11,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/rodrigogalura/tuner">
-    <img src="./art/logo.png" alt="Logo" width="200">
+    <img src="./art/tuner.png" alt="Logo" width="200">
   </a>
 
 <!-- <h3 align="center">Tuner</h3> -->
