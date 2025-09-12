@@ -5,11 +5,11 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?search[name]=Dr*
+  url: {{host}}/api/users?search[name, id]=Dr*
   body: none
   auth: none
 }
 
 params:query {
-  search[name]: Dr*
+  search[name, id]: Dr*
 }

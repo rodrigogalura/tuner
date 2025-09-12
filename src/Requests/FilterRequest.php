@@ -4,9 +4,9 @@ namespace Tuner\Requests;
 
 use Exception;
 use Illuminate\Support\Str;
-use Tuner\Tuner;
 use Tuner\Columns\Columns;
 use Tuner\Columns\FilterableColumns;
+use Tuner\Tuner;
 
 use function Tuner\explode_sanitize;
 

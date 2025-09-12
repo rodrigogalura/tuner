@@ -1,6 +1,6 @@
-# 🤝 Contributing to API Igniter
+# 🤝 Contributing to Tuner
 
-First off, thanks for taking the time to contribute to **API Igniter**! 🎉
+First off, thanks for taking the time to contribute to **Tuner**! 🎉
 Whether it’s fixing a bug, improving docs, or suggesting a new feature—you’re helping make API development easier for everyone.
 
 ---
@@ -13,7 +13,7 @@ Whether it’s fixing a bug, improving docs, or suggesting a new feature—you�
 
 ## 🛠️ Local Development Setup
 ```
-git clone git@github.com:rodrigogalura/api-igniter.git
+git clone git@github.com:rodrigogalura/tuner.git
 composer install
 ```
 
@@ -98,9 +98,9 @@ All features must include corresponding tests.
     - [x] Between Filter
  - [x] Sortable
 
-7\. Support field projections on resources. Allow clients to reduce the number of fields that come back in the response.
+7\. Support column projections on resources. Allow clients to reduce the number of columns that come back in the response.
 
-- [x] - Field projections
+- [x] - Column projections
     - [x] - Include
     - [x] - Exclude
 

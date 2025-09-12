@@ -1,0 +1,16 @@
+meta {
+  name: page-size
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/users?page-size=5&page=2
+  body: none
+  auth: none
+}
+
+params:query {
+  page-size: 5
+  page: 2
+}

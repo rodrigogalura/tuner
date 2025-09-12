@@ -1,32 +1,32 @@
 <a id="readme-top"></a>
 
 <p align="center">
-<a href="https://github.com/rodrigogalura/api-igniter/actions/workflows/pest.yml"><img src="https://img.shields.io/github/actions/workflow/status/rodrigogalura/api-igniter/pest.yml?label=tests" alt="tests"></a>
-<a href="https://packagist.org/packages/rgalura/api-igniter"><img src="https://img.shields.io/packagist/v/rgalura/api-igniter" alt="packagist version"></a>
-<!-- <a href="https://packagist.org/packages/rgalura/api-igniter"><img src="https://img.shields.io/packagist/dt/rgalura/api-igniter" alt="packagist downloads"></a> -->
-<a href="https://packagist.org/packages/rgalura/api-igniter"><img src="https://img.shields.io/github/license/rodrigogalura/api-igniter" alt="license"></a>
+<a href="https://github.com/rodrigogalura/tuner/actions/workflows/pest.yml"><img src="https://img.shields.io/github/actions/workflow/status/rodrigogalura/tuner/pest.yml?label=tests" alt="tests"></a>
+<a href="https://packagist.org/packages/rodrigogalura/tuner"><img src="https://img.shields.io/packagist/v/rodrigogalura/tuner" alt="packagist version"></a>
+<!-- <a href="https://packagist.org/packages/rodrigogalura/tuner"><img src="https://img.shields.io/packagist/dt/rodrigogalura/tuner" alt="packagist downloads"></a> -->
+<a href="https://packagist.org/packages/rodrigogalura/tuner"><img src="https://img.shields.io/github/license/rodrigogalura/tuner" alt="license"></a>
 </p>
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/rodrigogalura/api-igniter">
+  <a href="https://github.com/rodrigogalura/tuner">
     <img src="./art/logo.png" alt="Logo" width="200">
   </a>
 
-<!-- <h3 align="center">API Igniter</h3> -->
+<!-- <h3 align="center">Tuner</h3> -->
 
   <p align="center">
-    A Laravel package to build smart APIs once — and let clients do the rest.
+    A Laravel package to fine-tune your APIs — let clients shape the data with powerful query modifiers.
     <br />
-    <a href="https://rodrigogalura.github.io/api-igniter/docs/installation-guide.html"><strong>Explore the docs »</strong></a>
+    <a href="https://rodrigogalura.github.io/tuner/docs/installation-guide.html"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <!-- <a href="https://github.com/rodrigogalura/api-igniter">View Demo</a>
+    <!-- <a href="https://github.com/rodrigogalura/tuner">View Demo</a>
     &middot; -->
-    <a href="https://github.com/rodrigogalura/api-igniter/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/rodrigogalura/tuner/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     &middot;
-    <a href="https://github.com/rodrigogalura/api-igniter/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/rodrigogalura/tuner/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
@@ -55,19 +55,51 @@
 
 This package was born out of real-world needs in my own projects. I created it to cut down on boilerplate and give frontend consumers more control and flexibility. I’m simply sharing the tools that helped me build faster — and I hope they’ll do the same for you.
 
-<!-- Here's a blank template to get started. To avoid retyping too much info, do a search and replace with your text editor for the following: `rodrigogalura`, `api-igniter`, `rodrigogalura`, `rodrigogalura`, `gmail`, `rodrigogalura3rd`, `API Igniter`, `project_description`, `MIT` -->
+<!-- Here's a blank template to get started. To avoid retyping too much info, do a search and replace with your text editor for the following: `rodrigogalura`, `tuner`, `rodrigogalura`, `rodrigogalura`, `gmail`, `rodrigogalura3rd`, `Tuner`, `project_description`, `MIT` -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Support HasOne/HasMany Through relationship in Expanding feature
-- [ ] Support polymorphic relationship in Expanding feature
-- [ ] Auto generate docs for client
-- [ ] Cheat Sheet: https://github.com/RestCheatSheet/api-cheat-sheet
+__Version 1.0__
+- [x] Main Features
+    - [x] Projection
+    - [x] Sort
+    - [x] Search
+    - [x] Filter
+        - [x] Relational Comparison
+        - [x] IN Operator
+        - [x] BETWEEN Operator
+    - [x] Limitation
+    - [x] Pagination
 
-See the [open issues](https://github.com/rodrigogalura/api-igniter/issues) for a full list of proposed features (and known issues).
+__Version 1.1__
+- [ ] Expansion
+
+__Version ^1.2__
+- [ ] Aggregates feature
+- [ ] Search fulltext
+- [ ] JSON filter
+- [ ] New filter modifiers:
+    - [ ] `filter|`
+    - [ ] `in|`
+    - [ ] `between|`
+- [ ] Unselecting columns
+    - [ ] getProjectableExcept
+    - [ ] getSortableExcept
+    - [ ] getSearchableExcept
+    - [ ] getFilterableExcept
+- [ ] Bruno Collection Testing
+
+__Version ^2.0__
+- [ ] Support JSON alternatives:
+    - [ ] Protobufs (Use cases: APIs, RPC)
+    - [ ] Avro (Use cases: Big Data)
+- [ ] Search Feature
+    - [ ] Typesense
+
+See the [open issues](https://github.com/rodrigogalura/tuner/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -90,8 +122,8 @@ Don't forget to give the project a star! Thanks again!
 
 ### Top contributors:
 
-<a href="https://github.com/rodrigogalura/api-igniter/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=rodrigogalura/api-igniter" alt="contrib.rocks image" />
+<a href="https://github.com/rodrigogalura/tuner/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=rodrigogalura/tuner" alt="contrib.rocks image" />
 </a>
 
 
@@ -111,7 +143,7 @@ If you discover any security vulnerabilities, please contact me. This allows me 
 
 Rodrigo Galura - [@rodrigogalura](https://linkedin.com/in/rodrigogalura) - rodrigogalura3rd@gmail.com
 
-Project Link: [https://github.com/rodrigogalura/api-igniter](https://github.com/rodrigogalura/api-igniter)
+Project Link: [https://github.com/rodrigogalura/tuner](https://github.com/rodrigogalura/tuner)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -135,16 +167,16 @@ If this project helped you or saved you time, consider buying me a coffee. Your 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/rodrigogalura/api-igniter.svg?style=for-the-badge
-[contributors-url]: https://github.com/rodrigogalura/api-igniter/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/rodrigogalura/api-igniter.svg?style=for-the-badge
-[forks-url]: https://github.com/rodrigogalura/api-igniter/network/members
-[stars-shield]: https://img.shields.io/github/stars/rodrigogalura/api-igniter.svg?style=for-the-badge
-[stars-url]: https://github.com/rodrigogalura/api-igniter/stargazers
-[issues-shield]: https://img.shields.io/github/issues/rodrigogalura/api-igniter.svg?style=for-the-badge
-[issues-url]: https://github.com/rodrigogalura/api-igniter/issues
-[license-shield]: https://img.shields.io/github/license/rodrigogalura/api-igniter.svg?style=for-the-badge
-[license-url]: https://github.com/rodrigogalura/api-igniter/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/rodrigogalura/tuner.svg?style=for-the-badge
+[contributors-url]: https://github.com/rodrigogalura/tuner/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/rodrigogalura/tuner.svg?style=for-the-badge
+[forks-url]: https://github.com/rodrigogalura/tuner/network/members
+[stars-shield]: https://img.shields.io/github/stars/rodrigogalura/tuner.svg?style=for-the-badge
+[stars-url]: https://github.com/rodrigogalura/tuner/stargazers
+[issues-shield]: https://img.shields.io/github/issues/rodrigogalura/tuner.svg?style=for-the-badge
+[issues-url]: https://github.com/rodrigogalura/tuner/issues
+[license-shield]: https://img.shields.io/github/license/rodrigogalura/tuner.svg?style=for-the-badge
+[license-url]: https://github.com/rodrigogalura/tuner/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/rodrigogalura
 [product-screenshot]: images/screenshot.png
@@ -166,3 +198,4 @@ If this project helped you or saved you time, consider buying me a coffee. Your 
 [JQuery-url]: https://jquery.com -->
 <!-- [PHP]: https://img.shields.io/badge/php-4F5B93?style=for-the-badge&logo=php&logoColor=white
 [PHP-url]: https://www.php.net -->
+Welcome to the tuner wiki!

@@ -4,9 +4,6 @@
 testbench.yaml
 .DS_Store
 
-# remove this
-/truth-table-archived
-
 # Ignore gh-pages files
 /_site/
 /_includes/

@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Tuner\Columns\FilterableColumns;
 use Tuner\Columns\ProjectableColumns;
+use Tuner\Columns\SearchableColumns;
+use Tuner\Columns\SortableColumns;
 use Tuner\Requests\FilterRequest;
 use Tuner\Requests\LimitRequest;
 use Tuner\Requests\PaginationRequest;
 use Tuner\Requests\ProjectionRequest;
 use Tuner\Requests\SearchRequest;
 use Tuner\Requests\SortRequest;
-use Tuner\Columns\SearchableColumns;
-use Tuner\Columns\SortableColumns;
 
 trait Tunable
 {

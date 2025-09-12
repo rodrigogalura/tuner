@@ -1,0 +1,17 @@
+meta {
+  name: columns!
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/users?columns!=id, name
+  body: none
+  auth: none
+}
+
+params:query {
+  columns!: id, name
+  ~sort[]: 1f
+  ~columns: 
+}

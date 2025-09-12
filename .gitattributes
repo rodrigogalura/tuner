@@ -23,6 +23,3 @@
 /setup-development.php export-ignore
 /stubs export-ignore
 /src/Console export-ignore
-/src/TruthTableGenerator export-ignore
-/truth-table-export-script.php export-ignore
-/truth-table.csv export-ignore

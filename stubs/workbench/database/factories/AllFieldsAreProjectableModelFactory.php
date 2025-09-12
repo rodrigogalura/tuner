@@ -3,21 +3,21 @@
 namespace Workbench\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Workbench\App\Models\AllFieldsAreProjectableModel;
+use Workbench\App\Models\AllColumnsAreProjectableModel;
 
 /**
- * @template TModel of \Workbench\App\Models\AllFieldsAreProjectableModel
+ * @template TModel of \Workbench\App\Models\AllColumnsAreProjectableModel
  *
  * @extends Factory<TModel>
  */
-class AllFieldsAreProjectableModelFactory extends Factory
+class AllColumnsAreProjectableModelFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var class-string<TModel>
      */
-    protected $model = AllFieldsAreProjectableModel::class;
+    protected $model = AllColumnsAreProjectableModel::class;
 
     /**
      * Define the model's default state.

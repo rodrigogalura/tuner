@@ -1,15 +1,16 @@
 meta {
-  name: sort asc
+  name: limit
   type: http
   seq: 1
 }
 
 get {
-  url: {{host}}/api/users?sort[name]=d
+  url: {{host}}/api/users?limit=2&offset=60
   body: none
   auth: none
 }
 
 params:query {
-  sort[name]: d
+  limit: 2
+  offset: 60
 }

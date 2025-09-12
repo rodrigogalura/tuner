@@ -1,15 +1,15 @@
 meta {
-  name: sort asc
+  name: columns
   type: http
   seq: 1
 }
 
 get {
-  url: {{host}}/api/users?sort[name]=d
+  url: {{host}}/api/users?columns=name
   body: none
   auth: none
 }
 
 params:query {
-  sort[name]: d
+  columns: name
 }

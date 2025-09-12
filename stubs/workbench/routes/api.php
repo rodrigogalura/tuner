@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Workbench\App\Models\AllFieldsAreProjectableModel;
+use Workbench\App\Models\AllColumnsAreProjectableModel;
 use Workbench\App\Models\InvalidProjectableModel;
 use Workbench\App\Models\NoProjectableModel;
 use Workbench\App\Models\OnlyIdAndNameAreProjectableModel;
@@ -21,38 +21,38 @@ Route::get('/api/phones', function () {
     );
 });
 
-Route::get('/api/all-fields-are-projectable', function () {
-    $definedFields = $_GET['defined_fields'] ?? '*';
+Route::get('/api/all-columns-are-projectable', function () {
+    $definedColumns = $_GET['defined_columns'] ?? '*';
 
-    return AllFieldsAreProjectableModel::select($definedFields)->send();
+    return AllColumnsAreProjectableModel::select($definedColumns)->send();
 });
 
 Route::get('/api/no-projectable', function () {
-    $definedFields = $_GET['defined_fields'] ?? '*';
+    $definedColumns = $_GET['defined_columns'] ?? '*';
 
-    return NoProjectableModel::select($definedFields)->send();
+    return NoProjectableModel::select($definedColumns)->send();
 });
 
 Route::get('/api/only-id-is-projectable', function () {
-    $definedFields = $_GET['defined_fields'] ?? '*';
+    $definedColumns = $_GET['defined_columns'] ?? '*';
 
-    return OnlyIdIsProjectableModel::select($definedFields)->send();
+    return OnlyIdIsProjectableModel::select($definedColumns)->send();
 });
 
 Route::get('/api/only-name-is-projectable', function () {
-    $definedFields = $_GET['defined_fields'] ?? '*';
+    $definedColumns = $_GET['defined_columns'] ?? '*';
 
-    return OnlyNameIsProjectableModel::select($definedFields)->send();
+    return OnlyNameIsProjectableModel::select($definedColumns)->send();
 });
 
 Route::get('/api/only-id-and-name-are-projectable', function () {
-    $definedFields = $_GET['defined_fields'] ?? '*';
+    $definedColumns = $_GET['defined_columns'] ?? '*';
 
-    return OnlyIdAndNameAreProjectableModel::select($definedFields)->send();
+    return OnlyIdAndNameAreProjectableModel::select($definedColumns)->send();
 });
 
 Route::get('/api/invalid-projectable', function () {
-    $definedFields = $_GET['defined_fields'] ?? '*';
+    $definedColumns = $_GET['defined_columns'] ?? '*';
 
-    return InvalidProjectableModel::select($definedFields)->send();
+    return InvalidProjectableModel::select($definedColumns)->send();
 });

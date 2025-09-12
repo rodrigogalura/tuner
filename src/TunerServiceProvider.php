@@ -11,10 +11,7 @@ class TunerServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // $this->commands([
-        //     CreateTruthTableCSV::class,
-        //     CopyToClipboardTheTruthTable::class,
-        // ]);
+        //
     }
 
     /**

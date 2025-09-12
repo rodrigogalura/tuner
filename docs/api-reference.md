@@ -1,6 +1,6 @@
 # 📘 API Reference
 
-This section covers all public-facing methods provided by **API Igniter**.
+This section covers all public-facing methods provided by **Tuner**.
 
 ---
 
@@ -39,7 +39,7 @@ Define a custom macro.
 Api::macro('unauthorized', fn() => Api::error('Unauthorized', 401));
 ```
 
-## config/api-igniter.php
+## config/tuner.php
 
 You can configure:
 

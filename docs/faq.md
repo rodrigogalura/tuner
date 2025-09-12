@@ -2,9 +2,9 @@
 
 ---
 
-## Why use API Igniter instead of writing responses manually?
+## Why use Tuner instead of writing responses manually?
 
-API Igniter removes repetition and ensures consistent, clean API responses across your application.
+Tuner removes repetition and ensures consistent, clean API responses across your application.
 
 ---
 
@@ -16,7 +16,7 @@ Laravel 12 support is planned and tested. Keep an eye on the [CHANGELOG](../CHAN
 
 ## Can I customize the default keys (`message`, `data`, `errors`, etc.)?
 
-Yes! Run the publish command and edit `config/api-igniter.php`.
+Yes! Run the publish command and edit `config/tuner.php`.
 
 ---
 
@@ -32,6 +32,6 @@ return Api::success([
 
 ## What happens on validation errors?
 
-API Igniter auto-formats them into a clean JSON structure. You don’t need to handle it manually.
+Tuner auto-formats them into a clean JSON structure. You don’t need to handle it manually.
 
 ---

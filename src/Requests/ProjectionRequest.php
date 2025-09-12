@@ -4,10 +4,10 @@ namespace Tuner\Requests;
 
 use Exception;
 use LogicException;
-use Tuner\Tuner;
 use Tuner\Columns\Columns;
 use Tuner\Columns\DefinedColumns;
 use Tuner\Columns\ProjectableColumns;
+use Tuner\Tuner;
 
 class ProjectionRequest extends Request implements RequestInterface
 {

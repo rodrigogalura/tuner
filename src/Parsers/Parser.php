@@ -24,6 +24,7 @@ class Parser
     public function set($newValue)
     {
         $this->value = $newValue;
+
         return $this;
     }
 

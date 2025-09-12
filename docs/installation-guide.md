@@ -1,6 +1,6 @@
 # 📦 Installation Guide
 
-Follow these steps to install and set up **API Igniter** in your Laravel project.
+Follow these steps to install and set up **Tuner** in your Laravel project.
 
 ## Requirements
 
@@ -11,23 +11,23 @@ Follow these steps to install and set up **API Igniter** in your Laravel project
 ## Step 1: Install via Composer
 
 ```bash
-composer require rgalura/api-igniter
+composer require rodrigogalura/tuner
 ```
 
 ## Step 2: Publish Configuration (Optional)
 
 ```bash
-php artisan vendor:publish --tag=api-igniter-config
+php artisan vendor:publish --tag=tuner-config
 ```
 
-This will publish a config/api-igniter.php file that you can customize.
+This will publish a config/tuner.php file that you can customize.
 
 ## Step 3: Usage
 
 You can now use the API response helpers in your controllers:
 
 ```php
-use ApiIgniter\Facades\Api;
+use Tuner\Api;
 
 return Api::success([
     'message' => 'Operation completed.',

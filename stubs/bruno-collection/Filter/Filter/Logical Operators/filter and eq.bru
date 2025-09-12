@@ -1,0 +1,18 @@
+meta {
+  name: filter and eq
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/users?filter[ida]=1&filter[and%20email]=quinton42@example.net&in[and idafds ]
+  body: none
+  auth: none
+}
+
+params:query {
+  filter[ida]: 1
+  filter[and%20email]: quinton42@example.net
+  in[and idafds ]: 
+  ~filter[AND%20email]: quinton42@example.net
+}

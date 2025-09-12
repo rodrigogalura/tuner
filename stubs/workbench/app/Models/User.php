@@ -6,21 +6,12 @@ namespace Workbench\App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
-// use RGalura\ApiIgniter\ApiIgniter;
-// use RGalura\ApiIgniter\BetweenFilterable;
-// use RGalura\ApiIgniter\Expandable;
-// use RGalura\ApiIgniter\Filterable;
-// use RGalura\ApiIgniter\InFilterable;
-// use RGalura\ApiIgniter\Projectable;
-// use RGalura\ApiIgniter\Searchable;
-// use RGalura\ApiIgniter\Sortable;
+use Tuner\V33\Tunable;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-    // use ApiIgniter, BetweenFilterable, Expandable, Filterable, InFilterable, Projectable, Searchable, Sortable;
-    use \Tuner\V33\Tunable;
+    use Tunable;
 
     /**
      * The attributes that are mass assignable.
@@ -53,7 +44,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    protected function getProjectableFields()
+    protected function getProjectableColumns()
     {
         return ['id', 'name'];
     }

@@ -1,0 +1,16 @@
+meta {
+  name: search *_*
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/api/users?search[name]=III
+  body: none
+  auth: none
+}
+
+params:query {
+  search[name]: III
+  ~search[name]: *III*
+}

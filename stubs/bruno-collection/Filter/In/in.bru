@@ -1,0 +1,15 @@
+meta {
+  name: in
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/users?in[id]=1,2,3,4,5,6,7,8
+  body: none
+  auth: none
+}
+
+params:query {
+  in[id]: 1,2,3,4,5,6,7,8
+}
