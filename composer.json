@@ -1,6 +1,6 @@
 {
     "name": "rodrigogalura/tuner",
-    "description": "A Laravel package to build smart APIs once — and let clients do the rest.",
+    "description": "A Laravel package to fine-tune your APIs — let clients shape the data with powerful query modifiers.",
     "type": "library",
     "require": {
         "php": "8.3.*"
