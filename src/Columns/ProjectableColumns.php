@@ -1,20 +1,20 @@
 <?php
 
-namespace Tuner\ValueObjects;
+namespace Tuner\Columns;
 
 use Exception;
 
 use function Tuner\any;
 
-class FilterableColumns extends Columns
+class ProjectableColumns extends Columns
 {
     const ERR_CODE_DISABLED = 1;
 
-    const ERR_MSG_DISABLED = 'Filterable columns are empty!';
+    const ERR_MSG_DISABLED = 'Projectable columns are empty!';
 
     const ERR_CODE_PCOLS_VCOLS_NO_MATCH = 2;
 
-    const ERR_MSG_PCOLS_VCOLS_NO_MATCH = 'Filterable columns are invalid. It must be at least one match in visible columns!';
+    const ERR_MSG_PCOLS_VCOLS_NO_MATCH = 'Projectable columns are invalid. It must be at least one match in visible columns!';
 
     public function __construct(array $columns, array $visibleColumns)
     {

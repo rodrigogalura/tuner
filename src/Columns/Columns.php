@@ -1,6 +1,8 @@
 <?php
 
-namespace Tuner\ValueObjects;
+namespace Tuner\Columns;
+
+use Tuner\Parsers\ArrayParser;
 
 class Columns
 {

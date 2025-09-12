@@ -1,6 +1,6 @@
 <?php
 
-namespace Tuner\ValueObjects;
+namespace Tuner\Columns;
 
 use Exception;
 

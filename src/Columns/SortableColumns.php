@@ -1,20 +1,20 @@
 <?php
 
-namespace Tuner\ValueObjects;
+namespace Tuner\Columns;
 
 use Exception;
 
 use function Tuner\any;
 
-class SearchableColumns extends Columns
+class SortableColumns extends Columns
 {
-    const ERR_CODE_DISABLED = 5;
+    const ERR_CODE_DISABLED = 3;
 
-    const ERR_MSG_DISABLED = 'SearchableColumns columns are empty!';
+    const ERR_MSG_DISABLED = 'Sortable columns are empty!';
 
-    const ERR_CODE_PCOLS_VCOLS_NO_MATCH = 6;
+    const ERR_CODE_PCOLS_VCOLS_NO_MATCH = 4;
 
-    const ERR_MSG_PCOLS_VCOLS_NO_MATCH = 'SearchableColumns columns are invalid. It must be at least one match in visible columns!';
+    const ERR_MSG_PCOLS_VCOLS_NO_MATCH = 'Sortable columns are invalid. It must be at least one match in visible columns!';
 
     public function __construct(array $columns, array $visibleColumns)
     {

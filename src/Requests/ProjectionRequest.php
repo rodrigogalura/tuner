@@ -5,9 +5,9 @@ namespace Tuner\Requests;
 use Exception;
 use LogicException;
 use Tuner\Tuner;
-use Tuner\ValueObjects\Columns;
-use Tuner\ValueObjects\DefinedColumns;
-use Tuner\ValueObjects\ProjectableColumns;
+use Tuner\Columns\Columns;
+use Tuner\Columns\DefinedColumns;
+use Tuner\Columns\ProjectableColumns;
 
 class ProjectionRequest extends Request implements RequestInterface
 {

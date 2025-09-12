@@ -4,8 +4,8 @@ namespace Tuner\Requests;
 
 use Exception;
 use Tuner\Tuner;
-use Tuner\ValueObjects\Columns;
-use Tuner\ValueObjects\SortableColumns;
+use Tuner\Columns\Columns;
+use Tuner\Columns\SortableColumns;
 
 class SortRequest extends Request implements RequestInterface
 {

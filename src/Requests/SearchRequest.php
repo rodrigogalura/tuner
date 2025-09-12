@@ -5,8 +5,8 @@ namespace Tuner\Requests;
 use Exception;
 use Illuminate\Support\Str;
 use Tuner\Tuner;
-use Tuner\ValueObjects\Columns;
-use Tuner\ValueObjects\SearchableColumns;
+use Tuner\Columns\Columns;
+use Tuner\Columns\SearchableColumns;
 
 class SearchRequest extends Request implements RequestInterface
 {

@@ -6,16 +6,16 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Tuner\ValueObjects\FilterableColumns;
-use Tuner\ValueObjects\ProjectableColumns;
+use Tuner\Columns\FilterableColumns;
+use Tuner\Columns\ProjectableColumns;
 use Tuner\Requests\FilterRequest;
 use Tuner\Requests\LimitRequest;
 use Tuner\Requests\PaginationRequest;
 use Tuner\Requests\ProjectionRequest;
 use Tuner\Requests\SearchRequest;
 use Tuner\Requests\SortRequest;
-use Tuner\ValueObjects\SearchableColumns;
-use Tuner\ValueObjects\SortableColumns;
+use Tuner\Columns\SearchableColumns;
+use Tuner\Columns\SortableColumns;
 
 trait Tunable
 {
