@@ -6,29 +6,21 @@ class ArrayParser extends Parser
 {
     public function sanitize(): self
     {
-        $this->value = array_filter(array_map('trim', $this->value));
-
-        return $this;
+        return $this->set(array_filter(array_map('trim', $this->value)));
     }
 
     public function intersectTo(array $to): self
     {
-        $this->value = array_intersect($this->value, $to);
-
-        return $this;
+        return $this->set(array_intersect($this->value, $to));
     }
 
     public function exceptFrom(array $from): self
     {
-        $this->value = array_diff($from, $this->value);
-
-        return $this;
+        return $this->set(array_diff($from, $this->value));
     }
 
     public function implode($glue = ', '): self
     {
-        $this->value = implode($glue, $this->value);
-
-        return $this;
+        return $this->set(implode($glue, $this->value));
     }
 }

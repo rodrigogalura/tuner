@@ -19,23 +19,17 @@ class Columns
 
     public function intersect()
     {
-        $this->parser->intersectTo($this->visibleColumns);
-
-        return $this;
+        return $this->parser->intersectTo($this->visibleColumns);
     }
 
     public function except()
     {
-        $this->parser->exceptFrom($this->visibleColumns);
-
-        return $this;
+        return $this->parser->exceptFrom($this->visibleColumns);
     }
 
     public function implode($glue = ', ')
     {
-        $this->parser->implode($glue);
-
-        return $this;
+        return $this->parser->implode($glue);
     }
 
     public function get()

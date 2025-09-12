@@ -21,6 +21,12 @@ class Parser
         return $this;
     }
 
+    public function set($newValue)
+    {
+        $this->value = $newValue;
+        return $this;
+    }
+
     public function get()
     {
         return $this->value;
