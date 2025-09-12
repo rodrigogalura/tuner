@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 class TunerServiceProvider extends ServiceProvider
 {
     /**
-     * Register services.
+     * Register any application services.
      */
     public function register(): void
     {
@@ -15,7 +15,7 @@ class TunerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap services.
+     * Bootstrap any application services.
      */
     public function boot(): void
     {
