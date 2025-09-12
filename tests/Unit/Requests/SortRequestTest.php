@@ -1,6 +1,6 @@
 <?php
 
-use Tuner\ValueObjects\Requests\SortRequest;
+use Tuner\Requests\SortRequest;
 
 describe('Sort Request', function (): void {
     it('should thrown an exception when sortable columns are empty.', function (): void {

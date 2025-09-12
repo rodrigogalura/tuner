@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Tuner\ValueObjects\FilterableColumns;
 use Tuner\ValueObjects\ProjectableColumns;
-use Tuner\ValueObjects\Requests\FilterRequest;
-use Tuner\ValueObjects\Requests\LimitRequest;
-use Tuner\ValueObjects\Requests\PaginationRequest;
-use Tuner\ValueObjects\Requests\ProjectionRequest;
-use Tuner\ValueObjects\Requests\SearchRequest;
-use Tuner\ValueObjects\Requests\SortRequest;
+use Tuner\Requests\FilterRequest;
+use Tuner\Requests\LimitRequest;
+use Tuner\Requests\PaginationRequest;
+use Tuner\Requests\ProjectionRequest;
+use Tuner\Requests\SearchRequest;
+use Tuner\Requests\SortRequest;
 use Tuner\ValueObjects\SearchableColumns;
 use Tuner\ValueObjects\SortableColumns;
 

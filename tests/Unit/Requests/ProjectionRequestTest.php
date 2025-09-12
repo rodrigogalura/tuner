@@ -1,6 +1,6 @@
 <?php
 
-use Tuner\ValueObjects\Requests\ProjectionRequest;
+use Tuner\Requests\ProjectionRequest;
 
 describe('Projection Request', function (): void {
     it('should thrown an exception when using modifier for intersect and except at the same time.', function (): void {

@@ -5,8 +5,8 @@ namespace Tuner;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Tuner\ValueObjects\Requests\FilterRequest;
-use Tuner\ValueObjects\Requests\LimitRequest;
+use Tuner\Requests\FilterRequest;
+use Tuner\Requests\LimitRequest;
 
 final class TunerBuilder
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tuner\ValueObjects\Requests;
+namespace Tuner\Requests;
 
 use Exception;
 use LogicException;

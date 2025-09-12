@@ -1,6 +1,6 @@
 <?php
 
-use Tuner\ValueObjects\Requests\FilterRequest;
+use Tuner\Requests\FilterRequest;
 
 describe('Sort Request', function (): void {
     it('should thrown an exception when filterable columns are empty.', function (): void {
