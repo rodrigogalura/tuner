@@ -1,13 +1,13 @@
 <?php
 
-namespace Tuner\Tuner\V33\ValueObjects\Requests;
+namespace Tuner\V33\ValueObjects\Requests;
 
 use Exception;
 use LogicException;
-use Tuner\Tuner\V33\Tuner;
-use Tuner\Tuner\V33\ValueObjects\Columns;
-use Tuner\Tuner\V33\ValueObjects\DefinedColumns;
-use Tuner\Tuner\V33\ValueObjects\ProjectableColumns;
+use Tuner\V33\Tuner;
+use Tuner\V33\ValueObjects\Columns;
+use Tuner\V33\ValueObjects\DefinedColumns;
+use Tuner\V33\ValueObjects\ProjectableColumns;
 
 class ProjectionRequest extends Request implements RequestInterface
 {

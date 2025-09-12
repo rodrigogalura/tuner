@@ -1,11 +1,11 @@
 <?php
 
-namespace Tuner\Tuner\V33\ValueObjects\Requests;
+namespace Tuner\V33\ValueObjects\Requests;
 
 use Exception;
-use Tuner\Tuner\V33\Tuner;
-use Tuner\Tuner\V33\ValueObjects\Columns;
-use Tuner\Tuner\V33\ValueObjects\SortableColumns;
+use Tuner\V33\Tuner;
+use Tuner\V33\ValueObjects\Columns;
+use Tuner\V33\ValueObjects\SortableColumns;
 
 class SortRequest extends Request implements RequestInterface
 {

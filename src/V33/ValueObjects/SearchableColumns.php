@@ -1,10 +1,10 @@
 <?php
 
-namespace Tuner\Tuner\V33\ValueObjects;
+namespace Tuner\V33\ValueObjects;
 
 use Exception;
 
-use function Tuner\Tuner\any;
+use function Tuner\V33\any;
 
 class SearchableColumns extends Columns
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tuner\Tuner\V33\ValueObjects\Requests;
+namespace Tuner\V33\ValueObjects\Requests;
 
 abstract class Request
 {

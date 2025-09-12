@@ -1,21 +1,21 @@
 <?php
 
-namespace Tuner\Tuner\V33;
+namespace Tuner\V33;
 
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Tuner\Tuner\V33\ValueObjects\FilterableColumns;
-use Tuner\Tuner\V33\ValueObjects\ProjectableColumns;
-use Tuner\Tuner\V33\ValueObjects\Requests\FilterRequest;
-use Tuner\Tuner\V33\ValueObjects\Requests\LimitRequest;
-use Tuner\Tuner\V33\ValueObjects\Requests\PaginationRequest;
-use Tuner\Tuner\V33\ValueObjects\Requests\ProjectionRequest;
-use Tuner\Tuner\V33\ValueObjects\Requests\SearchRequest;
-use Tuner\Tuner\V33\ValueObjects\Requests\SortRequest;
-use Tuner\Tuner\V33\ValueObjects\SearchableColumns;
-use Tuner\Tuner\V33\ValueObjects\SortableColumns;
+use Tuner\V33\ValueObjects\FilterableColumns;
+use Tuner\V33\ValueObjects\ProjectableColumns;
+use Tuner\V33\ValueObjects\Requests\FilterRequest;
+use Tuner\V33\ValueObjects\Requests\LimitRequest;
+use Tuner\V33\ValueObjects\Requests\PaginationRequest;
+use Tuner\V33\ValueObjects\Requests\ProjectionRequest;
+use Tuner\V33\ValueObjects\Requests\SearchRequest;
+use Tuner\V33\ValueObjects\Requests\SortRequest;
+use Tuner\V33\ValueObjects\SearchableColumns;
+use Tuner\V33\ValueObjects\SortableColumns;
 
 trait Tunable
 {

@@ -1,6 +1,5 @@
 {
     "name": "rodrigogalura/tuner",
-    "minimum-stability": "stable",
     "description": "A Laravel package to build smart APIs once — and let clients do the rest.",
     "type": "library",
     "require": {
@@ -17,20 +16,12 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "RGalura\\ApiIgniter\\": [
-                "src/",
-                "src/Traits/",
-                "src/Traits/Core/"
-            ],
-            "Laradigs\\Tweaker\\": [
-                "src/"
-            ],
-            "Tuner\\Tuner\\": [
+            "Tuner\\": [
                 "src/"
             ]
         },
         "files": [
-            "src/helpers.php"
+            "src/V33/helpers.php"
         ]
     },
     "authors": [
@@ -39,6 +30,7 @@
             "email": "rodrigogalura3rd@gmail.com"
         }
     ],
+    "minimum-stability": "stable",
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true
@@ -82,7 +74,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "RodrigoGalura\\Tuner\\TunerServiceProvider"
+                "Tuner\\TunerServiceProvider"
             ]
         }
     }

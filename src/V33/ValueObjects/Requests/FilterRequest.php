@@ -1,14 +1,14 @@
 <?php
 
-namespace Tuner\Tuner\V33\ValueObjects\Requests;
+namespace Tuner\V33\ValueObjects\Requests;
 
 use Exception;
 use Illuminate\Support\Str;
-use Tuner\Tuner\V33\Tuner;
-use Tuner\Tuner\V33\ValueObjects\Columns;
-use Tuner\Tuner\V33\ValueObjects\FilterableColumns;
+use Tuner\V33\Tuner;
+use Tuner\V33\ValueObjects\Columns;
+use Tuner\V33\ValueObjects\FilterableColumns;
 
-use function Tuner\Tuner\explode_sanitize;
+use function Tuner\V33\explode_sanitize;
 
 class FilterRequest extends Request implements RequestInterface
 {

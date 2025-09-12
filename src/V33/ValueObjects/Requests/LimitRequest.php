@@ -1,9 +1,9 @@
 <?php
 
-namespace Tuner\Tuner\V33\ValueObjects\Requests;
+namespace Tuner\V33\ValueObjects\Requests;
 
 use Exception;
-use Tuner\Tuner\V33\Tuner;
+use Tuner\V33\Tuner;
 
 class LimitRequest extends Request implements RequestInterface
 {

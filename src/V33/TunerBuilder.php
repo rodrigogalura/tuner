@@ -1,12 +1,12 @@
 <?php
 
-namespace Tuner\Tuner\V33;
+namespace Tuner\V33;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Tuner\Tuner\V33\ValueObjects\Requests\FilterRequest;
-use Tuner\Tuner\V33\ValueObjects\Requests\LimitRequest;
+use Tuner\V33\ValueObjects\Requests\FilterRequest;
+use Tuner\V33\ValueObjects\Requests\LimitRequest;
 
 final class TunerBuilder
 {

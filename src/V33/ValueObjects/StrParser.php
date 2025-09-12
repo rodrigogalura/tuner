@@ -1,6 +1,6 @@
 <?php
 
-namespace Tuner\Tuner\V33\ValueObjects;
+namespace Tuner\V33\ValueObjects;
 
 class StrParser extends Parser
 {

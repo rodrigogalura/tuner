@@ -1,6 +1,6 @@
 <?php
 
-namespace Tuner\Tuner\V33;
+namespace Tuner\V33;
 
 trait HasSingleton
 {
