@@ -4,11 +4,11 @@ namespace Workbench\App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laradigs\Tweaker\CanTweak;
+use Tuner\Tunable;
 
 class OnlyIdAndNameAreProjectableModel extends Model
 {
-    use CanTweak;
+    use \Tuner\V33\Tunable;
 
     /** @use HasFactory<\Database\Factories\OnlyIdAndNameAreProjectableModelFactory> */
     use HasFactory;

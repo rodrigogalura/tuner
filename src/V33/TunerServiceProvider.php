@@ -1,6 +1,6 @@
 <?php
 
-namespace Tuner;
+namespace Tuner\V33;
 
 use Illuminate\Support\ServiceProvider;
 

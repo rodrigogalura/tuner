@@ -3,9 +3,9 @@
 namespace Workbench\App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Laradigs\Tweaker\CanTweak;
+use Tuner\Tunable;
 
 class Post extends Model
 {
-    use CanTweak;
+    use \Tuner\V33\Tunable;
 }

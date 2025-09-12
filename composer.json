@@ -74,7 +74,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Tuner\\TunerServiceProvider"
+                "Tuner\\V33\\TunerServiceProvider"
             ]
         }
     }

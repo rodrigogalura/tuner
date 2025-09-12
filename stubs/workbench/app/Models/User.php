@@ -6,7 +6,7 @@ namespace Workbench\App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laradigs\Tweaker\CanTweak;
+use Tuner\Tunable;
 
 // use RGalura\ApiIgniter\ApiIgniter;
 // use RGalura\ApiIgniter\BetweenFilterable;
@@ -20,7 +20,7 @@ use Laradigs\Tweaker\CanTweak;
 class User extends Authenticatable
 {
     // use ApiIgniter, BetweenFilterable, Expandable, Filterable, InFilterable, Projectable, Searchable, Sortable;
-    use CanTweak;
+    use \Tuner\V33\Tunable;
     use HasFactory, Notifiable;
 
     /**
