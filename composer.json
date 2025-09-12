@@ -68,7 +68,7 @@
         ],
         "test": [
             "@clear",
-            "@php vendor/bin/pest tests/Unit/Requests --profile --bail"
+            "@php vendor/bin/pest"
         ]
     },
     "extra": {
