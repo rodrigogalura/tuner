@@ -16,8 +16,14 @@ abstract class FeatureTestCase extends BaseTestCase
     {
         $app['config']->set('tuner', [
             'projection' => [
-                'intersect_key' => 'fields',
-                'except_key' => 'fields!',
+                'key' => [
+                    'intersect' => 'columns',
+                    'except' => 'columns!',
+                ],
+            ],
+
+            'sort' => [
+                'key' => 'sort',
             ],
 
             'search' => [
@@ -25,8 +31,16 @@ abstract class FeatureTestCase extends BaseTestCase
                 'minimum_length' => 2,
             ],
 
-            'sort' => [
-                'key' => 'sort',
+            'filter' => [
+                'key' => array_combine($keys = ['filter', 'in', 'between'], $keys),
+            ],
+
+            'limit' => [
+                'key' => array_combine($keys = ['limit', 'offset'], $keys),
+            ],
+
+            'pagination' => [
+                'key' => 'page-size',
             ],
         ]);
     }

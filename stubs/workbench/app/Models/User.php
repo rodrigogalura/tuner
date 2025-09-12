@@ -6,7 +6,6 @@ namespace Workbench\App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Tuner\Tunable;
 
 // use RGalura\ApiIgniter\ApiIgniter;
 // use RGalura\ApiIgniter\BetweenFilterable;
@@ -19,9 +18,9 @@ use Tuner\Tunable;
 
 class User extends Authenticatable
 {
+    use HasFactory, Notifiable;
     // use ApiIgniter, BetweenFilterable, Expandable, Filterable, InFilterable, Projectable, Searchable, Sortable;
     use \Tuner\V33\Tunable;
-    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.

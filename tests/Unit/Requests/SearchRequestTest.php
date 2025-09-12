@@ -1,6 +1,6 @@
 <?php
 
-use Tuner\V33\ValueObjects\Requests\SearchRequest;
+use Tuner\ValueObjects\Requests\SearchRequest;
 
 describe('Search Request', function (): void {
     it('should thrown an exception when searchable columns are empty.', function ($searchKeyword): void {

@@ -4,14 +4,13 @@ namespace Workbench\App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Tuner\Tunable;
 
 class InvalidProjectableModel extends Model
 {
-    use \Tuner\V33\Tunable;
-
     /** @use HasFactory<\Database\Factories\InvalidProjectableModelFactory> */
     use HasFactory;
+
+    use \Tuner\V33\Tunable;
 
     protected $fillable = [
         'name',

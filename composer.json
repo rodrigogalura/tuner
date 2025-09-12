@@ -21,7 +21,7 @@
             ]
         },
         "files": [
-            "src/V33/helpers.php"
+            "src/helpers.php"
         ]
     },
     "authors": [
@@ -74,7 +74,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Tuner\\V33\\TunerServiceProvider"
+                "Tuner\\TunerServiceProvider"
             ]
         }
     }

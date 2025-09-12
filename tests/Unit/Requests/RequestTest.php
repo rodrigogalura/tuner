@@ -1,7 +1,7 @@
 <?php
 
-use Tuner\V33\ValueObjects\Requests\Request;
-use Tuner\V33\ValueObjects\Requests\RequestInterface;
+use Tuner\ValueObjects\Requests\Request;
+use Tuner\ValueObjects\Requests\RequestInterface;
 
 it('should throw an exception if the class is not implementation of ['.RequestInterface::class.']', function (): void {
     // Act & Assert
