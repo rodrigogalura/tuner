@@ -1,10 +1,10 @@
 <?php
 
-namespace RodrigoGalura\Tuner\V33\ValueObjects;
+namespace Tuner\Tuner\V33\ValueObjects;
 
 use Exception;
 
-use function RGalura\ApiIgniter\any;
+use function Tuner\Tuner\any;
 
 class FilterableColumns extends Columns
 {

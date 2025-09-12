@@ -1,12 +1,12 @@
 <?php
 
-namespace RodrigoGalura\Tuner\V33\ValueObjects\Requests;
+namespace Tuner\Tuner\V33\ValueObjects\Requests;
 
 use Exception;
 use Illuminate\Support\Str;
-use RodrigoGalura\Tuner\V33\Tuner;
-use RodrigoGalura\Tuner\V33\ValueObjects\Columns;
-use RodrigoGalura\Tuner\V33\ValueObjects\SearchableColumns;
+use Tuner\Tuner\V33\Tuner;
+use Tuner\Tuner\V33\ValueObjects\Columns;
+use Tuner\Tuner\V33\ValueObjects\SearchableColumns;
 
 class SearchRequest extends Request implements RequestInterface
 {

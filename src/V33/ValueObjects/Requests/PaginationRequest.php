@@ -1,9 +1,9 @@
 <?php
 
-namespace RodrigoGalura\Tuner\V33\ValueObjects\Requests;
+namespace Tuner\Tuner\V33\ValueObjects\Requests;
 
 use Exception;
-use RodrigoGalura\Tuner\V33\Tuner;
+use Tuner\Tuner\V33\Tuner;
 
 class PaginationRequest extends Request implements RequestInterface
 {

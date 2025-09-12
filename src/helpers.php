@@ -1,6 +1,6 @@
 <?php
 
-namespace RGalura\ApiIgniter;
+namespace Tuner\Tuner;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;

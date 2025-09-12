@@ -1,14 +1,14 @@
 <?php
 
-namespace RodrigoGalura\Tuner\V33\ValueObjects\Requests;
+namespace Tuner\Tuner\V33\ValueObjects\Requests;
 
 use Exception;
 use Illuminate\Support\Str;
-use RodrigoGalura\Tuner\V33\Tuner;
-use RodrigoGalura\Tuner\V33\ValueObjects\Columns;
-use RodrigoGalura\Tuner\V33\ValueObjects\FilterableColumns;
+use Tuner\Tuner\V33\Tuner;
+use Tuner\Tuner\V33\ValueObjects\Columns;
+use Tuner\Tuner\V33\ValueObjects\FilterableColumns;
 
-use function RGalura\ApiIgniter\explode_sanitize;
+use function Tuner\Tuner\explode_sanitize;
 
 class FilterRequest extends Request implements RequestInterface
 {

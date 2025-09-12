@@ -1,6 +1,6 @@
 <?php
 
-namespace RodrigoGalura\Tuner\V33\ValueObjects\Requests;
+namespace Tuner\Tuner\V33\ValueObjects\Requests;
 
 interface RequestInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace RodrigoGalura\Tuner\V33;
+namespace Tuner\Tuner\V33;
 
 use Exception;
 

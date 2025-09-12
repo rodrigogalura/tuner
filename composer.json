@@ -25,7 +25,7 @@
             "Laradigs\\Tweaker\\": [
                 "src/"
             ],
-            "RodrigoGalura\\Tuner\\": [
+            "Tuner\\Tuner\\": [
                 "src/"
             ]
         },

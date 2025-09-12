@@ -1,6 +1,6 @@
 <?php
 
-namespace RodrigoGalura\Tuner\V33\ValueObjects;
+namespace Tuner\Tuner\V33\ValueObjects;
 
 class Parser
 {

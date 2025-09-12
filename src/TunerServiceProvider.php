@@ -1,6 +1,6 @@
 <?php
 
-namespace RodrigoGalura\Tuner;
+namespace Tuner\Tuner;
 
 use Illuminate\Support\ServiceProvider;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace RodrigoGalura\Tuner\V33\ValueObjects\Requests;
+namespace Tuner\Tuner\V33\ValueObjects\Requests;
 
 use Exception;
-use RodrigoGalura\Tuner\V33\Tuner;
-use RodrigoGalura\Tuner\V33\ValueObjects\Columns;
-use RodrigoGalura\Tuner\V33\ValueObjects\SortableColumns;
+use Tuner\Tuner\V33\Tuner;
+use Tuner\Tuner\V33\ValueObjects\Columns;
+use Tuner\Tuner\V33\ValueObjects\SortableColumns;
 
 class SortRequest extends Request implements RequestInterface
 {
