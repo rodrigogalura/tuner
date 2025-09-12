@@ -6,7 +6,7 @@ namespace Workbench\App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Tuner\V33\Tunable;
+use Tuner\Tunable;
 
 class User extends Authenticatable
 {

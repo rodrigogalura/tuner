@@ -7,7 +7,7 @@ namespace Tuner\Parsers;
  */
 class Parser
 {
-    public function __construct(private mixed $value)
+    public function __construct(protected mixed $value)
     {
         //
     }
