@@ -19,10 +19,6 @@ use Tuner\Requests\SortRequest;
 
 trait Tunable
 {
-    private readonly array $visibleColumns;
-
-    private readonly array $definedColumns;
-
     protected function getProjectableColumns(): array
     {
         return ['*'];
@@ -58,69 +54,21 @@ trait Tunable
      */
     public function scopeSend(Builder $builder): Collection|LengthAwarePaginator
     {
-        $this->visibleColumns = array_diff(
+        $visibleColumns = array_diff(
             $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable()),
             $this->getHidden()
         );
 
-        $this->definedColumns = $builder->getQuery()->columns ?? ['*'];
+        $tunerBuilder = TunerBuilder::getInstance($builder, $visibleColumns, $request = $_GET);
 
-        [$config, $request] = [config('tuner'), $_GET];
+        $config = config('tuner');
 
-        $tunerBuilder = TunerBuilder::getInstance($builder, $this->visibleColumns, $request);
-
-        $projectionBinder = function () use ($request) {
-            return new ProjectionRequest(
-                config('tuner.'.Tuner::CONFIG_PROJECTION),
-                $request,
-                $this->visibleColumns,
-                $this->getProjectableColumns(),
-                $this->definedColumns,
-            );
-        };
-
-        $sortBinder = function () use ($request) {
-            return new SortRequest(
-                config('tuner.'.Tuner::CONFIG_SORT),
-                $request,
-                $this->visibleColumns,
-                $this->getSortableColumns(),
-            );
-        };
-
-        $searchBinder = function () use ($request) {
-            return new SearchRequest(
-                config('tuner.'.Tuner::CONFIG_SEARCH),
-                $request,
-                $this->visibleColumns,
-                $this->getSearchableColumns(),
-            );
-        };
-
-        $filterBinder = function () use ($request) {
-            return new FilterRequest(
-                config('tuner.'.Tuner::CONFIG_FILTER),
-                $request,
-                $this->visibleColumns,
-                $this->getFilterableColumns(),
-            );
-        };
-
-        $limitBinder = function () use ($request) {
-            return new LimitRequest(
-                config('tuner.'.Tuner::CONFIG_LIMIT),
-                $request,
-                $this->limitable(),
-            );
-        };
-
-        $paginationBinder = function () use ($request) {
-            return new PaginationRequest(
-                config('tuner.'.Tuner::CONFIG_PAGINATION),
-                $request,
-                $this->paginatable(),
-            );
-        };
+        $projectionBinder = fn () => new ProjectionRequest($config[Tuner::CONFIG_PROJECTION], $request, $visibleColumns, $this->getProjectableColumns(), definedColumns: $builder->getQuery()->columns ?? ['*']);
+        $sortBinder = fn () => new SortRequest($config[Tuner::CONFIG_SORT], $request, $visibleColumns, $this->getSortableColumns());
+        $searchBinder = fn () => new SearchRequest($config[Tuner::CONFIG_SEARCH], $request, $visibleColumns, $this->getSearchableColumns());
+        $filterBinder = fn () => new FilterRequest($config[Tuner::CONFIG_FILTER], $request, $visibleColumns, $this->getFilterableColumns());
+        $limitBinder = fn () => new LimitRequest($config[Tuner::CONFIG_LIMIT], $request, $this->limitable());
+        $paginationBinder = fn () => new PaginationRequest($config[Tuner::CONFIG_PAGINATION], $request, $this->paginatable());
 
         $container = [
             'project' => [
