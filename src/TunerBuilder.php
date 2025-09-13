@@ -34,7 +34,6 @@ final class TunerBuilder
      */
     private function __construct(
         private Builder $builder,
-        private array $visibleColumns,
     ) {
         //
     }

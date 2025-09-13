@@ -54,21 +54,23 @@ trait Tunable
      */
     public function scopeSend(Builder $builder): Collection|LengthAwarePaginator
     {
-        $visibleColumns = array_diff(
+        if (empty($visibleColumns = array_diff(
             $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable()),
             $this->getHidden()
-        );
+        ))) {
+            return $builder->get();
+        }
 
-        $tunerBuilder = TunerBuilder::getInstance($builder, $visibleColumns, $request = $_GET);
+        [$config, $request] = [config('tuner'), $_GET];
 
-        $config = config('tuner');
+        $projectionBinder = fn (): ProjectionRequest => new ProjectionRequest($config[Tuner::CONFIG_PROJECTION], $request, $visibleColumns, $this->getProjectableColumns(), definedColumns: $builder->getQuery()->columns ?? ['*']);
+        $sortBinder = fn (): SortRequest => new SortRequest($config[Tuner::CONFIG_SORT], $request, $visibleColumns, $this->getSortableColumns());
+        $searchBinder = fn (): SearchRequest => new SearchRequest($config[Tuner::CONFIG_SEARCH], $request, $visibleColumns, $this->getSearchableColumns());
+        $filterBinder = fn (): FilterRequest => new FilterRequest($config[Tuner::CONFIG_FILTER], $request, $visibleColumns, $this->getFilterableColumns());
+        $limitBinder = fn (): LimitRequest => new LimitRequest($config[Tuner::CONFIG_LIMIT], $request, $this->limitable());
+        $paginationBinder = fn (): PaginationRequest => new PaginationRequest($config[Tuner::CONFIG_PAGINATION], $request, $this->paginatable());
 
-        $projectionBinder = fn () => new ProjectionRequest($config[Tuner::CONFIG_PROJECTION], $request, $visibleColumns, $this->getProjectableColumns(), definedColumns: $builder->getQuery()->columns ?? ['*']);
-        $sortBinder = fn () => new SortRequest($config[Tuner::CONFIG_SORT], $request, $visibleColumns, $this->getSortableColumns());
-        $searchBinder = fn () => new SearchRequest($config[Tuner::CONFIG_SEARCH], $request, $visibleColumns, $this->getSearchableColumns());
-        $filterBinder = fn () => new FilterRequest($config[Tuner::CONFIG_FILTER], $request, $visibleColumns, $this->getFilterableColumns());
-        $limitBinder = fn () => new LimitRequest($config[Tuner::CONFIG_LIMIT], $request, $this->limitable());
-        $paginationBinder = fn () => new PaginationRequest($config[Tuner::CONFIG_PAGINATION], $request, $this->paginatable());
+        $tunerBuilder = TunerBuilder::getInstance($builder, $request);
 
         $container = [
             'project' => [

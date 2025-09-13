@@ -18,7 +18,7 @@ class RequestsContainer
 
     private function resolve(string $key)
     {
-        when(! isset($this->requests[$key]), fn () => throw new Exception("Target request [{$key}] does not exist."));
+        whenNotSet($this->requests[$key], fn () => throw new Exception("Target request [{$key}] does not exist."));
 
         $factory = $this->requests[$key];
 
@@ -29,7 +29,7 @@ class RequestsContainer
     {
         $request = $this->resolve($key);
 
-        when(! empty($request()), fn () => $callback($request));
+        whenNotEmpty($request(), fn () => $callback($request));
     }
 
     public static function create()

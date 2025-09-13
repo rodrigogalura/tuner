@@ -18,3 +18,13 @@ function any(array $needles, array $haystack): bool
 {
     return ! empty(array_intersect($haystack, $needles));
 }
+
+function whenNotEmpty($subject, callable $callback)
+{
+    return when(! empty($subject), $callback);
+}
+
+function whenNotSet($subject, callable $callback)
+{
+    return when(! isset($subject), $callback);
+}
