@@ -1,27 +1,26 @@
-# Pull Request Template
+# Pull Request
 
-## Summary
+## Description
+Please include a summary of the changes and the related issue.  
 
-A brief description of the changes made in this PR.
+Fixes # (issue)
 
-## Changes
+---
 
-- List of changes made in the codebase.
-- Any files that were added, removed, or modified.
+## Type of Change
+- [ ] Bug fix  
+- [ ] New feature  
+- [ ] Documentation update  
+- [ ] Refactor/Code improvement  
 
-## Testing
-
-- How was the change tested? Provide steps to reproduce or screenshots if necessary.
-- Are tests added or updated?
-
-## Related Issues
-
-- Resolves issue #[issue_number] (if applicable).
-- Closes #[issue_number] (if applicable).
+---
 
 ## Checklist
+- [ ] My code follows the coding style guidelines of this project  
+- [ ] I have added tests that prove my fix is effective or my feature works  
+- [ ] I have updated the documentation if necessary  
+- [ ] All new and existing tests passed  
 
-- [ ] I have read the [CONTRIBUTING.md](CONTRIBUTING.md).
-- [ ] I have followed the coding style guidelines.
-- [ ] I have tested my changes thoroughly.
-- [ ] I have updated the documentation (if necessary).
+---
+
+## 📷 Screenshots (if applicable)

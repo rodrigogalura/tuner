@@ -150,3 +150,10 @@ We value responsible disclosure and will credit researchers in changelogs and ad
 ---
 
 *Last updated: 2025-09-13*
+
+---
+
+📌 See also:
+- [CONTRIBUTING.md](./../CONTRIBUTING.md) — Guidelines for contributing  
+- [ROADMAP.md](./../ROADMAP.md) — Upcoming features and plans  
+- [CHANGELOG.md](./../CHANGELOG.md) — Release history  

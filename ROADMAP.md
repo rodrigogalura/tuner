@@ -1,27 +1,57 @@
-# 🛣️ Tuner Roadmap
+# Tuner Roadmap
 
-This document outlines planned features and improvements for upcoming versions of Tuner.
-
----
-
-## ✅ v1.x (Current)
-- [x] Base API success and error response system
-- [x] Laravel 10/11 support
-- [x] Facade access to response builder
-- [x] Pest test coverage
-- [x] Config file publishing
+This document outlines planned features and improvements for Tuner.  
+Timelines may shift as the project evolves.
 
 ---
 
-## 🔜 v2.x (Planned)
-- [ ] API Rate Limiting helpers
-- [ ] More expressive macro system
-- [ ] Built-in API versioning support
-- [ ] Extended error handling customization
+## Completed
+
+- Projection (columns include/exclude)
+- Sorting
+- Searching
+- Filtering
+    - Relational and comparison operators
+    - IN operator
+    - BETWEEN operator
+    - Logical operator
+- Limitation
+- Pagination
+
+---
+
+## In Progress
+
+- Expansion
+
+---
+
+## 🔜 Planned
+- Aggregates feature
+- Search fulltext
+- JSON filter
+- New filter modifiers:
+    - `filter|`
+    - `in|`
+    - `between|`
 
 ---
 
 ## 💡 Future Ideas
-- [ ] CLI command to scaffold a full REST API
-- [ ] OpenAPI / Swagger auto-doc support
-- [ ] Laravel Octane optimizations
+- Support JSON alternatives:
+    - Protobufs (Use cases: APIs, RPC)
+    - Avro (Use cases: Big Data)
+- Search Feature
+    - Typesense
+
+> Want something added? Open a [Feature Request][feature-request-link].
+
+[feature-request-link]: https://github.com/rodrigogalura/tuner/issues/new?template=feature_request.md "Tuner Repo"
+
+---
+
+📌 See also:
+
+- [CONTRIBUTING.md](./CONTRIBUTING.md) — Guidelines for contributing  
+- [SECURITY.md](./SECURITY.md) — Reporting security vulnerabilities  
+- [CHANGELOG.md](./CHANGELOG.md) — Release history  

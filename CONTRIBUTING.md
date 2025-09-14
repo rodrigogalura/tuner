@@ -114,3 +114,10 @@ https://github.com/RestCheatSheet/api-cheat-sheet
 ## License
 
 MIT © rodrigogalura
+
+---
+
+📌 See also:
+- [SECURITY.md](./.github/SECURITY.md) — Reporting security vulnerabilities  
+- [ROADMAP.md](./ROADMAP.md) — Upcoming features and plans  
+- [CHANGELOG.md](./CHANGELOG.md) — Release history  
