@@ -52,7 +52,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 This package was born out of real-world needs in my own projects. I created it to cut down on boilerplate and give frontend consumers more control and flexibility. I’m simply sharing the tools that helped me build faster — and I hope they’ll do the same for you.
 
@@ -65,7 +65,7 @@ This package was born out of real-world needs in my own projects. I created it t
 ## Main Features
 
 **Projection**  
-Select only the columns you need instead of retrieving every field.  
+Select only the columns you need instead of retrieving every column.  
 Available modifiers:  
 1. `columns` – Include only the specified columns.  
 2. `columns!` – Exclude the specified columns (opposite effect).  
@@ -74,7 +74,7 @@ Available modifiers:
 
 **Sort**  
 Order results in ascending or descending order.  
-- Use the `sort` modifier to define one or more sort fields.  
+- Use the `sort` modifier to define one or more sort columns.  
 
 ---
 
@@ -181,7 +181,7 @@ If this project helped you or saved you time, consider buying me a coffee. Your 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: art/image.png
 
 <!-- Account -->
 [kofi-url]: https://ko-fi.com/rodrigogalura
