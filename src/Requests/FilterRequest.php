@@ -2,10 +2,10 @@
 
 namespace Tuner\Requests;
 
-use Exception;
 use Illuminate\Support\Str;
 use Tuner\Columns\Columns;
 use Tuner\Columns\FilterableColumns;
+use Tuner\Exceptions\ClientException;
 use Tuner\Tuner;
 
 use function Tuner\explode_sanitize;
@@ -57,7 +57,7 @@ class FilterRequest extends Request implements RequestInterface
     private function validateLogicalOperator($operator)
     {
         $validOperators = static::validLogicalOperators();
-        throw_unless(in_array($operator, $validOperators), new Exception("Invalid operator [{$operator}]. It must be one of these: [".implode(', ', $validOperators).']'));
+        throw_unless(in_array($operator, $validOperators), new ClientException("Invalid operator [{$operator}]. It must be one of these: [".implode(', ', $validOperators).']'));
     }
 
     private function logicColumnInterpreter(string $logicColumn)
@@ -82,7 +82,7 @@ class FilterRequest extends Request implements RequestInterface
                 return [$bool, $column, $not];
 
             default:
-                throw new Exception("The [{$logicColumn}] is not valid logic column.");
+                throw new ClientException("The [{$logicColumn}] is not valid logic column.");
         }
     }
 
@@ -117,7 +117,7 @@ class FilterRequest extends Request implements RequestInterface
                 return [explode_sanitize($value)];
 
             default:
-                throw new Exception('The ['.$key.'] is not a valid key!');
+                throw new ClientException('The ['.$key.'] is not a valid key!');
         }
     }
 
@@ -132,7 +132,7 @@ class FilterRequest extends Request implements RequestInterface
                     return Str::afterLast($logicColumn, ' ');
 
                 default:
-                    throw new Exception("The [{$logicColumn}] is invalid.");
+                    throw new ClientException("The [{$logicColumn}] is invalid.");
             }
         }, $logicColumns);
     }
@@ -145,13 +145,13 @@ class FilterRequest extends Request implements RequestInterface
 
         foreach ($this->request as $key => $filterRequest) {
             // Validate filter
-            throw_unless(is_array($filterRequest), new Exception('The ['.$key.'] must be array'));
+            throw_unless(is_array($filterRequest), new ClientException('The ['.$key.'] must be array'));
 
             $columns = $this->getAllColumnsInlogicColumn(array_keys($filterRequest));
 
             // Validate columns
             $columns = new Columns($columns, $filterableColumns);
-            throw_if(empty($columns->intersect()->get()), new Exception('Invalid columns provided. It must be one of the following filterable columns: ['.implode(', ', $filterableColumns).']'));
+            throw_if(empty($columns->intersect()->get()), new ClientException('Invalid columns provided. It must be one of the following filterable columns: ['.implode(', ', $filterableColumns).']'));
 
             foreach ($filterRequest as $logicColumn => $value) {
                 $interpretedRequest[$key][] = array_merge(

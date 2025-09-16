@@ -2,7 +2,6 @@
 
 namespace Tuner\Requests;
 
-use Exception;
 use Tuner\Tuner;
 
 /**
@@ -28,6 +27,6 @@ class PaginationRequest extends Request implements RequestInterface
         $pageSize = current($this->request);
 
         // Validate pageSize
-        throw_unless(is_numeric($pageSize), new Exception('The ['.$this->key.'] must be numeric!', 422));
+        throw_unless(is_numeric($pageSize), new ClientException('The ['.$this->key.'] must be numeric!'));
     }
 }

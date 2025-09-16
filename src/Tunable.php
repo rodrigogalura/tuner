@@ -2,7 +2,6 @@
 
 namespace Tuner;
 
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -105,7 +104,7 @@ trait Tunable
             try {
                 $requestContainer->bind($key, $factories['bind']);
                 $requestContainer->resolveAndRunCallbackWhenRequested($key, $factories['resolve']);
-            } catch (Exception $e) {
+            } catch (TunerException $e) {
                 switch ($code = $e->getCode()) {
                     case ProjectableColumns::ERR_CODE_DISABLED:
                     case SortableColumns::ERR_CODE_DISABLED:
@@ -114,16 +113,15 @@ trait Tunable
                         // noop
                         break;
 
-                    case Tuner::ERR_CODE_REQUEST_EXCEPTION: // todo: update this later
-                        return new Collection([
-                            'status' => 'error',
-                            'code' => $code,
-                            'message' => $e->getMessage(),
-                        ]);
-
                     default:
                         throw $e;
                 }
+            } catch (ClientException $e) {
+                return new Collection([
+                    'status' => 'error',
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ]);
             }
         }
 

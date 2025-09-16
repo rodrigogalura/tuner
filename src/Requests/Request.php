@@ -2,6 +2,8 @@
 
 namespace Tuner\Requests;
 
+use Tuner\Exceptions\TunerException;
+
 /**
  * @internal
  */
@@ -12,7 +14,7 @@ abstract class Request
         protected array $request
     ) {
         if (! is_a($this, RequestInterface::class)) {
-            throw new \Exception('The ['.$this::class.'] must be implementation of ['.RequestInterface::class.']');
+            throw new TunerException('The ['.$this::class.'] must be implementation of ['.RequestInterface::class.']');
         }
 
         $this->filterRequest();

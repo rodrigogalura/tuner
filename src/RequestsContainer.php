@@ -2,7 +2,7 @@
 
 namespace Tuner;
 
-use Exception;
+use Tuner\Exceptions\TunerException;
 
 /**
  * @internal
@@ -18,7 +18,7 @@ class RequestsContainer
 
     private function resolve(string $key)
     {
-        whenNotSet($this->requests[$key], fn () => throw new Exception("Target request [{$key}] does not exist."));
+        whenNotSet($this->requests[$key], fn () => throw new TunerException("Target request [{$key}] does not exist."));
 
         $factory = $this->requests[$key];
 

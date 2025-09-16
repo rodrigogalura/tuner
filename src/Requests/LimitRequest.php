@@ -2,7 +2,7 @@
 
 namespace Tuner\Requests;
 
-use Exception;
+use Tuner\Exceptions\ClientException;
 use Tuner\Tuner;
 
 /**
@@ -32,12 +32,12 @@ class LimitRequest extends Request implements RequestInterface
         $limitRequest = $this->request;
 
         // Validate limit
-        throw_unless($limit = $limitRequest[static::KEY_LIMIT] ?? null, new Exception('The ['.static::KEY_LIMIT.'] is required!', 422));
-        throw_unless(is_numeric($limit), new Exception('The ['.static::KEY_LIMIT.'] must be numeric!', 422));
+        throw_unless($limit = $limitRequest[static::KEY_LIMIT] ?? null, new ClientException('The ['.static::KEY_LIMIT.'] is required!'));
+        throw_unless(is_numeric($limit), new ClientException('The ['.static::KEY_LIMIT.'] must be numeric!'));
 
         if ($offset = $limitRequest[static::KEY_OFFSET] ?? null) {
             // Validate offset
-            throw_unless(is_numeric($offset), new Exception('The ['.static::KEY_OFFSET.'] must be numeric!', 422));
+            throw_unless(is_numeric($offset), new ClientException('The ['.static::KEY_OFFSET.'] must be numeric!'));
         }
     }
 }

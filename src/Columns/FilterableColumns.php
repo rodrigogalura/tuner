@@ -2,7 +2,7 @@
 
 namespace Tuner\Columns;
 
-use Exception;
+use Tuner\Exceptions\TunerException;
 
 use function Tuner\any;
 
@@ -28,8 +28,8 @@ class FilterableColumns extends Columns
 
     private function validate()
     {
-        throw_if(empty($this->columns), new Exception(static::ERR_MSG_DISABLED, static::ERR_CODE_DISABLED));
+        throw_if(empty($this->columns), new TunerException(static::ERR_MSG_DISABLED, static::ERR_CODE_DISABLED));
 
-        throw_unless(any(parent::__invoke(), $this->visibleColumns), new Exception(static::ERR_MSG_PCOLS_VCOLS_NO_MATCH, static::ERR_CODE_PCOLS_VCOLS_NO_MATCH));
+        throw_unless(any(parent::__invoke(), $this->visibleColumns), new TunerException(static::ERR_MSG_PCOLS_VCOLS_NO_MATCH, static::ERR_CODE_PCOLS_VCOLS_NO_MATCH));
     }
 }

@@ -22,6 +22,4 @@ class Tuner
     const CONFIG_LIMIT = 'limit';
 
     const CONFIG_PAGINATION = 'pagination';
-
-    const ERR_CODE_REQUEST_EXCEPTION = 422;
 }
