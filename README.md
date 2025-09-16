@@ -123,19 +123,25 @@ Filter results within a range of values (numbers, text, or dates).
 
 ![Between demo][between-gif]
 
-Logical operators are supported:  
+Logical operators are supported for `advanced filtering`:  
 - `AND`  
 - `OR`  
+
+![Logical operator demo][logical-and-gif]
 
 ---
 
 **Limitation**  
 Restrict the number of results returned by specifying a maximum limit.  
 
+![Limit And Offset demo][limit-offset-gif]
+
 ---
 
 **Pagination**  
 Leverage Laravel’s built-in pagination system for efficient, page-based responses.  
+
+![Pagination demo][pagination-gif]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -200,6 +206,9 @@ If this project helped you or saved you time, consider buying me a coffee. Your 
 [filter-gif]: ./art/filter.gif
 [in-gif]: ./art/in.gif
 [between-gif]: ./art/between.gif
+[logical-and-gif]: ./art/logical-and.gif
+[limit-offset-gif]: ./art/limit-offset.gif
+[pagination-gif]: ./art/pagination.gif
 
 <!-- Account -->
 [kofi-url]: https://ko-fi.com/rodrigogalura
