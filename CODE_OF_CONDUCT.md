@@ -54,13 +54,19 @@ Community leaders will follow these guidelines in determining the consequences f
 ## Attribution
 This Code of Conduct is adapted from the [Contributor Covenant][covenant-url], version 2.1.
 
-[covenant-url]: https://www.contributor-covenant.org
 
 ---
 
 📌 See also:
 
-- [CONTRIBUTING.md](./CONTRIBUTING.md) — Guidelines for contributing  
-- [SECURITY.md](./.github/SECURITY.md) — Reporting security vulnerabilities  
-- [ROADMAP.md](./ROADMAP.md) — Upcoming features and plans  
-- [CHANGELOG.md](./CHANGELOG.md) — Release history  
+- [SECURITY][security-url] — Reporting security vulnerabilities  
+- [ROADMAP][project_roadmap-url] — Upcoming features and plans  
+- [CHANGELOG][changelog-url] — Release history  
+
+
+<!-- MARKDOWN LINKS -->
+[security-url]: https://github.com/rodrigogalura/tuner/blob/main/.github/SECURITY.md
+[changelog-url]: https://github.com/rodrigogalura/tuner/blob/main/CHANGELOG.md
+[project_roadmap-url]: https://github.com/users/rodrigogalura/projects/10/views/5?layout=board
+
+[covenant-url]: https://www.contributor-covenant.org

@@ -11,10 +11,10 @@ assignees: ''
 A clear and concise description of what the bug is.
 
 ## To Reproduce
-Steps to reproduce the behavior:
-1. Run `...`
-2. Call endpoint `...`
-3. See error
+Steps to reproduce the behavior:  
+1. Run `...`  
+2. Call endpoint `...`  
+3. See error  
 
 ## Expected behavior
 What should have happened instead?

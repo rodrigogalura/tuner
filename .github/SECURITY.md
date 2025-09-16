@@ -87,18 +87,18 @@ You may report issues through one of the following **private channels**:
      - Optional: suggested fix or mitigation
 
 ---
-
+<!-- 
 ## Supported Versions
 
 | Version       | Status                       |
 |---------------|------------------------------|
 | `^1.x`        | ✅ Fully supported            |
 | `< 1.0`       | ❌ End-of-life, no longer maintained |
-<!-- | `^1.x`        | 🛠️ Security fixes only        | -->
+| `^1.x`        | 🛠️ Security fixes only        |
 
 If you’re using an **unsupported version**, please upgrade to the latest release.
 
----
+--- -->
 
 ## Response & Disclosure Policy
 
@@ -154,6 +154,12 @@ We value responsible disclosure and will credit researchers in changelogs and ad
 ---
 
 📌 See also:
-- [CONTRIBUTING.md](./../CONTRIBUTING.md) — Guidelines for contributing  
-- [ROADMAP.md](./../ROADMAP.md) — Upcoming features and plans  
-- [CHANGELOG.md](./../CHANGELOG.md) — Release history  
+
+- [ROADMAP][project_roadmap-url] — Upcoming features and plans  
+- [CODE_OF_CONDUCT][code_of_conduct-url] — Guidelines for respectful and inclusive collaboration  
+- [CHANGELOG][changelog-url] — Release history  
+
+<!-- Repo Markdown -->
+[changelog-url]: https://github.com/rodrigogalura/tuner/blob/main/CHANGELOG.md
+[code_of_conduct-url]: https://github.com/rodrigogalura/tuner/blob/main/CODE_OF_CONDUCT.md
+[project_roadmap-url]: https://github.com/users/rodrigogalura/projects/10/views/5?layout=board

@@ -39,6 +39,7 @@
     <li>
       <a href="#about-the-project">About The Project</a>
     </li>
+    <li><a href="#main-features">Main Features</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -57,58 +58,88 @@ This package was born out of real-world needs in my own projects. I created it t
 
 <!-- Here's a blank template to get started. To avoid retyping too much info, do a search and replace with your text editor for the following: `rodrigogalura`, `tuner`, `rodrigogalura`, `rodrigogalura`, `gmail`, `rodrigogalura3rd`, `Tuner`, `project_description`, `MIT` -->
 
+<!-- <p align="right">(<a href="#readme-top">back to top</a>)</p> -->
+
+---
+
+## Main Features
+
+**Projection**  
+Select only the columns you need instead of retrieving every field.  
+Available modifiers:  
+1. `columns` – Include only the specified columns.  
+2. `columns!` – Exclude the specified columns (opposite effect).  
+
+---
+
+**Sort**  
+Order results in ascending or descending order.  
+- Use the `sort` modifier to define one or more sort fields.  
+
+---
+
+**Search**  
+Filter results based on a search keyword with optional wildcards.  
+- Use the `search` modifier.  
+
+Available wildcards:  
+1. `*term` – Match at the beginning.  
+2. `term*` – Match at the end.  
+3. `*term*` – Match anywhere (flexible).  
+
+---
+
+**Filter**  
+Go beyond simple search with advanced filtering.  
+Available modifiers:  
+1. `filter`  
+2. `in`  
+3. `between`  
+
+_**filter**_  
+Supports relational and arithmetic operators:  
+- `=` : Equal  
+- `>` : Greater than  
+- `<` : Less than  
+- `>=` : Greater than or equal  
+- `<=` : Less than or equal  
+- `<>` : Not equal  
+
+_**in**_  
+Filter results that match any value in a given list.  
+
+_**between**_  
+Filter results within a range of values (numbers, text, or dates).  
+
+Logical operators are supported:  
+- `AND`  
+- `OR`  
+
+---
+
+**Limitation**  
+Restrict the number of results returned by specifying a maximum limit.  
+
+---
+
+**Pagination**  
+Leverage Laravel’s built-in pagination system for efficient, page-based responses.  
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- ROADMAP -->
 ## Roadmap
 
-__Version 1.0__
-- [x] Main Features
-    - [x] Projection
-    - [x] Sort
-    - [x] Search
-    - [x] Filter
-        - [x] Relational Comparison
-        - [x] IN Operator
-        - [x] BETWEEN Operator
-    - [x] Limitation
-    - [x] Pagination
+You can access the Tuner roadmap [here][project_roadmap-url].
 
-__Version 1.1__
-- [ ] Expansion
+---
 
-__Version ^1.2__
-- [ ] Aggregates feature
-- [ ] Search fulltext
-- [ ] JSON filter
-- [ ] New filter modifiers:
-    - [ ] `filter|`
-    - [ ] `in|`
-    - [ ] `between|`
+<!-- ## Contributing
 
-See the complete Roadmap [here][roadmap-url].
-[roadmap-url]: ./ROADMAP.md "Tuner Roadmap"
+We welcome contributions! See our [CONTRIBUTING.md][contributing-url] for details.  
+Please note that we follow a [Code of Conduct][code_of_conduct-url].
 
-See the [open issues](https://github.com/rodrigogalura/tuner/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+---
 
 ### Top contributors:
 
@@ -116,14 +147,12 @@ Don't forget to give the project a star! Thanks again!
   <img src="https://contrib.rocks/image?repo=rodrigogalura/tuner" alt="contrib.rocks image" />
 </a>
 
+--- -->
 
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT. See `LICENSE` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
+The Tuner is open-sourced software licensed under the [MIT license][mit-license-url].
 
 
 <!-- CONTACT -->
@@ -131,10 +160,7 @@ Distributed under the MIT. See `LICENSE` for more information.
 
 If you discover any security vulnerabilities, please contact me. This allows me to address the issue promptly and responsibly.
 
-Rodrigo Galura - [@rodrigogalura](https://linkedin.com/in/rodrigogalura) - rodrigogalura3rd@gmail.com
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
+Rodrigo Galura - rodrigogalura3rd@gmail.com
 
 <!-- ACKNOWLEDGMENTS -->
 <!-- ## Acknowledgments
@@ -149,10 +175,25 @@ Rodrigo Galura - [@rodrigogalura](https://linkedin.com/in/rodrigogalura) - rodri
 
 If this project helped you or saved you time, consider buying me a coffee. Your support means a lot and helps keep this project active and maintained!
 
-[![Buy Me a Coffee at Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/rodrigogalura)
+[![Buy Me a Coffee at Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)][kofi-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [product-screenshot]: images/screenshot.png
+
+<!-- Account -->
+[kofi-url]: https://ko-fi.com/rodrigogalura
+
+<!-- Repo links -->
+[pull_request_template-url]: https://github.com/rodrigogalura/tuner/blob/main/.github/PULL_REQUEST_TEMPLATE.md
+[security-url]: https://github.com/rodrigogalura/tuner/blob/main/.github/SECURITY.md
+[feature_request-url]: https://github.com/rodrigogalura/tuner/blob/main/.github/ISSUE_TEMPLATE/feature_request.md
+[bug_report-url]: https://github.com/rodrigogalura/tuner/blob/main/.github/ISSUE_TEMPLATE/bug_report.md
+[contributing-url]: https://github.com/rodrigogalura/tuner/blob/main/CONTRIBUTING.md
+[changelog-url]: https://github.com/rodrigogalura/tuner/blob/main/CHANGELOG.md
+[mit-license-url]: https://github.com/rodrigogalura/tuner/blob/main/LICENSE
+[code_of_conduct-url]: https://github.com/rodrigogalura/tuner/blob/main/CODE_OF_CONDUCT.md
+[issues-url]: https://github.com/rodrigogalura/tuner/issues
+[project_roadmap-url]: https://github.com/users/rodrigogalura/projects/10/views/5?layout=board
