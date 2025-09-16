@@ -52,7 +52,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][product-screenshot]](https://rodrigogalura.github.io/tuner/docs/installation-guide.html)
 
 This package was born out of real-world needs in my own projects. I created it to cut down on boilerplate and give frontend consumers more control and flexibility. I’m simply sharing the tools that helped me build faster — and I hope they’ll do the same for you.
 
@@ -70,11 +70,15 @@ Available modifiers:
 1. `columns` – Include only the specified columns.  
 2. `columns!` – Exclude the specified columns (opposite effect).  
 
+![Projection demo][columns-gif]
+
 ---
 
 **Sort**  
 Order results in ascending or descending order.  
 - Use the `sort` modifier to define one or more sort columns.  
+
+![Sort demo][sort-gif]
 
 ---
 
@@ -86,6 +90,8 @@ Available wildcards:
 1. `*term` – Match at the beginning.  
 2. `term*` – Match at the end.  
 3. `*term*` – Match anywhere (flexible).  
+
+![Search demo][search-gif]
 
 ---
 
@@ -105,11 +111,17 @@ Supports relational and arithmetic operators:
 - `<=` : Less than or equal  
 - `<>` : Not equal  
 
+![Filter demo][filter-gif]
+
 _**in**_  
 Filter results that match any value in a given list.  
 
+![In demo][in-gif]
+
 _**between**_  
 Filter results within a range of values (numbers, text, or dates).  
+
+![Between demo][between-gif]
 
 Logical operators are supported:  
 - `AND`  
@@ -179,9 +191,15 @@ If this project helped you or saved you time, consider buying me a coffee. Your 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- MARKDOWN LINKS & IMAGES -->
+<!-- MARKDOWN LINKS, IMAGES, and GIFs -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[product-screenshot]: art/image.png
+[product-screenshot]: ./art/image.png
+[columns-gif]: ./art/columns.gif
+[sort-gif]: ./art/sort.gif
+[search-gif]: ./art/search.gif
+[filter-gif]: ./art/filter.gif
+[in-gif]: ./art/in.gif
+[between-gif]: ./art/between.gif
 
 <!-- Account -->
 [kofi-url]: https://ko-fi.com/rodrigogalura
@@ -197,3 +215,4 @@ If this project helped you or saved you time, consider buying me a coffee. Your 
 [code_of_conduct-url]: https://github.com/rodrigogalura/tuner/blob/main/CODE_OF_CONDUCT.md
 [issues-url]: https://github.com/rodrigogalura/tuner/issues
 [project_roadmap-url]: https://github.com/users/rodrigogalura/projects/10/views/5?layout=board
+
