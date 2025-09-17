@@ -8,7 +8,7 @@ order: 3
 
 ## 1. Why use Tuner instead of Laravel API Resource?
 
-<sup>Tuner doesn’t replace Laravel’s API Resources — it complements them. While Laravel focuses on how developers structure and shape API responses, Tuner is built from the consumer’s perspective. It gives API consumers the flexibility to tweak responses directly — selecting fields, filtering, sorting, and more — without requiring backend changes.</sup>
+<sup>Tuner doesn’t replace Laravel’s API Resources — it complements them. While Laravel focuses on how developers structure and shape API responses, Tuner is built from the consumer’s perspective. It gives API consumers the flexibility to tweak responses directly — selecting columns, filtering, sorting, and more — without requiring backend changes.</sup>
 
 <br>
 
@@ -78,7 +78,7 @@ order: 3
 
 <sup>- Enable or disable specific features.</sup>
 
-<sup>- Extend or override behaviors such as filter operators, field resolution, or pagination format.</sup>
+<sup>- Extend or override behaviors such as filter operators, column resolution, or pagination format.</sup>
 
 > <sup>A configuration file is published where you can fine-tune how Tuner behaves in your application.</sup>
 

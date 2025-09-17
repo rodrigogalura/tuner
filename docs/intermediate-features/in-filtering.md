@@ -7,9 +7,9 @@ category: intermediate
 
 {% include features.html %}
 
-## 🌪 In Filtering (`in[field]`)
+## 🌪 In Filtering (`in[column]`)
 
-The **in-filter** allows clients to request resources that match specific values for a field. You can also combine multiple fields using logical operators.
+The **in-filter** allows clients to request resources that match specific values for a column. You can also combine multiple columns using logical operators.
 
 <br>
 
@@ -24,7 +24,7 @@ The **in-filter** allows clients to request resources that match specific values
 
 <pre class="highlight"><code>GET /api/users?in[id]=1,2,3</code></pre>
 
-<sup>Where <ins>id</ins> is the target field for filtering, and <ins>1,2,3</ins> are the specific values to match.</sup>
+<sup>Where <ins>id</ins> is the target column for filtering, and <ins>1,2,3</ins> are the specific values to match.</sup>
 
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
@@ -62,7 +62,7 @@ The **in-filter** allows clients to request resources that match specific values
 
 <pre class="highlight"><code>GET /api/users?in[id]=1,2,3&amp;in[and status]=active,pending</code></pre>
 
-<sup>Where <ins>id, status</ins> are the target fields for filtering, <ins>and</ins> is the logical operator, and <ins>1,2,3, active,pending</ins> are the values to filter by.</sup>
+<sup>Where <ins>id, status</ins> are the target columns for filtering, <ins>and</ins> is the logical operator, and <ins>1,2,3, active,pending</ins> are the values to filter by.</sup>
 
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
@@ -100,7 +100,7 @@ The **in-filter** allows clients to request resources that match specific values
 
 <pre class="highlight"><code>GET /api/users?in[id]=1,2&amp;in[or role]=admin,editor</code></pre>
 
-<sup>Where <ins>id, role</ins> are the target fields for filtering, <ins>or</ins> is the logical operator, and <ins>1,2, admin,editor</ins> are the acceptable values.</sup>
+<sup>Where <ins>id, role</ins> are the target columns for filtering, <ins>or</ins> is the logical operator, and <ins>1,2, admin,editor</ins> are the acceptable values.</sup>
 
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
@@ -138,7 +138,7 @@ The **in-filter** allows clients to request resources that match specific values
 
 <pre class="highlight"><code>GET /api/users?in[id]=1,2,3&amp;in[and! status]=banned</code></pre>
 
-<sup>Where <ins>id, status</ins> are the target fields for filtering, <ins>and!</ins> is the logical operator with a negation effect, and <ins>1,2,3, banned</ins> are the values to be excluded.</sup>
+<sup>Where <ins>id, status</ins> are the target columns for filtering, <ins>and!</ins> is the logical operator with a negation effect, and <ins>1,2,3, banned</ins> are the values to be excluded.</sup>
 
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
@@ -176,7 +176,7 @@ The **in-filter** allows clients to request resources that match specific values
 
 <pre class="highlight"><code>GET /api/users?in[id]=1,2,3&amp;in[or! role]=banned,guest</code></pre>
 
-<sup>Where <ins>id, role</ins> are the target fields for filtering, <ins>or!</ins> is the logical operator with a negation effect, and <ins>1,2,3, banned,guest</ins> are the values to be excluded.</sup>
+<sup>Where <ins>id, role</ins> are the target columns for filtering, <ins>or!</ins> is the logical operator with a negation effect, and <ins>1,2,3, banned,guest</ins> are the values to be excluded.</sup>
 
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>

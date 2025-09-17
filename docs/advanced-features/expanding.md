@@ -6,9 +6,13 @@ category: advanced
 
 {% include features.html %}
 
-## 🔗 Expanding (expand[relation]=alias)
+## 🔗 Expanding (Soon)
 
-The **expanding** feature allows clients to include related models in the API response by specifying the relationships to expand. This enables nested resource inclusion with optional features like projecting, filtering, sorting, searching, and more—depending on the relationship type.
+Will be available on version 1.1.0.
+
+<!-- ## 🔗 Expanding (expand[relation]=alias) -->
+
+<!-- The **expanding** feature allows clients to include related models in the API response by specifying the relationships to expand. This enables nested resource inclusion with optional features like projecting, filtering, sorting, searching, and more—depending on the relationship type.
 
 > ⚠️ Prerequisite: Defining Relationships
 >
@@ -55,9 +59,9 @@ Expands a one-to-one related resource.
 
 <pre class="highlight"><code>GET /api/users?expand[phone]=p</code></pre>
 
-<sup>Where <ins>phone</ins> is the relationship to expand and <ins>p</ins> is the alias used for field projection.</sup>
+<sup>Where <ins>phone</ins> is the relationship to expand and <ins>p</ins> is the alias used for column projection.</sup>
 
-<sup>You can learn more about alias usage in projections [here](#using-aliases-with-field-projection).</sup>
+<sup>You can learn more about alias usage in projections [here](#using-aliases-with-column-projection).</sup>
 
 ---
 
@@ -106,7 +110,7 @@ Expands a many-to-one related resource.
 
 <pre class="highlight"><code>GET /api/phones?expand[user]=u</code></pre>
 
-<sup>Where <ins>user</ins> is the relationship to expand and <ins>u</ins> is the alias used in field projection.</sup>
+<sup>Where <ins>user</ins> is the relationship to expand and <ins>u</ins> is the alias used in column projection.</sup>
 
 ---
 
@@ -273,18 +277,18 @@ Expands a many-to-many related resource. Supports projecting, searching, sorting
 
 ### 🔗 Using Aliases with Field Projection
 
-When expanding relationships, you can define an alias to reference the expanded entity more concisely in your query parameters—especially useful for projecting specific fields within that relationship.
+When expanding relationships, you can define an alias to reference the expanded entity more concisely in your query parameters—especially useful for projecting specific columns within that relationship.
 
-For example, to expand the phone relationship of users and project only selected fields, use:
+For example, to expand the phone relationship of users and project only selected columns, use:
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 
 <div style="flex: 1;" class="highlight">
 <strong>Request</strong>
 
-<pre class="highlight"><code>GET /api/users?expand[phone]=p&p_fields=id,number</code></pre>
+<pre class="highlight"><code>GET /api/users?expand[phone]=p&p_columns=id,number</code></pre>
 
-<sup>Where <ins>phone</ins> is the relationship, <ins>p</ins> is the alias, and <ins>p_fields</ins> specifies which fields of phone to include.</sup>
+<sup>Where <ins>phone</ins> is the relationship, <ins>p</ins> is the alias, and <ins>p_columns</ins> specifies which columns of phone to include.</sup>
 
 ---
 
@@ -294,7 +298,7 @@ For example, to expand the phone relationship of users and project only selected
 | Name          | Type   | Description                                                      |
 |---------------|--------|------------------------------------------------------------------|
 | expand[phone] | string | Expands the phone relationship. The value p defines its alias.   |
-| p_fields      | string | Comma-separated list of fields to include in the expanded phone. |
+| p_columns      | string | Comma-separated list of columns to include in the expanded phone. |
 </details>
 
 </div>
@@ -329,8 +333,9 @@ For example, to expand the phone relationship of users and project only selected
 
 > ℹ️ Note:
 >
-> <sup>Foreign keys like <code>user_id</code> are automatically included in the response for relational context, even if not explicitly listed in <code>p_fields</code>.</sup>
+> <sup>Foreign keys like <code>user_id</code> are automatically included in the response for relational context, even if not explicitly listed in <code>p_columns</code>.</sup>
 
 <br>
 
 ---
+ -->

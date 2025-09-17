@@ -43,9 +43,9 @@ Output:
 ```php
 {
   "status": "error",
-  "message": "The email field is required.",
+  "message": "The email column is required.",
   "errors": {
-    "email": ["The email field is required."]
+    "email": ["The email column is required."]
   }
 }
 ```

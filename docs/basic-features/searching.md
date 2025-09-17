@@ -7,9 +7,9 @@ category: basic
 
 {% include features.html %}
 
-## 🔎 Searching (`search[field]`)
+## 🔎 Searching (`search[column]`)
 
-The **searching** feature allows clients to perform keyword-based searches across defined fields. It’s useful for implementing search bars or global search functionalities in applications.
+The **searching** feature allows clients to perform keyword-based searches across defined columns. It’s useful for implementing search bars or global search functionalities in applications.
 
 **You can use:**
 - `term` → match anywhere
@@ -35,7 +35,7 @@ The **searching** feature allows clients to perform keyword-based searches acros
 
 | Name          | Type   | Description                                |
 |---------------|--------|--------------------------------------------|
-| search[field] | string | Wildcard pattern to search within a field. |
+| search[column] | string | Wildcard pattern to search within a column. |
 </details>
 </div>
 
@@ -82,7 +82,7 @@ The **searching** feature allows clients to perform keyword-based searches acros
 
 | Name          | Type   | Description                                |
 |---------------|--------|--------------------------------------------|
-| search[field] | string | Match values starting with given term.     |
+| search[column] | string | Match values starting with given term.     |
 </details>
 </div>
 
@@ -124,7 +124,7 @@ The **searching** feature allows clients to perform keyword-based searches acros
 
 | Name          | Type   | Description                                |
 |---------------|--------|--------------------------------------------|
-| search[field] | string | Match values ending with given term.       |
+| search[column] | string | Match values ending with given term.       |
 </details>
 </div>
 
@@ -154,4 +154,4 @@ The **searching** feature allows clients to perform keyword-based searches acros
 
 ---
 
-<!-- 💡 You can chain multiple fields using `search[field1]=...&search[field2]=...` for compound searches. -->
+> You can chain multiple columns using `search[column1,column2,columnN]=term` for compound searches.

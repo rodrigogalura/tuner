@@ -7,9 +7,9 @@ category: intermediate
 
 {% include features.html %}
 
-## 🌪️ Between Filtering (`between[field]=min,max`)
+## 🌪️ Between Filtering (`between[column]=min,max`)
 
-The **between feature** allows you to filter results based on a range of values for one or more fields. It also supports combining multiple conditions using logical operators like AND, OR, and their negated versions.
+The **between feature** allows you to filter results based on a range of values for one or more columns. It also supports combining multiple conditions using logical operators like AND, OR, and their negated versions.
 
 <br>
 
@@ -24,7 +24,7 @@ The **between feature** allows you to filter results based on a range of values 
 
 <pre class="highlight"><code>GET /api/users?between[id]=3,7</code></pre>
 
-<sup>Where <ins>id</ins> is the target field for filtering, and <ins>3,7</ins> represent the minimum and maximum bounds of the range.</sup>
+<sup>Where <ins>id</ins> is the target column for filtering, and <ins>3,7</ins> represent the minimum and maximum bounds of the range.</sup>
 
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
@@ -64,7 +64,7 @@ The **between feature** allows you to filter results based on a range of values 
 
 <pre class="highlight"><code>GET /api/users?between[id]=1,3&amp;between[and created_at]=2025-04-01,2025-04-17</code></pre>
 
-<sup>Where <ins>id, created</ins> are the target fields for filtering, <ins>and</ins> is the logical operator, and <ins>1,3, 2025-04-01,2025-04-17</ins> represent the min/max bounds of their respective ranges.</sup>
+<sup>Where <ins>id, created</ins> are the target columns for filtering, <ins>and</ins> is the logical operator, and <ins>1,3, 2025-04-01,2025-04-17</ins> represent the min/max bounds of their respective ranges.</sup>
 
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
@@ -102,7 +102,7 @@ The **between feature** allows you to filter results based on a range of values 
 
 <pre class="highlight"><code>GET /api/users?between[id]=3,5&amp;between[or created_at]=2025-04-01,2025-04-17</code></pre>
 
-<sup>Where <ins>id, created</ins> are the target fields for filtering, <ins>OR</ins> is the logical operator, and <ins>3,5, 2025-04-01,2025-04-17</ins> represent the min/max bounds of the range filters.</sup>
+<sup>Where <ins>id, created</ins> are the target columns for filtering, <ins>OR</ins> is the logical operator, and <ins>3,5, 2025-04-01,2025-04-17</ins> represent the min/max bounds of the range filters.</sup>
 
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
@@ -143,7 +143,7 @@ The **between feature** allows you to filter results based on a range of values 
 
 <pre class="highlight"><code>GET /api/users?between[id]=3,5&amp;between[and! created_at]=2025-04-01,2025-04-17</code></pre>
 
-<sup>Where <ins>id, created</ins> are the target fields for filtering, <ins>and!</ins> is the logical operator with a negation effect, and <ins>3,5, 2025-04-01,2025-04-17</ins> represent the min/max bounds to be excluded.</sup>
+<sup>Where <ins>id, created</ins> are the target columns for filtering, <ins>and!</ins> is the logical operator with a negation effect, and <ins>3,5, 2025-04-01,2025-04-17</ins> represent the min/max bounds to be excluded.</sup>
 
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
@@ -181,7 +181,7 @@ The **between feature** allows you to filter results based on a range of values 
 
 <pre class="highlight"><code>GET /api/users?between[id]=3,5&amp;between[or! created_at]=2025-04-01,2025-04-17</code></pre>
 
-<sup>Where <ins>id, created</ins> are the target fields for filtering, <ins>or!</ins> is the logical operator with a negation effect, and <ins>3,5, 2025-04-01,2025-04-17</ins> represent the min/max bounds to be excluded.</sup>
+<sup>Where <ins>id, created</ins> are the target columns for filtering, <ins>or!</ins> is the logical operator with a negation effect, and <ins>3,5, 2025-04-01,2025-04-17</ins> represent the min/max bounds to be excluded.</sup>
 
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>

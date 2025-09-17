@@ -7,9 +7,9 @@ category: intermediate
 
 {% include features.html %}
 
-## 🌪️ Filtering (`filter[field]`)
+## 🌪️ Filtering (`filter[column]`)
 
-The **filter** query allows you to compare field values using math operators like =, >, >=, <, <=, <>. You can also chain multiple conditions with logical operators.
+The **filter** query allows you to compare column values using math operators like =, >, >=, <, <=, <>. You can also chain multiple conditions with logical operators.
 
 <br>
 
@@ -24,7 +24,7 @@ The **filter** query allows you to compare field values using math operators lik
 
 <pre class="highlight"><code>GET /api/users?filter[id]=1</code></pre>
 
-<!-- <sup>Where <ins>id</ins> is the target field for filtering, and <ins>3,7</ins> represent the minimum and maximum bounds of the range.</sup> -->
+<!-- <sup>Where <ins>id</ins> is the target column for filtering, and <ins>3,7</ins> represent the minimum and maximum bounds of the range.</sup> -->
 
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
@@ -60,7 +60,7 @@ The **filter** query allows you to compare field values using math operators lik
 
 <pre class="highlight"><code>GET /api/users?filter[id]=>1</code></pre>
 
-<!-- <sup>Where <ins>id</ins> is the target field for filtering, and <ins>3,7</ins> represent the minimum and maximum bounds of the range.</sup> -->
+<!-- <sup>Where <ins>id</ins> is the target column for filtering, and <ins>3,7</ins> represent the minimum and maximum bounds of the range.</sup> -->
 
 </div>
 
@@ -90,7 +90,7 @@ The **filter** query allows you to compare field values using math operators lik
 
 <pre class="highlight"><code>GET /api/users?filter[id]=>=1</code></pre>
 
-<!-- <sup>Where <ins>id</ins> is the target field for filtering, and <ins>3,7</ins> represent the minimum and maximum bounds of the range.</sup> -->
+<!-- <sup>Where <ins>id</ins> is the target column for filtering, and <ins>3,7</ins> represent the minimum and maximum bounds of the range.</sup> -->
 
 </div>
 
@@ -121,7 +121,7 @@ The **filter** query allows you to compare field values using math operators lik
 
 <pre class="highlight"><code>GET /api/users?filter[id]=<3</code></pre>
 
-<!-- <sup>Where <ins>id</ins> is the target field for filtering, and <ins>3,7</ins> represent the minimum and maximum bounds of the range.</sup> -->
+<!-- <sup>Where <ins>id</ins> is the target column for filtering, and <ins>3,7</ins> represent the minimum and maximum bounds of the range.</sup> -->
 
 </div>
 
@@ -150,7 +150,7 @@ The **filter** query allows you to compare field values using math operators lik
 
 <pre class="highlight"><code>GET /api/users?filter[id]=<=3</code></pre>
 
-<!-- <sup>Where <ins>id</ins> is the target field for filtering, and <ins>3,7</ins> represent the minimum and maximum bounds of the range.</sup> -->
+<!-- <sup>Where <ins>id</ins> is the target column for filtering, and <ins>3,7</ins> represent the minimum and maximum bounds of the range.</sup> -->
 
 </div>
 
@@ -180,7 +180,7 @@ The **filter** query allows you to compare field values using math operators lik
 
 <pre class="highlight"><code>GET /api/users?filter[id]=<>3</code></pre>
 
-<!-- <sup>Where <ins>id</ins> is the target field for filtering, and <ins>3,7</ins> represent the minimum and maximum bounds of the range.</sup> -->
+<!-- <sup>Where <ins>id</ins> is the target column for filtering, and <ins>3,7</ins> represent the minimum and maximum bounds of the range.</sup> -->
 
 </div>
 
@@ -208,10 +208,10 @@ Like other filters, you can combine filtering rules using:
 
 | Syntax             | Logic Description                        |
 |--------------------|------------------------------------------|
-| filter[and field]  | All conditions must be true (AND)        |
-| filter[or field]   | At least one condition must be true (OR) |
-| filter[and! field] | Negate condition (NOT AND)               |
-| filter[or! field]  | Negate one of the conditions (NOT OR)    |
+| filter[and column]  | All conditions must be true (AND)        |
+| filter[or column]   | At least one condition must be true (OR) |
+| filter[and! column] | Negate condition (NOT AND)               |
+| filter[or! column]  | Negate one of the conditions (NOT OR)    |
 
 ### 🔸 Example: AND Operator
 
