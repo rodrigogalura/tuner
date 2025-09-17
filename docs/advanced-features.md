@@ -30,7 +30,7 @@ return Api::customUnauthorized();
 
 ## 3. Structured Validation Errors
 
-If you throw a Laravel validation error, API Igniter formats it automatically:
+If you throw a Laravel validation error, Tuner formats it automatically:
 
 ```php
 $request->validate([
@@ -52,4 +52,4 @@ Output:
 
 ## 4. Configurable Defaults
 
-Tweak the default keys, structure, and codes in config/api-igniter.php to match your needs.
+Tweak the default keys, structure, and codes in config/tuner.php to match your needs.
