@@ -136,7 +136,7 @@ The **in-filter** allows clients to request resources that match specific values
 <div style="flex: 1;" class="highlight">
 <strong>Request</strong>
 
-<pre class="highlight">GET /api/users?in[id]=1,2,3&amp;in[and! status]=banned</code></pre>
+<pre class="highlight"><code>GET /api/users?in[id]=1,2,3&amp;in[and! status]=banned</code></pre>
 
 <sup>Where <ins>id, status</ins> are the target fields for filtering, <ins>and!</ins> is the logical operator with a negation effect, and <ins>1,2,3, banned</ins> are the values to be excluded.</sup>
 

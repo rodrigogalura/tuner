@@ -25,31 +25,30 @@ a.active {
 // .language-php > .highlight,
 // .language-bash > .highlight,
 // .language-http > .highlight,
-// .req-res > .highlight {
-//     position: relative;
-// }
+.req-res > .highlight {
+    position: relative;
+}
 
-// .copy-button {
-//     position: absolute;
-//     z-index: 1;
-//     top: 2px;
-//     right: 2px;
-//     padding: 4px 10px;
-//     background: #b5e853;
-//     border: none;
-//     border-radius: 0;
-//     cursor: pointer;
-// }
+.copy-button {
+    position: absolute;
+    z-index: 1;
+    top: 2px;
+    right: 2px;
+    padding: 4px 10px;
+    background: #b5e853;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+}
 
-// .req-res > div {
-//     width: 50%
-// }
+.req-res > div {
+    width: 50%
+}
 
-// pre.highlight {
-//     width: 500px;
-//     overflow-x: hidden;
-// }
+pre.highlight {
+    overflow-x: hidden;
+}
 
-// pre.highlight:hover {
-//     overflow-x: auto;
-// }
+pre.highlight:hover {
+    overflow-x: auto;
+}

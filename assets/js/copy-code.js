@@ -1,6 +1,6 @@
 // assets/js/copy-code.js
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('div.highlight > pre > code').forEach((codeBlock) => {
+  document.querySelectorAll('.req-res > .highlight > pre > code').forEach((codeBlock) => {
     const button = document.createElement('button');
     button.className = 'copy-button';
     button.type = 'button';
