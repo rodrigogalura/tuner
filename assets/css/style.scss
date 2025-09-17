@@ -1,0 +1,55 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+a {
+    text-decoration: none;
+}
+
+a.active {
+    text-decoration: underline;
+    font-weight: bold;
+    color: #42b983; /* your accent color */
+}
+
+.container.header > div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+// .sup {
+//     font-size: smaller;
+// }
+
+// .language-php > .highlight,
+// .language-bash > .highlight,
+// .language-http > .highlight,
+// .req-res > .highlight {
+//     position: relative;
+// }
+
+// .copy-button {
+//     position: absolute;
+//     z-index: 1;
+//     top: 2px;
+//     right: 2px;
+//     padding: 4px 10px;
+//     background: #b5e853;
+//     border: none;
+//     border-radius: 0;
+//     cursor: pointer;
+// }
+
+// .req-res > div {
+//     width: 50%
+// }
+
+// pre.highlight {
+//     width: 500px;
+//     overflow-x: hidden;
+// }
+
+// pre.highlight:hover {
+//     overflow-x: auto;
+// }

@@ -1,0 +1,12 @@
+{% assign pages = site.pages | sort: "order" | where: "level", 1 %}
+{% assign current = page.url %}
+
+<ul>
+{% for page in pages %}
+  <li>
+    <a href="{{ page.url | relative_url }}" class="{% if page.url == current %}active{% endif %}">
+      {{ page.title | default: page.name }}
+    </a>
+  </li>
+{% endfor %}
+</ul>

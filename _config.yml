@@ -28,9 +28,16 @@ url: "https://rodrigogalura.github.io" # the base hostname & protocol for your s
 github_username:  rodrigogalura
 
 # Build settings
-theme: minima
+# theme: minima
+# plugins:
+#   - jekyll-feed
+
+remote_theme: pages-themes/hacker@v0.2.0
 plugins:
-  - jekyll-feed
+- jekyll-remote-theme # add this line to the plugins list if you already have one
+
+show_downloads: true
+google_analytics: G-DBXT8PPJHW
 
 # Exclude from processing.
 # The following items will not be processed, by default.
