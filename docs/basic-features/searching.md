@@ -7,7 +7,7 @@ category: basic
 
 {% include features.html %}
 
-## 🔎 Searching (`search[column]`)
+## Searching (`search[column]`)
 
 The **searching** feature allows clients to perform keyword-based searches across defined columns. It’s useful for implementing search bars or global search functionalities in applications.
 
@@ -21,7 +21,7 @@ The **searching** feature allows clients to perform keyword-based searches acros
 
 ---
 
-### 🌐 Both-Side Wildcard (`*term*`)
+### Both-Side Wildcard (`*term*`)
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 
@@ -68,7 +68,7 @@ The **searching** feature allows clients to perform keyword-based searches acros
 
 ---
 
-### 🔚 Postfix Wildcard (`term*`)
+### Postfix Wildcard (`term*`)
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 
@@ -110,7 +110,7 @@ The **searching** feature allows clients to perform keyword-based searches acros
 
 ---
 
-### 🔙 Prefix Wildcard (`*term`)
+### Prefix Wildcard (`*term`)
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 

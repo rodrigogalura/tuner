@@ -6,11 +6,11 @@ category: advanced
 
 {% include features.html %}
 
-## 🔗 Expanding (Soon)
+## Expanding (Soon)
 
 Will be available on version 1.1.0.
 
-<!-- ## 🔗 Expanding (expand[relation]=alias) -->
+<!-- ## Expanding (expand[relation]=alias) -->
 
 <!-- The **expanding** feature allows clients to include related models in the API response by specifying the relationships to expand. This enables nested resource inclusion with optional features like projecting, filtering, sorting, searching, and more—depending on the relationship type.
 
@@ -48,7 +48,7 @@ Will be available on version 1.1.0.
 
 ---
 
-### 🔗 Has One
+### Has One
 
 Expands a one-to-one related resource.
 
@@ -99,7 +99,7 @@ Expands a one-to-one related resource.
 
 ---
 
-### 🔗 Belongs To
+### Belongs To
 
 Expands a many-to-one related resource.
 
@@ -147,7 +147,7 @@ Expands a many-to-one related resource.
 
 ---
 
-### 🔗 Has Many
+### Has Many
 
 Expands a one-to-many related resource. Supports projecting, searching, sorting, filtering, in filtering, and between filtering.
 
@@ -209,7 +209,7 @@ Expands a one-to-many related resource. Supports projecting, searching, sorting,
 
 ---
 
-### 🔗 Belongs To Many
+### Belongs To Many
 
 Expands a many-to-many related resource. Supports projecting, searching, sorting, filtering, in filtering, and between filtering.
 
@@ -275,7 +275,7 @@ Expands a many-to-many related resource. Supports projecting, searching, sorting
 
 ---
 
-### 🔗 Using Aliases with Field Projection
+### Using Aliases with Field Projection
 
 When expanding relationships, you can define an alias to reference the expanded entity more concisely in your query parameters—especially useful for projecting specific columns within that relationship.
 

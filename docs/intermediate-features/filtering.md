@@ -7,7 +7,7 @@ category: intermediate
 
 {% include features.html %}
 
-## 🌪️ Filtering (`filter[column]`)
+## Filtering (`filter[column]`)
 
 The **filter** query allows you to compare column values using math operators like =, >, >=, <, <=, <>. You can also chain multiple conditions with logical operators.
 
@@ -15,7 +15,7 @@ The **filter** query allows you to compare column values using math operators li
 
 ---
 
-### 🔹 Basic Comparison
+### Basic Comparison
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 
@@ -51,7 +51,7 @@ The **filter** query allows you to compare column values using math operators li
 
 ---
 
-### 🔹 Greater Than
+### Greater Than
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 
@@ -81,7 +81,7 @@ The **filter** query allows you to compare column values using math operators li
 
 ---
 
-### 🔹 Greater Than or Equal To
+### Greater Than or Equal To
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 
@@ -112,7 +112,7 @@ The **filter** query allows you to compare column values using math operators li
 
 ---
 
-### 🔹 Less Than
+### Less Than
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 
@@ -141,7 +141,7 @@ The **filter** query allows you to compare column values using math operators li
 
 ---
 
-### 🔹 Less Than or Equal To
+### Less Than or Equal To
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 
@@ -171,7 +171,7 @@ The **filter** query allows you to compare column values using math operators li
 
 ---
 
-### 🔹 Not Equal To
+### Not Equal To
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 
@@ -202,7 +202,7 @@ The **filter** query allows you to compare column values using math operators li
 
 ---
 
-## 🧠 Logical Operators
+## Logical Operators
 
 Like other filters, you can combine filtering rules using:
 
@@ -213,7 +213,7 @@ Like other filters, you can combine filtering rules using:
 | filter[and! column] | Negate condition (NOT AND)               |
 | filter[or! column]  | Negate one of the conditions (NOT OR)    |
 
-### 🔸 Example: AND Operator
+### Example: AND Operator
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 
@@ -243,7 +243,7 @@ Matches users with <ins>ID >= 2 and status is active</ins>.
 
 ---
 
-### 🔸 Example: OR Operator
+### Example: OR Operator
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 
@@ -274,7 +274,7 @@ Matches users with <ins>ID < 3 or status is guest</ins>.
 
 ---
 
-### 🔸 Example: NOT Operator
+### Example: NOT Operator
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 

@@ -7,20 +7,7 @@ category: basic
 
 {% include features.html %}
 
-
-
-
-
-<!-- <details open class="sup">
-<summary><strong>Query Parameters</strong></summary>
-
-| Name   | Type   | Description                                |
-|--------|--------|--------------------------------------------|
-| columns | string | Comma-separated list of columns to include. |
-
-</details> -->
-
-## 🔍 Projection (`columns`, `columns!`)
+## Projection (`columns`, `columns!`)
 
 The **projection** feature allows clients to include or exclude specific columns from the API response using query parameters. This helps optimize payload size and gives frontend consumers more control over the data they receive.
 
@@ -28,7 +15,7 @@ The **projection** feature allows clients to include or exclude specific columns
 
 ---
 
-### ✅ Include Specific Fields
+### Include Specific Fields
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 
@@ -75,7 +62,7 @@ The **projection** feature allows clients to include or exclude specific columns
 
 ---
 
-### 🚫 Exclude Specific Fields
+### Exclude Specific Fields
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 

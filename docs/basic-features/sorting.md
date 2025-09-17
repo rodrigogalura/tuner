@@ -7,7 +7,7 @@ category: basic
 
 {% include features.html %}
 
-## ↕️ Sorting (`sort[column]`)
+## Sorting (`sort[column]`)
 
 The **sorting** feature allows clients to specify the order in which results are returned by one or more columns. This helps improve data presentation on the frontend.
 
@@ -15,7 +15,7 @@ The **sorting** feature allows clients to specify the order in which results are
 
 ---
 
-### ⬆️ Ascending Order
+### Ascending Order
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 
@@ -70,7 +70,7 @@ The **sorting** feature allows clients to specify the order in which results are
 
 ---
 
-### ⬇️ Descending Order
+### Descending Order
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 

@@ -7,7 +7,7 @@ category: basic
 
 {% include features.html %}
 
-## 📄 Pagination (per-page, page)
+## Pagination (per-page, page)
 
 The **pagination** feature allows clients to retrieve paginated results along with navigation metadata like total count, current page, and pagination links.
 
@@ -15,7 +15,7 @@ The **pagination** feature allows clients to retrieve paginated results along wi
 
 ---
 
-### ✅ Paginated Results
+### Paginated Results
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 

@@ -7,7 +7,7 @@ category: intermediate
 
 {% include features.html %}
 
-## 🌪 In Filtering (`in[column]`)
+## In Filtering (`in[column]`)
 
 The **in-filter** allows clients to request resources that match specific values for a column. You can also combine multiple columns using logical operators.
 
@@ -15,7 +15,7 @@ The **in-filter** allows clients to request resources that match specific values
 
 ---
 
-### 🔹 Filter by Multiple IDs
+### Filter by Multiple IDs
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 
@@ -53,7 +53,7 @@ The **in-filter** allows clients to request resources that match specific values
 
 ---
 
-### 🔹 Combine with AND Operator
+### Combine with AND Operator
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 
@@ -91,7 +91,7 @@ The **in-filter** allows clients to request resources that match specific values
 
 ---
 
-### 🔹 Combine with OR Operator
+### Combine with OR Operator
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 
@@ -129,7 +129,7 @@ The **in-filter** allows clients to request resources that match specific values
 
 ---
 
-### 🔹 NOT AND Operator (and!)
+### NOT AND Operator (and!)
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 
@@ -167,7 +167,7 @@ The **in-filter** allows clients to request resources that match specific values
 
 ---
 
-### 🔹 NOT OR Operator (or!)
+### NOT OR Operator (or!)
 
 <div style="display: flex; gap: 2rem; align-items: flex-start;" class="req-res">
 

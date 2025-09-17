@@ -7,7 +7,7 @@ category: basic
 
 {% include features.html %}
 
-## 🔢 Limit & Offset (limit, offset)
+## Limit & Offset (limit, offset)
 
 The **limit/offset** feature provides an alternative to pagination by returning a fixed number of records starting from a specific offset, without pagination metadata.
 
