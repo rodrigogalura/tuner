@@ -1,8 +1,9 @@
 <?php
 
-use Tuner\Requests\SearchRequest;
-use Tuner\Exceptions\TunerException;
+use Tuner\Columns\SearchableColumns;
 use Tuner\Exceptions\ClientException;
+use Tuner\Exceptions\TunerException;
+use Tuner\Requests\SearchRequest;
 
 describe('Search Request', function (): void {
     it('should thrown an exception when searchable columns are empty.', function ($searchKeyword): void {
@@ -18,7 +19,10 @@ describe('Search Request', function (): void {
         new SearchRequest($config, $request, visibleColumns: ['foo'], searchableColumns: []);
     })
         ->with(['tuner', '*tuner*', '*tuner', 'tuner*'])
-        ->throws(TunerException::class);
+        ->throws(
+            TunerException::class,
+            exceptionCode: SearchableColumns::ERR_CODE_DISABLED
+        );
 
     it('should thrown an exception when all searchable columns are not in visible columns.', function ($searchKeyword): void {
         // Prepare
@@ -33,7 +37,10 @@ describe('Search Request', function (): void {
         new SearchRequest($config, $request, visibleColumns: ['foo', 'bar'], searchableColumns: ['baz']);
     })
         ->with(['tuner', '*tuner*', '*tuner', 'tuner*'])
-        ->throws(TunerException::class);
+        ->throws(
+            TunerException::class,
+            exceptionCode: SearchableColumns::ERR_CODE_PCOLS_VCOLS_NO_MATCH
+        );
 
     it('should thrown an exception when request value is not array.', function ($requestValue): void {
         // Prepare

@@ -1,7 +1,9 @@
 <?php
 
-use Tuner\Exceptions\TunerException;
+use Tuner\Columns\DefinedColumns;
+use Tuner\Columns\ProjectableColumns;
 use Tuner\Exceptions\ClientException;
+use Tuner\Exceptions\TunerException;
 use Tuner\Requests\ProjectionRequest;
 
 describe('Projection Request', function (): void {
@@ -18,7 +20,10 @@ describe('Projection Request', function (): void {
 
         // Act & Assert
         new ProjectionRequest($config, $request, visibleColumns: ['foo'], projectableColumns: [], definedColumns: ['*']);
-    })->throws(TunerException::class);
+    })->throws(
+        TunerException::class,
+        exceptionCode: ProjectableColumns::ERR_CODE_DISABLED
+    );
 
     it('should thrown an exception when all projectable columns are not in visible columns.', function (): void {
         // Prepare
@@ -33,7 +38,10 @@ describe('Projection Request', function (): void {
 
         // Act & Assert
         new ProjectionRequest($config, $request, visibleColumns: ['foo', 'bar'], projectableColumns: ['baz'], definedColumns: ['*']);
-    })->throws(TunerException::class);
+    })->throws(
+        TunerException::class,
+        exceptionCode: ProjectableColumns::ERR_CODE_PCOLS_VCOLS_NO_MATCH
+    );
 
     it('should thrown an exception when defined columns are empty.', function (): void {
         // Prepare
@@ -48,7 +56,10 @@ describe('Projection Request', function (): void {
 
         // Act & Assert
         new ProjectionRequest($config, $request, visibleColumns: ['foo'], projectableColumns: ['foo'], definedColumns: []);
-    })->throws(TunerException::class);
+    })->throws(
+        TunerException::class,
+        exceptionCode: DefinedColumns::ERR_CODE_QUERY_EXCEPTION
+    );
 
     it('should thrown an exception when all defined columns are not in visible columns.', function (): void {
         // Prepare
@@ -63,7 +74,10 @@ describe('Projection Request', function (): void {
 
         // Act & Assert
         new ProjectionRequest($config, $request, visibleColumns: ['foo', 'bar'], projectableColumns: ['*'], definedColumns: ['baz']);
-    })->throws(TunerException::class);
+    })->throws(
+        TunerException::class,
+        exceptionCode: DefinedColumns::ERR_CODE_DCOLS_VCOLS_NO_MATCH
+    );
 
     it('should thrown an exception when using modifier for intersect and except at the same time.', function (): void {
         // Prepare

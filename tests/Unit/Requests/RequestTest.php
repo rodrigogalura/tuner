@@ -1,7 +1,7 @@
 <?php
 
-use Tuner\Requests\Request;
 use Tuner\Exceptions\TunerException;
+use Tuner\Requests\Request;
 use Tuner\Requests\RequestInterface;
 
 it('should throw an exception if the class is not implementation of ['.RequestInterface::class.']', function (): void {

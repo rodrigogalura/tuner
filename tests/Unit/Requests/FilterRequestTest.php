@@ -1,8 +1,9 @@
 <?php
 
-use Tuner\Requests\FilterRequest;
-use Tuner\Exceptions\TunerException;
+use Tuner\Columns\FilterableColumns;
 use Tuner\Exceptions\ClientException;
+use Tuner\Exceptions\TunerException;
+use Tuner\Requests\FilterRequest;
 
 describe('Filter Request', function (): void {
     it('should thrown an exception when filterable columns are empty.', function (): void {
@@ -12,7 +13,10 @@ describe('Filter Request', function (): void {
 
         // Act & Assert
         new FilterRequest($config, $request, visibleColumns: ['foo'], filterableColumns: []);
-    })->throws(TunerException::class);
+    })->throws(
+        TunerException::class,
+        exceptionCode: FilterableColumns::ERR_CODE_DISABLED
+    );
 
     it('should thrown an exception when all filterable columns are not in visible columns.', function (): void {
         // Prepare
@@ -21,7 +25,10 @@ describe('Filter Request', function (): void {
 
         // Act & Assert
         new FilterRequest($config, $request, visibleColumns: ['foo', 'bar'], filterableColumns: ['baz']);
-    })->throws(TunerException::class);
+    })->throws(
+        TunerException::class,
+        exceptionCode: FilterableColumns::ERR_CODE_PCOLS_VCOLS_NO_MATCH
+    );
 
     it('should thrown an exception when request value is not array.', function ($requestValue): void {
         // Prepare
