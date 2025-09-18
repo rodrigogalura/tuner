@@ -2,6 +2,9 @@
 
 namespace Tuner;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * @internal
  */
@@ -22,4 +25,23 @@ class Tuner
     const CONFIG_LIMIT = 'limit';
 
     const CONFIG_PAGINATION = 'pagination';
+
+    private TunerBuilder $builder;
+
+    public array $visibleColumns;
+
+    public function __construct(Builder $builder, array $request, Model $model)
+    {
+        $this->builder = TunerBuilder::create($builder, $request);
+
+        $this->visibleColumns = array_diff(
+            $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable()),
+            $model->getHidden()
+        );
+    }
+
+    public function getBuilder()
+    {
+        return $this->builder;
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use Tuner\Exceptions\TunerException;
 use Tuner\Requests\Request;
 use Tuner\Requests\RequestInterface;
 
@@ -9,4 +10,4 @@ it('should throw an exception if the class is not implementation of ['.RequestIn
     {
         protected function validate() {}
     };
-})->throws(Exception::class);
+})->throws(TunerException::class);
