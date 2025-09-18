@@ -28,4 +28,9 @@ return [
     'pagination' => [
         'key' => 'page-size',
     ],
+
+    'expansion' => [
+        'key' => 'expand',
+        'separator' => '_'
+    ],
 ];

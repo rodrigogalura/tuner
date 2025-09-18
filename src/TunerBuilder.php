@@ -27,7 +27,7 @@ final class TunerBuilder
 
     private readonly ?array $pagination;
 
-    private readonly ?array $expand;
+    private readonly ?array $expansion;
 
     /**
      * Private constructor
@@ -103,6 +103,12 @@ final class TunerBuilder
         return $this->builder->paginate($pageSize);
     }
 
+    private function buildExpansion(array $expansion): void
+    {
+        dd($expansion);
+        // return $this->builder->paginate($pageSize);
+    }
+
     public function __call(string $attribute, array $arguments)
     {
         $request = array_shift($arguments);
@@ -110,6 +116,7 @@ final class TunerBuilder
         $attributes = [
             'project' => 'projection',
             'paginate' => 'pagination',
+            'expand' => 'expansion',
         ];
 
         $property = $attributes[$attribute] ?? null;
@@ -146,6 +153,10 @@ final class TunerBuilder
 
         if ($this->wasAssigned('pagination')) {
             return $this->buildPagination(current($this->pagination));
+        }
+
+        if ($this->wasAssigned('expansion')) {
+            return $this->buildExpansion(current($this->expansion));
         }
 
         return $this->builder->get();

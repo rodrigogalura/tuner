@@ -2,19 +2,21 @@
 
 namespace Tuner;
 
+use Tuner\Requests\SortRequest;
+use Tuner\Requests\LimitRequest;
+use Tuner\Requests\FilterRequest;
+use Tuner\Requests\SearchRequest;
+use Tuner\Columns\ExpandableRelations;
+use Tuner\Columns\SortableColumns;
+use Tuner\Columns\FilterableColumns;
+use Tuner\Columns\SearchableColumns;
+use Tuner\Requests\ExpansionRequest;
+use Tuner\Columns\ProjectableColumns;
+use Tuner\Requests\PaginationRequest;
+use Tuner\Requests\ProjectionRequest;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Tuner\Columns\FilterableColumns;
-use Tuner\Columns\ProjectableColumns;
-use Tuner\Columns\SearchableColumns;
-use Tuner\Columns\SortableColumns;
-use Tuner\Requests\FilterRequest;
-use Tuner\Requests\LimitRequest;
-use Tuner\Requests\PaginationRequest;
-use Tuner\Requests\ProjectionRequest;
-use Tuner\Requests\SearchRequest;
-use Tuner\Requests\SortRequest;
 
 trait Tunable
 {
@@ -38,6 +40,21 @@ trait Tunable
         return ['*'];
     }
 
+    protected function getExpandableRelations(): array
+    {
+        // return ['*'];
+        return [
+            '*' => [ // table
+                'projectable_columns' => ['*'],
+                'sortable_columns' => ['*'],
+                'search_columns' => ['*'],
+                'filterable_columns' => ['*'],
+                'limitable' => true,
+                'paginatable' => true,
+            ]
+        ];
+    }
+
     protected function limitable(): bool
     {
         return true;
@@ -53,6 +70,8 @@ trait Tunable
      */
     public function scopeSend(Builder $builder): Collection|LengthAwarePaginator
     {
+        dd($this->relationsToArray());
+
         $tuner = new Tuner($builder, $request = $_GET, $this);
         if (empty($visibleColumns = $tuner->visibleColumns)) {
             return $builder->get();
@@ -66,6 +85,7 @@ trait Tunable
         $filterBinder = fn (): FilterRequest => new FilterRequest($config[Tuner::CONFIG_FILTER], $request, $visibleColumns, $this->getFilterableColumns());
         $limitBinder = fn (): LimitRequest => new LimitRequest($config[Tuner::CONFIG_LIMIT], $request, $this->limitable());
         $paginationBinder = fn (): PaginationRequest => new PaginationRequest($config[Tuner::CONFIG_PAGINATION], $request, $this->paginatable());
+        $expansionBinder = fn (): ExpansionRequest => new ExpansionRequest($config[Tuner::CONFIG_EXPANSION], $request, $visibleColumns, $this->getExpandableRelations());
 
         $container = [
             'project' => [
@@ -92,6 +112,10 @@ trait Tunable
                 'bind' => fn ($requestContainer): PaginationRequest => $paginationBinder(),
                 'resolve' => fn ($request): TunerBuilder => $tunerBuilder->paginate($request),
             ],
+            'expansion' => [
+                'bind' => fn ($requestContainer): ExpansionRequest => $expansionBinder(),
+                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->expand($request),
+            ],
         ];
 
         $requestContainer = RequestsContainer::create();
@@ -110,6 +134,7 @@ trait Tunable
                         SortableColumns::ERR_CODE_DISABLED,
                         SearchableColumns::ERR_CODE_DISABLED,
                         FilterableColumns::ERR_CODE_DISABLED,
+                        ExpandableRelations::ERR_CODE_DISABLED
                     ]);
 
                 if (! $isDisabled) {
