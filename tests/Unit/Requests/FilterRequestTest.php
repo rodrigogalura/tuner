@@ -1,113 +1,70 @@
 <?php
 
 use Tuner\Requests\FilterRequest;
+use Tuner\Exceptions\TunerException;
+use Tuner\Exceptions\ClientException;
 
-describe('Sort Request', function (): void {
+describe('Filter Request', function (): void {
     it('should thrown an exception when filterable columns are empty.', function (): void {
         // Prepare
-        $config = [
-            'key' => array_combine($keys = ['filter', 'in', 'between'], $keys),
-        ];
-
-        $request = [
-            'filter' => ['foo' => 'fooVal'],
-        ];
-
-        $visibleColumns = ['foo'];
-        $filterableColumns = [];
+        $config = ['key' => array_combine($keys = ['filter', 'in', 'between'], $keys)];
+        $request = ['filter' => ['foo' => 'fooVal']];
 
         // Act & Assert
-        new FilterRequest($config, $request, $visibleColumns, $filterableColumns);
-    })->throws(Exception::class);
+        new FilterRequest($config, $request, visibleColumns: ['foo'], filterableColumns: []);
+    })->throws(TunerException::class);
 
     it('should thrown an exception when all filterable columns are not in visible columns.', function (): void {
         // Prepare
-        $config = [
-            'key' => array_combine($keys = ['filter', 'in', 'between'], $keys),
-        ];
-
-        $request = [
-            'filter' => ['foo' => 'fooVal'],
-        ];
-
-        $visibleColumns = ['foo', 'bar'];
-        $filterableColumns = ['baz'];
+        $config = ['key' => array_combine($keys = ['filter', 'in', 'between'], $keys)];
+        $request = ['filter' => ['foo' => 'fooVal']];
 
         // Act & Assert
-        new FilterRequest($config, $request, $visibleColumns, $filterableColumns);
-    })->throws(Exception::class);
+        new FilterRequest($config, $request, visibleColumns: ['foo', 'bar'], filterableColumns: ['baz']);
+    })->throws(TunerException::class);
 
     it('should thrown an exception when request value is not array.', function ($requestValue): void {
         // Prepare
-        $config = [
-            'key' => array_combine($keys = ['filter', 'in', 'between'], $keys),
-        ];
-
-        $request = [
-            'filter' => $requestValue,
-        ];
+        $config = ['key' => array_combine($keys = ['filter', 'in', 'between'], $keys)];
+        $request = ['filter' => $requestValue];
 
         // Act & Assert
-        new FilterRequest($config, $request, ['foo'], ['*']);
+        new FilterRequest($config, $request, visibleColumns: ['foo'], filterableColumns: ['*']);
     })
         ->with([1, 'foo'])
-        ->throws(Exception::class);
+        ->throws(ClientException::class);
 
     it('should thrown an exception when logic columns are invalid.', function ($requestValue): void {
         // Prepare
-        $config = [
-            'key' => array_combine($keys = ['filter', 'in', 'between'], $keys),
-        ];
-
-        $request = [
-            'filter' => $requestValue,
-        ];
-
-        $visibleColumns = ['foo', 'bar'];
-        $filterableColumns = ['*'];
+        $config = ['key' => array_combine($keys = ['filter', 'in', 'between'], $keys)];
+        $request = ['filter' => $requestValue];
 
         // Act & Assert
-        new FilterRequest($config, $request, $visibleColumns, $filterableColumns);
+        new FilterRequest($config, $request, visibleColumns: ['foo', 'bar'], filterableColumns: ['*']);
     })
         ->with([
             ['requestValue' => ['foo and bar' => 'foobar']],
             ['requestValue' => ['foo or bar' => 'foobar']],
         ])
-        ->throws(Exception::class);
+        ->throws(ClientException::class);
 
     it('should thrown an exception when requesting non-existing columns.', function (): void {
         // Prepare
-        $config = [
-            'key' => array_combine($keys = ['filter', 'in', 'between'], $keys),
-        ];
-
-        $request = [
-            'filter' => ['baz' => 'asc'],
-        ];
-
-        $visibleColumns = ['foo', 'bar'];
-        $filterableColumns = ['*'];
+        $config = ['key' => array_combine($keys = ['filter', 'in', 'between'], $keys)];
+        $request = ['filter' => ['baz' => 'asc']];
 
         // Act & Assert
-        new FilterRequest($config, $request, $visibleColumns, $filterableColumns);
+        new FilterRequest($config, $request, visibleColumns: ['foo', 'bar'], filterableColumns: ['*']);
     })
-        ->throws(Exception::class);
+        ->throws(ClientException::class);
 
     test('should get request value of filter modifier', function (): void {
         // Prepare
-        $config = [
-            'key' => array_combine($keys = ['filter', 'in', 'between'], $keys),
-        ];
-
-        $request = [
-            'filter' => ['baz' => 'bazVal'],
-        ];
-
-        $visibleColumns = ['foo', 'bar', 'baz'];
-        $filterableColumns = ['*'];
+        $config = ['key' => array_combine($keys = ['filter', 'in', 'between'], $keys)];
+        $request = ['filter' => ['baz' => 'bazVal']];
 
         // Act & Assert
-        $request = new FilterRequest($config, $request, $visibleColumns, $filterableColumns);
+        $request = new FilterRequest($config, $request, visibleColumns: ['foo', 'bar', 'baz'], filterableColumns: ['*']);
         expect($request())->toBe([
             'filter' => [
                 ['AND', 'baz', false, '=', 'bazVal'],

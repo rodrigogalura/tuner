@@ -1,8 +1,70 @@
 <?php
 
+use Tuner\Exceptions\TunerException;
+use Tuner\Exceptions\ClientException;
 use Tuner\Requests\ProjectionRequest;
 
 describe('Projection Request', function (): void {
+    it('should thrown an exception when projectable columns are empty.', function (): void {
+        // Prepare
+        $config = [
+            'key' => [
+                'intersect' => 'columns',
+                'except' => 'columns!',
+            ],
+        ];
+
+        $request = ['columns' => 1];
+
+        // Act & Assert
+        new ProjectionRequest($config, $request, visibleColumns: ['foo'], projectableColumns: [], definedColumns: ['*']);
+    })->throws(TunerException::class);
+
+    it('should thrown an exception when all projectable columns are not in visible columns.', function (): void {
+        // Prepare
+        $config = [
+            'key' => [
+                'intersect' => 'columns',
+                'except' => 'columns!',
+            ],
+        ];
+
+        $request = ['columns' => 1];
+
+        // Act & Assert
+        new ProjectionRequest($config, $request, visibleColumns: ['foo', 'bar'], projectableColumns: ['baz'], definedColumns: ['*']);
+    })->throws(TunerException::class);
+
+    it('should thrown an exception when defined columns are empty.', function (): void {
+        // Prepare
+        $config = [
+            'key' => [
+                'intersect' => 'columns',
+                'except' => 'columns!',
+            ],
+        ];
+
+        $request = ['columns' => 1];
+
+        // Act & Assert
+        new ProjectionRequest($config, $request, visibleColumns: ['foo'], projectableColumns: ['foo'], definedColumns: []);
+    })->throws(TunerException::class);
+
+    it('should thrown an exception when all defined columns are not in visible columns.', function (): void {
+        // Prepare
+        $config = [
+            'key' => [
+                'intersect' => 'columns',
+                'except' => 'columns!',
+            ],
+        ];
+
+        $request = ['columns' => 1];
+
+        // Act & Assert
+        new ProjectionRequest($config, $request, visibleColumns: ['foo', 'bar'], projectableColumns: ['*'], definedColumns: ['baz']);
+    })->throws(TunerException::class);
+
     it('should thrown an exception when using modifier for intersect and except at the same time.', function (): void {
         // Prepare
         $config = [
@@ -18,92 +80,8 @@ describe('Projection Request', function (): void {
         ];
 
         // Act & Assert
-        new ProjectionRequest($config, $request, [], [], []);
-    })->throws(Exception::class);
-
-    it('should thrown an exception when projectable columns are empty.', function (): void {
-        // Prepare
-        $config = [
-            'key' => [
-                'intersect' => 'columns',
-                'except' => 'columns!',
-            ],
-        ];
-
-        $request = [
-            'columns' => 1,
-        ];
-
-        $visibleColumns = ['foo'];
-        $projectableColumns = [];
-        $definedColumns = ['*'];
-
-        // Act & Assert
-        new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
-    })->throws(Exception::class);
-
-    it('should thrown an exception when all projectable columns are not in visible columns.', function (): void {
-        // Prepare
-        $config = [
-            'key' => [
-                'intersect' => 'columns',
-                'except' => 'columns!',
-            ],
-        ];
-
-        $request = [
-            'columns' => 1,
-        ];
-
-        $visibleColumns = ['foo', 'bar'];
-        $projectableColumns = ['baz'];
-        $definedColumns = ['*'];
-
-        // Act & Assert
-        new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
-    })->throws(Exception::class);
-
-    it('should thrown an exception when defined columns are empty.', function (): void {
-        // Prepare
-        $config = [
-            'key' => [
-                'intersect' => 'columns',
-                'except' => 'columns!',
-            ],
-        ];
-
-        $request = [
-            'columns' => 1,
-        ];
-
-        $visibleColumns = ['foo'];
-        $projectableColumns = ['foo'];
-        $definedColumns = [];
-
-        // Act & Assert
-        new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
-    })->throws(Exception::class);
-
-    it('should thrown an exception when all defined columns are not in visible columns.', function (): void {
-        // Prepare
-        $config = [
-            'key' => [
-                'intersect' => 'columns',
-                'except' => 'columns!',
-            ],
-        ];
-
-        $request = [
-            'columns' => 1,
-        ];
-
-        $visibleColumns = ['foo', 'bar'];
-        $projectableColumns = ['*'];
-        $definedColumns = ['baz'];
-
-        // Act & Assert
-        new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
-    })->throws(Exception::class);
+        new ProjectionRequest($config, $request, visibleColumns: [], projectableColumns: [], definedColumns: []);
+    })->throws(ClientException::class);
 
     it('should thrown an exception when request value is not string.', function (): void {
         // Prepare
@@ -114,13 +92,11 @@ describe('Projection Request', function (): void {
             ],
         ];
 
-        $request = [
-            'columns' => 1,
-        ];
+        $request = ['columns' => 1];
 
         // Act & Assert
-        new ProjectionRequest($config, $request, ['foo'], ['foo'], ['*']);
-    })->throws(Exception::class);
+        new ProjectionRequest($config, $request, visibleColumns: ['foo'], projectableColumns: ['foo'], definedColumns: ['*']);
+    })->throws(ClientException::class);
 
     it('should thrown an exception when requesting non-existing columns.', function (): void {
         // Prepare
@@ -131,18 +107,12 @@ describe('Projection Request', function (): void {
             ],
         ];
 
-        $request = [
-            'columns' => 'baz',
-        ];
-
-        $visibleColumns = ['foo', 'bar'];
-        $projectableColumns = ['*'];
-        $definedColumns = ['*'];
+        $request = ['columns' => 'baz'];
 
         // Act & Assert
-        new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
+        new ProjectionRequest($config, $request, visibleColumns: ['foo', 'bar'], projectableColumns: ['*'], definedColumns: ['*']);
     })
-        ->throws(Exception::class);
+        ->throws(ClientException::class);
 
     test('should get request value of columns modifier', function (): void {
         // Prepare
@@ -153,16 +123,10 @@ describe('Projection Request', function (): void {
             ],
         ];
 
-        $request = [
-            'columns' => 'baz',
-        ];
-
-        $visibleColumns = ['foo', 'bar', 'baz'];
-        $projectableColumns = ['*'];
-        $definedColumns = ['*'];
+        $request = ['columns' => 'baz'];
 
         // Act & Assert
-        $request = new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
+        $request = new ProjectionRequest($config, $request, visibleColumns: ['foo', 'bar', 'baz'], projectableColumns: ['*'], definedColumns: ['*']);
         expect($request())->toBe(['columns' => ['baz']]);
     });
 
@@ -175,16 +139,10 @@ describe('Projection Request', function (): void {
             ],
         ];
 
-        $request = [
-            'columns!' => 'baz',
-        ];
-
-        $visibleColumns = ['foo', 'bar', 'baz'];
-        $projectableColumns = ['*'];
-        $definedColumns = ['*'];
+        $request = ['columns!' => 'baz'];
 
         // Act & Assert
-        $request = new ProjectionRequest($config, $request, $visibleColumns, $projectableColumns, $definedColumns);
+        $request = new ProjectionRequest($config, $request, visibleColumns: ['foo', 'bar', 'baz'], projectableColumns: ['*'], definedColumns: ['*']);
         expect($request())->toBe(['columns!' => ['foo', 'bar']]);
     });
 });
