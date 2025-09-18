@@ -9,9 +9,9 @@ use Tuner\Exceptions\TunerException;
  */
 trait HasSingleton
 {
-    const ERR_CODE_DISABLED = 9;
+    const ERR_CODE_MULTIPLE_BUILDER = 9;
 
-    const ERR_MSG_DISABLED = 'Cannot create multiple Tuner Builder.';
+    const ERR_MSG_MULTIPLE_BUILDER = 'Cannot create multiple Tuner Builder.';
 
     private static array $instances = [];
 
@@ -19,7 +19,7 @@ trait HasSingleton
     {
         logger()->debug(empty(static::$instances));
 
-        throw_unless(empty(static::$instances), new TunerException(static::ERR_MSG_DISABLED, static::ERR_CODE_DISABLED));
+        throw_unless(empty(static::$instances), new TunerException(static::ERR_MSG_MULTIPLE_BUILDER, static::ERR_CODE_MULTIPLE_BUILDER));
         array_push(static::$instances, $instance);
     }
 
