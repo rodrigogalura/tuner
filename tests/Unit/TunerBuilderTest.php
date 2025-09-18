@@ -1,6 +1,12 @@
 <?php
 
-// it('should thrown an exception when creating tuner builder more than one.', function (): void {
-//     $this->builder = TunerBuilder::create($builder, $request);
+use Tuner\TunerBuilder;
+use Tuner\Exceptions\TunerException;
+use Illuminate\Database\Eloquent\Builder;
 
-// })->throws(Exception::class);
+it('should thrown an exception when creating tuner builder more than one.', function (): void {
+    $builder = Mockery::mock(Builder::class);
+
+    TunerBuilder::create($builder, []);
+    TunerBuilder::create($builder, []);
+})->throws(TunerException::class);
