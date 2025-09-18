@@ -151,8 +151,10 @@ final class TunerBuilder
         return $this->builder->get();
     }
 
-    public static function getInstance()
+    public static function create()
     {
-        return new self(...func_get_args());
+        self::addInstance($instance = new self(...func_get_args()));
+
+        return $instance;
     }
 }
