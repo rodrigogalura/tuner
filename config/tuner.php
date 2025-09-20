@@ -31,6 +31,6 @@ return [
 
     'expansion' => [
         'key' => 'expand',
-        'separator' => '_'
+        'separator' => '_',
     ],
 ];

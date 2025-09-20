@@ -11,11 +11,11 @@ use function Tuner\any;
  */
 class SearchableColumns extends Columns
 {
-    const ERR_CODE_DISABLED = 5;
+    const ERR_CODE_DISABLED = 7;
 
     const ERR_MSG_DISABLED = 'SearchableColumns columns are empty!';
 
-    const ERR_CODE_PCOLS_VCOLS_NO_MATCH = 6;
+    const ERR_CODE_PCOLS_VCOLS_NO_MATCH = 8;
 
     const ERR_MSG_PCOLS_VCOLS_NO_MATCH = 'SearchableColumns columns are invalid. It must be at least one match in visible columns!';
 

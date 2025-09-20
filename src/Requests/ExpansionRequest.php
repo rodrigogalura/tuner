@@ -2,9 +2,9 @@
 
 namespace Tuner\Requests;
 
-use Tuner\Tuner;
+use Illuminate\Database\Eloquent\Model;
 use Tuner\Columns\ExpandableRelations;
-use Tuner\Exceptions\ClientException;
+use Tuner\Tuner;
 
 /**
  * @internal
@@ -18,6 +18,7 @@ class ExpansionRequest extends Request implements RequestInterface
     public function __construct(
         array $config,
         array $request,
+        private Model $subjectModel,
         private array $visibleColumns,
         private array $expandableRelations,
     ) {
@@ -26,7 +27,7 @@ class ExpansionRequest extends Request implements RequestInterface
 
     protected function validate()
     {
-        // $expandableRelations = (new ExpandableRelations($this->expandableRelations, $this->visibleColumns))();
+        $expandableRelations = (new ExpandableRelations($this->subjectModel, $this->expandableRelations, $this->visibleColumns))();
 
         // $limitRequest = $this->request;
 

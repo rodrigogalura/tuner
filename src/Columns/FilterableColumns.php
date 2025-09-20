@@ -11,11 +11,11 @@ use function Tuner\any;
  */
 class FilterableColumns extends Columns
 {
-    const ERR_CODE_DISABLED = 7;
+    const ERR_CODE_DISABLED = 9;
 
     const ERR_MSG_DISABLED = 'Filterable columns are empty!';
 
-    const ERR_CODE_PCOLS_VCOLS_NO_MATCH = 8;
+    const ERR_CODE_PCOLS_VCOLS_NO_MATCH = 10;
 
     const ERR_MSG_PCOLS_VCOLS_NO_MATCH = 'Filterable columns are invalid. It must be at least one match in visible columns!';
 

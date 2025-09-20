@@ -27,9 +27,9 @@ class ProjectionRequest extends Request implements RequestInterface
     {
         switch (count($this->request)) {
             case 1:
-                $p = new ProjectableColumns($this->projectableColumns, $this->visibleColumns);
-                $q = new DefinedColumns($this->definedColumns, $this->visibleColumns);
-                $projectableColumns = array_intersect($p(), $q());
+                $p = (new ProjectableColumns($this->projectableColumns, $this->visibleColumns))();
+                $q = (new DefinedColumns($this->definedColumns, $this->visibleColumns))();
+                $projectableColumns = array_intersect($p, $q);
 
                 // Validate projection
                 [$paramKey, $paramValue] = [key($this->request), current($this->request)];
