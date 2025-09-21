@@ -36,10 +36,8 @@ class ExpandableRelations
 
     // const ERR_MSG_PCOLS_VCOLS_NO_MATCH = 'Expandable relations are invalid. It must be at least one match in visible columns!';
 
-    public function __construct(private Model $subjectModel, private array $expandableRelations, private array $visibleColumns)
+    public function __construct(private Model $subjectModel, private array $expandableRelations)
     {
-        // parent::__construct($columns, $visibleColumns);
-
         $this->validate();
     }
 
@@ -47,14 +45,14 @@ class ExpandableRelations
     {
         $modelName = class_basename($this->subjectModel::class);
 
-        foreach ($this->expandableRelations as $relation => $options) {
+        foreach ($this->expandableRelations as $relation => $settings) {
             try {
                 $relationModel = $this->subjectModel->{$relation}();
             } catch (BadMethodCallException $e) {
                 throw new TunerException(sprintf(static::ERR_MSG_INVALID_RELATION, $modelName, $relation), static::ERR_CODE_INVALID_RELATION);
             }
 
-            foreach ($options as $option => $columns) {
+            foreach ($settings['options'] as $option => $columns) {
                 $eOption = ExpansionOptions::tryFrom($option);
                 throw_if(is_null($eOption), new TunerException(sprintf(static::ERR_MSG_INVALID_OPTION, $option), static::ERR_CODE_INVALID_OPTION));
             }

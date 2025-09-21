@@ -29,7 +29,15 @@ class RequestsContainer
     {
         $request = $this->resolve($key);
 
-        when_not_empty($request(), fn () => $callback($request));
+        when_not_empty($request(), function () use ($request, $key, $callback): TunerBuilder {
+            switch ($key) {
+                case Tuner::CONFIG_EXPANSION:
+                    return $callback($request(), $request->getExpandableRelations());
+
+                default:
+                    return $callback($request());
+            }
+        });
     }
 
     public static function create()

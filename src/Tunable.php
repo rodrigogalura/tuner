@@ -40,20 +40,18 @@ trait Tunable
         return ['*'];
     }
 
-    // protected function getExpandableRelations(): array
-    // {
-    //     # disable by default
-    //     return [];
-    // }
-
     protected function getExpandableRelations(): array
     {
         return [
             'phone' => [
-                'projectable_columns' => ['*'],
-                'sortable_columns' => ['*'],
-                'searchable_columns' => ['*'],
-                'filterable_columns' => ['*'],
+                // 'table' => 'phones',
+                // 'fk' => 'user_ida',
+                'options' => [
+                    'projectable_columns' => ['*'],
+                    'sortable_columns' => ['*'],
+                    'searchable_columns' => ['*'],
+                    'filterable_columns' => ['*'],
+                ],
 
                 // Check if possible
                 // 'limitable' => true,
@@ -82,55 +80,46 @@ trait Tunable
             return $builder->get();
         }
 
-        [$tunerBuilder, $config] = [$tuner->getBuilder(), config('tuner')];
+        [$config, $definedColumns] = [config('tuner'), $builder->getQuery()->columns ?? ['*']];
 
-        $projectionBinder = fn (): ProjectionRequest => new ProjectionRequest($request, $config[Tuner::CONFIG_PROJECTION], $visibleColumns, $this->getProjectableColumns(), $definedColumns = $builder->getQuery()->columns ?? ['*']);
+        $projectionBinder = fn (): ProjectionRequest => new ProjectionRequest($request, $config[Tuner::CONFIG_PROJECTION], $visibleColumns, $this->getProjectableColumns(), $definedColumns);
         $sortBinder = fn (): SortRequest => new SortRequest($request, $config[Tuner::CONFIG_SORT], $visibleColumns, $this->getSortableColumns());
         $searchBinder = fn (): SearchRequest => new SearchRequest($request, $config[Tuner::CONFIG_SEARCH], $visibleColumns, $this->getSearchableColumns());
         $filterBinder = fn (): FilterRequest => new FilterRequest($request, $config[Tuner::CONFIG_FILTER], $visibleColumns, $this->getFilterableColumns());
+        $expansionBinder = fn (): ExpansionRequest => new ExpansionRequest($request, $config, $this, $definedColumns, $this->getExpandableRelations());
         $limitBinder = fn (): LimitRequest => new LimitRequest($request, $config[Tuner::CONFIG_LIMIT], $this->limitable());
         $paginationBinder = fn (): PaginationRequest => new PaginationRequest($request, $config[Tuner::CONFIG_PAGINATION], $this->paginatable());
 
-        $expansionBinder = fn (): ExpansionRequest => new ExpansionRequest($request, $config, $this, $builder, $visibleColumns, $this->getExpandableRelations());
-        // $expansionBinder = fn (): ExpansionRequest => new ExpansionRequest($config[Tuner::CONFIG_EXPANSION], $request, $this, $visibleColumns, $this->getExpandableRelations());
-
-        // $expansionBinder = function() use ($definedColumns) : ExpansionRequest {
-        //     new ExpansionRequest(
-        //         $config[Tuner::CONFIG_EXPANSION],
-        //         $request,
-        //         $this,
-        //         fn (): ProjectionRequest => new ProjectionRequest($config[Tuner::CONFIG_PROJECTION], $request, $visibleColumns, $this->getProjectableColumns(), $definedColumns)
-        //     );
-        // };
+        $tunerBuilder = $tuner->getBuilder();
 
         $container = [
-            // 'project' => [
+            // 'projection' => [
             //     'bind' => fn ($requestContainer): ProjectionRequest => $projectionBinder(),
-            //     'resolve' => fn ($request): TunerBuilder => $tunerBuilder->project($request),
+            //     'resolve' => fn ($projectionRequest): TunerBuilder => $tunerBuilder->project($projectionRequest),
             // ],
             // 'sort' => [
             //     'bind' => fn ($requestContainer): SortRequest => $sortBinder(),
-            //     'resolve' => fn ($request): TunerBuilder => $tunerBuilder->sort($request),
+            //     'resolve' => fn ($sortRequest): TunerBuilder => $tunerBuilder->sort($sortRequest),
             // ],
             // 'search' => [
             //     'bind' => fn ($requestContainer): SearchRequest => $searchBinder(),
-            //     'resolve' => fn ($request): TunerBuilder => $tunerBuilder->search($request),
+            //     'resolve' => fn ($searchRequest): TunerBuilder => $tunerBuilder->search($searchRequest),
             // ],
             // 'filter' => [
             //     'bind' => fn ($requestContainer): FilterRequest => $filterBinder(),
-            //     'resolve' => fn ($request): TunerBuilder => $tunerBuilder->filter($request),
-            // ],
-            // 'limit' => [
-            //     'bind' => fn ($requestContainer): LimitRequest => $limitBinder(),
-            //     'resolve' => fn ($request): TunerBuilder => $tunerBuilder->limit($request),
-            // ],
-            // 'pagination' => [
-            //     'bind' => fn ($requestContainer): PaginationRequest => $paginationBinder(),
-            //     'resolve' => fn ($request): TunerBuilder => $tunerBuilder->paginate($request),
+            //     'resolve' => fn ($filterRequest): TunerBuilder => $tunerBuilder->filter($filterRequest),
             // ],
             'expansion' => [
                 'bind' => fn ($requestContainer): ExpansionRequest => $expansionBinder(),
-                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->expand($request),
+                'resolve' => fn ($expansionRequest, $expandableRelations): TunerBuilder => $tunerBuilder->expand($expansionRequest, $config, $expandableRelations),
+            ],
+            // 'limit' => [
+            //     'bind' => fn ($requestContainer): LimitRequest => $limitBinder(),
+            //     'resolve' => fn ($limitRequest): TunerBuilder => $tunerBuilder->limit($limitRequest),
+            // ],
+            'pagination' => [
+                'bind' => fn ($requestContainer): PaginationRequest => $paginationBinder(),
+                'resolve' => fn ($paginationRequest): TunerBuilder => $tunerBuilder->paginate($paginationRequest),
             ],
         ];
 

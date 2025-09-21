@@ -30,7 +30,7 @@ class SearchRequest extends Request implements RequestInterface
             $searchKeyword = "*{$searchKeyword}*";
         }
 
-        return [$columns => Str::of($searchKeyword)->replaceMatches('/^\*|\*$/', '%')->value];
+        return [$columns => Str::replaceMatches(subject: $searchKeyword, pattern: '/^\*|\*$/', replace: '%')];
     }
 
     protected function validate()

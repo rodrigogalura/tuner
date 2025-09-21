@@ -89,6 +89,70 @@ final class TunerBuilder
         }
     }
 
+    private function buildExpansion(array $expansion): void
+    {
+        $expandKey = $expansion['config'][Tuner::CONFIG_EXPANSION][Tuner::PARAM_KEY];
+
+        foreach ($expansion['request'][$expandKey] as $relation => $alias) {
+
+            $this->builder->with($relation, function ($builder) use ($expansion, $relation, $alias): void {
+
+                if ($settings = $expansion['expandableRelations'][$relation] ?? null) {
+                    $table = $settings['table'];
+                    $fk = $settings['fk'];
+
+                    $keys = [
+                        implode(',', $expansion['config'][Tuner::CONFIG_PROJECTION][Tuner::PARAM_KEY]),
+                    ];
+
+                    foreach ($keys as $key) {
+                        $modifiers = explode(',', $key);
+
+                        foreach ($modifiers as $modifier) {
+                            if ($columns = $expansion['request'][$alias.$expansion['config'][Tuner::CONFIG_EXPANSION]['separator'].$modifier] ?? null) {
+                                if (! in_array($fk, $columns)) {
+                                    array_push($columns, $fk);
+                                }
+
+                                $builder->select(array_map(fn ($field): string => "{$table}.{$field}", $columns));
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // die('pass');
+
+        // foreach ($this->request[$expandKey] as $relation => $alias) {
+
+        //     if ($settings = $this->expandableRelations[$relation] ?? null) {
+        //         $options = $settings['options'];
+        //         $visibleColumns = Schema::getColumnListing($settings['table'] ?? Str::plural($relation));
+
+        //         $features = [
+        //             implode(',', $this->config[Tuner::CONFIG_PROJECTION][Tuner::PARAM_KEY]) => fn ($projectionRequest): ProjectionRequest => new ProjectionRequest($projectionRequest, $this->config[Tuner::CONFIG_PROJECTION], $visibleColumns, $options['projectable_columns'], $this->definedColumns),
+        //             $this->config[Tuner::CONFIG_SORT][Tuner::PARAM_KEY] => fn ($sortRequest): SortRequest => new SortRequest($sortRequest, $this->config[Tuner::CONFIG_SORT], $visibleColumns, $options['sortable_columns']),
+        //             $this->config[Tuner::CONFIG_SEARCH][Tuner::PARAM_KEY] => fn ($searchRequest): SearchRequest => new SearchRequest($searchRequest, $this->config[Tuner::CONFIG_SEARCH], $visibleColumns, $options['searchable_columns']),
+        //             implode(',', $this->config[Tuner::CONFIG_FILTER][Tuner::PARAM_KEY]) => fn ($filterRequest): FilterRequest => new FilterRequest($filterRequest, $this->config[Tuner::CONFIG_FILTER], $visibleColumns, $options['filterable_columns']),
+        //         ];
+
+        //         foreach ($features as $key => $feature) {
+        //             $subKeys = explode(',', $key);
+
+        //             foreach ($subKeys as $subKey) {
+        //                 $request = [];
+        //                 if ($value = $this->request[$alias.$expansionConfig['separator'].$subKey] ?? null) {
+        //                     $request[$subKey] = $value;
+        //                 }
+
+        //                 $feature($request);
+        //             }
+        //         }
+        //     }
+        // }
+    }
+
     private function buildLimit(array $limit): void
     {
         $this->builder->limit($limit[LimitRequest::KEY_LIMIT]);
@@ -103,10 +167,11 @@ final class TunerBuilder
         return $this->builder->paginate($pageSize);
     }
 
-    private function buildExpansion(array $expansion): void
+    public function expand(array $request, array $config, array $expandableRelations)
     {
-        dd($expansion);
-        // return $this->builder->paginate($pageSize);
+        $this->expansion = compact('request', 'config', 'expandableRelations');
+
+        return $this;
     }
 
     public function __call(string $attribute, array $arguments)
@@ -116,7 +181,6 @@ final class TunerBuilder
         $attributes = [
             'project' => 'projection',
             'paginate' => 'pagination',
-            'expand' => 'expansion',
         ];
 
         $property = $attributes[$attribute] ?? null;
@@ -147,16 +211,16 @@ final class TunerBuilder
             $this->buildFilter($this->filter);
         }
 
+        if ($this->wasAssigned('expansion')) {
+            $this->buildExpansion($this->expansion);
+        }
+
         if ($this->wasAssigned('limit')) {
             $this->buildLimit($this->limit);
         }
 
         if ($this->wasAssigned('pagination')) {
             return $this->buildPagination(current($this->pagination));
-        }
-
-        if ($this->wasAssigned('expansion')) {
-            return $this->buildExpansion(current($this->expansion));
         }
 
         return $this->builder->get();
