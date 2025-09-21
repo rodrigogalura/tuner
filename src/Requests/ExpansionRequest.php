@@ -73,35 +73,25 @@ class ExpansionRequest extends Request implements RequestInterface
 
         try {
             foreach ($this->request[$expandKey] as $relation => $alias) {
-                $request = [];
-                foreach ($this->config[Tuner::CONFIG_PROJECTION][Tuner::PARAM_KEY] as $key) {
-                    if ($value = $this->request[$alias.$expansionConfig['separator'].$key] ?? null) {
-                        $request[$key] = $value;
+                $features = [
+                    implode(',', $this->config[Tuner::CONFIG_PROJECTION][Tuner::PARAM_KEY]) => fn ($projectionRequest): ProjectionRequest => new ProjectionRequest($projectionRequest, $this->config[Tuner::CONFIG_PROJECTION], $this->visibleColumns, $this->expandableRelations[$relation]['projectable_columns'], $this->builder->getQuery()->columns ?? ['*']),
+                    $this->config[Tuner::CONFIG_SORT][Tuner::PARAM_KEY] => fn ($sortRequest): SortRequest => new SortRequest($sortRequest, $this->config[Tuner::CONFIG_SORT], $this->visibleColumns, $this->expandableRelations[$relation]['sortable_columns']),
+                    $this->config[Tuner::CONFIG_SEARCH][Tuner::PARAM_KEY] => fn ($searchRequest): SearchRequest => new SearchRequest($searchRequest, $this->config[Tuner::CONFIG_SEARCH], $this->visibleColumns, $this->expandableRelations[$relation]['searchable_columns']),
+                    implode(',', $this->config[Tuner::CONFIG_FILTER][Tuner::PARAM_KEY]) => fn ($filterRequest): FilterRequest => new FilterRequest($filterRequest, $this->config[Tuner::CONFIG_FILTER], $this->visibleColumns, $this->expandableRelations[$relation]['filterable_columns']),
+                ];
+
+                foreach ($features as $key => $feature) {
+                    $subKeys = explode(',', $key);
+
+                    foreach ($subKeys as $subKey) {
+                        $request = [];
+                        if ($value = $this->request[$alias.$expansionConfig['separator'].$subKey] ?? null) {
+                            $request[$subKey] = $value;
+                        }
+
+                        $feature($request);
                     }
                 }
-                new ProjectionRequest($request, $this->config[Tuner::CONFIG_PROJECTION], $this->visibleColumns, $this->expandableRelations[$relation]['projectable_columns'], $this->builder->getQuery()->columns ?? ['*']);
-
-                $request = [];
-                $key = $this->config[Tuner::CONFIG_SORT][Tuner::PARAM_KEY];
-                if ($value = $this->request[$alias.$expansionConfig['separator'].$key] ?? null) {
-                    $request[$key] = $value;
-                }
-                new SortRequest($request, $this->config[Tuner::CONFIG_SORT], $this->visibleColumns, $this->expandableRelations[$relation]['sortable_columns']);
-
-                $request = [];
-                $key = $this->config[Tuner::CONFIG_SEARCH][Tuner::PARAM_KEY];
-                if ($value = $this->request[$alias.$expansionConfig['separator'].$key] ?? null) {
-                    $request[$key] = $value;
-                }
-                new SearchRequest($request, $this->config[Tuner::CONFIG_SEARCH], $this->visibleColumns, $this->expandableRelations[$relation]['searchable_columns']);
-
-                $request = [];
-                foreach ($this->config[Tuner::CONFIG_FILTER][Tuner::PARAM_KEY] as $key) {
-                    if ($value = $this->request[$alias.$expansionConfig['separator'].$key] ?? null) {
-                        $request[$key] = $value;
-                    }
-                }
-                new FilterRequest($request, $this->config[Tuner::CONFIG_FILTER], $this->visibleColumns, $this->expandableRelations[$relation]['filterable_columns']);
             }
         } catch (TunerException|ClientException $e) {
             $class = get_class($e);
