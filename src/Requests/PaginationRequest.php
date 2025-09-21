@@ -14,7 +14,7 @@ class PaginationRequest extends Request implements RequestInterface
         array $request,
         private bool $paginatable,
     ) {
-        parent::__construct($config[Tuner::PARAM_KEY], $request);
+        parent::__construct($request, $config[Tuner::PARAM_KEY]);
     }
 
     protected function shouldValidate()

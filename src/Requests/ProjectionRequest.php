@@ -20,7 +20,7 @@ class ProjectionRequest extends Request implements RequestInterface
         private array $projectableColumns,
         private array $definedColumns,
     ) {
-        parent::__construct($config[Tuner::PARAM_KEY], $request);
+        parent::__construct($request, $config[Tuner::PARAM_KEY]);
     }
 
     protected function validate()

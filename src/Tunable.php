@@ -84,39 +84,50 @@ trait Tunable
 
         [$tunerBuilder, $config] = [$tuner->getBuilder(), config('tuner')];
 
-        $projectionBinder = fn (): ProjectionRequest => new ProjectionRequest($config[Tuner::CONFIG_PROJECTION], $request, $visibleColumns, $this->getProjectableColumns(), definedColumns: $builder->getQuery()->columns ?? ['*']);
-        $sortBinder = fn (): SortRequest => new SortRequest($config[Tuner::CONFIG_SORT], $request, $visibleColumns, $this->getSortableColumns());
-        $searchBinder = fn (): SearchRequest => new SearchRequest($config[Tuner::CONFIG_SEARCH], $request, $visibleColumns, $this->getSearchableColumns());
-        $filterBinder = fn (): FilterRequest => new FilterRequest($config[Tuner::CONFIG_FILTER], $request, $visibleColumns, $this->getFilterableColumns());
-        $limitBinder = fn (): LimitRequest => new LimitRequest($config[Tuner::CONFIG_LIMIT], $request, $this->limitable());
-        $paginationBinder = fn (): PaginationRequest => new PaginationRequest($config[Tuner::CONFIG_PAGINATION], $request, $this->paginatable());
-        $expansionBinder = fn (): ExpansionRequest => new ExpansionRequest($config[Tuner::CONFIG_EXPANSION], $request, $this, $visibleColumns, $this->getExpandableRelations());
+        $projectionBinder = fn (): ProjectionRequest => new ProjectionRequest($request, $config[Tuner::CONFIG_PROJECTION], $visibleColumns, $this->getProjectableColumns(), $definedColumns = $builder->getQuery()->columns ?? ['*']);
+        $sortBinder = fn (): SortRequest => new SortRequest($request, $config[Tuner::CONFIG_SORT], $visibleColumns, $this->getSortableColumns());
+        $searchBinder = fn (): SearchRequest => new SearchRequest($request, $config[Tuner::CONFIG_SEARCH], $visibleColumns, $this->getSearchableColumns());
+        $filterBinder = fn (): FilterRequest => new FilterRequest($request, $config[Tuner::CONFIG_FILTER], $visibleColumns, $this->getFilterableColumns());
+        $limitBinder = fn (): LimitRequest => new LimitRequest($request, $config[Tuner::CONFIG_LIMIT], $this->limitable());
+        $paginationBinder = fn (): PaginationRequest => new PaginationRequest($request, $config[Tuner::CONFIG_PAGINATION], $this->paginatable());
+
+        $expansionBinder = fn (): ExpansionRequest => new ExpansionRequest($request, $config);
+        // $expansionBinder = fn (): ExpansionRequest => new ExpansionRequest($config[Tuner::CONFIG_EXPANSION], $request, $this, $visibleColumns, $this->getExpandableRelations());
+
+        // $expansionBinder = function() use ($definedColumns) : ExpansionRequest {
+        //     new ExpansionRequest(
+        //         $config[Tuner::CONFIG_EXPANSION],
+        //         $request,
+        //         $this,
+        //         fn (): ProjectionRequest => new ProjectionRequest($config[Tuner::CONFIG_PROJECTION], $request, $visibleColumns, $this->getProjectableColumns(), $definedColumns)
+        //     );
+        // };
 
         $container = [
-            'project' => [
-                'bind' => fn ($requestContainer): ProjectionRequest => $projectionBinder(),
-                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->project($request),
-            ],
-            'sort' => [
-                'bind' => fn ($requestContainer): SortRequest => $sortBinder(),
-                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->sort($request),
-            ],
-            'search' => [
-                'bind' => fn ($requestContainer): SearchRequest => $searchBinder(),
-                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->search($request),
-            ],
-            'filter' => [
-                'bind' => fn ($requestContainer): FilterRequest => $filterBinder(),
-                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->filter($request),
-            ],
-            'limit' => [
-                'bind' => fn ($requestContainer): LimitRequest => $limitBinder(),
-                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->limit($request),
-            ],
-            'pagination' => [
-                'bind' => fn ($requestContainer): PaginationRequest => $paginationBinder(),
-                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->paginate($request),
-            ],
+            // 'project' => [
+            //     'bind' => fn ($requestContainer): ProjectionRequest => $projectionBinder(),
+            //     'resolve' => fn ($request): TunerBuilder => $tunerBuilder->project($request),
+            // ],
+            // 'sort' => [
+            //     'bind' => fn ($requestContainer): SortRequest => $sortBinder(),
+            //     'resolve' => fn ($request): TunerBuilder => $tunerBuilder->sort($request),
+            // ],
+            // 'search' => [
+            //     'bind' => fn ($requestContainer): SearchRequest => $searchBinder(),
+            //     'resolve' => fn ($request): TunerBuilder => $tunerBuilder->search($request),
+            // ],
+            // 'filter' => [
+            //     'bind' => fn ($requestContainer): FilterRequest => $filterBinder(),
+            //     'resolve' => fn ($request): TunerBuilder => $tunerBuilder->filter($request),
+            // ],
+            // 'limit' => [
+            //     'bind' => fn ($requestContainer): LimitRequest => $limitBinder(),
+            //     'resolve' => fn ($request): TunerBuilder => $tunerBuilder->limit($request),
+            // ],
+            // 'pagination' => [
+            //     'bind' => fn ($requestContainer): PaginationRequest => $paginationBinder(),
+            //     'resolve' => fn ($request): TunerBuilder => $tunerBuilder->paginate($request),
+            // ],
             'expansion' => [
                 'bind' => fn ($requestContainer): ExpansionRequest => $expansionBinder(),
                 'resolve' => fn ($request): TunerBuilder => $tunerBuilder->expand($request),

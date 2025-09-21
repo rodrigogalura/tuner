@@ -19,7 +19,7 @@ class SearchRequest extends Request implements RequestInterface
         private array $visibleColumns,
         private array $searchableColumns,
     ) {
-        parent::__construct($config[Tuner::PARAM_KEY], $request);
+        parent::__construct($request, $config[Tuner::PARAM_KEY]);
     }
 
     private static function searchKeywordInterpreter($searchRequest)

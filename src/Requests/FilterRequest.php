@@ -43,7 +43,7 @@ class FilterRequest extends Request implements RequestInterface
         private array $visibleColumns,
         private array $filterableColumns,
     ) {
-        parent::__construct($config[Tuner::PARAM_KEY], $request);
+        parent::__construct($request, $config[Tuner::PARAM_KEY]);
     }
 
     private function validLogicalOperators()

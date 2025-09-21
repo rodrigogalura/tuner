@@ -23,7 +23,7 @@ class SortRequest extends Request implements RequestInterface
         private array $visibleColumns,
         private array $sortableColumns,
     ) {
-        parent::__construct($config[Tuner::PARAM_KEY], $request);
+        parent::__construct($request, $config[Tuner::PARAM_KEY]);
     }
 
     private static function validOrderValues()
