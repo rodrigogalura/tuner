@@ -14,8 +14,8 @@ use Tuner\Tuner;
 class ProjectionRequest extends Request implements RequestInterface
 {
     public function __construct(
-        array $config,
         array $request,
+        array $config,
         private array $visibleColumns,
         private array $projectableColumns,
         private array $definedColumns,

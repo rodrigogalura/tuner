@@ -52,8 +52,8 @@ trait Tunable
             'phone' => [
                 'projectable_columns' => ['*'],
                 'sortable_columns' => ['*'],
-                'search_columns' => ['*'],
-                'filterable_columns' => ['foo'],
+                'searchable_columns' => ['*'],
+                'filterable_columns' => ['*'],
 
                 // Check if possible
                 // 'limitable' => true,
@@ -91,7 +91,7 @@ trait Tunable
         $limitBinder = fn (): LimitRequest => new LimitRequest($request, $config[Tuner::CONFIG_LIMIT], $this->limitable());
         $paginationBinder = fn (): PaginationRequest => new PaginationRequest($request, $config[Tuner::CONFIG_PAGINATION], $this->paginatable());
 
-        $expansionBinder = fn (): ExpansionRequest => new ExpansionRequest($request, $config);
+        $expansionBinder = fn (): ExpansionRequest => new ExpansionRequest($request, $config, $this, $builder, $visibleColumns, $this->getExpandableRelations());
         // $expansionBinder = fn (): ExpansionRequest => new ExpansionRequest($config[Tuner::CONFIG_EXPANSION], $request, $this, $visibleColumns, $this->getExpandableRelations());
 
         // $expansionBinder = function() use ($definedColumns) : ExpansionRequest {

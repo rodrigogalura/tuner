@@ -38,8 +38,8 @@ class FilterRequest extends Request implements RequestInterface
     const COMPARISON_OPERATOR_NE = '<>';
 
     public function __construct(
-        array $config,
         array $request,
+        array $config,
         private array $visibleColumns,
         private array $filterableColumns,
     ) {

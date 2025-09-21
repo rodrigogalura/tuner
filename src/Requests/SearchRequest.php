@@ -14,8 +14,8 @@ use Tuner\Tuner;
 class SearchRequest extends Request implements RequestInterface
 {
     public function __construct(
-        private array $config,
         array $request,
+        private array $config,
         private array $visibleColumns,
         private array $searchableColumns,
     ) {

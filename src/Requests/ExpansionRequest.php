@@ -2,6 +2,11 @@
 
 namespace Tuner\Requests;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Tuner\Columns\ExpandableRelations;
+use Tuner\Exceptions\ClientException;
+use Tuner\Exceptions\TunerException;
 use Tuner\Tuner;
 
 /**
@@ -16,9 +21,10 @@ class ExpansionRequest extends Request implements RequestInterface
     public function __construct(
         array $request,
         private array $config,
-        // private Model $subjectModel,
-        // private array $visibleColumns,
-        // private array $expandableRelations,
+        private Model $subjectModel,
+        private Builder $builder,
+        private array $visibleColumns,
+        private array $expandableRelations,
     ) {
         parent::__construct($request);
     }
@@ -55,22 +61,53 @@ class ExpansionRequest extends Request implements RequestInterface
         };
 
         $this->request = array_filter($this->request, fn ($paramKey): bool => $conditionFn($paramKey), ARRAY_FILTER_USE_KEY);
-        dd($this->request);
     }
 
     protected function validate()
     {
-        // $expandableRelations = (new ExpandableRelations($this->subjectModel, $this->expandableRelations, $this->visibleColumns))();
+        new ExpandableRelations($this->subjectModel, $this->expandableRelations, $this->visibleColumns);
 
-        // $limitRequest = $this->request;
+        $expansionConfig = $this->config[Tuner::CONFIG_EXPANSION];
 
-        // // Validate limit
-        // throw_unless($limit = $limitRequest[static::KEY_LIMIT] ?? null, new ClientException('The ['.static::KEY_LIMIT.'] is required!'));
-        // throw_unless(is_numeric($limit), new ClientException('The ['.static::KEY_LIMIT.'] must be numeric!'));
+        $expandKey = $expansionConfig[Tuner::PARAM_KEY];
 
-        // if ($offset = $limitRequest[static::KEY_OFFSET] ?? null) {
-        //     // Validate offset
-        //     throw_unless(is_numeric($offset), new ClientException('The ['.static::KEY_OFFSET.'] must be numeric!'));
-        // }
+        try {
+            foreach ($this->request[$expandKey] as $relation => $alias) {
+                $request = [];
+                foreach ($this->config[Tuner::CONFIG_PROJECTION][Tuner::PARAM_KEY] as $key) {
+                    if ($value = $this->request[$alias.$expansionConfig['separator'].$key] ?? null) {
+                        $request[$key] = $value;
+                    }
+                }
+                new ProjectionRequest($request, $this->config[Tuner::CONFIG_PROJECTION], $this->visibleColumns, $this->expandableRelations[$relation]['projectable_columns'], $this->builder->getQuery()->columns ?? ['*']);
+
+                $request = [];
+                $key = $this->config[Tuner::CONFIG_SORT][Tuner::PARAM_KEY];
+                if ($value = $this->request[$alias.$expansionConfig['separator'].$key] ?? null) {
+                    $request[$key] = $value;
+                }
+                new SortRequest($request, $this->config[Tuner::CONFIG_SORT], $this->visibleColumns, $this->expandableRelations[$relation]['sortable_columns']);
+
+                $request = [];
+                $key = $this->config[Tuner::CONFIG_SEARCH][Tuner::PARAM_KEY];
+                if ($value = $this->request[$alias.$expansionConfig['separator'].$key] ?? null) {
+                    $request[$key] = $value;
+                }
+                new SearchRequest($request, $this->config[Tuner::CONFIG_SEARCH], $this->visibleColumns, $this->expandableRelations[$relation]['searchable_columns']);
+
+                $request = [];
+                foreach ($this->config[Tuner::CONFIG_FILTER][Tuner::PARAM_KEY] as $key) {
+                    if ($value = $this->request[$alias.$expansionConfig['separator'].$key] ?? null) {
+                        $request[$key] = $value;
+                    }
+                }
+                new FilterRequest($request, $this->config[Tuner::CONFIG_FILTER], $this->visibleColumns, $this->expandableRelations[$relation]['filterable_columns']);
+            }
+        } catch (TunerException|ClientException $e) {
+            $class = get_class($e);
+            throw new $class("Expansion [{$relation}]: ".$e->getMessage());
+        }
+
+        exit('pass');
     }
 }

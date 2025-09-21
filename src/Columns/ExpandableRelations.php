@@ -10,33 +10,8 @@ enum ExpansionOptions: string
 {
     case Projectable = 'projectable_columns';
     case Sortable = 'sortable_columns';
-    case Search = 'search_columns';
+    case Searchable = 'searchable_columns';
     case Filterable = 'filterable_columns';
-
-    public function validation(array $columns, array $visibleColumns)
-    {
-        try {
-            switch ($this) {
-                case ExpansionOptions::Projectable:
-                    new ProjectableColumns($columns, $visibleColumns);
-                    break;
-
-                case ExpansionOptions::Sortable:
-                    new SortableColumns($columns, $visibleColumns);
-                    break;
-
-                case ExpansionOptions::Search:
-                    new SearchableColumns($columns, $visibleColumns);
-                    break;
-
-                case ExpansionOptions::Filterable:
-                    new FilterableColumns($columns, $visibleColumns);
-                    break;
-            }
-        } catch (TunerException $e) {
-            throw new TunerException('Expansion: '.$e->getMessage(), $e->getCode());
-        }
-    }
 }
 
 /**
@@ -82,19 +57,7 @@ class ExpandableRelations
             foreach ($options as $option => $columns) {
                 $eOption = ExpansionOptions::tryFrom($option);
                 throw_if(is_null($eOption), new TunerException(sprintf(static::ERR_MSG_INVALID_OPTION, $option), static::ERR_CODE_INVALID_OPTION));
-
-                $eOption->validation($columns, $this->visibleColumns);
             }
         }
-
-        exit;
-
-        // $relation = 'phones';
-
-        // dd($this->{$relation}());
-
-        // throw_if(empty($this->columns), new TunerException(static::ERR_MSG_DISABLED, static::ERR_CODE_DISABLED));
-
-        // throw_unless(any(parent::__invoke(), $this->visibleColumns), new TunerException(static::ERR_MSG_PCOLS_VCOLS_NO_MATCH, static::ERR_CODE_PCOLS_VCOLS_NO_MATCH));
     }
 }
