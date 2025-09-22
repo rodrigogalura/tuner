@@ -105,10 +105,12 @@ final class TunerBuilder
             $this->builder->with($relation, function ($builder) use ($settings, $expansion, $relation, $alias, $isRelationBelongsTo): void {
                 if (! is_null($settings)) {
                     $table = $settings['table'];
+                    $fk = $settings['fk'];
 
                     $keys = [
                         implode(',', $expansion['config'][Tuner::CONFIG_PROJECTION][Tuner::PARAM_KEY]) => function (array $args): void {
                             [$columns, $fk] = [$args['request'], $args['fk']];
+                            dd($columns);
 
                             $shouldAddFk = ! $args['isRelationBelongsTo'] && ! in_array($fk, $columns);
                             if ($shouldAddFk) {
