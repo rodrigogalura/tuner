@@ -35,7 +35,7 @@ class RequestsContainer
                     return $callback($request(), $request->getExpandableRelations());
 
                 default:
-                    return $callback($request());
+                    return $callback($request);
             }
         });
     }

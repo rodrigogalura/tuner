@@ -3,6 +3,7 @@
 namespace Tuner\Columns;
 
 use BadMethodCallException;
+use Illuminate\Contracts\Database\Eloquent\Builder as RelationBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Tuner\Exceptions\TunerException;
 
@@ -32,9 +33,10 @@ class ExpandableRelations
 
     const ERR_MSG_INVALID_OPTION = 'Expansion option [%s] is invalid!';
 
-    // const ERR_CODE_PCOLS_VCOLS_NO_MATCH = 2;
-
-    // const ERR_MSG_PCOLS_VCOLS_NO_MATCH = 'Expandable relations are invalid. It must be at least one match in visible columns!';
+    /**
+     * @var array<RelationBuilder>
+     */
+    private array $relationBuilder = [];
 
     public function __construct(private Model $subjectModel, private array $expandableRelations)
     {
@@ -47,7 +49,7 @@ class ExpandableRelations
 
         foreach ($this->expandableRelations as $relation => $settings) {
             try {
-                $this->subjectModel->{$relation}(); // relation validation
+                $this->relationBuilder[$relation] = $this->subjectModel->{$relation}(); // relation validation
             } catch (BadMethodCallException $e) {
                 throw new TunerException(sprintf(static::ERR_MSG_INVALID_RELATION, $modelName, $relation), static::ERR_CODE_INVALID_RELATION);
             }
@@ -57,5 +59,10 @@ class ExpandableRelations
                 throw_if(is_null($eOption), new TunerException(sprintf(static::ERR_MSG_INVALID_OPTION, $option), static::ERR_CODE_INVALID_OPTION));
             }
         }
+    }
+
+    public function getRelationBuilder()
+    {
+        return $this->relationBuilder;
     }
 }

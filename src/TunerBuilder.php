@@ -2,6 +2,7 @@
 
 namespace Tuner;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -94,16 +95,22 @@ final class TunerBuilder
         $expandKey = $expansion['config'][Tuner::CONFIG_EXPANSION][Tuner::PARAM_KEY];
 
         foreach ($expansion['request'][$expandKey] as $relation => $alias) {
-            $this->builder->with($relation, function ($builder) use ($expansion, $relation, $alias): void {
-                if ($settings = $expansion['expandableRelations'][$relation] ?? null) {
+            $settings = $expansion['expandableRelations'][$relation] ?? null;
+
+            $isRelationBelongsTo = $settings['relationClass'] === BelongsTo::class;
+            if ($isRelationBelongsTo) {
+                $this->builder->select(array_merge($this->builder->getQuery()->columns, [$settings['fk']]));
+            }
+
+            $this->builder->with($relation, function ($builder) use ($settings, $expansion, $relation, $alias, $isRelationBelongsTo): void {
+                if (! is_null($settings)) {
                     $table = $settings['table'];
-                    $fk = $settings['fk'] ?? null;
 
                     $keys = [
                         implode(',', $expansion['config'][Tuner::CONFIG_PROJECTION][Tuner::PARAM_KEY]) => function (array $args): void {
                             [$columns, $fk] = [$args['request'], $args['fk']];
 
-                            $shouldAddFk = ! is_null($fk) && ! in_array($fk, $columns);
+                            $shouldAddFk = ! $args['isRelationBelongsTo'] && ! in_array($fk, $columns);
                             if ($shouldAddFk) {
                                 array_push($columns, $fk);
                             }
@@ -152,7 +159,7 @@ final class TunerBuilder
 
                         foreach ($modifiers as $modifier) {
                             if ($request = $expansion['request'][$alias.$expansion['config'][Tuner::CONFIG_EXPANSION]['separator'].$modifier] ?? null) {
-                                $action(compact('modifier', 'request', 'builder', 'table', 'fk'));
+                                $action(compact('modifier', 'request', 'builder', 'table', 'fk', 'isRelationBelongsTo'));
                             }
                         }
                     }
