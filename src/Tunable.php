@@ -57,6 +57,15 @@ trait Tunable
                 // 'limitable' => true,
                 // 'paginatable' => true,
             ],
+
+            'posts' => [
+                'options' => [
+                    'projectable_columns' => ['*'],
+                    'sortable_columns' => ['*'],
+                    'searchable_columns' => ['*'],
+                    'filterable_columns' => ['*'],
+                ],
+            ],
         ];
     }
 

@@ -102,55 +102,34 @@ final class TunerBuilder
                     $fk = $settings['fk'];
 
                     $keys = [
-                        implode(',', $expansion['config'][Tuner::CONFIG_PROJECTION][Tuner::PARAM_KEY]),
+                        implode(',', $expansion['config'][Tuner::CONFIG_PROJECTION][Tuner::PARAM_KEY]) => function (array $args): void {
+                            if (! in_array($args['fk'], $columns = $args['request'])) {
+                                array_push($columns, $args['fk']);
+                            }
+
+                            $args['builder']->select(array_map(fn ($field): string => "{$args['table']}.{$field}", $columns));
+                        },
+                        $expansion['config'][Tuner::CONFIG_SORT][Tuner::PARAM_KEY] => function (array $args): void {
+                            $sort = $args['request'];
+
+                            foreach ($sort as $field => $direction) {
+                                $args['builder']->orderBy("{$args['table']}.{$field}", $direction);
+                            }
+                        },
                     ];
 
-                    foreach ($keys as $key) {
+                    foreach ($keys as $key => $action) {
                         $modifiers = explode(',', $key);
 
                         foreach ($modifiers as $modifier) {
-                            if ($columns = $expansion['request'][$alias.$expansion['config'][Tuner::CONFIG_EXPANSION]['separator'].$modifier] ?? null) {
-                                if (! in_array($fk, $columns)) {
-                                    array_push($columns, $fk);
-                                }
-
-                                $builder->select(array_map(fn ($field): string => "{$table}.{$field}", $columns));
+                            if ($request = $expansion['request'][$alias.$expansion['config'][Tuner::CONFIG_EXPANSION]['separator'].$modifier] ?? null) {
+                                $action(compact('request', 'builder', 'table', 'fk'));
                             }
                         }
                     }
                 }
             });
         }
-
-        // die('pass');
-
-        // foreach ($this->request[$expandKey] as $relation => $alias) {
-
-        //     if ($settings = $this->expandableRelations[$relation] ?? null) {
-        //         $options = $settings['options'];
-        //         $visibleColumns = Schema::getColumnListing($settings['table'] ?? Str::plural($relation));
-
-        //         $features = [
-        //             implode(',', $this->config[Tuner::CONFIG_PROJECTION][Tuner::PARAM_KEY]) => fn ($projectionRequest): ProjectionRequest => new ProjectionRequest($projectionRequest, $this->config[Tuner::CONFIG_PROJECTION], $visibleColumns, $options['projectable_columns'], $this->definedColumns),
-        //             $this->config[Tuner::CONFIG_SORT][Tuner::PARAM_KEY] => fn ($sortRequest): SortRequest => new SortRequest($sortRequest, $this->config[Tuner::CONFIG_SORT], $visibleColumns, $options['sortable_columns']),
-        //             $this->config[Tuner::CONFIG_SEARCH][Tuner::PARAM_KEY] => fn ($searchRequest): SearchRequest => new SearchRequest($searchRequest, $this->config[Tuner::CONFIG_SEARCH], $visibleColumns, $options['searchable_columns']),
-        //             implode(',', $this->config[Tuner::CONFIG_FILTER][Tuner::PARAM_KEY]) => fn ($filterRequest): FilterRequest => new FilterRequest($filterRequest, $this->config[Tuner::CONFIG_FILTER], $visibleColumns, $options['filterable_columns']),
-        //         ];
-
-        //         foreach ($features as $key => $feature) {
-        //             $subKeys = explode(',', $key);
-
-        //             foreach ($subKeys as $subKey) {
-        //                 $request = [];
-        //                 if ($value = $this->request[$alias.$expansionConfig['separator'].$subKey] ?? null) {
-        //                     $request[$subKey] = $value;
-        //                 }
-
-        //                 $feature($request);
-        //             }
-        //         }
-        //     }
-        // }
     }
 
     private function buildLimit(array $limit): void
