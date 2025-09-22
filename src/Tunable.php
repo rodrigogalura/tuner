@@ -102,30 +102,30 @@ trait Tunable
         $tunerBuilder = $tuner->getBuilder();
 
         $container = [
-            // 'projection' => [
-            //     'bind' => fn ($requestContainer): ProjectionRequest => $projectionBinder(),
-            //     'resolve' => fn ($projectionRequest): TunerBuilder => $tunerBuilder->project($projectionRequest),
-            // ],
-            // 'sort' => [
-            //     'bind' => fn ($requestContainer): SortRequest => $sortBinder(),
-            //     'resolve' => fn ($sortRequest): TunerBuilder => $tunerBuilder->sort($sortRequest),
-            // ],
-            // 'search' => [
-            //     'bind' => fn ($requestContainer): SearchRequest => $searchBinder(),
-            //     'resolve' => fn ($searchRequest): TunerBuilder => $tunerBuilder->search($searchRequest),
-            // ],
-            // 'filter' => [
-            //     'bind' => fn ($requestContainer): FilterRequest => $filterBinder(),
-            //     'resolve' => fn ($filterRequest): TunerBuilder => $tunerBuilder->filter($filterRequest),
-            // ],
+            'projection' => [
+                'bind' => fn ($requestContainer): ProjectionRequest => $projectionBinder(),
+                'resolve' => fn ($projectionRequest): TunerBuilder => $tunerBuilder->project($projectionRequest),
+            ],
+            'sort' => [
+                'bind' => fn ($requestContainer): SortRequest => $sortBinder(),
+                'resolve' => fn ($sortRequest): TunerBuilder => $tunerBuilder->sort($sortRequest),
+            ],
+            'search' => [
+                'bind' => fn ($requestContainer): SearchRequest => $searchBinder(),
+                'resolve' => fn ($searchRequest): TunerBuilder => $tunerBuilder->search($searchRequest),
+            ],
+            'filter' => [
+                'bind' => fn ($requestContainer): FilterRequest => $filterBinder(),
+                'resolve' => fn ($filterRequest): TunerBuilder => $tunerBuilder->filter($filterRequest),
+            ],
             'expansion' => [
                 'bind' => fn ($requestContainer): ExpansionRequest => $expansionBinder(),
                 'resolve' => fn ($expansionRequest, $expandableRelations): TunerBuilder => $tunerBuilder->expand($expansionRequest, $config, $expandableRelations),
             ],
-            // 'limit' => [
-            //     'bind' => fn ($requestContainer): LimitRequest => $limitBinder(),
-            //     'resolve' => fn ($limitRequest): TunerBuilder => $tunerBuilder->limit($limitRequest),
-            // ],
+            'limit' => [
+                'bind' => fn ($requestContainer): LimitRequest => $limitBinder(),
+                'resolve' => fn ($limitRequest): TunerBuilder => $tunerBuilder->limit($limitRequest),
+            ],
             'pagination' => [
                 'bind' => fn ($requestContainer): PaginationRequest => $paginationBinder(),
                 'resolve' => fn ($paginationRequest): TunerBuilder => $tunerBuilder->paginate($paginationRequest),

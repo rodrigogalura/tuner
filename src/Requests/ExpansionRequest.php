@@ -65,10 +65,10 @@ class ExpansionRequest extends Request implements RequestInterface
 
         $expansionConfig = $this->config[Tuner::CONFIG_EXPANSION];
 
-        $expandKey = $expansionConfig[Tuner::PARAM_KEY]; // 'expand'
+        $expandKey = $expansionConfig[Tuner::PARAM_KEY];
 
         try {
-            foreach ($this->request[$expandKey] as $relation => $alias) { // 'phone' => 'p'
+            foreach ($this->request[$expandKey] as $relation => $alias) {
 
                 if ($settings = $this->expandableRelations[$relation] ?? null) {
                     if (! isset($settings['table'])) {
@@ -89,7 +89,7 @@ class ExpansionRequest extends Request implements RequestInterface
                         $modifiers = explode(',', $key);
 
                         foreach ($modifiers as $modifier) {
-                            $aliasKey = $alias.$expansionConfig['separator'].$modifier; // p_columns
+                            $aliasKey = $alias.$expansionConfig['separator'].$modifier;
 
                             $request = [];
                             if ($requestValue = $this->request[$aliasKey] ?? null) {

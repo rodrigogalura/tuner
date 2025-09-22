@@ -121,6 +121,29 @@ final class TunerBuilder
 
                             $args['builder']->whereAny(explode_sanitize(key($search)), 'LIKE', current($search));
                         },
+                        implode(',', $expansion['config'][Tuner::CONFIG_FILTER][Tuner::PARAM_KEY]) => function (array $args): void {
+                            $filter = $args['request'];
+
+                            switch ($args['modifier']) {
+                                case FilterRequest::KEY_FILTER:
+                                    foreach ($filter as [$bool, $field, $not, $operator, $val]) {
+                                        $args['builder']->where($field, $operator, $val, $bool.($not ? ' NOT' : ''));
+                                    }
+                                    break;
+
+                                case FilterRequest::KEY_IN:
+                                    foreach ($filter as [$bool, $field, $not, $val]) {
+                                        $args['builder']->whereIn($field, $val, $bool, $not);
+                                    }
+                                    break;
+
+                                case FilterRequest::KEY_BETWEEN:
+                                    foreach ($filter as [$bool, $field, $not, $val]) {
+                                        $args['builder']->whereBetween($field, $val, $bool, $not);
+                                    }
+                                    break;
+                            }
+                        },
                     ];
 
                     foreach ($keys as $key => $action) {
@@ -128,7 +151,7 @@ final class TunerBuilder
 
                         foreach ($modifiers as $modifier) {
                             if ($request = $expansion['request'][$alias.$expansion['config'][Tuner::CONFIG_EXPANSION]['separator'].$modifier] ?? null) {
-                                $action(compact('request', 'builder', 'table', 'fk'));
+                                $action(compact('modifier', 'request', 'builder', 'table', 'fk'));
                             }
                         }
                     }
