@@ -116,6 +116,11 @@ final class TunerBuilder
                                 $args['builder']->orderBy("{$args['table']}.{$field}", $direction);
                             }
                         },
+                        $expansion['config'][Tuner::CONFIG_SEARCH][Tuner::PARAM_KEY] => function (array $args): void {
+                            $search = $args['request'];
+
+                            $args['builder']->whereAny(explode_sanitize(key($search)), 'LIKE', current($search));
+                        },
                     ];
 
                     foreach ($keys as $key => $action) {
