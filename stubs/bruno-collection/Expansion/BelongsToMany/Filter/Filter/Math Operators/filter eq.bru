@@ -1,0 +1,18 @@
+meta {
+  name: filter eq
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/users?expand[posts]=p&p_filter[title]=et
+  body: none
+  auth: none
+}
+
+params:query {
+  expand[posts]: p
+  p_filter[title]: et
+  ~p_filter[title]: =et
+  ~p_filter[title]: = et
+}

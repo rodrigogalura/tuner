@@ -94,17 +94,18 @@ final class TunerBuilder
         $expandKey = $expansion['config'][Tuner::CONFIG_EXPANSION][Tuner::PARAM_KEY];
 
         foreach ($expansion['request'][$expandKey] as $relation => $alias) {
-
             $this->builder->with($relation, function ($builder) use ($expansion, $relation, $alias): void {
-
                 if ($settings = $expansion['expandableRelations'][$relation] ?? null) {
                     $table = $settings['table'];
-                    $fk = $settings['fk'];
+                    $fk = $settings['fk'] ?? null;
 
                     $keys = [
                         implode(',', $expansion['config'][Tuner::CONFIG_PROJECTION][Tuner::PARAM_KEY]) => function (array $args): void {
-                            if (! in_array($args['fk'], $columns = $args['request'])) {
-                                array_push($columns, $args['fk']);
+                            [$columns, $fk] = [$args['request'], $args['fk']];
+
+                            $shouldAddFk = ! is_null($fk) && ! in_array($fk, $columns);
+                            if ($shouldAddFk) {
+                                array_push($columns, $fk);
                             }
 
                             $args['builder']->select(array_map(fn ($field): string => "{$args['table']}.{$field}", $columns));

@@ -2,13 +2,16 @@
 
 namespace Tuner\Requests;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Schema;
-use Tuner\Columns\ExpandableRelations;
-use Tuner\Exceptions\ClientException;
-use Tuner\Exceptions\TunerException;
 use Tuner\Tuner;
+use Illuminate\Support\Str;
+use Tuner\Exceptions\TunerException;
+use Tuner\Exceptions\ClientException;
+use Tuner\Columns\ExpandableRelations;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BuilderContract;
 
 /**
  * @internal
@@ -23,6 +26,16 @@ class ExpansionRequest extends Request implements RequestInterface
         private array $expandableRelations,
     ) {
         parent::__construct($request);
+    }
+
+    private function shouldAddForeignKey(Builder $relation)
+    {
+        return !is_a($relation, BelongsTo::class);
+    }
+
+    private function setExpandableRelations(string $relation, $fk)
+    {
+        return $this->expandableRelations[$relation]['fk'] = $fk;
     }
 
     protected function filterRequest()
@@ -102,7 +115,9 @@ class ExpansionRequest extends Request implements RequestInterface
                         }
                     }
 
-                    when(! isset($settings['fk']), fn () => $this->expandableRelations[$relation]['fk'] = $this->subjectModel->getForeignKey());
+                    if ($this->shouldAddForeignKey($this->subjectModel->{$relation}())) {
+                        when(! isset($settings['fk']), fn () => $this->setExpandableRelations($relation, $this->subjectModel->getForeignKey()));
+                    }
                 }
             }
         } catch (TunerException|ClientException $e) {

@@ -1,0 +1,16 @@
+meta {
+  name: columns!
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/users?expand[posts]=p&p_columns!=updated_at, created_at, user_id, id
+  body: none
+  auth: none
+}
+
+params:query {
+  expand[posts]: p
+  p_columns!: updated_at, created_at, user_id, id
+}

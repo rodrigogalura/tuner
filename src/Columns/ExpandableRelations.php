@@ -47,7 +47,7 @@ class ExpandableRelations
 
         foreach ($this->expandableRelations as $relation => $settings) {
             try {
-                $relationModel = $this->subjectModel->{$relation}();
+                $this->subjectModel->{$relation}(); // relation validation
             } catch (BadMethodCallException $e) {
                 throw new TunerException(sprintf(static::ERR_MSG_INVALID_RELATION, $modelName, $relation), static::ERR_CODE_INVALID_RELATION);
             }

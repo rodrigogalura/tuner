@@ -42,31 +42,26 @@ trait Tunable
 
     protected function getExpandableRelations(): array
     {
-        return [
-            'phone' => [
-                // 'table' => 'phones',
-                // 'fk' => 'user_ida',
-                'options' => [
-                    'projectable_columns' => ['*'],
-                    'sortable_columns' => ['*'],
-                    'searchable_columns' => ['*'],
-                    'filterable_columns' => ['*'],
-                ],
+        return [];
 
-                // Check if possible
-                // 'limitable' => true,
-                // 'paginatable' => true,
-            ],
+        /*
+            return [
+                '[relation]' => [
+                    // 'table' => '[table]',
+                    // 'fk' => '[foreign_key]',
+                    'options' => [
+                        'projectable_columns' => ['*'],
+                        'sortable_columns' => ['*'],
+                        'searchable_columns' => ['*'],
+                        'filterable_columns' => ['*'],
+                    ],
 
-            'posts' => [
-                'options' => [
-                    'projectable_columns' => ['*'],
-                    'sortable_columns' => ['*'],
-                    'searchable_columns' => ['*'],
-                    'filterable_columns' => ['*'],
+                    // Check if possible
+                    // 'limitable' => true,
+                    // 'paginatable' => true,
                 ],
-            ],
-        ];
+            ];
+         */
     }
 
     protected function limitable(): bool
