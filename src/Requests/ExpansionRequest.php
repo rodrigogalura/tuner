@@ -117,7 +117,7 @@ class ExpansionRequest extends Request implements RequestInterface
             }
         } catch (TunerException|ClientException $e) {
             $class = get_class($e);
-            throw new $class("Expansion [{$relation}]: ".$e->getMessage());
+            throw new $class("Expansion [{$relation}]: ".$e->getMessage(), $e->getCode());
         }
     }
 

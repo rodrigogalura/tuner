@@ -2,9 +2,9 @@
 
 namespace Tuner;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Tuner\Requests\FilterRequest;
 use Tuner\Requests\LimitRequest;

@@ -45,6 +45,8 @@ class ExpandableRelations
 
     private function validate()
     {
+        throw_if(empty($this->expandableRelations), new TunerException(static::ERR_MSG_DISABLED, static::ERR_CODE_DISABLED));
+
         $modelName = class_basename($this->subjectModel::class);
 
         foreach ($this->expandableRelations as $relation => $settings) {
