@@ -12,7 +12,7 @@ describe('Filter Request', function (): void {
         $request = ['filter' => ['foo' => 'fooVal']];
 
         // Act & Assert
-        new FilterRequest($config, $request, visibleColumns: ['foo'], filterableColumns: []);
+        new FilterRequest($request, $config, visibleColumns: ['foo'], filterableColumns: []);
     })->throws(
         TunerException::class,
         exceptionCode: FilterableColumns::ERR_CODE_DISABLED
@@ -24,7 +24,7 @@ describe('Filter Request', function (): void {
         $request = ['filter' => ['foo' => 'fooVal']];
 
         // Act & Assert
-        new FilterRequest($config, $request, visibleColumns: ['foo', 'bar'], filterableColumns: ['baz']);
+        new FilterRequest($request, $config, visibleColumns: ['foo', 'bar'], filterableColumns: ['baz']);
     })->throws(
         TunerException::class,
         exceptionCode: FilterableColumns::ERR_CODE_PCOLS_VCOLS_NO_MATCH
@@ -36,7 +36,7 @@ describe('Filter Request', function (): void {
         $request = ['filter' => $requestValue];
 
         // Act & Assert
-        new FilterRequest($config, $request, visibleColumns: ['foo'], filterableColumns: ['*']);
+        new FilterRequest($request, $config, visibleColumns: ['foo'], filterableColumns: ['*']);
     })
         ->with([1, 'foo'])
         ->throws(ClientException::class);
@@ -47,7 +47,7 @@ describe('Filter Request', function (): void {
         $request = ['filter' => $requestValue];
 
         // Act & Assert
-        new FilterRequest($config, $request, visibleColumns: ['foo', 'bar'], filterableColumns: ['*']);
+        new FilterRequest($request, $config, visibleColumns: ['foo', 'bar'], filterableColumns: ['*']);
     })
         ->with([
             ['requestValue' => ['foo and bar' => 'foobar']],
@@ -61,7 +61,7 @@ describe('Filter Request', function (): void {
         $request = ['filter' => ['baz' => 'asc']];
 
         // Act & Assert
-        new FilterRequest($config, $request, visibleColumns: ['foo', 'bar'], filterableColumns: ['*']);
+        new FilterRequest($request, $config, visibleColumns: ['foo', 'bar'], filterableColumns: ['*']);
     })
         ->throws(ClientException::class);
 
@@ -71,7 +71,7 @@ describe('Filter Request', function (): void {
         $request = ['filter' => ['baz' => 'bazVal']];
 
         // Act & Assert
-        $request = new FilterRequest($config, $request, visibleColumns: ['foo', 'bar', 'baz'], filterableColumns: ['*']);
+        $request = new FilterRequest($request, $config, visibleColumns: ['foo', 'bar', 'baz'], filterableColumns: ['*']);
         expect($request())->toBe([
             'filter' => [
                 ['AND', 'baz', false, '=', 'bazVal'],

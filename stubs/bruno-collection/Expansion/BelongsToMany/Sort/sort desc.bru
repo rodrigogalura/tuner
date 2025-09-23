@@ -1,0 +1,20 @@
+meta {
+  name: sort desc
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/users?expand[posts]=p&p_sort[id]=-
+  body: none
+  auth: none
+}
+
+params:query {
+  expand[posts]: p
+  p_sort[id]: -
+  ~p_sort[id]: d
+  ~p_sort[id]: des
+  ~p_sort[id]: desc
+  ~p_sort[id]: descending
+}

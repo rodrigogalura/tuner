@@ -15,7 +15,7 @@ describe('Sort Request', function (): void {
         $request = ['sort' => ['foo' => 'asc']];
 
         // Act & Assert
-        new SortRequest($config, $request, visibleColumns: ['foo'], sortableColumns: []);
+        new SortRequest($request, $config, visibleColumns: ['foo'], sortableColumns: []);
     })->throws(
         TunerException::class,
         exceptionCode: SortableColumns::ERR_CODE_DISABLED
@@ -30,7 +30,7 @@ describe('Sort Request', function (): void {
         $request = ['sort' => ['foo' => 'asc']];
 
         // Act & Assert
-        new SortRequest($config, $request, visibleColumns: ['foo', 'bar'], sortableColumns: ['baz']);
+        new SortRequest($request, $config, visibleColumns: ['foo', 'bar'], sortableColumns: ['baz']);
     })->throws(
         TunerException::class,
         exceptionCode: SortableColumns::ERR_CODE_PCOLS_VCOLS_NO_MATCH
@@ -45,7 +45,7 @@ describe('Sort Request', function (): void {
         $request = ['sort' => $requestValue];
 
         // Act & Assert
-        new SortRequest($config, $request, ['foo'], ['*']);
+        new SortRequest($request, $config, ['foo'], ['*']);
     })
         ->with([1, 'foo'])
         ->throws(ClientException::class);
@@ -59,7 +59,7 @@ describe('Sort Request', function (): void {
         $request = ['sort' => ['baz' => 'asc']];
 
         // Act & Assert
-        new SortRequest($config, $request, visibleColumns: ['foo', 'bar'], sortableColumns: ['*']);
+        new SortRequest($request, $config, visibleColumns: ['foo', 'bar'], sortableColumns: ['*']);
     })
         ->throws(ClientException::class);
 
@@ -72,7 +72,7 @@ describe('Sort Request', function (): void {
         $request = ['sort' => ['baz' => 'asc']];
 
         // Act & Assert
-        $request = new SortRequest($config, $request, visibleColumns: ['foo', 'bar', 'baz'], sortableColumns: ['*']);
+        $request = new SortRequest($request, $config, visibleColumns: ['foo', 'bar', 'baz'], sortableColumns: ['*']);
         expect($request())->toBe(['sort' => ['baz' => 'asc']]);
     });
 });

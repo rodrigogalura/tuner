@@ -19,7 +19,7 @@ describe('Projection Request', function (): void {
         $request = ['columns' => 1];
 
         // Act & Assert
-        new ProjectionRequest($config, $request, visibleColumns: ['foo'], projectableColumns: [], definedColumns: ['*']);
+        new ProjectionRequest($request, $config, visibleColumns: ['foo'], projectableColumns: [], definedColumns: ['*']);
     })->throws(
         TunerException::class,
         exceptionCode: ProjectableColumns::ERR_CODE_DISABLED
@@ -37,7 +37,7 @@ describe('Projection Request', function (): void {
         $request = ['columns' => 1];
 
         // Act & Assert
-        new ProjectionRequest($config, $request, visibleColumns: ['foo', 'bar'], projectableColumns: ['baz'], definedColumns: ['*']);
+        new ProjectionRequest($request, $config, visibleColumns: ['foo', 'bar'], projectableColumns: ['baz'], definedColumns: ['*']);
     })->throws(
         TunerException::class,
         exceptionCode: ProjectableColumns::ERR_CODE_PCOLS_VCOLS_NO_MATCH
@@ -55,7 +55,7 @@ describe('Projection Request', function (): void {
         $request = ['columns' => 1];
 
         // Act & Assert
-        new ProjectionRequest($config, $request, visibleColumns: ['foo'], projectableColumns: ['foo'], definedColumns: []);
+        new ProjectionRequest($request, $config, visibleColumns: ['foo'], projectableColumns: ['foo'], definedColumns: []);
     })->throws(
         TunerException::class,
         exceptionCode: DefinedColumns::ERR_CODE_QUERY_EXCEPTION
@@ -73,7 +73,7 @@ describe('Projection Request', function (): void {
         $request = ['columns' => 1];
 
         // Act & Assert
-        new ProjectionRequest($config, $request, visibleColumns: ['foo', 'bar'], projectableColumns: ['*'], definedColumns: ['baz']);
+        new ProjectionRequest($request, $config, visibleColumns: ['foo', 'bar'], projectableColumns: ['*'], definedColumns: ['baz']);
     })->throws(
         TunerException::class,
         exceptionCode: DefinedColumns::ERR_CODE_DCOLS_VCOLS_NO_MATCH
@@ -94,7 +94,7 @@ describe('Projection Request', function (): void {
         ];
 
         // Act & Assert
-        new ProjectionRequest($config, $request, visibleColumns: [], projectableColumns: [], definedColumns: []);
+        new ProjectionRequest($request, $config, visibleColumns: [], projectableColumns: [], definedColumns: []);
     })->throws(ClientException::class);
 
     it('should thrown an exception when request value is not string.', function (): void {
@@ -109,7 +109,7 @@ describe('Projection Request', function (): void {
         $request = ['columns' => 1];
 
         // Act & Assert
-        new ProjectionRequest($config, $request, visibleColumns: ['foo'], projectableColumns: ['foo'], definedColumns: ['*']);
+        new ProjectionRequest($request, $config, visibleColumns: ['foo'], projectableColumns: ['foo'], definedColumns: ['*']);
     })->throws(ClientException::class);
 
     it('should thrown an exception when requesting non-existing columns.', function (): void {
@@ -124,7 +124,7 @@ describe('Projection Request', function (): void {
         $request = ['columns' => 'baz'];
 
         // Act & Assert
-        new ProjectionRequest($config, $request, visibleColumns: ['foo', 'bar'], projectableColumns: ['*'], definedColumns: ['*']);
+        new ProjectionRequest($request, $config, visibleColumns: ['foo', 'bar'], projectableColumns: ['*'], definedColumns: ['*']);
     })
         ->throws(ClientException::class);
 
@@ -140,7 +140,7 @@ describe('Projection Request', function (): void {
         $request = ['columns' => 'baz'];
 
         // Act & Assert
-        $request = new ProjectionRequest($config, $request, visibleColumns: ['foo', 'bar', 'baz'], projectableColumns: ['*'], definedColumns: ['*']);
+        $request = new ProjectionRequest($request, $config, visibleColumns: ['foo', 'bar', 'baz'], projectableColumns: ['*'], definedColumns: ['*']);
         expect($request())->toBe(['columns' => ['baz']]);
     });
 
@@ -156,7 +156,7 @@ describe('Projection Request', function (): void {
         $request = ['columns!' => 'baz'];
 
         // Act & Assert
-        $request = new ProjectionRequest($config, $request, visibleColumns: ['foo', 'bar', 'baz'], projectableColumns: ['*'], definedColumns: ['*']);
+        $request = new ProjectionRequest($request, $config, visibleColumns: ['foo', 'bar', 'baz'], projectableColumns: ['*'], definedColumns: ['*']);
         expect($request())->toBe(['columns!' => ['foo', 'bar']]);
     });
 });

@@ -1,0 +1,18 @@
+meta {
+  name: filter or eq
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{host}}/api/users?expand[posts]=p&p_filter[id]=1&p_filter[or%20title]=itaque
+  body: none
+  auth: none
+}
+
+params:query {
+  expand[posts]: p
+  p_filter[id]: 1
+  p_filter[or%20title]: itaque
+  ~p_filter[OR%20title]: itaque
+}

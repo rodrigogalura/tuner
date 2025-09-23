@@ -1,0 +1,17 @@
+meta {
+  name: search *_*
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/users?expand[posts]=p&p_search[title]=qui
+  body: none
+  auth: none
+}
+
+params:query {
+  expand[posts]: p
+  p_search[title]: qui
+  ~p_search[title]: *III*
+}

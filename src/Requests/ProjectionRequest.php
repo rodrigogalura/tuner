@@ -14,22 +14,22 @@ use Tuner\Tuner;
 class ProjectionRequest extends Request implements RequestInterface
 {
     public function __construct(
-        array $config,
         array $request,
+        array $config,
         private array $visibleColumns,
         private array $projectableColumns,
         private array $definedColumns,
     ) {
-        parent::__construct($config[Tuner::PARAM_KEY], $request);
+        parent::__construct($request, $config[Tuner::PARAM_KEY]);
     }
 
     protected function validate()
     {
         switch (count($this->request)) {
             case 1:
-                $p = new ProjectableColumns($this->projectableColumns, $this->visibleColumns);
-                $q = new DefinedColumns($this->definedColumns, $this->visibleColumns);
-                $projectableColumns = array_intersect($p(), $q());
+                $p = (new ProjectableColumns($this->projectableColumns, $this->visibleColumns))();
+                $q = (new DefinedColumns($this->definedColumns, $this->visibleColumns))();
+                $projectableColumns = array_intersect($p, $q);
 
                 // Validate projection
                 [$paramKey, $paramValue] = [key($this->request), current($this->request)];

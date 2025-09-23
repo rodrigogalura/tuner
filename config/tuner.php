@@ -3,29 +3,41 @@
 return [
     'projection' => [
         'key' => [
-            'intersect' => 'columns',
-            'except' => 'columns!',
+            'intersect' => env('TUNER_INTERSECT_KEY', 'columns'),
+            'except' => env('TUNER_EXCEPT_KEY', 'columns!'),
         ],
     ],
 
     'sort' => [
-        'key' => 'sort',
+        'key' => env('TUNER_SORT_KEY', 'sort'),
     ],
 
     'search' => [
-        'key' => 'search',
-        'minimum_length' => 2,
+        'key' => env('TUNER_SEARCH_KEY', 'search'),
+        'minimum_length' => env('TUNER_SEARCH_MINIMUM_LENGTH', 2),
     ],
 
     'filter' => [
-        'key' => array_combine($keys = ['filter', 'in', 'between'], $keys),
+        'key' => array_combine($keys = [
+            env('TUNER_FILTER_KEY', 'filter'),
+            env('TUNER_IN_KEY', 'in'),
+            env('TUNER_BETWEEN_KEY', 'between'),
+        ], $keys),
     ],
 
     'limit' => [
-        'key' => array_combine($keys = ['limit', 'offset'], $keys),
+        'key' => array_combine($keys = [
+            env('TUNER_LIMIT_KEY', 'limit'),
+            env('TUNER_LIMIT_KEY', 'offset'),
+        ], $keys),
     ],
 
     'pagination' => [
-        'key' => 'page-size',
+        'key' => env('TUNER_PAGINATION_KEY', 'page-size'),
+    ],
+
+    'expansion' => [
+        'key' => env('TUNER_EXPANSION_KEY', 'expand'),
+        'separator' => env('TUNER_EXPANSION_SEPARATOR', '_'),
     ],
 ];

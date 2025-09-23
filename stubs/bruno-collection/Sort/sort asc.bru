@@ -1,0 +1,17 @@
+meta {
+  name: sort asc
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/users?sort[id]=desc&columns=id, name
+  body: none
+  auth: none
+}
+
+params:query {
+  sort[id]: desc
+  columns: id, name
+  ~sort[name]: asc
+}

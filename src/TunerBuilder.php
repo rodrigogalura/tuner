@@ -4,6 +4,7 @@ namespace Tuner;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Tuner\Requests\FilterRequest;
 use Tuner\Requests\LimitRequest;
@@ -27,7 +28,7 @@ final class TunerBuilder
 
     private readonly ?array $pagination;
 
-    private readonly ?array $expand;
+    private readonly ?array $expansion;
 
     /**
      * Private constructor
@@ -89,6 +90,85 @@ final class TunerBuilder
         }
     }
 
+    private function buildExpansion(array $expansion): void
+    {
+        $expandKey = $expansion['config'][Tuner::CONFIG_EXPANSION][Tuner::PARAM_KEY];
+
+        foreach ($expansion['request'][$expandKey] as $relation => $alias) {
+            $settings = $expansion['expandableRelations'][$relation] ?? null;
+
+            $isRelationBelongsTo = $settings['relationClass'] === BelongsTo::class;
+            if ($isRelationBelongsTo) {
+                $this->builder->select(array_merge($this->builder->getQuery()->columns, [$settings['fk']]));
+            }
+
+            $this->builder->with($relation, function ($builder) use ($settings, $expansion, $relation, $alias, $isRelationBelongsTo): void {
+                if (! is_null($settings)) {
+                    $table = $settings['table'];
+                    $fk = $settings['fk'];
+
+                    $keys = [
+                        implode(',', $expansion['config'][Tuner::CONFIG_PROJECTION][Tuner::PARAM_KEY]) => function (array $args): void {
+                            [$columns, $fk] = [$args['request'], $args['fk']];
+
+                            $shouldAddFk = ! $args['isRelationBelongsTo'] && ! in_array($fk, $columns);
+                            if ($shouldAddFk) {
+                                array_push($columns, $fk);
+                            }
+
+                            $args['builder']->select(array_map(fn ($field): string => "{$args['table']}.{$field}", $columns));
+                        },
+                        $expansion['config'][Tuner::CONFIG_SORT][Tuner::PARAM_KEY] => function (array $args): void {
+                            $sort = $args['request'];
+
+                            foreach ($sort as $field => $direction) {
+                                $args['builder']->orderBy("{$args['table']}.{$field}", $direction);
+                            }
+                        },
+                        $expansion['config'][Tuner::CONFIG_SEARCH][Tuner::PARAM_KEY] => function (array $args): void {
+                            $search = $args['request'];
+
+                            $args['builder']->whereAny(explode_sanitize(key($search)), 'LIKE', current($search));
+                        },
+                        implode(',', $expansion['config'][Tuner::CONFIG_FILTER][Tuner::PARAM_KEY]) => function (array $args): void {
+                            $filter = $args['request'];
+
+                            switch ($args['modifier']) {
+                                case FilterRequest::KEY_FILTER:
+                                    foreach ($filter as [$bool, $field, $not, $operator, $val]) {
+                                        $args['builder']->where($field, $operator, $val, $bool.($not ? ' NOT' : ''));
+                                    }
+                                    break;
+
+                                case FilterRequest::KEY_IN:
+                                    foreach ($filter as [$bool, $field, $not, $val]) {
+                                        $args['builder']->whereIn($field, $val, $bool, $not);
+                                    }
+                                    break;
+
+                                case FilterRequest::KEY_BETWEEN:
+                                    foreach ($filter as [$bool, $field, $not, $val]) {
+                                        $args['builder']->whereBetween($field, $val, $bool, $not);
+                                    }
+                                    break;
+                            }
+                        },
+                    ];
+
+                    foreach ($keys as $key => $action) {
+                        $modifiers = explode(',', $key);
+
+                        foreach ($modifiers as $modifier) {
+                            if ($request = $expansion['request'][$alias.$expansion['config'][Tuner::CONFIG_EXPANSION]['separator'].$modifier] ?? null) {
+                                $action(compact('modifier', 'request', 'builder', 'table', 'fk', 'isRelationBelongsTo'));
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+
     private function buildLimit(array $limit): void
     {
         $this->builder->limit($limit[LimitRequest::KEY_LIMIT]);
@@ -101,6 +181,13 @@ final class TunerBuilder
     private function buildPagination(int $pageSize): LengthAwarePaginator
     {
         return $this->builder->paginate($pageSize);
+    }
+
+    public function expand(array $request, array $config, array $expandableRelations)
+    {
+        $this->expansion = compact('request', 'config', 'expandableRelations');
+
+        return $this;
     }
 
     public function __call(string $attribute, array $arguments)
@@ -138,6 +225,10 @@ final class TunerBuilder
 
         if ($this->wasAssigned('filter')) {
             $this->buildFilter($this->filter);
+        }
+
+        if ($this->wasAssigned('expansion')) {
+            $this->buildExpansion($this->expansion);
         }
 
         if ($this->wasAssigned('limit')) {

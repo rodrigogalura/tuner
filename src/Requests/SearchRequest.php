@@ -14,12 +14,12 @@ use Tuner\Tuner;
 class SearchRequest extends Request implements RequestInterface
 {
     public function __construct(
-        private array $config,
         array $request,
+        private array $config,
         private array $visibleColumns,
         private array $searchableColumns,
     ) {
-        parent::__construct($config[Tuner::PARAM_KEY], $request);
+        parent::__construct($request, $config[Tuner::PARAM_KEY]);
     }
 
     private static function searchKeywordInterpreter($searchRequest)
@@ -30,7 +30,7 @@ class SearchRequest extends Request implements RequestInterface
             $searchKeyword = "*{$searchKeyword}*";
         }
 
-        return [$columns => Str::of($searchKeyword)->replaceMatches('/^\*|\*$/', '%')->value];
+        return [$columns => Str::replaceMatches(subject: $searchKeyword, pattern: '/^\*|\*$/', replace: '%')];
     }
 
     protected function validate()
