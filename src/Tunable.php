@@ -55,10 +55,6 @@ trait Tunable
                         'searchable_columns' => ['*'],
                         'filterable_columns' => ['*'],
                     ],
-
-                    // Check if possible
-                    // 'limitable' => true,
-                    // 'paginatable' => true,
                 ],
             ];
          */
