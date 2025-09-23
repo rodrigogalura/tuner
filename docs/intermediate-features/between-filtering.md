@@ -1,5 +1,5 @@
 ---
-title: Between Filtering
+title: Between
 level: 2
 order: 3
 category: intermediate
@@ -7,7 +7,7 @@ category: intermediate
 
 {% include features.html %}
 
-## Between Filtering (`between[column]=min,max`)
+## Filter (`between[column]=min,max`)
 
 The **between feature** allows you to filter results based on a range of values for one or more columns. It also supports combining multiple conditions using logical operators like AND, OR, and their negated versions.
 
@@ -29,9 +29,9 @@ The **between feature** allows you to filter results based on a range of values 
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name        | Type   | Description                                            |
-|-------------|--------|--------------------------------------------------------|
-| between[id] | string | Comma-separated values defining the min and max range. |
+| Name                   | Type   | Description                                            |
+|------------------------|--------|--------------------------------------------------------|
+| <ins>between</ins>[id] | string | Comma-separated values defining the min and max range. |
 </details>
 
 </div>
@@ -69,10 +69,10 @@ The **between feature** allows you to filter results based on a range of values 
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name                    | Type   | Description                                       |
-|-------------------------|--------|---------------------------------------------------|
-| between[id]             | string | Comma-separated ID bounds.                        |
-| between[and created_at] | string | Apply AND logic between ID and created_at ranges. |
+| Name                               | Type   | Description                                       |
+|------------------------------------|--------|---------------------------------------------------|
+| <ins>between</ins>[id]             | string | Comma-separated ID bounds.                        |
+| <ins>between</ins>[and created_at] | string | Apply AND logic between ID and created_at ranges. |
 </details>
 
 </div>
@@ -107,10 +107,10 @@ The **between feature** allows you to filter results based on a range of values 
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name                   | Type   | Description                                     |
-|------------------------|--------|-------------------------------------------------|
-| between[id]            | string | Comma-separated ID bounds.                      |
-| between[or created_at] | string | Apply OR logic between ID or created_at ranges. |
+| Name                              | Type   | Description                                     |
+|-----------------------------------|--------|-------------------------------------------------|
+| <ins>between</ins>[id]            | string | Comma-separated ID bounds.                      |
+| <ins>between</ins>[or created_at] | string | Apply OR logic between ID or created_at ranges. |
 </details>
 
 </div>
@@ -148,10 +148,10 @@ The **between feature** allows you to filter results based on a range of values 
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name                     | Type   | Description                                                             |
-|--------------------------|--------|-------------------------------------------------------------------------|
-| between[id]              | string | Comma-separated ID bounds.                                              |
-| between[and! created_at] | string | Apply NOT AND - match ID range but exclude those within the date range. |
+| Name                                | Type   | Description                                                             |
+|-------------------------------------|--------|-------------------------------------------------------------------------|
+| <ins>between</ins>[id]              | string | Comma-separated ID bounds.                                              |
+| <ins>between</ins>[and! created_at] | string | Apply NOT AND - match ID range but exclude those within the date range. |
 </details>
 
 </div>
@@ -186,10 +186,10 @@ The **between feature** allows you to filter results based on a range of values 
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name                    | Type   | Description                                                         |
-|-------------------------|--------|---------------------------------------------------------------------|
-| between[id]             | string | Comma-separated ID bounds.                                          |
-| between[or! created_at] | string | Apply NOT OR - exclude results matching any part of the date range. |
+| Name                               | Type   | Description                                                         |
+|------------------------------------|--------|---------------------------------------------------------------------|
+| <ins>between</ins>[id]             | string | Comma-separated ID bounds.                                          |
+| <ins>between</ins>[or! created_at] | string | Apply NOT OR - exclude results matching any part of the date range. |
 </details>
 
 </div>
@@ -207,5 +207,3 @@ The **between feature** allows you to filter results based on a range of values 
 </div>
 
 <br>
-
----

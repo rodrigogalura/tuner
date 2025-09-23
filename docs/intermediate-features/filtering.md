@@ -1,5 +1,5 @@
 ---
-title: Filtering
+title: Filter
 level: 2
 order: 1
 category: intermediate
@@ -7,7 +7,7 @@ category: intermediate
 
 {% include features.html %}
 
-## Filtering (`filter[column]`)
+## Filter (`filter[column]`)
 
 The **filter** query allows you to compare column values using math operators like =, >, >=, <, <=, <>. You can also chain multiple conditions with logical operators.
 
@@ -29,9 +29,9 @@ The **filter** query allows you to compare column values using math operators li
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name       | Type   | Description             |
-|------------|--------|-------------------------|
-| filter[id] | string | Match users with ID = 1 |
+| Name                  | Type   | Description             |
+|-----------------------|--------|-------------------------|
+| <ins>filter</ins>[id] | string | Match users with ID = 1 |
 </details>
 
 </div>
@@ -204,14 +204,14 @@ The **filter** query allows you to compare column values using math operators li
 
 ## Logical Operators
 
-Like other filters, you can combine filtering rules using:
+You can combine filtering rules using:
 
-| Syntax             | Logic Description                        |
-|--------------------|------------------------------------------|
-| filter[and column]  | All conditions must be true (AND)        |
-| filter[or column]   | At least one condition must be true (OR) |
-| filter[and! column] | Negate condition (NOT AND)               |
-| filter[or! column]  | Negate one of the conditions (NOT OR)    |
+| Syntax                         | Logic Description                        |
+|--------------------------------|------------------------------------------|
+| <ins>filter</ins>[and column]  | All conditions must be true (AND)        |
+| <ins>filter</ins>[or column]   | At least one condition must be true (OR) |
+| <ins>filter</ins>[and! column] | Negate condition (NOT AND)               |
+| <ins>filter</ins>[or! column]  | Negate one of the conditions (NOT OR)    |
 
 ### Example: AND Operator
 
@@ -301,5 +301,3 @@ Excludes users with <ins>status=banned where ID < 3</ins>.
 </div>
 
 <br>
-
----

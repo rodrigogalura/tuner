@@ -31,10 +31,10 @@ The **pagination** feature allows clients to retrieve paginated results along wi
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name     | Type | Description                                     |
-|----------|------|-------------------------------------------------|
-| per-page | int  | Number of items per page                        |
-| page     | int  | Page number to retrieve (optional, default is 1 |
+| Name                 | Type | Description                                      |
+|----------------------|------|--------------------------------------------------|
+| <ins>page-size</ins> | int  | Number of items per page                         |
+| <ins>page</ins>      | int  | Page number to retrieve (optional, default is 1) |
 </details>
 
 </div>
@@ -86,5 +86,3 @@ The **pagination** feature allows clients to retrieve paginated results along wi
 </div>
 
 <br>
-
----

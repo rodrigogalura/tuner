@@ -27,10 +27,10 @@ The **limit/offset** feature provides an alternative to pagination by returning 
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name   | Type | Description                                |
-|--------|------|--------------------------------------------|
-| limit  | int  | Number of records to return                |
-| offset | int  | Number of records to skip before returning |
+| Name              | Type | Description                                |
+|-------------------|------|--------------------------------------------|
+| <ins>limit</ins>  | int  | Number of records to return                |
+| <ins>offset</ins> | int  | Number of records to skip before returning |
 </details>
 
 </div>
@@ -57,5 +57,3 @@ The **limit/offset** feature provides an alternative to pagination by returning 
 </div>
 
 <br>
-
----

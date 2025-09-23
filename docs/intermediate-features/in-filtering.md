@@ -1,5 +1,5 @@
 ---
-title: In Filtering
+title: In
 level: 2
 order: 2
 category: intermediate
@@ -7,7 +7,7 @@ category: intermediate
 
 {% include features.html %}
 
-## In Filtering (`in[column]`)
+## Filter (`in[column]`)
 
 The **in-filter** allows clients to request resources that match specific values for a column. You can also combine multiple columns using logical operators.
 
@@ -29,9 +29,9 @@ The **in-filter** allows clients to request resources that match specific values
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name   | Type   | Description                             |
-|--------|--------|-----------------------------------------|
-| in[id] | string | Comma-separated list of IDs to include. |
+| Name              | Type   | Description                             |
+|-------------------|--------|-----------------------------------------|
+| <ins>in</ins>[id] | string | Comma-separated list of IDs to include. |
 </details>
 
 </div>
@@ -67,10 +67,10 @@ The **in-filter** allows clients to request resources that match specific values
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name           | Type   | Description                                         |
-|----------------|--------|-----------------------------------------------------|
-| in[id]         | string | Match IDs 1, 2, 3                                   |
-| in[and status] | string | AND condition for matching users with status values |
+| Name                      | Type   | Description                                         |
+|---------------------------|--------|-----------------------------------------------------|
+| <ins>in</ins>[id]         | string | Match IDs 1, 2, 3                                   |
+| <ins>in</ins>[and status] | string | AND condition for matching users with status values |
 </details>
 
 </div>
@@ -105,10 +105,10 @@ The **in-filter** allows clients to request resources that match specific values
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name          | Type   | Description                     |
-|---------------|--------|---------------------------------|
-| in[id]        | string | Match IDs 1 or 2                |
-| in[or status] | string | OR condition for matching roles |
+| Name                     | Type   | Description                     |
+|--------------------------|--------|---------------------------------|
+| <ins>in</ins>[id]        | string | Match IDs 1 or 2                |
+| <ins>in</ins>[or status] | string | OR condition for matching roles |
 </details>
 
 </div>
@@ -143,10 +143,10 @@ The **in-filter** allows clients to request resources that match specific values
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name                | Type   | Description                                            |
-|---------------------|--------|--------------------------------------------------------|
-| in[id]              | string | Filter by specific IDs                                 |
-| in[and! created_at] | string | Exclude results where status is "banned" using NOT AND |
+| Name                           | Type   | Description                                            |
+|--------------------------------|--------|--------------------------------------------------------|
+| <ins>in</ins>[id]              | string | Filter by specific IDs                                 |
+| <ins>in</ins>[and! created_at] | string | Exclude results where status is "banned" using NOT AND |
 </details>
 
 </div>
@@ -181,10 +181,10 @@ The **in-filter** allows clients to request resources that match specific values
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name               | Type   | Description                                                        |
-|--------------------|--------|--------------------------------------------------------------------|
-| in[id]             | string | Filter by specific IDs                                             |
-| in[or! created_at] | string | Exclude if any role matches "banned" or "guest" using NOT OR logic |
+| Name                          | Type   | Description                                                        |
+|-------------------------------|--------|--------------------------------------------------------------------|
+| <ins>in</ins>[id]             | string | Filter by specific IDs                                             |
+| <ins>in</ins>[or! created_at] | string | Exclude if any role matches "banned" or "guest" using NOT OR logic |
 </details>
 
 </div>
@@ -202,5 +202,3 @@ The **in-filter** allows clients to request resources that match specific values
 </div>
 
 <br>
-
----

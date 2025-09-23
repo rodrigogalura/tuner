@@ -1,5 +1,5 @@
 ---
-title: Sorting
+title: Sort
 level: 2
 order: 2
 category: basic
@@ -7,7 +7,7 @@ category: basic
 
 {% include features.html %}
 
-## Sorting (`sort[column]`)
+## Sort (`sort[column]`)
 
 The **sorting** feature allows clients to specify the order in which results are returned by one or more columns. This helps improve data presentation on the frontend.
 
@@ -31,9 +31,9 @@ The **sorting** feature allows clients to specify the order in which results are
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name        | Type   | Description       |
-|-------------|--------|-------------------|
-| sort[column] | string | Value should be one of these: <ins>a</ins>, <ins>asc</ins> or <ins>ascending</ins> |
+| Name                    | Type   | Description                                                                        |
+|-------------------------|--------|------------------------------------------------------------------------------------|
+| <ins>sort</ins>[column] | string | Value should be one of these: <ins>a</ins>, <ins>asc</ins> or <ins>ascending</ins> |
 
 </details>
 </div>
@@ -85,9 +85,9 @@ Other accepted indicators: <ins>d</ins>, <ins>des</ins>, <ins>desc</ins>, <ins>d
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name         | Type   | Description                                                                                |
-|--------------|--------|--------------------------------------------------------------------------------------------|
-| sort[column]  | string | Value should be one of these: <ins>-</ins>, <ins>d</ins>, <ins>des</ins>, <ins>desc</ins> or <ins>descending</ins> |
+| Name                     | Type   | Description                                                                                                        |
+|--------------------------|--------|--------------------------------------------------------------------------------------------------------------------|
+| <ins>sort</ins>[column]  | string | Value should be one of these: <ins>-</ins>, <ins>d</ins>, <ins>des</ins>, <ins>desc</ins> or <ins>descending</ins> |
 </details>
 </div>
 
@@ -120,5 +120,3 @@ Other accepted indicators: <ins>d</ins>, <ins>des</ins>, <ins>desc</ins>, <ins>d
 </div>
 
 <br>
-
----

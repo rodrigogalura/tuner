@@ -78,7 +78,7 @@ order: 3
 
 <sup>- Enable or disable specific features.</sup>
 
-<sup>- Extend or override behaviors such as filter operators, column resolution, or pagination format.</sup>
+<!-- <sup>- Extend or override behaviors such as filter operators, column resolution, or pagination format.</sup> -->
 
 > <sup>A configuration file is published where you can fine-tune how Tuner behaves in your application.</sup>
 
@@ -103,5 +103,3 @@ order: 3
 > <sup>If you’re using a different API client like *Postman* or *Insomnia*, you can easily convert the Bruno collection using available tools or export options.</sup>
 
 <br>
-
----

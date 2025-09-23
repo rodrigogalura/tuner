@@ -29,9 +29,9 @@ The **projection** feature allows clients to include or exclude specific columns
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name     | Type   | Description                                 |
-|----------|--------|---------------------------------------------|
-| columns! | string | Comma-separated list of columns to include. |
+| Name               | Type   | Description                                 |
+|--------------------|--------|---------------------------------------------|
+| <ins>columns</ins> | string | Comma-separated list of columns to include. |
 </details>
 
 </div>
@@ -76,9 +76,9 @@ The **projection** feature allows clients to include or exclude specific columns
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name    | Type   | Description                                |
-|---------|--------|--------------------------------------------|
-| columns! | string | Comma-separated list of columns to exclude. |
+| Name                | Type   | Description                                |
+|---------------------|--------|--------------------------------------------|
+| <ins>columns!</ins> | string | Comma-separated list of columns to exclude. |
 </details>
 
 </div>
@@ -106,5 +106,3 @@ The **projection** feature allows clients to include or exclude specific columns
 </div>
 
 <br>
-
----

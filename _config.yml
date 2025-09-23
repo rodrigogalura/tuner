@@ -38,7 +38,7 @@ plugins:
 
 markdown: GFM
 
-show_downloads: true
+# show_downloads: true
 google_analytics: G-DBXT8PPJHW
 
 # Exclude from processing.

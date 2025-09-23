@@ -1,5 +1,5 @@
 ---
-title: Searching
+title: Search
 level: 2
 order: 3
 category: basic
@@ -7,7 +7,7 @@ category: basic
 
 {% include features.html %}
 
-## Searching (`search[column]`)
+## Search (`search[column]`)
 
 The **searching** feature allows clients to perform keyword-based searches across defined columns. It’s useful for implementing search bars or global search functionalities in applications.
 
@@ -33,9 +33,9 @@ The **searching** feature allows clients to perform keyword-based searches acros
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name          | Type   | Description                                |
-|---------------|--------|--------------------------------------------|
-| search[column] | string | Wildcard pattern to search within a column. |
+| Name                      | Type   | Description                                 |
+|---------------------------|--------|---------------------------------------------|
+| <ins>search</ins>[column] | string | Wildcard pattern to search within a column. |
 </details>
 </div>
 
@@ -80,9 +80,9 @@ The **searching** feature allows clients to perform keyword-based searches acros
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
 
-| Name          | Type   | Description                                |
-|---------------|--------|--------------------------------------------|
-| search[column] | string | Match values starting with given term.     |
+| Name                      | Type   | Description                                |
+|---------------------------|--------|--------------------------------------------|
+| <ins>search</ins>[column] | string | Match values starting with given term.     |
 </details>
 </div>
 
@@ -155,3 +155,5 @@ The **searching** feature allows clients to perform keyword-based searches acros
 ---
 
 > You can chain multiple columns using `search[column1,column2,columnN]=term` for compound searches.
+
+<br>

@@ -75,7 +75,7 @@ Open your browser or an API client like Postman and try this example request:
 <div style="flex: 1;" class="highlight">
 <strong>Request</strong>
 
-<pre class="highlight"><code>GET /api/users?columns=id,name,email&search[name]=Dr*</code></pre>
+<pre class="highlight"><code>GET /api/users?columns=id,name&search[name]=Dr*</code></pre>
 
 </div>
 
@@ -95,3 +95,5 @@ Open your browser or an API client like Postman and try this example request:
 ## Next Steps
 
 Now that you’re up and running, explore more features in the [API Reference]({{ "/docs/api-reference.html" | relative_url }}).
+
+<br>
