@@ -126,8 +126,8 @@ Filter results within a range of values (numbers, text, or dates).
 Logical operators are supported for `advanced filtering`:  
 - `AND`  
 - `OR`  
-- `!AND`  
-- `!OR`  
+- `AND!`  
+- `OR!`  
 
 ![Logical operator demo][logical-and-gif]
 
