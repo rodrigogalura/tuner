@@ -21,6 +21,6 @@ class TunerServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__.'/../config/tuner.php' => config_path('tuner.php'),
-        ]);
+        ], 'tuner-config');
     }
 }
