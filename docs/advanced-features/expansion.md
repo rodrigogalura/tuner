@@ -28,6 +28,55 @@ Tuner supports all common Eloquent relationship types:
 
 ---
 
+## Setup
+
+By default, expansion is **disabled**.  
+To enable it, you need to define the `getExpandableRelations` method in your model and provide relation settings.
+
+### Example
+
+```php
+class User extends Model
+{
+    public function phone() // <-- relation name
+    {
+        return $this->hasOne(Phone::class);
+    }
+
+    protected function getExpandableRelations(): array
+    {
+        return [
+            'phone' => [ // <-- relation name
+                'options' => [
+                    'projectable_columns' => ['*'],
+                    'sortable_columns'   => ['*'],
+                    'searchable_columns' => ['*'],
+                    'filterable_columns' => ['*'],
+                ],
+
+                'table' => 'phones',  // optional
+                'fk'    => 'user_id', // optional
+            ],
+        ];
+    }
+}
+```
+
+**Explanation:**
+
+- phone — The relation name (must match your Eloquent relationship method).
+- options — Defines which modifiers can be applied on this relation.
+  - projectable_columns
+  - sortable_columns
+  - searchable_columns
+  - filterable_columns
+- table — (Optional) Explicitly specify the related table.
+- fk — (Optional) Explicitly specify the foreign key.
+
+<br>
+
+---
+
 ## Usage
 
 You can use the `expand` modifier to load related resources.  

@@ -13,16 +13,22 @@ Follow these 3 easy steps to install and set up **Tuner** in your Laravel projec
 - PHP ^8.0
 - Laravel ^12.0
 
----
 <br>
 
-## Step 1: Install via Composer
+---
+
+## Step 1: Install via Composer and Publish config file
 
 ```bash
 composer require rodrigogalura/tuner
+php artisan vendor:publish --tag=tuner-config
 ```
 
+This will create a file at <ins>config/tuner.php</ins>
+
 <br>
+
+---
 
 ## Step 2: Setup
 
@@ -56,6 +62,8 @@ Route::get('/api/users', function () {
 ```
 
 <br>
+
+---
 
 ## Step 3: Try It Out
 
@@ -94,6 +102,9 @@ Open your browser or an API client like Postman and try this example request:
 
 ## Next Steps
 
-Now that you’re up and running, explore more features in the [API Reference]({{ "/docs/api-reference.html" | relative_url }}).
+Now that you’re up and running:
+
+- Explore more features in the [API Reference]({{ "/docs/api-reference.html" | relative_url }}).
+- Or modify the default settings in [Configuration]({{ "/docs/configuration.html" | relative_url }}).
 
 <br>

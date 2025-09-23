@@ -1,7 +1,7 @@
 ---
 title: Frequently Asked Questions
 level: 1
-order: 3
+order: 4
 ---
 
 # ❓ Frequently Asked Questions (FAQs)
