@@ -15,11 +15,11 @@ class LimitRequest extends Request implements RequestInterface
     const KEY_OFFSET = 'offset';
 
     public function __construct(
-        array $config,
         array $request,
+        array $config,
         private bool $limitable,
     ) {
-        parent::__construct($config[Tuner::PARAM_KEY], $request);
+        parent::__construct($request, $config[Tuner::PARAM_KEY]);
     }
 
     protected function shouldValidate()

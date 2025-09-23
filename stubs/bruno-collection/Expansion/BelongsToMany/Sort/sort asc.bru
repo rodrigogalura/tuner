@@ -5,11 +5,12 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?sort[name]=d
+  url: {{host}}/api/users?expand[posts]=p&p_sort[title]=asc
   body: none
   auth: none
 }
 
 params:query {
-  sort[name]: d
+  expand[posts]: p
+  p_sort[title]: asc
 }

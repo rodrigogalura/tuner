@@ -16,7 +16,7 @@ describe('Search Request', function (): void {
         $request = ['search' => ['foo' => $searchKeyword]];
 
         // Act & Assert
-        new SearchRequest($config, $request, visibleColumns: ['foo'], searchableColumns: []);
+        new SearchRequest($request, $config, visibleColumns: ['foo'], searchableColumns: []);
     })
         ->with(['tuner', '*tuner*', '*tuner', 'tuner*'])
         ->throws(
@@ -34,7 +34,7 @@ describe('Search Request', function (): void {
         $request = ['search' => ['foo' => $searchKeyword]];
 
         // Act & Assert
-        new SearchRequest($config, $request, visibleColumns: ['foo', 'bar'], searchableColumns: ['baz']);
+        new SearchRequest($request, $config, visibleColumns: ['foo', 'bar'], searchableColumns: ['baz']);
     })
         ->with(['tuner', '*tuner*', '*tuner', 'tuner*'])
         ->throws(
@@ -52,7 +52,7 @@ describe('Search Request', function (): void {
         $request = ['search' => $requestValue];
 
         // Act & Assert
-        new SearchRequest($config, $request, visibleColumns: ['foo'], searchableColumns: ['*']);
+        new SearchRequest($request, $config, visibleColumns: ['foo'], searchableColumns: ['*']);
     })
         ->with([1, 'foo'])
         ->throws(ClientException::class);
@@ -72,7 +72,7 @@ describe('Search Request', function (): void {
         ];
 
         // Act & Assert
-        new SearchRequest($config, $request, visibleColumns: ['foo', 'bar'], searchableColumns: ['*']);
+        new SearchRequest($request, $config, visibleColumns: ['foo', 'bar'], searchableColumns: ['*']);
     })
         ->with(['tuner', '*tuner*', '*tuner', 'tuner*'])
         ->throws(ClientException::class);
@@ -87,7 +87,7 @@ describe('Search Request', function (): void {
         $request = ['search' => ['baz' => $searchKeyword]];
 
         // Act & Assert
-        new SearchRequest($config, $request, visibleColumns: ['foo', 'bar'], searchableColumns: ['*']);
+        new SearchRequest($request, $config, visibleColumns: ['foo', 'bar'], searchableColumns: ['*']);
     })
         ->with(['tuner', '*tuner*', '*tuner', 'tuner*'])
         ->throws(ClientException::class);
@@ -102,7 +102,7 @@ describe('Search Request', function (): void {
         $request = ['search' => ['bar' => $searchKeyword]];
 
         // Act & Assert
-        new SearchRequest($config, $request, visibleColumns: ['foo', 'bar'], searchableColumns: ['*']);
+        new SearchRequest($request, $config, visibleColumns: ['foo', 'bar'], searchableColumns: ['*']);
     })
         ->with(['tuner', '*tuner*', '*tuner', 'tuner*'])
         ->throws(ClientException::class);
@@ -117,7 +117,7 @@ describe('Search Request', function (): void {
         $request = ['search' => ['baz' => $searchKeyword]];
 
         // Act & Assert
-        $request = new SearchRequest($config, $request, visibleColumns: ['foo', 'bar', 'baz'], searchableColumns: ['*']);
+        $request = new SearchRequest($request, $config, visibleColumns: ['foo', 'bar', 'baz'], searchableColumns: ['*']);
         expect($request())->toBe(['search' => ['baz' => $interpret]]);
     })
         ->with([

@@ -1,0 +1,17 @@
+meta {
+  name: filter lt
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{host}}/api/users?expand[posts]=p&p_filter[id]=<3
+  body: none
+  auth: none
+}
+
+params:query {
+  expand[posts]: p
+  p_filter[id]: <3
+  ~p_filter[id]: < 3
+}

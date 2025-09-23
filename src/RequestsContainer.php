@@ -18,7 +18,7 @@ class RequestsContainer
 
     private function resolve(string $key)
     {
-        whenNotSet($this->requests[$key], fn () => throw new TunerException("Target request [{$key}] does not exist."));
+        when_not_set($this->requests[$key], fn () => throw new TunerException("Target request [{$key}] does not exist."));
 
         $factory = $this->requests[$key];
 
@@ -29,7 +29,15 @@ class RequestsContainer
     {
         $request = $this->resolve($key);
 
-        whenNotEmpty($request(), fn () => $callback($request));
+        when_not_empty($request(), function () use ($request, $key, $callback): TunerBuilder {
+            switch ($key) {
+                case Tuner::CONFIG_EXPANSION:
+                    return $callback($request(), $request->getExpandableRelations());
+
+                default:
+                    return $callback($request);
+            }
+        });
     }
 
     public static function create()

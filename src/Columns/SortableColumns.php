@@ -11,11 +11,11 @@ use function Tuner\any;
  */
 class SortableColumns extends Columns
 {
-    const ERR_CODE_DISABLED = 3;
+    const ERR_CODE_DISABLED = 5;
 
     const ERR_MSG_DISABLED = 'Sortable columns are empty!';
 
-    const ERR_CODE_PCOLS_VCOLS_NO_MATCH = 4;
+    const ERR_CODE_PCOLS_VCOLS_NO_MATCH = 6;
 
     const ERR_MSG_PCOLS_VCOLS_NO_MATCH = 'Sortable columns are invalid. It must be at least one match in visible columns!';
 

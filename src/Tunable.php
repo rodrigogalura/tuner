@@ -5,10 +5,12 @@ namespace Tuner;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Tuner\Columns\ExpandableRelations;
 use Tuner\Columns\FilterableColumns;
 use Tuner\Columns\ProjectableColumns;
 use Tuner\Columns\SearchableColumns;
 use Tuner\Columns\SortableColumns;
+use Tuner\Requests\ExpansionRequest;
 use Tuner\Requests\FilterRequest;
 use Tuner\Requests\LimitRequest;
 use Tuner\Requests\PaginationRequest;
@@ -38,6 +40,26 @@ trait Tunable
         return ['*'];
     }
 
+    protected function getExpandableRelations(): array
+    {
+        return [];
+
+        /*
+            return [
+                '[relation]' => [
+                    // 'table' => '[table]',
+                    // 'fk' => '[foreign_key]',
+                    'options' => [
+                        'projectable_columns' => ['*'],
+                        'sortable_columns' => ['*'],
+                        'searchable_columns' => ['*'],
+                        'filterable_columns' => ['*'],
+                    ],
+                ],
+            ];
+         */
+    }
+
     protected function limitable(): bool
     {
         return true;
@@ -58,39 +80,46 @@ trait Tunable
             return $builder->get();
         }
 
-        [$tunerBuilder, $config] = [$tuner->getBuilder(), config('tuner')];
+        [$config, $definedColumns] = [config('tuner'), $builder->getQuery()->columns ?? ['*']];
 
-        $projectionBinder = fn (): ProjectionRequest => new ProjectionRequest($config[Tuner::CONFIG_PROJECTION], $request, $visibleColumns, $this->getProjectableColumns(), definedColumns: $builder->getQuery()->columns ?? ['*']);
-        $sortBinder = fn (): SortRequest => new SortRequest($config[Tuner::CONFIG_SORT], $request, $visibleColumns, $this->getSortableColumns());
-        $searchBinder = fn (): SearchRequest => new SearchRequest($config[Tuner::CONFIG_SEARCH], $request, $visibleColumns, $this->getSearchableColumns());
-        $filterBinder = fn (): FilterRequest => new FilterRequest($config[Tuner::CONFIG_FILTER], $request, $visibleColumns, $this->getFilterableColumns());
-        $limitBinder = fn (): LimitRequest => new LimitRequest($config[Tuner::CONFIG_LIMIT], $request, $this->limitable());
-        $paginationBinder = fn (): PaginationRequest => new PaginationRequest($config[Tuner::CONFIG_PAGINATION], $request, $this->paginatable());
+        $projectionBinder = fn (): ProjectionRequest => new ProjectionRequest($request, $config[Tuner::CONFIG_PROJECTION], $visibleColumns, $this->getProjectableColumns(), $definedColumns);
+        $sortBinder = fn (): SortRequest => new SortRequest($request, $config[Tuner::CONFIG_SORT], $visibleColumns, $this->getSortableColumns());
+        $searchBinder = fn (): SearchRequest => new SearchRequest($request, $config[Tuner::CONFIG_SEARCH], $visibleColumns, $this->getSearchableColumns());
+        $filterBinder = fn (): FilterRequest => new FilterRequest($request, $config[Tuner::CONFIG_FILTER], $visibleColumns, $this->getFilterableColumns());
+        $expansionBinder = fn (): ExpansionRequest => new ExpansionRequest($request, $config, $this, $definedColumns, $this->getExpandableRelations());
+        $limitBinder = fn (): LimitRequest => new LimitRequest($request, $config[Tuner::CONFIG_LIMIT], $this->limitable());
+        $paginationBinder = fn (): PaginationRequest => new PaginationRequest($request, $config[Tuner::CONFIG_PAGINATION], $this->paginatable());
+
+        $tunerBuilder = $tuner->getBuilder();
 
         $container = [
-            'project' => [
+            'projection' => [
                 'bind' => fn ($requestContainer): ProjectionRequest => $projectionBinder(),
-                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->project($request),
+                'resolve' => fn ($projectionRequest): TunerBuilder => $tunerBuilder->project($projectionRequest),
             ],
             'sort' => [
                 'bind' => fn ($requestContainer): SortRequest => $sortBinder(),
-                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->sort($request),
+                'resolve' => fn ($sortRequest): TunerBuilder => $tunerBuilder->sort($sortRequest),
             ],
             'search' => [
                 'bind' => fn ($requestContainer): SearchRequest => $searchBinder(),
-                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->search($request),
+                'resolve' => fn ($searchRequest): TunerBuilder => $tunerBuilder->search($searchRequest),
             ],
             'filter' => [
                 'bind' => fn ($requestContainer): FilterRequest => $filterBinder(),
-                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->filter($request),
+                'resolve' => fn ($filterRequest): TunerBuilder => $tunerBuilder->filter($filterRequest),
+            ],
+            'expansion' => [
+                'bind' => fn ($requestContainer): ExpansionRequest => $expansionBinder(),
+                'resolve' => fn ($expansionRequest, $expandableRelations): TunerBuilder => $tunerBuilder->expand($expansionRequest, $config, $expandableRelations),
             ],
             'limit' => [
                 'bind' => fn ($requestContainer): LimitRequest => $limitBinder(),
-                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->limit($request),
+                'resolve' => fn ($limitRequest): TunerBuilder => $tunerBuilder->limit($limitRequest),
             ],
             'pagination' => [
                 'bind' => fn ($requestContainer): PaginationRequest => $paginationBinder(),
-                'resolve' => fn ($request): TunerBuilder => $tunerBuilder->paginate($request),
+                'resolve' => fn ($paginationRequest): TunerBuilder => $tunerBuilder->paginate($paginationRequest),
             ],
         ];
 
@@ -110,6 +139,7 @@ trait Tunable
                         SortableColumns::ERR_CODE_DISABLED,
                         SearchableColumns::ERR_CODE_DISABLED,
                         FilterableColumns::ERR_CODE_DISABLED,
+                        ExpandableRelations::ERR_CODE_DISABLED,
                     ]);
 
                 if (! $isDisabled) {

@@ -5,12 +5,12 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?page-size=5&page=2
+  url: {{host}}/api/users?page-size=5
   body: none
   auth: none
 }
 
 params:query {
   page-size: 5
-  page: 2
+  ~page: 2
 }

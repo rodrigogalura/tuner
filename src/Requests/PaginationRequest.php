@@ -2,6 +2,7 @@
 
 namespace Tuner\Requests;
 
+use Tuner\Exceptions\ClientException;
 use Tuner\Tuner;
 
 /**
@@ -10,11 +11,11 @@ use Tuner\Tuner;
 class PaginationRequest extends Request implements RequestInterface
 {
     public function __construct(
-        array $config,
         array $request,
+        array $config,
         private bool $paginatable,
     ) {
-        parent::__construct($config[Tuner::PARAM_KEY], $request);
+        parent::__construct($request, $config[Tuner::PARAM_KEY]);
     }
 
     protected function shouldValidate()

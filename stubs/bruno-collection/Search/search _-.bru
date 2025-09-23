@@ -1,0 +1,18 @@
+meta {
+  name: search _*
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/users?search[email]=*.org
+  body: none
+  auth: none
+}
+
+params:query {
+  search[email]: *.org
+  ~columns: id, name, email, ad
+  ~search[email]: *net
+  ~search[name]: Dr*
+}

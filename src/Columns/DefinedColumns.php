@@ -11,11 +11,11 @@ use function Tuner\any;
  */
 class DefinedColumns extends Columns
 {
-    const ERR_CODE_QUERY_EXCEPTION = 7;
+    const ERR_CODE_QUERY_EXCEPTION = 3;
 
     const ERR_MSG_QUERY_EXCEPTION = 'Defined columns are empty!';
 
-    const ERR_CODE_DCOLS_VCOLS_NO_MATCH = 8;
+    const ERR_CODE_DCOLS_VCOLS_NO_MATCH = 4;
 
     const ERR_MSG_DCOLS_VCOLS_NO_MATCH = 'Defined columns are invalid. It must be at least one match in visible columns!';
 

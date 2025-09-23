@@ -5,12 +5,13 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?between[id]=3, 7&between[or id]=12, 15
+  url: {{host}}/api/users?between[born_at]=1994-01-01, 2000-01-01&columns=id, born_at
   body: none
   auth: none
 }
 
 params:query {
-  between[id]: 3, 7
-  between[or id]: 12, 15
+  between[born_at]: 1994-01-01, 2000-01-01
+  columns: id, born_at
+  ~between[id]: 1, 3
 }
