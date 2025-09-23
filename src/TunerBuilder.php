@@ -110,7 +110,6 @@ final class TunerBuilder
                     $keys = [
                         implode(',', $expansion['config'][Tuner::CONFIG_PROJECTION][Tuner::PARAM_KEY]) => function (array $args): void {
                             [$columns, $fk] = [$args['request'], $args['fk']];
-                            dd($columns);
 
                             $shouldAddFk = ! $args['isRelationBelongsTo'] && ! in_array($fk, $columns);
                             if ($shouldAddFk) {
