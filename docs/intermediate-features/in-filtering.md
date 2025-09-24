@@ -176,9 +176,9 @@ The **in-filter** allows clients to request resources that match specific values
 <div style="flex: 1;" class="highlight">
 <strong>Request</strong>
 
-<pre class="highlight"><code>GET /api/users?in[id]=1,2,3&amp;in[or! role]=banned,guest</code></pre>
+<pre class="highlight"><code>GET /api/users?in[id]=1,2,3&amp;in[or! role]=writer,guest</code></pre>
 
-<sup>Where <ins>id, role</ins> are the target columns for filtering, <ins>or!</ins> is the logical operator with a negation effect, and <ins>1,2,3, banned,guest</ins> are the values to be excluded.</sup>
+<sup>Where <ins>id, role</ins> are the target columns for filtering, <ins>or!</ins> is the logical operator with a negation effect, and <ins>1,2,3, writer,guest</ins> are the values to be excluded.</sup>
 
 <details open class="sup">
 <summary><strong>Query Parameters</strong></summary>
@@ -186,7 +186,7 @@ The **in-filter** allows clients to request resources that match specific values
 | Name                          | Type   | Description                                                        |
 |-------------------------------|--------|--------------------------------------------------------------------|
 | <ins>in</ins>[id]             | string | Filter by specific IDs                                             |
-| <ins>in</ins>[or! created_at] | string | Exclude if any role matches "banned" or "guest" using NOT OR logic |
+| <ins>in</ins>[or! created_at] | string | Exclude if any role matches "writer" or "guest" using NOT OR logic |
 </details>
 
 </div>
@@ -197,7 +197,7 @@ The **in-filter** allows clients to request resources that match specific values
 <pre><code>[
   { "id": 1, "role": "guest", ... },
   { "id": 2, "role": "guest", ... },
-  { "id": 3, "role": "banned", ... },
+  { "id": 3, "role": "writer", ... },
   { "id": 4, "role": "admin", ... }
 ]
 </code></pre>
