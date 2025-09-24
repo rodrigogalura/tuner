@@ -66,10 +66,6 @@ class User extends Model
 
 - phone — The relation name (must match your Eloquent relationship method).
 - options — Defines which modifiers can be applied on this relation.
-  - projectable_columns
-  - sortable_columns
-  - searchable_columns
-  - filterable_columns
 - table — (Optional) Explicitly specify the related table.
 - fk — (Optional) Explicitly specify the foreign key.
 
@@ -129,7 +125,6 @@ Expansion supports the same operators as other modifiers:
 
 - **Relational operators**: =, <>, <, >, <=, >=
 - **Logical operators**: AND, OR, AND!, OR!
-- **Special operators**: IN, BETWEEN
 
 <br>
 

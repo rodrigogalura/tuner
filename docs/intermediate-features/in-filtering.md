@@ -117,8 +117,10 @@ The **in-filter** allows clients to request resources that match specific values
 <strong>Response</strong>
 
 <pre><code>[
-  { "id": 1, "role": "admin", ... },
-  { "id": 2, "role": "editor", ... }
+  { "id": 1, "role": "dev", ... },
+  { "id": 2, "role": "qa", ... },
+  { "id": 3, "role": "admin", ... },
+  { "id": 4, "role": "editor", ... },
 ]
 </code></pre>
 </div>
@@ -193,8 +195,10 @@ The **in-filter** allows clients to request resources that match specific values
 <strong>Response</strong>
 
 <pre><code>[
-  { "id": 1, "role": "admin", ... },
-  { "id": 2, "role": "editor", ... }
+  { "id": 1, "role": "guest", ... },
+  { "id": 2, "role": "guest", ... },
+  { "id": 3, "role": "banned", ... },
+  { "id": 4, "role": "admin", ... }
 ]
 </code></pre>
 </div>
