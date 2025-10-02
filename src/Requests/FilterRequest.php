@@ -23,7 +23,11 @@ class FilterRequest extends Request implements RequestInterface
 
     const LOGICAL_OPERATOR_AND = 'AND';
 
+    const LOGICAL_OPERATOR_AND_NOT = 'AND!';
+
     const LOGICAL_OPERATOR_OR = 'OR';
+
+    const LOGICAL_OPERATOR_OR_NOT = 'OR!';
 
     const COMPARISON_OPERATOR_EQ = '=';
 
@@ -50,7 +54,9 @@ class FilterRequest extends Request implements RequestInterface
     {
         return [
             static::LOGICAL_OPERATOR_AND,
+            static::LOGICAL_OPERATOR_AND_NOT,
             static::LOGICAL_OPERATOR_OR,
+            static::LOGICAL_OPERATOR_OR_NOT,
         ];
     }
 
@@ -77,7 +83,9 @@ class FilterRequest extends Request implements RequestInterface
                 $this->validateLogicalOperator($bool = strtoupper($logicColumnArr[0]));
                 $column = $logicColumnArr[1];
 
-                when($not = str_ends_with($bool, '!'), fn (): string => $bool = rtrim($bool, '!'));
+                if ($not = str_ends_with($bool, '!')) {
+                    $bool = rtrim($bool, '!');
+                }
 
                 return [$bool, $column, $not];
 
