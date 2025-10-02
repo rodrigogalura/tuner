@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          tools: composer, phpstan, phpcs, pest
+          coverage: xdebug
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run tests
+        run: vendor/bin/pest --coverage-text --coverage-clover=coverage.xml
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse --level=max src
+
+      - name: Run PHPCS
+        run: vendor/bin/phpcs --standard=PSR12 src
