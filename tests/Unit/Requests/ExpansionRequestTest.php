@@ -54,6 +54,8 @@ beforeEach(function (): void {
             'separator' => env('TUNER_EXPANSION_SEPARATOR', '_'),
         ],
     ];
+
+    $this->model = mock(new class extends Model {});
 });
 
 describe('Expansion Request', function (): void {
@@ -65,10 +67,8 @@ describe('Expansion Request', function (): void {
             ],
         ];
 
-        $model = mock(new class extends Model {});
-
         // Act & Assert
-        new ExpansionRequest($request, $this->config, $model, definedColumns: ['*'], expandableRelations: []);
+        new ExpansionRequest($request, $this->config, $this->model, definedColumns: ['*'], expandableRelations: []);
     })->throws(
         TunerException::class,
         exceptionCode: ExpandableRelations::ERR_CODE_DISABLED
@@ -85,7 +85,7 @@ describe('Expansion Request', function (): void {
         $model = mock(new class extends Model {});
 
         // Act & Assert
-        new ExpansionRequest($request, $this->config, $model, definedColumns: ['*'], expandableRelations: [
+        new ExpansionRequest($request, $this->config, $this->model, definedColumns: ['*'], expandableRelations: [
             'notExistRelation' => [''],
         ]);
     })->throws(
@@ -103,12 +103,11 @@ describe('Expansion Request', function (): void {
 
         $relation = 'posts';
 
-        $subjectModel = mock(new class extends Model {});
-        $subjectModel->shouldReceive($relation)
+        $this->model->shouldReceive($relation)
             ->andReturn('foo');
 
         // Act & Assert
-        new ExpansionRequest($request, $this->config, $subjectModel, definedColumns: ['*'], expandableRelations: [
+        new ExpansionRequest($request, $this->config, $this->model, definedColumns: ['*'], expandableRelations: [
             $relation => [
                 'options' => ['invalid_option' => ['*']],
             ],
