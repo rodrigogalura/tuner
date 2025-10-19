@@ -88,14 +88,20 @@ describe('Projection Request', function (): void {
     })
         ->throws(ClientException::class);
 
-    test('should get request value of columns modifier', function (): void {
+    test('should get request value of columns modifier', function ($columns, $expected): void {
         // Prepare
-        $request = ['columns' => 'baz'];
+        $request = compact('columns');
 
         // Act & Assert
         $request = new ProjectionRequest($request, $this->config, visibleColumns: ['foo', 'bar', 'baz'], projectableColumns: ['*'], definedColumns: ['*']);
-        expect($request())->toBe(['columns' => ['baz']]);
-    });
+        expect($request())->toBe(['columns' => $expected]);
+    })->with([
+        ['columns' => 'baz', 'expected' => ['baz']],
+        ['columns' => 'foo,bar', 'expected' => ['foo', 'bar']],
+        ['columns' => 'foo, bar', 'expected' => ['foo', 'bar']],
+        ['columns' => 'foo,baz', 'expected' => ['foo', 'baz']],
+        ['columns' => 'foo, baz', 'expected' => ['foo', 'baz']],
+    ]);
 
     test('should get request value of columns! modifier', function (): void {
         // Prepare
