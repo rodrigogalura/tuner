@@ -38,7 +38,7 @@ class ProjectionRequest extends Request implements RequestInterface
                 $projector = array_search($paramKey, $this->key);
 
                 // Validate columns
-                $columns = new Columns(explode(', ', $paramValue), $projectableColumns);
+                $columns = new Columns(explode(',', $paramValue), $projectableColumns);
                 throw_if(empty($projectedColumns = $columns->{$projector}()->get()), new ClientException('The ['.$paramKey.'] must be use any of these projectable columns: ['.implode(', ', $projectableColumns).']'));
 
                 $this->request = [$paramKey => $projectedColumns];

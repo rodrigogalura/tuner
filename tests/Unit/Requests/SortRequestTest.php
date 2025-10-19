@@ -5,17 +5,19 @@ use Tuner\Exceptions\ClientException;
 use Tuner\Exceptions\TunerException;
 use Tuner\Requests\SortRequest;
 
+beforeEach(function (): void {
+    $this->config = [
+        'key' => 'sort',
+    ];
+});
+
 describe('Sort Request', function (): void {
     it('should thrown an exception when sortable columns are empty.', function (): void {
         // Prepare
-        $config = [
-            'key' => 'sort',
-        ];
-
         $request = ['sort' => ['foo' => 'asc']];
 
         // Act & Assert
-        new SortRequest($request, $config, visibleColumns: ['foo'], sortableColumns: []);
+        new SortRequest($request, $this->config, visibleColumns: ['foo'], sortableColumns: []);
     })->throws(
         TunerException::class,
         exceptionCode: SortableColumns::ERR_CODE_DISABLED
@@ -23,14 +25,10 @@ describe('Sort Request', function (): void {
 
     it('should thrown an exception when all sortable columns are not in visible columns.', function (): void {
         // Prepare
-        $config = [
-            'key' => 'sort',
-        ];
-
         $request = ['sort' => ['foo' => 'asc']];
 
         // Act & Assert
-        new SortRequest($request, $config, visibleColumns: ['foo', 'bar'], sortableColumns: ['baz']);
+        new SortRequest($request, $this->config, visibleColumns: ['foo', 'bar'], sortableColumns: ['baz']);
     })->throws(
         TunerException::class,
         exceptionCode: SortableColumns::ERR_CODE_PCOLS_VCOLS_NO_MATCH
@@ -38,41 +36,29 @@ describe('Sort Request', function (): void {
 
     it('should thrown an exception when request value is not array.', function ($requestValue): void {
         // Prepare
-        $config = [
-            'key' => 'sort',
-        ];
-
         $request = ['sort' => $requestValue];
 
         // Act & Assert
-        new SortRequest($request, $config, ['foo'], ['*']);
+        new SortRequest($request, $this->config, ['foo'], ['*']);
     })
         ->with([1, 'foo'])
         ->throws(ClientException::class);
 
     it('should thrown an exception when requesting non-existing columns.', function (): void {
         // Prepare
-        $config = [
-            'key' => 'sort',
-        ];
-
         $request = ['sort' => ['baz' => 'asc']];
 
         // Act & Assert
-        new SortRequest($request, $config, visibleColumns: ['foo', 'bar'], sortableColumns: ['*']);
+        new SortRequest($request, $this->config, visibleColumns: ['foo', 'bar'], sortableColumns: ['*']);
     })
         ->throws(ClientException::class);
 
     test('should get request value of sort modifier', function (): void {
         // Prepare
-        $config = [
-            'key' => 'sort',
-        ];
-
         $request = ['sort' => ['baz' => 'asc']];
 
         // Act & Assert
-        $request = new SortRequest($request, $config, visibleColumns: ['foo', 'bar', 'baz'], sortableColumns: ['*']);
+        $request = new SortRequest($request, $this->config, visibleColumns: ['foo', 'bar', 'baz'], sortableColumns: ['*']);
         expect($request())->toBe(['sort' => ['baz' => 'asc']]);
     });
 });

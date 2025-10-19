@@ -17,8 +17,6 @@ trait HasSingleton
 
     private static function addInstance($instance)
     {
-        logger()->debug(empty(static::$instances));
-
         throw_unless(empty(static::$instances), new TunerException(static::ERR_MSG_MULTIPLE_BUILDER, static::ERR_CODE_MULTIPLE_BUILDER));
         array_push(static::$instances, $instance);
     }

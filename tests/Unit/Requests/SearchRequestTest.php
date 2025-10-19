@@ -5,20 +5,27 @@ use Tuner\Exceptions\ClientException;
 use Tuner\Exceptions\TunerException;
 use Tuner\Requests\SearchRequest;
 
+beforeEach(function (): void {
+    $this->config = [
+        'key' => 'search',
+        'minimum_length' => 2,
+    ];
+});
+
 describe('Search Request', function (): void {
     it('should thrown an exception when searchable columns are empty.', function ($searchKeyword): void {
         // Prepare
-        $config = [
-            'key' => 'search',
-            'minimum_length' => 2,
-        ];
-
         $request = ['search' => ['foo' => $searchKeyword]];
 
         // Act & Assert
-        new SearchRequest($request, $config, visibleColumns: ['foo'], searchableColumns: []);
+        new SearchRequest($request, $this->config, visibleColumns: ['foo'], searchableColumns: []);
     })
-        ->with(['tuner', '*tuner*', '*tuner', 'tuner*'])
+        ->with([
+            'match anywhere' => 'tuner',
+            'match anywhere too' => '*tuner*',
+            'match at the beginning' => 'tuner*',
+            'match at the end' => '*tuner',
+        ])
         ->throws(
             TunerException::class,
             exceptionCode: SearchableColumns::ERR_CODE_DISABLED
@@ -26,17 +33,17 @@ describe('Search Request', function (): void {
 
     it('should thrown an exception when all searchable columns are not in visible columns.', function ($searchKeyword): void {
         // Prepare
-        $config = [
-            'key' => 'search',
-            'minimum_length' => 2,
-        ];
-
         $request = ['search' => ['foo' => $searchKeyword]];
 
         // Act & Assert
-        new SearchRequest($request, $config, visibleColumns: ['foo', 'bar'], searchableColumns: ['baz']);
+        new SearchRequest($request, $this->config, visibleColumns: ['foo', 'bar'], searchableColumns: ['baz']);
     })
-        ->with(['tuner', '*tuner*', '*tuner', 'tuner*'])
+        ->with([
+            'match anywhere' => 'tuner',
+            'match anywhere too' => '*tuner*',
+            'match at the beginning' => 'tuner*',
+            'match at the end' => '*tuner',
+        ])
         ->throws(
             TunerException::class,
             exceptionCode: SearchableColumns::ERR_CODE_PCOLS_VCOLS_NO_MATCH
@@ -44,26 +51,16 @@ describe('Search Request', function (): void {
 
     it('should thrown an exception when request value is not array.', function ($requestValue): void {
         // Prepare
-        $config = [
-            'key' => 'search',
-            'minimum_length' => 2,
-        ];
-
         $request = ['search' => $requestValue];
 
         // Act & Assert
-        new SearchRequest($request, $config, visibleColumns: ['foo'], searchableColumns: ['*']);
+        new SearchRequest($request, $this->config, visibleColumns: ['foo'], searchableColumns: ['*']);
     })
         ->with([1, 'foo'])
         ->throws(ClientException::class);
 
     it('should thrown an exception the search has more than one size.', function ($searchKeyword): void {
         // Prepare
-        $config = [
-            'key' => 'search',
-            'minimum_length' => 2,
-        ];
-
         $request = [
             'search' => [
                 'foo' => $searchKeyword,
@@ -72,24 +69,29 @@ describe('Search Request', function (): void {
         ];
 
         // Act & Assert
-        new SearchRequest($request, $config, visibleColumns: ['foo', 'bar'], searchableColumns: ['*']);
+        new SearchRequest($request, $this->config, visibleColumns: ['foo', 'bar'], searchableColumns: ['*']);
     })
-        ->with(['tuner', '*tuner*', '*tuner', 'tuner*'])
+        ->with([
+            'match anywhere' => 'tuner',
+            'match anywhere too' => '*tuner*',
+            'match at the beginning' => 'tuner*',
+            'match at the end' => '*tuner',
+        ])
         ->throws(ClientException::class);
 
     it('should thrown an exception when requesting non-existing columns.', function ($searchKeyword): void {
         // Prepare
-        $config = [
-            'key' => 'search',
-            'minimum_length' => 2,
-        ];
-
         $request = ['search' => ['baz' => $searchKeyword]];
 
         // Act & Assert
-        new SearchRequest($request, $config, visibleColumns: ['foo', 'bar'], searchableColumns: ['*']);
+        new SearchRequest($request, $this->config, visibleColumns: ['foo', 'bar'], searchableColumns: ['*']);
     })
-        ->with(['tuner', '*tuner*', '*tuner', 'tuner*'])
+        ->with([
+            'match anywhere' => 'tuner',
+            'match anywhere too' => '*tuner*',
+            'match at the beginning' => 'tuner*',
+            'match at the end' => '*tuner',
+        ])
         ->throws(ClientException::class);
 
     it('should thrown an exception when the search keyword not meet the required length.', function ($searchKeyword): void {
@@ -104,20 +106,20 @@ describe('Search Request', function (): void {
         // Act & Assert
         new SearchRequest($request, $config, visibleColumns: ['foo', 'bar'], searchableColumns: ['*']);
     })
-        ->with(['tuner', '*tuner*', '*tuner', 'tuner*'])
+        ->with([
+            'match anywhere' => 'tuner',
+            'match anywhere too' => '*tuner*',
+            'match at the beginning' => 'tuner*',
+            'match at the end' => '*tuner',
+        ])
         ->throws(ClientException::class);
 
     test('should get request value of search modifier', function ($searchKeyword, $interpret): void {
         // Prepare
-        $config = [
-            'key' => 'search',
-            'minimum_length' => 2,
-        ];
-
         $request = ['search' => ['baz' => $searchKeyword]];
 
         // Act & Assert
-        $request = new SearchRequest($request, $config, visibleColumns: ['foo', 'bar', 'baz'], searchableColumns: ['*']);
+        $request = new SearchRequest($request, $this->config, visibleColumns: ['foo', 'bar', 'baz'], searchableColumns: ['*']);
         expect($request())->toBe(['search' => ['baz' => $interpret]]);
     })
         ->with([
