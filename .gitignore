@@ -10,3 +10,6 @@ testbench.yaml
 /_layouts/
 _config.yml
 Gemfile*
+
+truth-table/*.csv
+truth-table-archived/*.csv
