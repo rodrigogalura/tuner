@@ -98,9 +98,9 @@ final class TunerBuilder
             $settings = $expansion['expandableRelations'][$relation] ?? null;
 
             $isRelationBelongsTo = $settings['relationClass'] === BelongsTo::class;
-            if ($isRelationBelongsTo) {
-                $this->builder->select(array_merge($this->builder->getQuery()->columns, [$settings['fk']]));
-            }
+            // if ($isRelationBelongsTo) {
+            //     $this->builder->select(array_merge($this->builder->getQuery()->columns, [$settings['fk']]));
+            // }
 
             $this->builder->with($relation, function ($builder) use ($settings, $expansion, $relation, $alias, $isRelationBelongsTo): void {
                 if (! is_null($settings)) {
