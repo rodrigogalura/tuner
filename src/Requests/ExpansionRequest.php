@@ -79,7 +79,7 @@ class ExpansionRequest extends Request implements RequestInterface
 
                 if ($settings = $this->expandableRelations[$relation] ?? null) {
                     if (! isset($settings['table'])) {
-                        $settings['table'] = $this->expandableRelations[$relation]['table'] = Str::plural($relation);
+                        $settings['table'] = $this->expandableRelations[$relation]['table'] = str($relation)->snake()->plural()->value;
                     }
 
                     $options = $settings['options'];
