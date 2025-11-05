@@ -5,6 +5,7 @@
 <a href="https://packagist.org/packages/rodrigogalura/tuner"><img src="https://img.shields.io/packagist/v/rodrigogalura/tuner" alt="packagist version"></a>
 <!-- <a href="https://packagist.org/packages/rodrigogalura/tuner"><img src="https://img.shields.io/packagist/dt/rodrigogalura/tuner" alt="packagist downloads"></a> -->
 <a href="https://packagist.org/packages/rodrigogalura/tuner"><img src="https://img.shields.io/github/license/rodrigogalura/tuner" alt="license"></a>
+<a href="https://app.codacy.com/gh/rodrigogalura/tuner/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img src="https://app.codacy.com/project/badge/Grade/ed383df93ee2401981f89e9a482c2b1d" alt="code quality"></a>
 </p>
 
 <!-- PROJECT LOGO -->
@@ -226,4 +227,5 @@ If this project helped you or saved you time, consider buying me a coffee. Your 
 [code_of_conduct-url]: https://github.com/rodrigogalura/tuner/blob/main/CODE_OF_CONDUCT.md
 [issues-url]: https://github.com/rodrigogalura/tuner/issues
 [project_roadmap-url]: https://github.com/users/rodrigogalura/projects/10/views/5?layout=board
+
 

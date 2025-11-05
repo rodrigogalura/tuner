@@ -34,7 +34,7 @@ class SortRequest extends Request implements RequestInterface
     private static function orderInterpreter($request)
     {
         foreach ($request as $column => $order) {
-            $filtered = array_filter(static::ORDERS, fn ($values, $key): bool => in_array($order, $values), ARRAY_FILTER_USE_BOTH);
+            $filtered = array_filter(static::ORDERS, fn ($values): bool => in_array($order, $values), ARRAY_FILTER_USE_BOTH);
             $request[$column] = key($filtered);
         }
 
