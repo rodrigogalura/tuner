@@ -223,7 +223,6 @@ If this project helped you or saved you time, consider buying me a coffee. Your 
 [contributing-url]: https://github.com/rodrigogalura/tuner/blob/main/CONTRIBUTING.md
 [changelog-url]: https://github.com/rodrigogalura/tuner/blob/main/CHANGELOG.md
 [mit-license-url]: https://github.com/rodrigogalura/tuner/blob/main/LICENSE
-[code_of_conduct-url]: https://github.com/rodrigogalura/tuner/blob/main/CODE_OF_CONDUCT.md
 [issues-url]: https://github.com/rodrigogalura/tuner/issues
 [project_roadmap-url]: https://github.com/users/rodrigogalura/projects/10/views/5?layout=board
 
