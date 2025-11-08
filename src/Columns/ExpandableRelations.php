@@ -56,7 +56,7 @@ class ExpandableRelations
                 throw new TunerException(sprintf(static::ERR_MSG_INVALID_RELATION, $modelName, $relation), static::ERR_CODE_INVALID_RELATION);
             }
 
-            foreach ($settings['options'] as $option => $columns) {
+            foreach (array_keys($settings['options']) as $option) {
                 $eOption = ExpansionOptions::tryFrom($option);
                 throw_if(is_null($eOption), new TunerException(sprintf(static::ERR_MSG_INVALID_OPTION, $option), static::ERR_CODE_INVALID_OPTION));
             }
