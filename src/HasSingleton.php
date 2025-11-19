@@ -13,12 +13,12 @@ trait HasSingleton
 
     const ERR_MSG_MULTIPLE_BUILDER = 'Cannot create multiple Tuner Builder.';
 
-    private static array $instances = [];
+    private static $instance;
 
-    private static function addInstance($instance)
+    private static function saveInstance($instance)
     {
-        throw_unless(empty(static::$instances), new TunerException(static::ERR_MSG_MULTIPLE_BUILDER, static::ERR_CODE_MULTIPLE_BUILDER));
-        array_push(static::$instances, $instance);
+        throw_unless(! is_null(static::$instance), new TunerException(static::ERR_MSG_MULTIPLE_BUILDER, static::ERR_CODE_MULTIPLE_BUILDER));
+        static::$instance = $instance;
     }
 
     /**
@@ -38,5 +38,10 @@ trait HasSingleton
     public function __wakeup()
     {
         throw new \Exception('Cannot unserialize a singleton.');
+    }
+
+    public function deleteInstance()
+    {
+        static::$instance = null;
     }
 }

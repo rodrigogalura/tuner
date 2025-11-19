@@ -244,7 +244,7 @@ final class TunerBuilder
 
     public static function create()
     {
-        self::addInstance($instance = new self(...func_get_args()));
+        self::saveInstance($instance = new self(...func_get_args()));
 
         return $instance;
     }
