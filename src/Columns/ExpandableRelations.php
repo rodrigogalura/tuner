@@ -5,20 +5,12 @@ namespace Tuner\Columns;
 use BadMethodCallException;
 use Illuminate\Contracts\Database\Eloquent\Builder as RelationBuilder;
 use Illuminate\Database\Eloquent\Model;
+use Tuner\Enums\ExpansionOptions;
 use Tuner\Exceptions\TunerException;
-
-enum ExpansionOptions: string
-{
-    case Projectable = 'projectable_columns';
-    case Sortable = 'sortable_columns';
-    case Searchable = 'searchable_columns';
-    case Filterable = 'filterable_columns';
-}
 
 /**
  * @internal
  */
-// class ExpandableRelations extends Columns
 class ExpandableRelations
 {
     const ERR_CODE_DISABLED = 11;
