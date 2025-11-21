@@ -15,12 +15,12 @@ However, you can **override the default behavior** in your Eloquent models by de
 
 ## Projection
 
-Define which columns are allowed for projection.  
+Define which fields are allowed for projection.  
 
 ```php
-protected function getProjectableColumns(): array
+protected function getProjectableFields(): array
 {
-    return ['*']; // Allow all columns
+    return ['*']; // Allow all fields
 }
 ```
 
@@ -30,12 +30,12 @@ protected function getProjectableColumns(): array
 
 ## Sorting
 
-Define which columns can be sorted.  
+Define which fields can be sorted.  
 
 ```php
-protected function getSortableColumns(): array
+protected function getSortableFields(): array
 {
-    return ['*']; // Allow sorting on all columns
+    return ['*']; // Allow sorting on all fields
 }
 ```
 
@@ -45,12 +45,12 @@ protected function getSortableColumns(): array
 
 ## Search
 
-Define which columns are searchable.  
+Define which fields are searchable.  
 
 ```php
-protected function getSearchableColumns(): array
+protected function getSearchableFields(): array
 {
-    return ['*']; // Allow searching on all columns
+    return ['*']; // Allow searching on all fields
 }
 ```
 
@@ -60,12 +60,12 @@ protected function getSearchableColumns(): array
 
 ## Filtering
 
-Define which columns are filterable.  
+Define which fields are filterable.  
 
 ```php
-protected function getFilterableColumns(): array
+protected function getFilterableFields(): array
 {
-    return ['*']; // Allow filtering on all columns
+    return ['*']; // Allow filtering on all fields
 }
 ```
 
@@ -105,12 +105,12 @@ protected function paginatable(): bool
 
 ## Notes
 
-- ['\*'] means all columns are allowed.  
-- Replace ['\*'] with an array of specific columns to restrict usage.
+- ['\*'] means all fields are allowed.  
+- Replace ['\*'] with an array of specific fields to restrict usage.
 **Example:**
 
 ```php
-protected function getSortableColumns(): array
+protected function getSortableFields(): array
 {
     return ['id', 'name', 'created_at'];
 }

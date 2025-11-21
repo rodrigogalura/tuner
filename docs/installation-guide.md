@@ -73,7 +73,7 @@ Open your browser or an API client like Postman and try this example request:
 
 ```
 
-✅ This should return a list of users with the Dr prefix in their names, and only the id, name, and email columns in the response.
+✅ This should return a list of users with the Dr prefix in their names, and only the id, name, and email fields in the response.
 
 ---
 <br> -->
@@ -83,7 +83,7 @@ Open your browser or an API client like Postman and try this example request:
 <div style="flex: 1;" class="highlight">
 <strong>Request</strong>
 
-<pre class="highlight"><code>GET /api/users?columns=id,name&search[name]=Dr*</code></pre>
+<pre class="highlight"><code>GET /api/users?fields=id,name&search[name]=Dr*</code></pre>
 
 </div>
 

@@ -48,10 +48,10 @@ class User extends Model
         return [
             'phone' => [ // <-- relation name
                 'options' => [
-                    'projectable_columns' => ['*'],
-                    'sortable_columns'   => ['*'],
-                    'searchable_columns' => ['*'],
-                    'filterable_columns' => ['*'],
+                    'projectable_fields' => ['*'],
+                    'sortable_fields'   => ['*'],
+                    'searchable_fields' => ['*'],
+                    'filterable_fields' => ['*'],
                 ],
 
                 'table' => 'phones',  // optional
@@ -77,18 +77,18 @@ class User extends Model
 
 You can use the `expand` modifier to load related resources.  
 When expanding, you can assign an **alias** to the relation.  
-This alias is required if you want to apply other modifiers such as `columns`, `sort`, or `filter`.
+This alias is required if you want to apply other modifiers such as `fields`, `sort`, or `filter`.
 
 ### Example
 
-<pre><code>GET /api/users?expand[posts]=p&p_columns=id,title</code></pre>
+<pre><code>GET /api/users?expand[posts]=p&p_fields=id,title</code></pre>
 
 **Explanation:**
 
 - expand — The modifier used to expand relationships.
 - posts — The relation of the subject (users) into the object resource (posts).
 - p — The alias assigned to the relation.
-- p_columns — Alias(<ins>p</ins>) + Separator(<ins>\_</ins>) + Modifier(<ins>columns</ins>) (in this case, projection with columns).
+- p_fields — Alias(<ins>p</ins>) + Separator(<ins>\_</ins>) + Modifier(<ins>fields</ins>) (in this case, projection with fields).
 
 The response will only include the id and title fields from the expanded posts relation.
 
@@ -100,9 +100,9 @@ The response will only include the id and title fields from the expanded posts r
 
 Expansion works seamlessly with other Tuner modifiers:
 
-<!-- **Projection (columns)**
+<!-- **Projection (fields)**
 
-<pre><code>GET /api/users?expand[posts]=p&p_columns=id,title</code></pre> -->
+<pre><code>GET /api/users?expand[posts]=p&p_fields=id,title</code></pre> -->
 
 **Sort (sort)**
 
@@ -134,8 +134,8 @@ Expansion supports the same operators as other modifiers:
 
 - Use expansion only for the data you really need.
   Over-expanding can impact performance.
-- Always provide an alias when you plan to apply other modifiers (columns, sort, filter).
-- Combine columns with expand to keep responses lightweight.
+- Always provide an alias when you plan to apply other modifiers (fields, sort, filter).
+- Combine fields with expand to keep responses lightweight.
 - Sort and filter expanded relationships carefully to avoid unexpected results.
 
 > Expansion makes your APIs smarter and more consumer-friendly — clients can tune the exact shape of the response they want.
