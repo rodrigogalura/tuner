@@ -1,0 +1,16 @@
+meta {
+  name: fields
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/users?expand[phone]=p&p_fields=id, number, created_at
+  body: none
+  auth: none
+}
+
+params:query {
+  expand[phone]: p
+  p_fields: id, number, created_at
+}

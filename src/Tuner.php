@@ -28,13 +28,13 @@ class Tuner
 
     private TunerBuilder $builder;
 
-    public array $visibleColumns;
+    public array $visibleFields;
 
     public function __construct(Builder $builder, array $request, Model $model)
     {
         $this->builder = TunerBuilder::create($builder, $request);
 
-        $this->visibleColumns = array_diff(
+        $this->visibleFields = array_diff(
             $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable()),
             $model->getHidden()
         );

@@ -4,8 +4,8 @@ namespace Tuner\Enums;
 
 enum ExpansionOptions: string
 {
-    case Projectable = 'projectable_columns';
-    case Sortable = 'sortable_columns';
-    case Searchable = 'searchable_columns';
-    case Filterable = 'filterable_columns';
+    case Projectable = 'projectable_fields';
+    case Sortable = 'sortable_fields';
+    case Searchable = 'searchable_fields';
+    case Filterable = 'filterable_fields';
 }

@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?sort[id]=desc&columns=id, name
+  url: {{host}}/api/users?sort[id]=desc&fields=id, name
   body: none
   auth: none
 }
 
 params:query {
   sort[id]: desc
-  columns: id, name
+  fields: id, name
   ~sort[name]: asc
 }

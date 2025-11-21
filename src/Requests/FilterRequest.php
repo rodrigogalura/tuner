@@ -3,9 +3,9 @@
 namespace Tuner\Requests;
 
 use Illuminate\Support\Str;
-use Tuner\Columns\Columns;
-use Tuner\Columns\FilterableColumns;
 use Tuner\Exceptions\ClientException;
+use Tuner\Fields\Fields;
+use Tuner\Fields\FilterableFields;
 use Tuner\Tuner;
 
 use function Tuner\explode_sanitize;
@@ -44,8 +44,8 @@ class FilterRequest extends Request implements RequestInterface
     public function __construct(
         array $request,
         array $config,
-        private array $visibleColumns,
-        private array $filterableColumns,
+        private array $visibleFields,
+        private array $filterableFields,
     ) {
         parent::__construct($request, $config[Tuner::PARAM_KEY]);
     }
@@ -66,31 +66,31 @@ class FilterRequest extends Request implements RequestInterface
         throw_unless(in_array($operator, $validOperators), new ClientException("Invalid operator [{$operator}]. It must be one of these: [".implode(', ', $validOperators).']'));
     }
 
-    private function logicColumnInterpreter(string $logicColumn)
+    private function logicFieldInterpreter(string $logicField)
     {
-        $logicColumnArr = explode_sanitize($logicColumn, ' ');
+        $logicFieldArr = explode_sanitize($logicField, ' ');
 
-        switch (count($logicColumnArr)) {
+        switch (count($logicFieldArr)) {
             case 0:
                 return [];
 
             case 1:
-                $column = $logicColumnArr[0];
+                $field = $logicFieldArr[0];
 
-                return [static::LOGICAL_OPERATOR_AND, $column, false];
+                return [static::LOGICAL_OPERATOR_AND, $field, false];
 
             case 2:
-                $this->validateLogicalOperator($bool = strtoupper($logicColumnArr[0]));
-                $column = $logicColumnArr[1];
+                $this->validateLogicalOperator($bool = strtoupper($logicFieldArr[0]));
+                $field = $logicFieldArr[1];
 
                 if ($not = str_ends_with($bool, '!')) {
                     $bool = rtrim($bool, '!');
                 }
 
-                return [$bool, $column, $not];
+                return [$bool, $field, $not];
 
             default:
-                throw new ClientException("The [{$logicColumn}] is not valid logic column.");
+                throw new ClientException("The [{$logicField}] is not valid logic field.");
         }
     }
 
@@ -129,25 +129,25 @@ class FilterRequest extends Request implements RequestInterface
         }
     }
 
-    private function getAllColumnsInlogicColumn(array $logicColumns)
+    private function getAllFieldsInlogicField(array $logicFields)
     {
-        return array_map(function ($logicColumn) {
-            switch (str_word_count($logicColumn)) {
+        return array_map(function ($logicField) {
+            switch (str_word_count($logicField)) {
                 case 1:
-                    return $logicColumn;
+                    return $logicField;
 
                 case 2:
-                    return Str::afterLast($logicColumn, ' ');
+                    return Str::afterLast($logicField, ' ');
 
                 default:
-                    throw new ClientException("The [{$logicColumn}] is invalid.");
+                    throw new ClientException("The [{$logicField}] is invalid.");
             }
-        }, $logicColumns);
+        }, $logicFields);
     }
 
     protected function validate()
     {
-        $filterableColumns = (new FilterableColumns($this->filterableColumns, $this->visibleColumns))();
+        $filterableFields = (new FilterableFields($this->filterableFields, $this->visibleFields))();
 
         $interpretedRequest = [];
 
@@ -155,15 +155,15 @@ class FilterRequest extends Request implements RequestInterface
             // Validate filter
             throw_unless(is_array($filterRequest), new ClientException('The ['.$key.'] must be array'));
 
-            $columns = $this->getAllColumnsInlogicColumn(array_keys($filterRequest));
+            $fields = $this->getAllFieldsInlogicField(array_keys($filterRequest));
 
-            // Validate columns
-            $columns = new Columns($columns, $filterableColumns);
-            throw_if(empty($columns->intersect()->get()), new ClientException('Invalid columns provided. It must be one of the following filterable columns: ['.implode(', ', $filterableColumns).']'));
+            // Validate fields
+            $fields = new Fields($fields, $filterableFields);
+            throw_if(empty($fields->intersect()->get()), new ClientException('Invalid fields provided. It must be one of the following filterable fields: ['.implode(', ', $filterableFields).']'));
 
-            foreach ($filterRequest as $logicColumn => $value) {
+            foreach ($filterRequest as $logicField => $value) {
                 $interpretedRequest[$key][] = array_merge(
-                    $this->logicColumnInterpreter($logicColumn),
+                    $this->logicFieldInterpreter($logicField),
                     $this->valueInterpreter($key, $value)
                 );
             }

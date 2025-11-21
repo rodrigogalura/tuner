@@ -1,35 +1,35 @@
 <?php
 
-namespace Tuner\Columns;
+namespace Tuner\Fields;
 
 use Tuner\Parsers\ArrayParser;
 
 /**
  * @internal
  */
-class Columns
+class Fields
 {
     const ALL_VISIBLE_COLUMNS_ALIAS = ['*'];
 
     private ArrayParser $parser;
 
     public function __construct(
-        protected array $columns,
-        protected array $visibleColumns
+        protected array $fields,
+        protected array $visibleFields
     ) {
-        $this->parser = ArrayParser::create($this->columns)
-            ->assignIfEqTo(static::ALL_VISIBLE_COLUMNS_ALIAS, $this->visibleColumns)
+        $this->parser = ArrayParser::create($this->fields)
+            ->assignIfEqTo(static::ALL_VISIBLE_COLUMNS_ALIAS, $this->visibleFields)
             ->sanitize();
     }
 
     public function intersect()
     {
-        return $this->parser->intersectTo($this->visibleColumns);
+        return $this->parser->intersectTo($this->visibleFields);
     }
 
     public function except()
     {
-        return $this->parser->exceptFrom($this->visibleColumns);
+        return $this->parser->exceptFrom($this->visibleFields);
     }
 
     public function implode($glue = ', ')

@@ -44,7 +44,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    protected function getProjectableColumns()
+    protected function getProjectableFields()
     {
         return ['id', 'name'];
     }

@@ -22,17 +22,17 @@ class OnlyIdAndNameAreProjectableModel extends Model
         'updated_at',
     ];
 
-    protected function getProjectableColumns()
+    protected function getProjectableFields()
     {
         return ['id', 'name'];
     }
 
-    protected function getSearchableColumns()
+    protected function getSearchableFields()
     {
         return ['id', 'name'];
     }
 
-    protected function getSortableColumns()
+    protected function getSortableFields()
     {
         return ['id', 'name'];
     }

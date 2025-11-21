@@ -1,6 +1,6 @@
 <?php
 
-namespace Tuner\Columns;
+namespace Tuner\Fields;
 
 use BadMethodCallException;
 use Illuminate\Contracts\Database\Eloquent\Builder as RelationBuilder;

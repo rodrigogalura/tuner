@@ -5,11 +5,11 @@ namespace Tuner;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Tuner\Columns\ExpandableRelations;
-use Tuner\Columns\FilterableColumns;
-use Tuner\Columns\ProjectableColumns;
-use Tuner\Columns\SearchableColumns;
-use Tuner\Columns\SortableColumns;
+use Tuner\Fields\ExpandableRelations;
+use Tuner\Fields\FilterableFields;
+use Tuner\Fields\ProjectableFields;
+use Tuner\Fields\SearchableFields;
+use Tuner\Fields\SortableFields;
 use Tuner\Requests\ExpansionRequest;
 use Tuner\Requests\FilterRequest;
 use Tuner\Requests\LimitRequest;
@@ -20,22 +20,22 @@ use Tuner\Requests\SortRequest;
 
 trait Tunable
 {
-    protected function getProjectableColumns(): array
+    protected function getProjectableFields(): array
     {
         return ['*'];
     }
 
-    protected function getSortableColumns(): array
+    protected function getSortableFields(): array
     {
         return ['*'];
     }
 
-    protected function getSearchableColumns(): array
+    protected function getSearchableFields(): array
     {
         return ['*'];
     }
 
-    protected function getFilterableColumns(): array
+    protected function getFilterableFields(): array
     {
         return ['*'];
     }
@@ -50,10 +50,10 @@ trait Tunable
                     // 'table' => '[table]',
                     // 'fk' => '[foreign_key]',
                     'options' => [
-                        'projectable_columns' => ['*'],
-                        'sortable_columns' => ['*'],
-                        'searchable_columns' => ['*'],
-                        'filterable_columns' => ['*'],
+                        'projectable_fields' => ['*'],
+                        'sortable_fields' => ['*'],
+                        'searchable_fields' => ['*'],
+                        'filterable_fields' => ['*'],
                     ],
                 ],
             ];
@@ -76,17 +76,17 @@ trait Tunable
     public function scopeSend(Builder $builder): Collection|LengthAwarePaginator
     {
         $tuner = new Tuner($builder, $request = $_GET, $this);
-        if (empty($visibleColumns = $tuner->visibleColumns)) {
+        if (empty($visibleFields = $tuner->visibleFields)) {
             return $builder->get();
         }
 
-        [$config, $definedColumns] = [config('tuner'), $builder->getQuery()->columns ?? ['*']];
+        [$config, $definedFields] = [config('tuner'), $builder->getQuery()->columns ?? ['*']];
 
-        $projectionBinder = fn (): ProjectionRequest => new ProjectionRequest($request, $config[Tuner::CONFIG_PROJECTION], $visibleColumns, $this->getProjectableColumns(), $definedColumns);
-        $sortBinder = fn (): SortRequest => new SortRequest($request, $config[Tuner::CONFIG_SORT], $visibleColumns, $this->getSortableColumns());
-        $searchBinder = fn (): SearchRequest => new SearchRequest($request, $config[Tuner::CONFIG_SEARCH], $visibleColumns, $this->getSearchableColumns());
-        $filterBinder = fn (): FilterRequest => new FilterRequest($request, $config[Tuner::CONFIG_FILTER], $visibleColumns, $this->getFilterableColumns());
-        $expansionBinder = fn (): ExpansionRequest => new ExpansionRequest($request, $config, $this, $definedColumns, $this->getExpandableRelations());
+        $projectionBinder = fn (): ProjectionRequest => new ProjectionRequest($request, $config[Tuner::CONFIG_PROJECTION], $visibleFields, $this->getProjectableFields(), $definedFields);
+        $sortBinder = fn (): SortRequest => new SortRequest($request, $config[Tuner::CONFIG_SORT], $visibleFields, $this->getSortableFields());
+        $searchBinder = fn (): SearchRequest => new SearchRequest($request, $config[Tuner::CONFIG_SEARCH], $visibleFields, $this->getSearchableFields());
+        $filterBinder = fn (): FilterRequest => new FilterRequest($request, $config[Tuner::CONFIG_FILTER], $visibleFields, $this->getFilterableFields());
+        $expansionBinder = fn (): ExpansionRequest => new ExpansionRequest($request, $config, $this, $definedFields, $this->getExpandableRelations());
         $limitBinder = fn (): LimitRequest => new LimitRequest($request, $config[Tuner::CONFIG_LIMIT], $this->limitable());
         $paginationBinder = fn (): PaginationRequest => new PaginationRequest($request, $config[Tuner::CONFIG_PAGINATION], $this->paginatable());
 
@@ -135,10 +135,10 @@ trait Tunable
                 $isDisabled =
                     is_a($e, TunerException::class) &&
                     in_array($code, [
-                        ProjectableColumns::ERR_CODE_DISABLED,
-                        SortableColumns::ERR_CODE_DISABLED,
-                        SearchableColumns::ERR_CODE_DISABLED,
-                        FilterableColumns::ERR_CODE_DISABLED,
+                        ProjectableFields::ERR_CODE_DISABLED,
+                        SortableFields::ERR_CODE_DISABLED,
+                        SearchableFields::ERR_CODE_DISABLED,
+                        FilterableFields::ERR_CODE_DISABLED,
                         ExpandableRelations::ERR_CODE_DISABLED,
                     ]);
 

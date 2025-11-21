@@ -1,8 +1,8 @@
 <?php
 
-use Tuner\Columns\FilterableColumns;
 use Tuner\Exceptions\ClientException;
 use Tuner\Exceptions\TunerException;
+use Tuner\Fields\FilterableFields;
 use Tuner\Requests\FilterRequest;
 
 beforeEach(function (): void {
@@ -10,26 +10,26 @@ beforeEach(function (): void {
 });
 
 describe('Filter Request', function (): void {
-    it('should thrown an exception when filterable columns are empty.', function (): void {
+    it('should thrown an exception when filterable fields are empty.', function (): void {
         // Prepare
         $request = ['filter' => ['foo' => 'fooVal']];
 
         // Act & Assert
-        new FilterRequest($request, $this->config, visibleColumns: ['foo'], filterableColumns: []);
+        new FilterRequest($request, $this->config, visibleFields: ['foo'], filterableFields: []);
     })->throws(
         TunerException::class,
-        exceptionCode: FilterableColumns::ERR_CODE_DISABLED
+        exceptionCode: FilterableFields::ERR_CODE_DISABLED
     );
 
-    it('should thrown an exception when all filterable columns are not in visible columns.', function (): void {
+    it('should thrown an exception when all filterable fields are not in visible fields.', function (): void {
         // Prepare
         $request = ['filter' => ['foo' => 'fooVal']];
 
         // Act & Assert
-        new FilterRequest($request, $this->config, visibleColumns: ['foo', 'bar'], filterableColumns: ['baz']);
+        new FilterRequest($request, $this->config, visibleFields: ['foo', 'bar'], filterableFields: ['baz']);
     })->throws(
         TunerException::class,
-        exceptionCode: FilterableColumns::ERR_CODE_PCOLS_VCOLS_NO_MATCH
+        exceptionCode: FilterableFields::ERR_CODE_PCOLS_VCOLS_NO_MATCH
     );
 
     it('should thrown an exception when request value is not array.', function ($requestValue): void {
@@ -37,17 +37,17 @@ describe('Filter Request', function (): void {
         $request = ['filter' => $requestValue];
 
         // Act & Assert
-        new FilterRequest($request, $this->config, visibleColumns: ['foo'], filterableColumns: ['*']);
+        new FilterRequest($request, $this->config, visibleFields: ['foo'], filterableFields: ['*']);
     })
         ->with([1, 'foo'])
         ->throws(ClientException::class);
 
-    it('should thrown an exception when logic columns are invalid.', function ($requestValue): void {
+    it('should thrown an exception when logic fields are invalid.', function ($requestValue): void {
         // Prepare
         $request = ['filter' => $requestValue];
 
         // Act & Assert
-        new FilterRequest($request, $this->config, visibleColumns: ['foo', 'bar'], filterableColumns: ['*']);
+        new FilterRequest($request, $this->config, visibleFields: ['foo', 'bar'], filterableFields: ['*']);
     })
         ->with([
             ['requestValue' => ['foo and bar' => 'foobar']],
@@ -55,12 +55,12 @@ describe('Filter Request', function (): void {
         ])
         ->throws(ClientException::class);
 
-    it('should thrown an exception when requesting non-existing columns.', function (): void {
+    it('should thrown an exception when requesting non-existing fields.', function (): void {
         // Prepare
         $request = ['filter' => ['baz' => 'asc']];
 
         // Act & Assert
-        new FilterRequest($request, $this->config, visibleColumns: ['foo', 'bar'], filterableColumns: ['*']);
+        new FilterRequest($request, $this->config, visibleFields: ['foo', 'bar'], filterableFields: ['*']);
     })
         ->throws(ClientException::class);
 
@@ -69,7 +69,7 @@ describe('Filter Request', function (): void {
         $request = ['filter' => ['baz' => 'bazVal']];
 
         // Act & Assert
-        $request = new FilterRequest($request, $this->config, visibleColumns: ['foo', 'bar', 'baz'], filterableColumns: ['*']);
+        $request = new FilterRequest($request, $this->config, visibleFields: ['foo', 'bar', 'baz'], filterableFields: ['*']);
         expect($request())->toBe([
             'filter' => [
                 ['AND', 'baz', false, '=', 'bazVal'],
