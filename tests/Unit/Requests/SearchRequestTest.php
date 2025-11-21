@@ -1,8 +1,8 @@
 <?php
 
-use Tuner\Columns\SearchableColumns;
 use Tuner\Exceptions\ClientException;
 use Tuner\Exceptions\TunerException;
+use Tuner\Fields\SearchableFields;
 use Tuner\Requests\SearchRequest;
 
 beforeEach(function (): void {
@@ -13,12 +13,12 @@ beforeEach(function (): void {
 });
 
 describe('Search Request', function (): void {
-    it('should thrown an exception when searchable columns are empty.', function ($searchKeyword): void {
+    it('should thrown an exception when searchable fields are empty.', function ($searchKeyword): void {
         // Prepare
         $request = ['search' => ['foo' => $searchKeyword]];
 
         // Act & Assert
-        new SearchRequest($request, $this->config, visibleColumns: ['foo'], searchableColumns: []);
+        new SearchRequest($request, $this->config, visibleFields: ['foo'], searchableFields: []);
     })
         ->with([
             'match anywhere' => 'tuner',
@@ -28,15 +28,15 @@ describe('Search Request', function (): void {
         ])
         ->throws(
             TunerException::class,
-            exceptionCode: SearchableColumns::ERR_CODE_DISABLED
+            exceptionCode: SearchableFields::ERR_CODE_DISABLED
         );
 
-    it('should thrown an exception when all searchable columns are not in visible columns.', function ($searchKeyword): void {
+    it('should thrown an exception when all searchable fields are not in visible fields.', function ($searchKeyword): void {
         // Prepare
         $request = ['search' => ['foo' => $searchKeyword]];
 
         // Act & Assert
-        new SearchRequest($request, $this->config, visibleColumns: ['foo', 'bar'], searchableColumns: ['baz']);
+        new SearchRequest($request, $this->config, visibleFields: ['foo', 'bar'], searchableFields: ['baz']);
     })
         ->with([
             'match anywhere' => 'tuner',
@@ -46,7 +46,7 @@ describe('Search Request', function (): void {
         ])
         ->throws(
             TunerException::class,
-            exceptionCode: SearchableColumns::ERR_CODE_PCOLS_VCOLS_NO_MATCH
+            exceptionCode: SearchableFields::ERR_CODE_PCOLS_VCOLS_NO_MATCH
         );
 
     it('should thrown an exception when request value is not array.', function ($requestValue): void {
@@ -54,7 +54,7 @@ describe('Search Request', function (): void {
         $request = ['search' => $requestValue];
 
         // Act & Assert
-        new SearchRequest($request, $this->config, visibleColumns: ['foo'], searchableColumns: ['*']);
+        new SearchRequest($request, $this->config, visibleFields: ['foo'], searchableFields: ['*']);
     })
         ->with([1, 'foo'])
         ->throws(ClientException::class);
@@ -69,7 +69,7 @@ describe('Search Request', function (): void {
         ];
 
         // Act & Assert
-        new SearchRequest($request, $this->config, visibleColumns: ['foo', 'bar'], searchableColumns: ['*']);
+        new SearchRequest($request, $this->config, visibleFields: ['foo', 'bar'], searchableFields: ['*']);
     })
         ->with([
             'match anywhere' => 'tuner',
@@ -79,12 +79,12 @@ describe('Search Request', function (): void {
         ])
         ->throws(ClientException::class);
 
-    it('should thrown an exception when requesting non-existing columns.', function ($searchKeyword): void {
+    it('should thrown an exception when requesting non-existing fields.', function ($searchKeyword): void {
         // Prepare
         $request = ['search' => ['baz' => $searchKeyword]];
 
         // Act & Assert
-        new SearchRequest($request, $this->config, visibleColumns: ['foo', 'bar'], searchableColumns: ['*']);
+        new SearchRequest($request, $this->config, visibleFields: ['foo', 'bar'], searchableFields: ['*']);
     })
         ->with([
             'match anywhere' => 'tuner',
@@ -104,7 +104,7 @@ describe('Search Request', function (): void {
         $request = ['search' => ['bar' => $searchKeyword]];
 
         // Act & Assert
-        new SearchRequest($request, $config, visibleColumns: ['foo', 'bar'], searchableColumns: ['*']);
+        new SearchRequest($request, $config, visibleFields: ['foo', 'bar'], searchableFields: ['*']);
     })
         ->with([
             'match anywhere' => 'tuner',
@@ -119,7 +119,7 @@ describe('Search Request', function (): void {
         $request = ['search' => ['baz' => $searchKeyword]];
 
         // Act & Assert
-        $request = new SearchRequest($request, $this->config, visibleColumns: ['foo', 'bar', 'baz'], searchableColumns: ['*']);
+        $request = new SearchRequest($request, $this->config, visibleFields: ['foo', 'bar', 'baz'], searchableFields: ['*']);
         expect($request())->toBe(['search' => ['baz' => $interpret]]);
     })
         ->with([

@@ -66,18 +66,18 @@ This package was born out of real-world needs in my own projects. I created it t
 ## Main Features
 
 **Projection**  
-Select only the columns you need instead of retrieving every column.  
+Select only the fields you need instead of retrieving every field.  
 Available modifiers:  
-1. `columns` – Include only the specified columns.  
-2. `columns!` – Exclude the specified columns (opposite effect).  
+1. `fields` – Include only the specified fields.  
+2. `fields!` – Exclude the specified fields (opposite effect).  
 
-![Projection demo][columns-gif]
+![Projection demo][fields-gif]
 
 ---
 
 **Sort**  
 Order results in ascending or descending order.  
-- Use the `sort` modifier to define one or more sort columns.  
+- Use the `sort` modifier to define one or more sort fields.  
 
 ![Sort demo][sort-gif]
 
@@ -203,7 +203,7 @@ If this project helped you or saved you time, consider buying me a coffee. Your 
 <!-- MARKDOWN LINKS, IMAGES, and GIFs -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [product-screenshot]: ./art/image.png
-[columns-gif]: ./art/columns.gif
+[fields-gif]: ./art/fields.gif
 [sort-gif]: ./art/sort.gif
 [search-gif]: ./art/search.gif
 [filter-gif]: ./art/filter.gif

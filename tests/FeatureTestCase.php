@@ -17,8 +17,8 @@ abstract class FeatureTestCase extends BaseTestCase
         $app['config']->set('tuner', [
             'projection' => [
                 'key' => [
-                    'intersect' => 'columns',
-                    'except' => 'columns!',
+                    'intersect' => 'fields',
+                    'except' => 'fields!',
                 ],
             ],
 

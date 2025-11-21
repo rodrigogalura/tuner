@@ -22,17 +22,17 @@ class InvalidProjectableModel extends Model
         'updated_at',
     ];
 
-    protected function getProjectableColumns()
+    protected function getProjectableFields()
     {
         return ['email'];
     }
 
-    protected function getSearchableColumns()
+    protected function getSearchableFields()
     {
         return ['email'];
     }
 
-    protected function getSortableColumns()
+    protected function getSortableFields()
     {
         return ['email'];
     }

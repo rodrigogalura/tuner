@@ -4,9 +4,9 @@ namespace Tuner\Requests;
 
 use Illuminate\Database\Eloquent\Model;
 use Schema;
-use Tuner\Columns\ExpandableRelations;
 use Tuner\Exceptions\ClientException;
 use Tuner\Exceptions\TunerException;
+use Tuner\Fields\ExpandableRelations;
 use Tuner\Tuner;
 
 /**
@@ -18,7 +18,7 @@ class ExpansionRequest extends Request implements RequestInterface
         array $request,
         private array $config,
         private Model $subjectModel,
-        private array $definedColumns,
+        private array $definedFields,
         private array $expandableRelations,
     ) {
         parent::__construct($request);
@@ -85,10 +85,10 @@ class ExpansionRequest extends Request implements RequestInterface
                     $columnListing = Schema::getColumnListing($settings['table']);
 
                     $features = [
-                        implode(',', $this->config[Tuner::CONFIG_PROJECTION][Tuner::PARAM_KEY]) => fn ($projectionRequest): ProjectionRequest => new ProjectionRequest($projectionRequest, $this->config[Tuner::CONFIG_PROJECTION], $columnListing, $options['projectable_columns'], $this->definedColumns),
-                        $this->config[Tuner::CONFIG_SORT][Tuner::PARAM_KEY] => fn ($sortRequest): SortRequest => new SortRequest($sortRequest, $this->config[Tuner::CONFIG_SORT], $columnListing, $options['sortable_columns']),
-                        $this->config[Tuner::CONFIG_SEARCH][Tuner::PARAM_KEY] => fn ($searchRequest): SearchRequest => new SearchRequest($searchRequest, $this->config[Tuner::CONFIG_SEARCH], $columnListing, $options['searchable_columns']),
-                        implode(',', $this->config[Tuner::CONFIG_FILTER][Tuner::PARAM_KEY]) => fn ($filterRequest): FilterRequest => new FilterRequest($filterRequest, $this->config[Tuner::CONFIG_FILTER], $columnListing, $options['filterable_columns']),
+                        implode(',', $this->config[Tuner::CONFIG_PROJECTION][Tuner::PARAM_KEY]) => fn ($projectionRequest): ProjectionRequest => new ProjectionRequest($projectionRequest, $this->config[Tuner::CONFIG_PROJECTION], $columnListing, $options['projectable_fields'], $this->definedFields),
+                        $this->config[Tuner::CONFIG_SORT][Tuner::PARAM_KEY] => fn ($sortRequest): SortRequest => new SortRequest($sortRequest, $this->config[Tuner::CONFIG_SORT], $columnListing, $options['sortable_fields']),
+                        $this->config[Tuner::CONFIG_SEARCH][Tuner::PARAM_KEY] => fn ($searchRequest): SearchRequest => new SearchRequest($searchRequest, $this->config[Tuner::CONFIG_SEARCH], $columnListing, $options['searchable_fields']),
+                        implode(',', $this->config[Tuner::CONFIG_FILTER][Tuner::PARAM_KEY]) => fn ($filterRequest): FilterRequest => new FilterRequest($filterRequest, $this->config[Tuner::CONFIG_FILTER], $columnListing, $options['filterable_fields']),
                     ];
 
                     foreach ($features as $key => $feature) {

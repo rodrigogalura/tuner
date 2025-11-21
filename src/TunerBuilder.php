@@ -44,47 +44,47 @@ final class TunerBuilder
         return ! is_null($this->{$property} ?? null);
     }
 
-    private function buildProjection(array $projectedColumns): void
+    private function buildProjection(array $projectedFields): void
     {
-        $this->builder->select($projectedColumns);
+        $this->builder->select($projectedFields);
     }
 
     private function buildSort(array $sort): void
     {
-        foreach ($sort as $column => $order) {
-            $this->builder->orderBy($column, $order);
+        foreach ($sort as $field => $order) {
+            $this->builder->orderBy($field, $order);
         }
     }
 
     private function buildSearch(array $search): void
     {
-        [$columns, $searchKeyword] = [key($search), current($search)];
+        [$fields, $searchKeyword] = [key($search), current($search)];
 
-        $this->builder->where(fn ($builder) => $builder->whereAny(explode(', ', $columns), 'LIKE', $searchKeyword));
+        $this->builder->where(fn ($builder) => $builder->whereAny(explode(', ', $fields), 'LIKE', $searchKeyword));
     }
 
     private function buildFilter(array $filters): void
     {
         if ($filter = $filters[FilterRequest::KEY_FILTER] ?? null) {
             $this->builder->where(function ($builder) use ($filter): void {
-                foreach ($filter as [$logicalOperator, $column, $not, $comparisonOperator, $val]) {
-                    $builder->where($column, $comparisonOperator, $val, $logicalOperator.($not ? ' NOT' : ''));
+                foreach ($filter as [$logicalOperator, $field, $not, $comparisonOperator, $val]) {
+                    $builder->where($field, $comparisonOperator, $val, $logicalOperator.($not ? ' NOT' : ''));
                 }
             });
         }
 
         if ($inFilter = $filters[FilterRequest::KEY_IN] ?? null) {
             $this->builder->where(function ($builder) use ($inFilter): void {
-                foreach ($inFilter as [$logicalOperator, $column, $not, $val]) {
-                    $builder->whereIn($column, $val, $logicalOperator, $not);
+                foreach ($inFilter as [$logicalOperator, $field, $not, $val]) {
+                    $builder->whereIn($field, $val, $logicalOperator, $not);
                 }
             });
         }
 
         if ($betweenFilter = $filters[FilterRequest::KEY_BETWEEN] ?? null) {
             $this->builder->where(function ($builder) use ($betweenFilter): void {
-                foreach ($betweenFilter as [$logicalOperator, $column, $not, $val]) {
-                    $builder->whereBetween($column, $val, $logicalOperator, $not);
+                foreach ($betweenFilter as [$logicalOperator, $field, $not, $val]) {
+                    $builder->whereBetween($field, $val, $logicalOperator, $not);
                 }
             });
         }
@@ -99,7 +99,7 @@ final class TunerBuilder
 
             $isRelationBelongsTo = $settings['relationClass'] === BelongsTo::class;
             // if ($isRelationBelongsTo) {
-            //     $this->builder->select(array_merge($this->builder->getQuery()->columns, [$settings['fk']]));
+            //     $this->builder->select(array_merge($this->builder->getQuery()->fields, [$settings['fk']]));
             // }
 
             $this->builder->with($relation, function ($builder) use ($settings, $expansion, $relation, $alias, $isRelationBelongsTo): void {
@@ -109,14 +109,14 @@ final class TunerBuilder
 
                     $keys = [
                         implode(',', $expansion['config'][Tuner::CONFIG_PROJECTION][Tuner::PARAM_KEY]) => function (array $args): void {
-                            [$columns, $fk] = [$args['request'], $args['fk']];
+                            [$fields, $fk] = [$args['request'], $args['fk']];
 
-                            $shouldAddFk = ! $args['isRelationBelongsTo'] && ! in_array($fk, $columns);
+                            $shouldAddFk = ! $args['isRelationBelongsTo'] && ! in_array($fk, $fields);
                             if ($shouldAddFk) {
-                                array_push($columns, $fk);
+                                array_push($fields, $fk);
                             }
 
-                            $args['builder']->select(array_map(fn ($field): string => "{$args['table']}.{$field}", $columns));
+                            $args['builder']->select(array_map(fn ($field): string => "{$args['table']}.{$field}", $fields));
                         },
                         $expansion['config'][Tuner::CONFIG_SORT][Tuner::PARAM_KEY] => function (array $args): void {
                             $sort = $args['request'];
@@ -208,11 +208,11 @@ final class TunerBuilder
     public function build(): Collection|LengthAwarePaginator
     {
         if ($this->wasAssigned('projection')) {
-            if (empty($projectedColumns = current($this->projection))) {
+            if (empty($projectedFields = current($this->projection))) {
                 return new Collection([]);
             }
 
-            $this->buildProjection($projectedColumns);
+            $this->buildProjection($projectedFields);
         }
 
         if ($this->wasAssigned('sort')) {

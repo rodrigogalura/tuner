@@ -1,114 +1,114 @@
 <?php
 
-use Tuner\Columns\DefinedColumns;
-use Tuner\Columns\ProjectableColumns;
 use Tuner\Exceptions\ClientException;
 use Tuner\Exceptions\TunerException;
+use Tuner\Fields\DefinedFields;
+use Tuner\Fields\ProjectableFields;
 use Tuner\Requests\ProjectionRequest;
 
 beforeEach(function (): void {
     $this->config = [
         'key' => [
-            'intersect' => 'columns',
-            'except' => 'columns!',
+            'intersect' => 'fields',
+            'except' => 'fields!',
         ],
     ];
 });
 
 describe('Projection Request', function (): void {
-    it('should thrown an exception when projectable columns are empty.', function (): void {
+    it('should thrown an exception when projectable fields are empty.', function (): void {
         // Prepare
-        $request = ['columns' => 1];
+        $request = ['fields' => 1];
 
         // Act & Assert
-        new ProjectionRequest($request, $this->config, visibleColumns: ['foo'], projectableColumns: [], definedColumns: ['*']);
+        new ProjectionRequest($request, $this->config, visibleFields: ['foo'], projectableFields: [], definedFields: ['*']);
     })->throws(
         TunerException::class,
-        exceptionCode: ProjectableColumns::ERR_CODE_DISABLED
+        exceptionCode: ProjectableFields::ERR_CODE_DISABLED
     );
 
-    it('should thrown an exception when all projectable columns are not in visible columns.', function (): void {
+    it('should thrown an exception when all projectable fields are not in visible fields.', function (): void {
         // Prepare
-        $request = ['columns' => 1];
+        $request = ['fields' => 1];
 
         // Act & Assert
-        new ProjectionRequest($request, $this->config, visibleColumns: ['foo', 'bar'], projectableColumns: ['baz'], definedColumns: ['*']);
+        new ProjectionRequest($request, $this->config, visibleFields: ['foo', 'bar'], projectableFields: ['baz'], definedFields: ['*']);
     })->throws(
         TunerException::class,
-        exceptionCode: ProjectableColumns::ERR_CODE_PCOLS_VCOLS_NO_MATCH
+        exceptionCode: ProjectableFields::ERR_CODE_PCOLS_VCOLS_NO_MATCH
     );
 
-    it('should thrown an exception when defined columns are empty.', function (): void {
+    it('should thrown an exception when defined fields are empty.', function (): void {
         // Prepare
-        $request = ['columns' => 1];
+        $request = ['fields' => 1];
 
         // Act & Assert
-        new ProjectionRequest($request, $this->config, visibleColumns: ['foo'], projectableColumns: ['foo'], definedColumns: []);
+        new ProjectionRequest($request, $this->config, visibleFields: ['foo'], projectableFields: ['foo'], definedFields: []);
     })->throws(
         TunerException::class,
-        exceptionCode: DefinedColumns::ERR_CODE_QUERY_EXCEPTION
+        exceptionCode: DefinedFields::ERR_CODE_QUERY_EXCEPTION
     );
 
-    it('should thrown an exception when all defined columns are not in visible columns.', function (): void {
+    it('should thrown an exception when all defined fields are not in visible fields.', function (): void {
         // Prepare
-        $request = ['columns' => 1];
+        $request = ['fields' => 1];
 
         // Act & Assert
-        new ProjectionRequest($request, $this->config, visibleColumns: ['foo', 'bar'], projectableColumns: ['*'], definedColumns: ['baz']);
+        new ProjectionRequest($request, $this->config, visibleFields: ['foo', 'bar'], projectableFields: ['*'], definedFields: ['baz']);
     })->throws(
         TunerException::class,
-        exceptionCode: DefinedColumns::ERR_CODE_DCOLS_VCOLS_NO_MATCH
+        exceptionCode: DefinedFields::ERR_CODE_DCOLS_VCOLS_NO_MATCH
     );
 
     it('should thrown an exception when using modifier for intersect and except at the same time.', function (): void {
         // Prepare
         $request = [
-            'columns' => 'foo',
-            'columns!' => 'bar',
+            'fields' => 'foo',
+            'fields!' => 'bar',
         ];
 
         // Act & Assert
-        new ProjectionRequest($request, $this->config, visibleColumns: [], projectableColumns: [], definedColumns: []);
+        new ProjectionRequest($request, $this->config, visibleFields: [], projectableFields: [], definedFields: []);
     })->throws(ClientException::class);
 
     it('should thrown an exception when request value is not string.', function (): void {
         // Prepare
-        $request = ['columns' => 1];
+        $request = ['fields' => 1];
 
         // Act & Assert
-        new ProjectionRequest($request, $this->config, visibleColumns: ['foo'], projectableColumns: ['foo'], definedColumns: ['*']);
+        new ProjectionRequest($request, $this->config, visibleFields: ['foo'], projectableFields: ['foo'], definedFields: ['*']);
     })->throws(ClientException::class);
 
-    it('should thrown an exception when requesting non-existing columns.', function (): void {
+    it('should thrown an exception when requesting non-existing fields.', function (): void {
         // Prepare
-        $request = ['columns' => 'baz'];
+        $request = ['fields' => 'baz'];
 
         // Act & Assert
-        new ProjectionRequest($request, $this->config, visibleColumns: ['foo', 'bar'], projectableColumns: ['*'], definedColumns: ['*']);
+        new ProjectionRequest($request, $this->config, visibleFields: ['foo', 'bar'], projectableFields: ['*'], definedFields: ['*']);
     })
         ->throws(ClientException::class);
 
-    test('should get request value of columns modifier', function ($columns, $expected): void {
+    test('should get request value of fields modifier', function ($fields, $expected): void {
         // Prepare
-        $request = compact('columns');
+        $request = compact('fields');
 
         // Act & Assert
-        $request = new ProjectionRequest($request, $this->config, visibleColumns: ['foo', 'bar', 'baz'], projectableColumns: ['*'], definedColumns: ['*']);
-        expect($request())->toBe(['columns' => $expected]);
+        $request = new ProjectionRequest($request, $this->config, visibleFields: ['foo', 'bar', 'baz'], projectableFields: ['*'], definedFields: ['*']);
+        expect($request())->toBe(['fields' => $expected]);
     })->with([
-        ['columns' => 'baz', 'expected' => ['baz']],
-        ['columns' => 'foo,bar', 'expected' => ['foo', 'bar']],
-        ['columns' => 'foo, bar', 'expected' => ['foo', 'bar']],
-        ['columns' => 'foo,baz', 'expected' => ['foo', 'baz']],
-        ['columns' => 'foo, baz', 'expected' => ['foo', 'baz']],
+        ['fields' => 'baz', 'expected' => ['baz']],
+        ['fields' => 'foo,bar', 'expected' => ['foo', 'bar']],
+        ['fields' => 'foo, bar', 'expected' => ['foo', 'bar']],
+        ['fields' => 'foo,baz', 'expected' => ['foo', 'baz']],
+        ['fields' => 'foo, baz', 'expected' => ['foo', 'baz']],
     ]);
 
-    test('should get request value of columns! modifier', function (): void {
+    test('should get request value of fields! modifier', function (): void {
         // Prepare
-        $request = ['columns!' => 'baz'];
+        $request = ['fields!' => 'baz'];
 
         // Act & Assert
-        $request = new ProjectionRequest($request, $this->config, visibleColumns: ['foo', 'bar', 'baz'], projectableColumns: ['*'], definedColumns: ['*']);
-        expect($request())->toBe(['columns!' => ['foo', 'bar']]);
+        $request = new ProjectionRequest($request, $this->config, visibleFields: ['foo', 'bar', 'baz'], projectableFields: ['*'], definedFields: ['*']);
+        expect($request())->toBe(['fields!' => ['foo', 'bar']]);
     });
 });

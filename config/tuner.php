@@ -3,8 +3,8 @@
 return [
     'projection' => [
         'key' => [
-            'intersect' => env('TUNER_INTERSECT_KEY', 'columns'),
-            'except' => env('TUNER_EXCEPT_KEY', 'columns!'),
+            'intersect' => env('TUNER_INTERSECT_KEY', 'fields'),
+            'except' => env('TUNER_EXCEPT_KEY', 'fields!'),
         ],
     ],
 

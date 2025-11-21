@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Tuner\Tunable;
 
-class AllColumnsAreProjectableModel extends Model
+class AllFieldsAreProjectableModel extends Model
 {
-    /** @use HasFactory<\Database\Factories\AllColumnsAreProjectableModelFactory> */
+    /** @use HasFactory<\Database\Factories\AllFieldsAreProjectableModelFactory> */
     use HasFactory;
 
     use Tunable;
@@ -22,17 +22,17 @@ class AllColumnsAreProjectableModel extends Model
         'updated_at',
     ];
 
-    protected function getProjectableColumns()
+    protected function getProjectableFields()
     {
         return ['id', 'name'];
     }
 
-    protected function getSearchableColumns()
+    protected function getSearchableFields()
     {
         return ['id', 'name'];
     }
 
-    protected function getSortableColumns()
+    protected function getSortableFields()
     {
         return ['id', 'name'];
     }

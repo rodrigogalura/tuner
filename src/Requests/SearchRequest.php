@@ -3,9 +3,9 @@
 namespace Tuner\Requests;
 
 use Illuminate\Support\Str;
-use Tuner\Columns\Columns;
-use Tuner\Columns\SearchableColumns;
 use Tuner\Exceptions\ClientException;
+use Tuner\Fields\Fields;
+use Tuner\Fields\SearchableFields;
 use Tuner\Tuner;
 
 /**
@@ -16,43 +16,43 @@ class SearchRequest extends Request implements RequestInterface
     public function __construct(
         array $request,
         private array $config,
-        private array $visibleColumns,
-        private array $searchableColumns,
+        private array $visibleFields,
+        private array $searchableFields,
     ) {
         parent::__construct($request, $config[Tuner::PARAM_KEY]);
     }
 
     private static function searchKeywordInterpreter($searchRequest)
     {
-        [$columns, $searchKeyword] = [key($searchRequest), current($searchRequest)];
+        [$fields, $searchKeyword] = [key($searchRequest), current($searchRequest)];
 
         if (! str_starts_with($searchKeyword, '*') && ! str_ends_with($searchKeyword, '*')) {
             $searchKeyword = "*{$searchKeyword}*";
         }
 
-        return [$columns => Str::replaceMatches(subject: $searchKeyword, pattern: '/^\*|\*$/', replace: '%')];
+        return [$fields => Str::replaceMatches(subject: $searchKeyword, pattern: '/^\*|\*$/', replace: '%')];
     }
 
     protected function validate()
     {
-        $searchableColumns = (new SearchableColumns($this->searchableColumns, $this->visibleColumns))();
+        $searchableFields = (new SearchableFields($this->searchableFields, $this->visibleFields))();
 
         // Validate search
         $searchRequest = current($this->request); // unwrap
         throw_unless(is_array($searchRequest), new ClientException('The ['.$this->key.'] must be array!'));
         throw_unless(count($searchRequest) === 1, new ClientException('The ['.$this->key.'] must be only one value!'));
 
-        $columns = explode(',', key($searchRequest));
+        $fields = explode(',', key($searchRequest));
 
-        // Validate columns
-        $columns = new Columns($columns, $searchableColumns);
-        throw_if(empty($requestedColumns = $columns->intersect()->implode()->get()), new ClientException('Invalid columns. It must be one of the following searchable columns: ['.implode(', ', $searchableColumns).']'));
+        // Validate fields
+        $fields = new Fields($fields, $searchableFields);
+        throw_if(empty($requestedFields = $fields->intersect()->implode()->get()), new ClientException('Invalid fields. It must be one of the following searchable fields: ['.implode(', ', $searchableFields).']'));
 
         $searchKeyword = current($searchRequest);
 
         // Validate values
         throw_if(strlen($searchKeyword) < $this->config['minimum_length'], new ClientException(sprintf('Keyword characters must be at least %d length.', $this->config['minimum_length'])));
 
-        $this->request = [$this->key => static::searchKeywordInterpreter([$requestedColumns => $searchKeyword])];
+        $this->request = [$this->key => static::searchKeywordInterpreter([$requestedFields => $searchKeyword])];
     }
 }

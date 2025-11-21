@@ -22,17 +22,17 @@ class NoProjectableModel extends Model
         'updated_at',
     ];
 
-    protected function getProjectableColumns()
+    protected function getProjectableFields()
     {
         return [];
     }
 
-    protected function getSearchableColumns()
+    protected function getSearchableFields()
     {
         return [];
     }
 
-    protected function getSortableColumns()
+    protected function getSortableFields()
     {
         return [];
     }

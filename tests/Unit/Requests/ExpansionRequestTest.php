@@ -1,13 +1,13 @@
 <?php
 
-// use Tuner\Columns\DefinedColumns;
+// use Tuner\Fields\DefinedFields;
 use Illuminate\Database\Eloquent\Model;
-use Tuner\Columns\ExpandableRelations;
-use Tuner\Columns\FilterableColumns;
-use Tuner\Columns\ProjectableColumns;
-use Tuner\Columns\SearchableColumns;
-use Tuner\Columns\SortableColumns;
 use Tuner\Exceptions\TunerException;
+use Tuner\Fields\ExpandableRelations;
+use Tuner\Fields\FilterableFields;
+use Tuner\Fields\ProjectableFields;
+use Tuner\Fields\SearchableFields;
+use Tuner\Fields\SortableFields;
 use Tuner\Requests\ExpansionRequest;
 
 beforeEach(function (): void {
@@ -16,8 +16,8 @@ beforeEach(function (): void {
     $this->config = [
         'projection' => [
             'key' => [
-                'intersect' => env('TUNER_INTERSECT_KEY', 'columns'),
-                'except' => env('TUNER_EXCEPT_KEY', 'columns!'),
+                'intersect' => env('TUNER_INTERSECT_KEY', 'fields'),
+                'except' => env('TUNER_EXCEPT_KEY', 'fields!'),
             ],
         ],
 
@@ -68,7 +68,7 @@ describe('Expansion Request', function (): void {
         ];
 
         // Act & Assert
-        new ExpansionRequest($request, $this->config, $this->model, definedColumns: ['*'], expandableRelations: []);
+        new ExpansionRequest($request, $this->config, $this->model, definedFields: ['*'], expandableRelations: []);
     })->throws(
         TunerException::class,
         exceptionCode: ExpandableRelations::ERR_CODE_DISABLED
@@ -85,7 +85,7 @@ describe('Expansion Request', function (): void {
         $model = mock(new class extends Model {});
 
         // Act & Assert
-        new ExpansionRequest($request, $this->config, $this->model, definedColumns: ['*'], expandableRelations: [
+        new ExpansionRequest($request, $this->config, $this->model, definedFields: ['*'], expandableRelations: [
             'notExistRelation' => [''],
         ]);
     })->throws(
@@ -107,7 +107,7 @@ describe('Expansion Request', function (): void {
             ->andReturn('foo');
 
         // Act & Assert
-        new ExpansionRequest($request, $this->config, $this->model, definedColumns: ['*'], expandableRelations: [
+        new ExpansionRequest($request, $this->config, $this->model, definedFields: ['*'], expandableRelations: [
             $relation => [
                 'options' => ['invalid_option' => ['*']],
             ],
@@ -117,13 +117,13 @@ describe('Expansion Request', function (): void {
         exceptionCode: ExpandableRelations::ERR_CODE_INVALID_OPTION
     );
 
-    it('should thrown an exception when expansion projectable columns are empty.', function (): void {
+    it('should thrown an exception when expansion projectable fields are empty.', function (): void {
         // Prepare
         $request = [
             'expand' => [
                 'posts' => 'p',
             ],
-            'p_columns' => '*',
+            'p_fields' => '*',
         ];
 
         $relation = 'posts';
@@ -137,23 +137,23 @@ describe('Expansion Request', function (): void {
         };
 
         // Act & Assert
-        new ExpansionRequest($request, $this->config, $subjectModel, definedColumns: ['*'], expandableRelations: [
+        new ExpansionRequest($request, $this->config, $subjectModel, definedFields: ['*'], expandableRelations: [
             $relation => [
-                'options' => ['projectable_columns' => []],
+                'options' => ['projectable_fields' => []],
             ],
         ]);
     })->throws(
         TunerException::class,
-        exceptionCode: ProjectableColumns::ERR_CODE_DISABLED
+        exceptionCode: ProjectableFields::ERR_CODE_DISABLED
     );
 
-    it('should thrown an exception when expansion projectable columns are not in visible columns.', function (): void {
+    it('should thrown an exception when expansion projectable fields are not in visible fields.', function (): void {
         // Prepare
         $request = [
             'expand' => [
                 'posts' => 'p',
             ],
-            'p_columns' => '*',
+            'p_fields' => '*',
         ];
 
         $table = 'foo';
@@ -172,18 +172,18 @@ describe('Expansion Request', function (): void {
             ->andReturn(['id', 'name', 'email']);
 
         // Act & Assert
-        new ExpansionRequest($request, $this->config, $subjectModel, definedColumns: ['*'], expandableRelations: [
+        new ExpansionRequest($request, $this->config, $subjectModel, definedFields: ['*'], expandableRelations: [
             $relation => [
                 'table' => $table,
-                'options' => ['projectable_columns' => ['bar']],
+                'options' => ['projectable_fields' => ['bar']],
             ],
         ]);
     })->throws(
         TunerException::class,
-        exceptionCode: ProjectableColumns::ERR_CODE_PCOLS_VCOLS_NO_MATCH
+        exceptionCode: ProjectableFields::ERR_CODE_PCOLS_VCOLS_NO_MATCH
     );
 
-    it('should thrown an exception when expansion sortable columns are empty.', function (): void {
+    it('should thrown an exception when expansion sortable fields are empty.', function (): void {
         // Prepare
         $request = [
             'expand' => [
@@ -203,17 +203,17 @@ describe('Expansion Request', function (): void {
         };
 
         // Act & Assert
-        new ExpansionRequest($request, $this->config, $subjectModel, definedColumns: ['*'], expandableRelations: [
+        new ExpansionRequest($request, $this->config, $subjectModel, definedFields: ['*'], expandableRelations: [
             $relation => [
-                'options' => ['sortable_columns' => []],
+                'options' => ['sortable_fields' => []],
             ],
         ]);
     })->throws(
         TunerException::class,
-        exceptionCode: SortableColumns::ERR_CODE_DISABLED
+        exceptionCode: SortableFields::ERR_CODE_DISABLED
     );
 
-    it('should thrown an exception when expansion sortable columns are not in visible columns.', function (): void {
+    it('should thrown an exception when expansion sortable fields are not in visible fields.', function (): void {
         // Prepare
         $request = [
             'expand' => [
@@ -238,18 +238,18 @@ describe('Expansion Request', function (): void {
             ->andReturn(['id', 'name', 'email']);
 
         // Act & Assert
-        new ExpansionRequest($request, $this->config, $subjectModel, definedColumns: ['*'], expandableRelations: [
+        new ExpansionRequest($request, $this->config, $subjectModel, definedFields: ['*'], expandableRelations: [
             $relation => [
                 'table' => $table,
-                'options' => ['sortable_columns' => ['bar']],
+                'options' => ['sortable_fields' => ['bar']],
             ],
         ]);
     })->throws(
         TunerException::class,
-        exceptionCode: SortableColumns::ERR_CODE_PCOLS_VCOLS_NO_MATCH
+        exceptionCode: SortableFields::ERR_CODE_PCOLS_VCOLS_NO_MATCH
     );
 
-    it('should thrown an exception when expansion searchable columns are empty.', function (): void {
+    it('should thrown an exception when expansion searchable fields are empty.', function (): void {
         // Prepare
         $request = [
             'expand' => [
@@ -269,17 +269,17 @@ describe('Expansion Request', function (): void {
         };
 
         // Act & Assert
-        new ExpansionRequest($request, $this->config, $subjectModel, definedColumns: ['*'], expandableRelations: [
+        new ExpansionRequest($request, $this->config, $subjectModel, definedFields: ['*'], expandableRelations: [
             $relation => [
-                'options' => ['searchable_columns' => []],
+                'options' => ['searchable_fields' => []],
             ],
         ]);
     })->throws(
         TunerException::class,
-        exceptionCode: SearchableColumns::ERR_CODE_DISABLED
+        exceptionCode: SearchableFields::ERR_CODE_DISABLED
     );
 
-    it('should thrown an exception when expansion searchable columns are not in visible columns.', function (): void {
+    it('should thrown an exception when expansion searchable fields are not in visible fields.', function (): void {
         // Prepare
         $request = [
             'expand' => [
@@ -304,18 +304,18 @@ describe('Expansion Request', function (): void {
             ->andReturn(['id', 'name', 'email']);
 
         // Act & Assert
-        new ExpansionRequest($request, $this->config, $subjectModel, definedColumns: ['*'], expandableRelations: [
+        new ExpansionRequest($request, $this->config, $subjectModel, definedFields: ['*'], expandableRelations: [
             $relation => [
                 'table' => $table,
-                'options' => ['searchable_columns' => ['bar']],
+                'options' => ['searchable_fields' => ['bar']],
             ],
         ]);
     })->throws(
         TunerException::class,
-        exceptionCode: SearchableColumns::ERR_CODE_PCOLS_VCOLS_NO_MATCH
+        exceptionCode: SearchableFields::ERR_CODE_PCOLS_VCOLS_NO_MATCH
     );
 
-    it('should thrown an exception when expansion filterable columns are empty.', function (): void {
+    it('should thrown an exception when expansion filterable fields are empty.', function (): void {
         // Prepare
         $request = [
             'expand' => [
@@ -335,17 +335,17 @@ describe('Expansion Request', function (): void {
         };
 
         // Act & Assert
-        new ExpansionRequest($request, $this->config, $subjectModel, definedColumns: ['*'], expandableRelations: [
+        new ExpansionRequest($request, $this->config, $subjectModel, definedFields: ['*'], expandableRelations: [
             $relation => [
-                'options' => ['filterable_columns' => []],
+                'options' => ['filterable_fields' => []],
             ],
         ]);
     })->throws(
         TunerException::class,
-        exceptionCode: FilterableColumns::ERR_CODE_DISABLED
+        exceptionCode: FilterableFields::ERR_CODE_DISABLED
     );
 
-    it('should thrown an exception when expansion filterable columns are not in visible columns.', function (): void {
+    it('should thrown an exception when expansion filterable fields are not in visible fields.', function (): void {
         // Prepare
         $request = [
             'expand' => [
@@ -370,14 +370,14 @@ describe('Expansion Request', function (): void {
             ->andReturn(['id', 'name', 'email']);
 
         // Act & Assert
-        new ExpansionRequest($request, $this->config, $subjectModel, definedColumns: ['*'], expandableRelations: [
+        new ExpansionRequest($request, $this->config, $subjectModel, definedFields: ['*'], expandableRelations: [
             $relation => [
                 'table' => $table,
-                'options' => ['filterable_columns' => ['bar']],
+                'options' => ['filterable_fields' => ['bar']],
             ],
         ]);
     })->throws(
         TunerException::class,
-        exceptionCode: FilterableColumns::ERR_CODE_PCOLS_VCOLS_NO_MATCH
+        exceptionCode: FilterableFields::ERR_CODE_PCOLS_VCOLS_NO_MATCH
     );
 });

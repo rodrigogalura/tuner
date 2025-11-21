@@ -1,15 +1,15 @@
 meta {
-  name: columns!
+  name: fields!
   type: http
   seq: 2
 }
 
 get {
-  url: {{host}}/api/users?columns!=id, name
+  url: {{host}}/api/users?fields!=id, name
   body: none
   auth: none
 }
 
 params:query {
-  columns!: id, name
+  fields!: id, name
 }

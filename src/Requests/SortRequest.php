@@ -2,9 +2,9 @@
 
 namespace Tuner\Requests;
 
-use Tuner\Columns\Columns;
-use Tuner\Columns\SortableColumns;
 use Tuner\Exceptions\ClientException;
+use Tuner\Fields\Fields;
+use Tuner\Fields\SortableFields;
 use Tuner\Tuner;
 
 /**
@@ -20,8 +20,8 @@ class SortRequest extends Request implements RequestInterface
     public function __construct(
         array $request,
         array $config,
-        private array $visibleColumns,
-        private array $sortableColumns,
+        private array $visibleFields,
+        private array $sortableFields,
     ) {
         parent::__construct($request, $config[Tuner::PARAM_KEY]);
     }
@@ -33,9 +33,9 @@ class SortRequest extends Request implements RequestInterface
 
     private static function orderInterpreter($request)
     {
-        foreach ($request as $column => $order) {
+        foreach ($request as $field => $order) {
             $filtered = array_filter(static::ORDERS, fn ($values): bool => in_array($order, $values), ARRAY_FILTER_USE_BOTH);
-            $request[$column] = key($filtered);
+            $request[$field] = key($filtered);
         }
 
         return $request;
@@ -43,17 +43,17 @@ class SortRequest extends Request implements RequestInterface
 
     protected function validate()
     {
-        $sortableColumns = (new SortableColumns($this->sortableColumns, $this->visibleColumns))();
+        $sortableFields = (new SortableFields($this->sortableFields, $this->visibleFields))();
 
         // Validate sort
         $sortRequest = current($this->request); // unwrap
         throw_unless(is_array($sortRequest), new ClientException('The ['.$this->key.'] must be array'));
 
-        // Validate columns
-        $columns = new Columns(array_keys($sortRequest), $sortableColumns);
-        throw_if(empty($requestedColumns = $columns->intersect()->get()), new ClientException('Invalid columns provided. It must be one of the following sortable columns: ['.implode(', ', $sortableColumns).']'));
+        // Validate fields
+        $fields = new Fields(array_keys($sortRequest), $sortableFields);
+        throw_if(empty($requestedFields = $fields->intersect()->get()), new ClientException('Invalid fields provided. It must be one of the following sortable fields: ['.implode(', ', $sortableFields).']'));
 
-        $filteredRequest = array_filter($sortRequest, fn ($column): bool => in_array($column, $requestedColumns), ARRAY_FILTER_USE_KEY);
+        $filteredRequest = array_filter($sortRequest, fn ($field): bool => in_array($field, $requestedFields), ARRAY_FILTER_USE_KEY);
 
         // Validate values
         $validOrderValues = static::validOrderValues();

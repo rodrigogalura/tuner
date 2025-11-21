@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('all_columns_are_projectable_models', function (Blueprint $table): void {
+        Schema::create('all_fields_are_projectable_models', function (Blueprint $table): void {
             $table->id();
             $table->string('name', 50);
             $table->timestamps();
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('all_columns_are_projectable_models');
+        Schema::dropIfExists('all_fields_are_projectable_models');
     }
 };
