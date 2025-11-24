@@ -17,7 +17,7 @@ trait HasSingleton
 
     private static function saveInstance($instance)
     {
-        throw_unless(! is_null(static::$instance), new TunerException(static::ERR_MSG_MULTIPLE_BUILDER, static::ERR_CODE_MULTIPLE_BUILDER));
+        throw_unless(is_null(static::$instance), new TunerException(static::ERR_MSG_MULTIPLE_BUILDER, static::ERR_CODE_MULTIPLE_BUILDER));
         static::$instance = $instance;
     }
 
