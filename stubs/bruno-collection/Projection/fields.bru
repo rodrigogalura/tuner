@@ -5,12 +5,11 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?fields=name, id, fdsa
+  url: {{host}}/api/users?fields=name, id
   body: none
   auth: none
 }
 
 params:query {
-  fields: name, id, fdsa
-  ~fields!: created_at, updated_at
+  fields: name, id
 }

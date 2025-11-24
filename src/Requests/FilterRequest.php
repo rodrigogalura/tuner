@@ -132,7 +132,7 @@ class FilterRequest extends Request implements RequestInterface
     private function getAllFieldsInlogicField(array $logicFields)
     {
         return array_map(function ($logicField) {
-            switch (str_word_count($logicField)) {
+            switch (count(explode(' ', $logicField))) {
                 case 1:
                     return $logicField;
 
