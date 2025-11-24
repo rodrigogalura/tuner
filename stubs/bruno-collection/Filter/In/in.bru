@@ -5,13 +5,11 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?in[name]=Leonor Von, Blaze Terry&fields=id, name
+  url: {{host}}/api/users?in[name]=Leonor Von, Blaze Terry
   body: none
   auth: none
 }
 
 params:query {
   in[name]: Leonor Von, Blaze Terry
-  fields: id, name
-  ~in[id]: 1,3
 }

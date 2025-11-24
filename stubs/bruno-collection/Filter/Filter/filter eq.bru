@@ -5,15 +5,12 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?filter[id]=<= 3&in[or id]=2&fields=id&sort[id]=des
+  url: {{host}}/api/users?filter[id]=<= 3
   body: none
   auth: none
 }
 
 params:query {
   filter[id]: <= 3
-  "in[or id]": 2
-  fields: id
-  sort[id]: des
-  ~"between[AND id]": 2, 11
+  ~filter[id]: <=3
 }
