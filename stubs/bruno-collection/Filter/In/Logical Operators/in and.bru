@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?in[id]=1,2,3&in[and%20email]=quinton42@example.net, damian83@example.org, tmayert@example.org
+  url: {{host}}/api/users?in[id]=4,5,6&in[and%20email]=corkery.salvatore@example.net
   body: none
   auth: none
 }
 
 params:query {
-  in[id]: 1,2,3
-  in[and%20email]: quinton42@example.net, damian83@example.org, tmayert@example.org
+  in[id]: 4,5,6
+  in[and%20email]: corkery.salvatore@example.net
   ~in[AND%20email]: quinton42@example.net, damian83@example.org, tmayert@example.org
 }

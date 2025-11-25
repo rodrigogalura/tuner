@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?search[email]=*.org
+  url: {{host}}/api/users
   body: none
   auth: none
 }
 
 params:query {
-  search[email]: *.org
+  ~search[email]: *.org
   ~fields: id, name, email, ad
   ~search[email]: *net
   ~search[name]: Dr*

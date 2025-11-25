@@ -5,12 +5,12 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?filter[id]=>1
+  url: {{host}}/api/users?filter[id]=>10
   body: none
   auth: none
 }
 
 params:query {
-  filter[id]: >1
-  ~filter[id]: > 1
+  filter[id]: >10
+  ~filter[id]: > 10
 }

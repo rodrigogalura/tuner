@@ -5,14 +5,14 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?expand[posts]=p&p_filter[id]=1&p_filter[or%20title]=itaque
+  url: {{host}}/api/users?expand[courses]=c&c_filter[id]=1&c_filter[or%20name]=itaque
   body: none
   auth: none
 }
 
 params:query {
-  expand[posts]: p
-  p_filter[id]: 1
-  p_filter[or%20title]: itaque
-  ~p_filter[OR%20title]: itaque
+  expand[courses]: c
+  c_filter[id]: 1
+  c_filter[or%20name]: itaque
+  ~c_filter[OR%20name]: itaque
 }

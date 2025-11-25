@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?expand[posts]=p&p_filter[id]=<3
+  url: {{host}}/api/users?expand[courses]=c&c_filter[id]=<3
   body: none
   auth: none
 }
 
 params:query {
-  expand[posts]: p
-  p_filter[id]: <3
-  ~p_filter[id]: < 3
+  expand[courses]: c
+  c_filter[id]: <3
+  ~c_filter[id]: < 3
 }

@@ -5,12 +5,12 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?expand[posts]=p&p_search[title]=*ui
+  url: {{host}}/api/users?expand[courses]=c&c_search[name]=*ui
   body: none
   auth: none
 }
 
 params:query {
-  expand[posts]: p
-  p_search[title]: *ui
+  expand[courses]: c
+  c_search[name]: *ui
 }
