@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?expand[posts]=p&p_in[id]=1,2,3&p_in[or!%20title]=itaque, enim, foo
+  url: {{host}}/api/users?expand[courses]=c&c_in[id]=1,2,3&c_in[or!%20name]=itaque, enim, foo
   body: none
   auth: none
 }
 
 params:query {
-  expand[posts]: p
-  p_in[id]: 1,2,3
-  p_in[or!%20title]: itaque, enim, foo
+  expand[courses]: c
+  c_in[id]: 1,2,3
+  c_in[or!%20name]: itaque, enim, foo
 }

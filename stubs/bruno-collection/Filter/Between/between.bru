@@ -5,12 +5,12 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?between[email_verified_at]=1994-01-01, 1998-01-01
+  url: {{host}}/api/users?between[id]=5, 15
   body: none
   auth: none
 }
 
 params:query {
-  between[email_verified_at]: 1994-01-01, 1998-01-01
-  ~between[id]: 1, 10
+  between[id]: 5, 15
+  ~between[email_verified_at]: 1994-01-01, 1998-01-01
 }

@@ -5,16 +5,16 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?expand[posts]=p&p_sort[id]=-
+  url: {{host}}/api/users?expand[courses]=c&c_sort[id]=-
   body: none
   auth: none
 }
 
 params:query {
-  expand[posts]: p
-  p_sort[id]: -
-  ~p_sort[id]: d
-  ~p_sort[id]: des
-  ~p_sort[id]: desc
-  ~p_sort[id]: descending
+  expand[courses]: c
+  c_sort[id]: -
+  ~c_sort[id]: d
+  ~c_sort[id]: des
+  ~c_sort[id]: desc
+  ~c_sort[id]: descending
 }

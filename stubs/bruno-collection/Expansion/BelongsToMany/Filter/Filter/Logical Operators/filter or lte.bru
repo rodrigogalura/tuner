@@ -5,14 +5,14 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?expand[posts]=p&p_filter[title]=et&p_filter[or%20id]=<=40
+  url: {{host}}/api/users?expand[courses]=c&c_filter[name]=et&c_filter[or%20id]=<=40
   body: none
   auth: none
 }
 
 params:query {
-  expand[posts]: p
-  p_filter[title]: et
-  p_filter[or%20id]: <=40
-  ~p_filter[OR%20id]: <= 40
+  expand[courses]: c
+  c_filter[name]: et
+  c_filter[or%20id]: <=40
+  ~c_filter[OR%20id]: <= 40
 }

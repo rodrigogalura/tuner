@@ -5,12 +5,12 @@ meta {
 }
 
 get {
-  url: {{host}}/api/users?expand[posts]=p&p_between[id]=3, 7
+  url: {{host}}/api/users?expand[courses]=c&c_between[id]=3, 7
   body: none
   auth: none
 }
 
 params:query {
-  expand[posts]: p
-  p_between[id]: 3, 7
+  expand[courses]: c
+  c_between[id]: 3, 7
 }
