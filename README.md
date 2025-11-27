@@ -31,8 +31,6 @@
   </p>
 </div>
 
-
-
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -48,7 +46,6 @@
     <li><a href="#buy-me-a-coffee">Buy Me a Coffee</a></li>
   </ol>
 </details>
-
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
@@ -223,7 +220,4 @@ If this project helped you or saved you time, consider buying me a coffee. Your 
 [contributing-url]: https://github.com/rodrigogalura/tuner/blob/main/CONTRIBUTING.md
 [changelog-url]: https://github.com/rodrigogalura/tuner/blob/main/CHANGELOG.md
 [mit-license-url]: https://github.com/rodrigogalura/tuner/blob/main/LICENSE
-[issues-url]: https://github.com/rodrigogalura/tuner/issues
 [project_roadmap-url]: https://github.com/users/rodrigogalura/projects/10/views/5?layout=board
-
-
