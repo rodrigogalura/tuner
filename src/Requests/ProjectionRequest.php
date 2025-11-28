@@ -46,8 +46,8 @@ class ProjectionRequest extends Request implements RequestInterface
                 break;
 
             case 2:
-                $projectionModifiers = array_keys($this->request);
-                throw new ClientException('Cannot use ['.implode(', ', $projectionModifiers).'] at the same time.');
+                $projectionModifiers = implode(', ', array_keys($this->request));
+                throw new ClientException('Cannot use '.$projectionModifiers.' at the same time.');
             default:
                 throw new ClientException('Number of projection key is invalid.');
         }
