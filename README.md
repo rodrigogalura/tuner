@@ -215,7 +215,6 @@ If this project helped you or saved you time, consider buying me a coffee. Your 
 
 <!-- Repo links -->
 [pull_request_template-url]: https://github.com/rodrigogalura/tuner/blob/main/.github/PULL_REQUEST_TEMPLATE.md
-[security-url]: https://github.com/rodrigogalura/tuner/blob/main/.github/SECURITY.md
 [bug_report-url]: https://github.com/rodrigogalura/tuner/blob/main/.github/ISSUE_TEMPLATE/bug_report.md
 [contributing-url]: https://github.com/rodrigogalura/tuner/blob/main/CONTRIBUTING.md
 [changelog-url]: https://github.com/rodrigogalura/tuner/blob/main/CHANGELOG.md
