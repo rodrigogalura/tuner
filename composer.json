@@ -45,9 +45,6 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [
-            "@setup-dev"
-        ],
         "post-autoload-dump": [
             "@clear",
             "@prepare"
