@@ -40,7 +40,7 @@ trait HasSingleton
         throw new \Exception('Cannot unserialize a singleton.');
     }
 
-    public function deleteInstance()
+    public static function deleteInstance()
     {
         static::$instance = null;
     }
