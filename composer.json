@@ -3,7 +3,7 @@
     "description": "A Laravel package to fine-tune your APIs — let clients shape the data with powerful query modifiers.",
     "type": "library",
     "require": {
-        "php": "8.3.*"
+        "php": "^8.3"
     },
     "require-dev": {
         "laravel/pint": "^1.21",
@@ -45,9 +45,6 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [
-            "@setup-dev"
-        ],
         "post-autoload-dump": [
             "@clear",
             "@prepare"
